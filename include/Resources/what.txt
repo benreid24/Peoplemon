@@ -1,0 +1,4 @@
+image pool
+audio pool
+animation pool
+other resource management

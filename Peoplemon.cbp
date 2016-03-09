@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Peoplemon" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option show_notes="0">
+			<notes>
+				<![CDATA[Next:Trainer spotting player and wild peoplemon mechanism, battle transitions]]>
+			</notes>
+		</Option>
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Peoplemon" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-DSFML_STATIC" />
+					<Add option="-DDEBUG" />
+					<Add option="-DWINDOWS" />
+					<Add directory="include" />
+					<Add directory="../Game" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
+					<Add library="libsfml-audio-s-d.a" />
+					<Add library="libsfml-graphics-s-d.a" />
+					<Add library="libsfml-network-s-d.a" />
+					<Add library="libsfml-window-s-d.a" />
+					<Add library="libsfml-system-s-d.a" />
+					<Add library="libsfml-main-d.a" />
+				</Linker>
+			</Target>
+			<Target title="Windows">
+				<Option output="Peoplemon" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O3" />
+					<Add option="-std=c++11" />
+					<Add option="-DSFML_STATIC" />
+					<Add option="-DRELEASE" />
+					<Add option="-DWINDOWS" />
+					<Add directory="include" />
+					<Add directory="../Game" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
+					<Add library="libsfml-audio-s.a" />
+					<Add library="libsfml-graphics-s.a" />
+					<Add library="libsfml-network-s.a" />
+					<Add library="libsfml-window-s.a" />
+					<Add library="libsfml-system-s.a" />
+					<Add library="libsfml-main.a" />
+				</Linker>
+			</Target>
+			<Target title="MAC">
+				<Option output="bin/MAC/Peoplemon" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O3" />
+					<Add option="-std=c++11" />
+					<Add option="-DSFML_STATIC" />
+					<Add option="-DRELEASE" />
+					<Add option="-DMAC" />
+					<Add directory="include" />
+					<Add directory="../Game" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
+					<Add library="libsfml-audio-s.a" />
+					<Add library="libsfml-graphics-s.a" />
+					<Add library="libsfml-network-s.a" />
+					<Add library="libsfml-window-s.a" />
+					<Add library="libsfml-system-s.a" />
+					<Add library="libsfml-main.a" />
+				</Linker>
+			</Target>
+			<Target title="Linux">
+				<Option output="bin/Linux/Peoplemon" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O3" />
+					<Add option="-std=c++11" />
+					<Add option="-DSFML_STATIC" />
+					<Add option="-DRELEASE" />
+					<Add option="-DLinux" />
+					<Add directory="include" />
+					<Add directory="../Game" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
+					<Add library="libsfml-audio-s.a" />
+					<Add library="libsfml-graphics-s.a" />
+					<Add library="libsfml-network-s.a" />
+					<Add library="libsfml-window-s.a" />
+					<Add library="libsfml-system-s.a" />
+					<Add library="libsfml-main.a" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="../Game" />
+		</Compiler>
+		<Unit filename="include/Battle/AI/AIBattler.hpp" />
+		<Unit filename="include/Battle/AI/AggressiveBattler.hpp" />
+		<Unit filename="include/Battle/AI/AverageBattler.hpp" />
+		<Unit filename="include/Battle/AI/DefensiveBattler.hpp" />
+		<Unit filename="include/Battle/AI/DumbBattler.hpp" />
+		<Unit filename="include/Battle/AI/LearningBattler.hpp" />
+		<Unit filename="include/Battle/AI/Prioritizer.hpp" />
+		<Unit filename="include/Battle/AI/RandomBattler.hpp" />
+		<Unit filename="include/Battle/AI/ReactionPreference.hpp" />
+		<Unit filename="include/Battle/AI/Score.hpp" />
+		<Unit filename="include/Battle/AI/SmartBattler.hpp" />
+		<Unit filename="include/Battle/AI/StateFlags.hpp" />
+		<Unit filename="include/Battle/AI/SuicidalBattler.hpp" />
+		<Unit filename="include/Battle/Battler.hpp" />
+		<Unit filename="include/Battle/MoveAnimations.hpp" />
+		<Unit filename="include/Battle/PeoplemonAnimations.hpp" />
+		<Unit filename="include/Battle/PlayerBattler.hpp" />
+		<Unit filename="include/Battle/Turn.hpp" />
+		<Unit filename="include/Game/BagState.hpp" />
+		<Unit filename="include/Game/BattleState.hpp" />
+		<Unit filename="include/Game/ConversationState.hpp" />
+		<Unit filename="include/Game/CreditsState.hpp" />
+		<Unit filename="include/Game/DeleteMoveState.hpp" />
+		<Unit filename="include/Game/EvolveState.hpp" />
+		<Unit filename="include/Game/Game.hpp" />
+		<Unit filename="include/Game/Gamestate.hpp" />
+		<Unit filename="include/Game/LoadGamestate.hpp" />
+		<Unit filename="include/Game/MainGameState.hpp" />
+		<Unit filename="include/Game/MainMenuState.hpp" />
+		<Unit filename="include/Game/MapState.hpp" />
+		<Unit filename="include/Game/NewGamestate.hpp" />
+		<Unit filename="include/Game/OptionsMenuState.hpp" />
+		<Unit filename="include/Game/PausedState.hpp" />
+		<Unit filename="include/Game/PeopledexState.hpp" />
+		<Unit filename="include/Game/PeoplemonInfoState.hpp" />
+		<Unit filename="include/Game/PeoplemonState.hpp" />
+		<Unit filename="include/Game/SharedData.hpp" />
+		<Unit filename="include/Game/StorageSystem.hpp" />
+		<Unit filename="include/Game/StoreState.hpp" />
+		<Unit filename="include/Game/TrainerSpottedPlayerState.hpp" />
+		<Unit filename="include/Globals.hpp" />
+		<Unit filename="include/Media/Animation.hpp" />
+		<Unit filename="include/Media/Playlist.hpp" />
+		<Unit filename="include/Media/SoundEngine.hpp" />
+		<Unit filename="include/Menu/BagItemList.hpp" />
+		<Unit filename="include/Menu/BagSectionSelector.hpp" />
+		<Unit filename="include/Menu/BattleBox.hpp" />
+		<Unit filename="include/Menu/ChoiceBox.hpp" />
+		<Unit filename="include/Menu/HUD.hpp" />
+		<Unit filename="include/Menu/Menu.hpp" />
+		<Unit filename="include/Menu/MenuImage.hpp" />
+		<Unit filename="include/Menu/MenuText.hpp" />
+		<Unit filename="include/Menu/PeopledexList.hpp" />
+		<Unit filename="include/Menu/PeoplemonSelector.hpp" />
+		<Unit filename="include/Menu/ScreenKeyboard.hpp" />
+		<Unit filename="include/Menu/ScrollChoiceBox.hpp" />
+		<Unit filename="include/Network/Network.hpp" />
+		<Unit filename="include/Peoplemon/Move.hpp" />
+		<Unit filename="include/Peoplemon/Peoplemon.hpp" />
+		<Unit filename="include/Peoplemon/Stats.hpp" />
+		<Unit filename="include/Properties.hpp" />
+		<Unit filename="include/Resources/ResourcePool.hpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="include/Resources/ResourceTypes.hpp" />
+		<Unit filename="include/SFML.hpp" />
+		<Unit filename="include/Scripts/Frame.hpp" />
+		<Unit filename="include/Scripts/Function Entry.hpp" />
+		<Unit filename="include/Scripts/Parser.hpp" />
+		<Unit filename="include/Scripts/Script Environment.hpp" />
+		<Unit filename="include/Scripts/Script Interpreter.hpp" />
+		<Unit filename="include/Scripts/Token.hpp" />
+		<Unit filename="include/Scripts/Traverser.hpp" />
+		<Unit filename="include/Scripts/Value.hpp" />
+		<Unit filename="include/Util/File.hpp" />
+		<Unit filename="include/Util/GameClock.hpp" />
+		<Unit filename="include/Util/Vector2d.hpp" />
+		<Unit filename="include/World/Item.hpp" />
+		<Unit filename="include/World/Object.hpp" />
+		<Unit filename="include/World/People/Character.hpp" />
+		<Unit filename="include/World/People/Controller.hpp" />
+		<Unit filename="include/World/People/Conversation.hpp" />
+		<Unit filename="include/World/People/Npc.hpp" />
+		<Unit filename="include/World/People/PathController.hpp" />
+		<Unit filename="include/World/People/PathFinder.hpp" />
+		<Unit filename="include/World/People/Player.hpp" />
+		<Unit filename="include/World/People/PlayerInput.hpp" />
+		<Unit filename="include/World/People/SpinningController.hpp" />
+		<Unit filename="include/World/People/StandingController.hpp" />
+		<Unit filename="include/World/People/Trainer.hpp" />
+		<Unit filename="include/World/People/WanderingController.hpp" />
+		<Unit filename="include/World/Tileset.hpp" />
+		<Unit filename="include/World/Weather.hpp" />
+		<Unit filename="include/World/World.hpp" />
+		<Unit filename="src/Battle/AI/AIBattler.cpp" />
+		<Unit filename="src/Battle/AI/AggressiveBattler.cpp" />
+		<Unit filename="src/Battle/AI/AverageBattler.cpp" />
+		<Unit filename="src/Battle/AI/DefensiveBattler.cpp" />
+		<Unit filename="src/Battle/AI/DumbBattler.cpp" />
+		<Unit filename="src/Battle/AI/LearningBattler.cpp" />
+		<Unit filename="src/Battle/AI/Prioritizer.cpp" />
+		<Unit filename="src/Battle/AI/RandomBattler.cpp" />
+		<Unit filename="src/Battle/AI/SmartBattler.cpp" />
+		<Unit filename="src/Battle/AI/SuicidalBattler.cpp" />
+		<Unit filename="src/Battle/Battler.cpp" />
+		<Unit filename="src/Battle/MoveAnimations.cpp" />
+		<Unit filename="src/Battle/PeoplemonAnimations.cpp" />
+		<Unit filename="src/Battle/PlayerBattler.cpp" />
+		<Unit filename="src/Game/BagState.cpp" />
+		<Unit filename="src/Game/BattleState.cpp" />
+		<Unit filename="src/Game/ConversationState.cpp" />
+		<Unit filename="src/Game/CreditsState.cpp" />
+		<Unit filename="src/Game/DeleteMoveState.cpp" />
+		<Unit filename="src/Game/EvolveState.cpp" />
+		<Unit filename="src/Game/Game.cpp" />
+		<Unit filename="src/Game/Gamestate.cpp" />
+		<Unit filename="src/Game/LoadGamestate.cpp" />
+		<Unit filename="src/Game/MainGameState.cpp" />
+		<Unit filename="src/Game/MainMenuState.cpp" />
+		<Unit filename="src/Game/MapState.cpp" />
+		<Unit filename="src/Game/NewGamestate.cpp" />
+		<Unit filename="src/Game/OptionsMenuState.cpp" />
+		<Unit filename="src/Game/PausedState.cpp" />
+		<Unit filename="src/Game/PeopledexState.cpp" />
+		<Unit filename="src/Game/PeoplemonInfoState.cpp" />
+		<Unit filename="src/Game/PeoplemonState.cpp" />
+		<Unit filename="src/Game/SharedData.cpp" />
+		<Unit filename="src/Game/StorageSystem.cpp" />
+		<Unit filename="src/Game/StoreState.cpp" />
+		<Unit filename="src/Game/TrainerSpottedPlayer.cpp" />
+		<Unit filename="src/Globals.cpp" />
+		<Unit filename="src/Main.cpp" />
+		<Unit filename="src/Media/Animation.cpp" />
+		<Unit filename="src/Media/Playlist.cpp" />
+		<Unit filename="src/Media/SoundEngine.cpp" />
+		<Unit filename="src/Menu/BagItemList.cpp" />
+		<Unit filename="src/Menu/BagSectionSelector.cpp" />
+		<Unit filename="src/Menu/BattleBox.cpp" />
+		<Unit filename="src/Menu/ChoiceBox.cpp" />
+		<Unit filename="src/Menu/HUD.cpp" />
+		<Unit filename="src/Menu/Menu.cpp" />
+		<Unit filename="src/Menu/MenuImage.cpp" />
+		<Unit filename="src/Menu/MenuText.cpp" />
+		<Unit filename="src/Menu/PeopledexList.cpp" />
+		<Unit filename="src/Menu/PeoplemonSelector.cpp" />
+		<Unit filename="src/Menu/ScreenKeyboard.cpp" />
+		<Unit filename="src/Menu/ScrollChoiceBox.cpp" />
+		<Unit filename="src/Peoplemon/Peoplemon.cpp" />
+		<Unit filename="src/Resources/ResourcePool.cpp" />
+		<Unit filename="src/Scripts/Parser.cpp" />
+		<Unit filename="src/Scripts/Script Environment.cpp" />
+		<Unit filename="src/Scripts/Script Interpreter.cpp" />
+		<Unit filename="src/Scripts/Script Library.cpp" />
+		<Unit filename="src/Scripts/Traverser.cpp" />
+		<Unit filename="src/Util/File.cpp" />
+		<Unit filename="src/World/People/Character.cpp" />
+		<Unit filename="src/World/People/Conversation.cpp" />
+		<Unit filename="src/World/People/Npc.cpp" />
+		<Unit filename="src/World/People/PathController.cpp" />
+		<Unit filename="src/World/People/PathFinder.cpp" />
+		<Unit filename="src/World/People/Player.cpp" />
+		<Unit filename="src/World/People/PlayerInput.cpp" />
+		<Unit filename="src/World/People/SpinningController.cpp" />
+		<Unit filename="src/World/People/Trainer.cpp" />
+		<Unit filename="src/World/People/WanderingController.cpp" />
+		<Unit filename="src/World/Tileset.cpp" />
+		<Unit filename="src/World/Weather.cpp" />
+		<Unit filename="src/World/World.cpp" />
+		<Unit filename="version.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+			<AutoVersioning>
+				<Scheme minor_max="10" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="35" />
+				<Settings autoincrement="1" date_declarations="1" use_define="0" update_manifest="0" do_auto_increment="1" ask_to_increment="0" language="C++" svn="0" svn_directory="" header_path="version.h" />
+				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+				<Code header_guard="VERSION_H" namespace="AutoVersion" prefix="" />
+			</AutoVersioning>
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot class_diagrams="1" />
+				<general />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
