@@ -109,11 +109,11 @@
 				<Linker>
 					<Add option="-s" />
 					<Add option="-static-libgcc" />
-					<Add library="/home/developer/sfml/lib/libsfml-audio.so.2.0" />
-					<Add library="/home/developer/sfml/lib/libsfml-graphics.so.2.0" />
-					<Add library="/home/developer/sfml/lib/libsfml-network.so.2.0" />
-					<Add library="/home/developer/sfml/lib/libsfml-window.so.2.0" />
-					<Add library="/home/developer/sfml/lib/libsfml-system.so.2.0" />
+					<Add library="\home\developer\sfml\lib\libsfml-audio.so.2.0" />
+					<Add library="\home\developer\sfml\lib\libsfml-graphics.so.2.0" />
+					<Add library="\home\developer\sfml\lib\libsfml-network.so.2.0" />
+					<Add library="\home\developer\sfml\lib\libsfml-window.so.2.0" />
+					<Add library="\home\developer\sfml\lib\libsfml-system.so.2.0" />
 				</Linker>
 			</Target>
 		</Build>

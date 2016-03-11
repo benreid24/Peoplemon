@@ -10,7 +10,7 @@
 #ifdef Linux
 #include <dirent.h>
 #endif
-#ifdef Windows
+#ifdef WINDOWS
 #include <direct.h>
 #endif
 #include <cstdlib>
