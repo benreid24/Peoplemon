@@ -12,6 +12,9 @@ using namespace sf;
 #ifdef WINDOWS
 const string Properties::GameSavePath = string(getenv("APPDATA"))+"/Peoplemon/";
 #endif
+#ifdef Linux
+const string Properties::GameSavePath = "Resources/Saves/";
+#endif
 
 const string Properties::MapPath = "Resources/Data/Maps/";
 const string Properties::TilesetPath = "Resources/Data/Tilesets/";

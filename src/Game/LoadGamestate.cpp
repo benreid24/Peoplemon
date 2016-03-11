@@ -1,5 +1,5 @@
 #include "Game/LoadGamestate.hpp"
-#include "Game/MainGamestate.hpp"
+#include "Game/MainGameState.hpp"
 #include "Menu/Menu.hpp"
 #include "Globals.hpp"
 #include "Game/Game.hpp"

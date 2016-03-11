@@ -1,6 +1,6 @@
 #include "Game/MainMenuState.hpp"
 #include "Game/MainGameState.hpp"
-#include "Game/OptionsMenustate.hpp"
+#include "Game/OptionsMenuState.hpp"
 #include "Game/NewGamestate.hpp"
 #include "Game/LoadGamestate.hpp"
 #include "Game/Game.hpp"

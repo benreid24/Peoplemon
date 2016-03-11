@@ -103,18 +103,17 @@
 					<Add option="-DRELEASE" />
 					<Add option="-DLinux" />
 					<Add directory="include" />
-					<Add directory="../Game" />
+					<Add directory="../Peoplemon" />
+					<Add directory="/home/developer/sfml/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-static-libgcc" />
-					<Add option="-static-libstdc++" />
-					<Add library="libsfml-audio-s.a" />
-					<Add library="libsfml-graphics-s.a" />
-					<Add library="libsfml-network-s.a" />
-					<Add library="libsfml-window-s.a" />
-					<Add library="libsfml-system-s.a" />
-					<Add library="libsfml-main.a" />
+					<Add library="/home/developer/sfml/lib/libsfml-audio.so.2.0" />
+					<Add library="/home/developer/sfml/lib/libsfml-graphics.so.2.0" />
+					<Add library="/home/developer/sfml/lib/libsfml-network.so.2.0" />
+					<Add library="/home/developer/sfml/lib/libsfml-window.so.2.0" />
+					<Add library="/home/developer/sfml/lib/libsfml-system.so.2.0" />
 				</Linker>
 			</Target>
 		</Build>
