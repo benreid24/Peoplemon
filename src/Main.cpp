@@ -56,6 +56,9 @@ int main(int argC, const char* argV[])
     Joystick::update();
     game.start();
     debugRunner.terminate();
+    imagePool.clearAll();
+    audioPool.clearAll();
+    animPool.clearAll();
     game.mainWindow.close();
 
     return 0;
