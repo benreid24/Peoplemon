@@ -1,0 +1,51 @@
+if(getSaveEntry("TheBPTisDead")!="Died")
+{
+setPlayerLock(1);
+moveNPC(BPTW,0);
+moveNPC(BPTW,0);
+moveNPC(BPTW,0);
+moveNPC(BPTW,0);
+moveNPC(BPTW,0);
+moveNPC(BPTW,3);
+moveNPC(BPTW,3);
+moveNPC(BPTW,3);
+
+	if(playerYWorldPos==4)
+	{
+	moveNPC(BPTW,0);
+	moveNPC(BPTW,0);
+	moveNPC(BPTW,3);
+	sleep(2000);
+	moveNPC(BPTW,2);
+	moveNPC(BPTW,2);
+	moveNPC(BPTW,3);
+	movePlayer(1,0,0);
+	interact;
+	}
+
+	elif(playerXWorldPos==6)
+	{
+	moveNPC(BPTW,3);
+	moveNPC(BPTW,0);
+	sleep(2000);
+	moveNPC(BPTW,1);
+	moveNPC(BPTW,1);
+	moveNPC(BPTW,0);
+	movePlayer(2,0,0);
+	interact;
+	}
+
+	else
+	{
+	moveNPC(BPTW,3);
+	moveNPC(BPTW,0);
+	sleep(2000);
+	moveNPC(BPTW,3);
+	moveNPC(BPTW,3);
+	moveNPC(BPTW,0);
+	movePlayer(2,0,0);
+	interact;
+	}
+setPlayerLock(0);
+addSaveEnry(("TheBPTisDead")=="Died"
+}
