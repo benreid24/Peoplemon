@@ -7,12 +7,16 @@
 #include "Globals.hpp"
 #include <iostream>
 #include <memory>
+
 #ifdef Linux
 #include <dirent.h>
+#include <X11/Xlib.h>
 #endif
+
 #ifdef WINDOWS
 #include <direct.h>
 #endif
+
 #include <cstdlib>
 using namespace sf;
 using namespace std;
@@ -42,6 +46,10 @@ int main(int argC, const char* argV[])
 	mkdir(string(string(getenv("APPDATA"))+"/Peoplemon").c_str());
 	#endif // WINDOWS
 	//TODO - paths for saves on other systems
+    #ifdef Linux
+    if (!XInitThreads())
+        return 1;
+    #endif
 
 	srand(time(0));
     Properties::PrimaryMenuFont.loadFromFile(Properties::FontPath+"Dream.ttf");
