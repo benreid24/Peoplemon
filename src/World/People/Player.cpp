@@ -150,27 +150,30 @@ void Player::update(Game* game)
     {
         position.x += dif;
         game->world.setRenderPosition(position);
+        if (mapPos.x*32-position.x<dif)
+			position.x = mapPos.x*32;
     }
     else if (mapPos.x*32<position.x)
     {
         position.x -= dif;
         game->world.setRenderPosition(position);
+        if (position.x-mapPos.x*32<dif)
+			position.x = mapPos.x*32;
     }
     if (mapPos.y*32>position.y)
     {
         position.y += dif;
         game->world.setRenderPosition(position);
+        if (mapPos.y*32-position.y<dif)
+			position.y = mapPos.y*32;
     }
     else if (mapPos.y*32<position.y)
     {
         position.y -= dif;
         game->world.setRenderPosition(position);
+        if (position.y-mapPos.y*32<dif)
+			position.y = mapPos.y*32;
     }
-
-    if (abs(position.x-mapPos.x*32)<0.5)
-        position.x = mapPos.x*32;
-    if (abs(position.y-mapPos.y*32)<0.5)
-        position.y = mapPos.y*32;
 
     if (lastPos!=mapPos && mapPos.x*32==position.x && mapPos.y*32==position.y)
     {
