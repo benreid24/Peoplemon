@@ -9,7 +9,7 @@
 using namespace std;
 using namespace sf;
 
-#ifdef WINDOWS
+#ifdef Windows
 const string Properties::GameSavePath = string(getenv("APPDATA"))+"/Peoplemon/";
 #endif
 #ifdef Linux

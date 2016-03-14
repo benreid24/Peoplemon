@@ -66,6 +66,7 @@ namespace {
 					"removeTrainer",
 					"runScript",
 					"saveGame",
+					"setCollisions",
 					"setLightingOverride",
 					"setMusic",
 					"setNPCLock",

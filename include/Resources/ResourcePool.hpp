@@ -92,6 +92,7 @@ public:
     {
         running = false;
         runner.wait();
+        clearAll();
         std::cout << "Resource manager thread terminated\n";
     }
 
