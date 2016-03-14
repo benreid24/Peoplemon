@@ -13,7 +13,7 @@
 #include <X11/Xlib.h>
 #endif
 
-#ifdef WINDOWS
+#ifdef Windows
 #include <direct.h>
 #endif
 
@@ -41,10 +41,10 @@ void scriptInserter(Game* g)
 
 int main(int argC, const char* argV[])
 {
-	#ifdef WINDOWS
+	#ifdef Windows
 	cout << "Creating directory: " << string(string(getenv("APPDATA"))+"/Peoplemon") << endl;
 	mkdir(string(string(getenv("APPDATA"))+"/Peoplemon").c_str());
-	#endif // WINDOWS
+	#endif // Windows
 	//TODO - paths for saves on other systems
     #ifdef Linux
     if (!XInitThreads())
@@ -57,17 +57,18 @@ int main(int argC, const char* argV[])
     Properties::ConversationFont.loadFromFile(Properties::FontPath+"Acens.ttf");
     Properties::BattleFont.loadFromFile(Properties::FontPath+"Pokemon.ttf");
 
-    Game game;
-    Thread debugRunner(&scriptInserter,&game);
+    Game *game = new Game();
+    Thread debugRunner(&scriptInserter,game);
     debugRunner.launch();
     cout << "Maximum texture size on this machine is: " << Texture::getMaximumSize() << endl;
     Joystick::update();
-    game.start();
+    game->start();
     debugRunner.terminate();
+    game->mainWindow.close();
+    delete game;
     imagePool.clearAll();
     audioPool.clearAll();
     animPool.clearAll();
-    game.mainWindow.close();
 
     return 0;
 }

@@ -45,7 +45,7 @@ void Conversation::load(string file)
         temp.code = input.get<uint8_t>();
 
         if (temp.code=='t' || temp.code=='l')
-            temp.say = input.getString();
+			temp.say = input.getString();
         else if (temp.code=='o')
         {
             temp.say = input.getString();
@@ -78,6 +78,7 @@ void Conversation::load(string file)
         {
             temp.say = input.getString();
             temp.line = input.getString();
+            cout << "Loaded checkString(" << temp.say << ", " << temp.line << ")\n";
         }
         else if (temp.code=='w')
 			temp.line = input.getString();
@@ -125,10 +126,15 @@ vector<string> Conversation::update(Game* game, Player* player, Character* perso
     else if (lines[cLine].code=='g')
     {
         if (lines[cLine].d1==1)
-            player->giveItem(lines[cLine].d2);
+		{
+			player->giveItem(lines[cLine].d2);
+			ret.push_back(player->getName()+" got the "+game->itemList[lines[cLine].d2].name+"!");
+		}
         else
-            player->alterMoney(lines[cLine].d2);
-        ret.push_back(player->getName()+" got "+intToString(lines[cLine].d2)+" money!");
+		{
+			player->alterMoney(lines[cLine].d2);
+			ret.push_back(player->getName()+" got "+intToString(lines[cLine].d2)+" money!");
+		}
         return ret;
     }
     else if (lines[cLine].code=='r')
@@ -179,7 +185,10 @@ vector<string> Conversation::update(Game* game, Player* player, Character* perso
     else if (lines[cLine].code=='c')
     {
         if (env->intSaveEntries.find(lines[cLine].say)==env->intSaveEntries.end())
-            cLine = lines[cLine].d1-1;
+            setLine(lines[cLine].line);
+		else
+			cLine++;
+		goto start;
     }
     else if (lines[cLine].code=='l')
     {
@@ -190,6 +199,9 @@ vector<string> Conversation::update(Game* game, Player* player, Character* perso
 	{
         if (!env->getGame()->world.checkTalkedTo(person->getName()))
 			setLine(lines[cLine].line);
+		else
+			cLine++;
+		goto start;
 	}
 	else if (lines[cLine].code=='z')
 	{
