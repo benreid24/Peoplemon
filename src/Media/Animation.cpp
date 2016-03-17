@@ -93,6 +93,9 @@ int AnimationSource::incFrame(int cFrm, int lTime)
     if (cFrm<0 || unsigned(cFrm)>=frames.size())
         return 0;
 
+	if (frames[cFrm].size()==0)
+		throw runtime_error("Animation is probably in old format!");
+
     if (gameClock.getTimeStamp()-lTime>=frames[cFrm][0].length)
     {
         if (unsigned(cFrm+1)<frames.size())

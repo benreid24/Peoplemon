@@ -155,9 +155,15 @@ Value Script::combine(Token left, Token op, Token right)
 		ret.iValue = left.value+right.value;
         ret.sValue = left.data+right.data;
         if (left.type==Token::IntVal && right.type==Token::StrVal)
-            ret.iValue = left.value+atoi(right.data.c_str());
+		{
+			ret.sValue = intToString(left.value)+right.data.c_str();
+			ret.type = Value::String;
+		}
 		if (left.type==Token::StrVal && right.type==Token::IntVal)
+		{
 			ret.sValue = left.data+intToString(right.value);
+			ret.type = Value::String;
+		}
 		return ret;
 	}
 	else if (op.data=="!=")
@@ -177,11 +183,11 @@ Value Script::combine(Token left, Token op, Token right)
 		ret.type = Value::Integer;
 		ret.iValue = int(left.data==right.data);
 		if (right.type==Token::IntVal && left.type==Token::IntVal)
-			ret.iValue = int(left.value==right.value);
+			ret.iValue = int(abs(left.value-right.value)<0.0001);
         else if (left.type==Token::IntVal && right.type==Token::StrVal)
-            ret.iValue = int(left.value==atoi(right.data.c_str()));
+            ret.iValue = int(left.value==atoi(right.data.c_str()) && atoi(right.data.c_str())!=0);
 		else if (left.type==Token::StrVal && right.type==Token::IntVal)
-			ret.iValue = int(left.data==intToString(right.value));
+			ret.iValue = int(left.data==intToString(right.value) && atoi(left.data.c_str())!=0);
 		return ret;
 	}
 

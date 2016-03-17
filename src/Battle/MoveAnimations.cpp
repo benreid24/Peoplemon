@@ -18,8 +18,8 @@ void MoveAnimations::load(string pplmon, string op, Move m, bool isPlayer)
         def = animPool.loadResource(Properties::PeoplemonAnimationPath+op+"/"+p2+"/"+m.defenderAnim);
     else
         def = animPool.loadResource(Properties::PeoplemonAnimationPath+op+"/"+p2+"/still.anim");
-    bgnd = animPool.loadResource(Properties::MoveAnimationPath+m.name+"/"+p1+"/background.anim");
-    fgnd = animPool.loadResource(Properties::MoveAnimationPath+m.name+"/"+p1+"/foreground.anim");
+    bgnd = animPool.loadResource(Properties::MoveAnimationPath+m.name+"/"+p1+"/Background.anim");
+    fgnd = animPool.loadResource(Properties::MoveAnimationPath+m.name+"/"+p1+"/Foreground.anim");
 
     background.setSource(bgnd);
     background.setPosition(Vector2f(800,600)); //TODO - figure out why this is here

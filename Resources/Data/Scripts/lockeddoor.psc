@@ -1,12 +1,12 @@
-print("Checking door...\n");
+if ("butt"=="penis")
+	print("String equality error");
 if (getSaveEntry("doorOpenedDemo")=="open")
 {
+	print(getSaveEntry("doorOpenedDemo")+" is equal to open");
 	setCollisions(41,31,1,1,0);
-	print("Door already open\n");
 }
 elif (playerDir()==0)
 {
-	print("Unlocking\n");
 	if (hasItem(121))
 	{
 		setPlayerLock(1);
