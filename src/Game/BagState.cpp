@@ -96,10 +96,13 @@ bool BagState::execute()
 
             ChoiceBox cBox;
             cBox.setPosition(Vector2f(600,325));
-            if (!getChoice)
+            //if (!getChoice)
                 cBox.addChoice("Use");
-            cBox.addChoice("Give");
-            cBox.addChoice("Drop");
+            if (sectionSelector.getCurrentSection()!="Key Items")
+			{
+				cBox.addChoice("Give");
+				cBox.addChoice("Drop");
+			}
             cBox.addChoice("Cancel");
             if (!getChoice)
                 cBox.setAllowedCols(2);
