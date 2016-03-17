@@ -100,7 +100,7 @@ public:
      * Loads the resource at the given URI
      *
      * \param uri The path to the resource to load
-     * \return A pointer to a ResourceBase object containing the loaded resource
+     * \return A pointer to the loaded resource
      */
     std::shared_ptr<T> loadResource(std::string uri)
     {

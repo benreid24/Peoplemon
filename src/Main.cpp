@@ -64,11 +64,11 @@ int main(int argC, const char* argV[])
     Joystick::update();
     game->start();
     debugRunner.terminate();
-    game->mainWindow.close();
-    delete game;
     imagePool.clearAll();
     audioPool.clearAll();
     animPool.clearAll();
+    game->mainWindow.close();
+    delete game;
 
     return 0;
 }
