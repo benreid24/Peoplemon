@@ -3,6 +3,7 @@
 #include "World/People/Player.hpp"
 #include "Game/Game.hpp"
 #include "World/People/Conversation.hpp"
+#include "World/People/Trainer.hpp"
 using namespace std;
 using namespace sf;
 
@@ -10,9 +11,9 @@ ConversationState::ConversationState(Game* g, Character* c, Conversation* cv, Ga
 {
     convo = cv;
     person = c;
-    person->setLock(true,true);
+    if (!dynamic_cast<Trainer*>(person))
+		person->setLock(true,true);
     g->player.setLock(true,true);
-    g->hud.setAlwaysShow(true);
 }
 
 ConversationState::~ConversationState()
@@ -48,6 +49,7 @@ int ConversationState::choiceIndex(vector<string> d, string c)
 
 bool ConversationState::execute()
 {
+	game->hud.setAlwaysShow(true);
     convo->reset();
     vector<string> stuff = convo->update(game, &game->player,person,&game->scriptEnvironment);
     bool waitingForChoice = stuff.size()>1;

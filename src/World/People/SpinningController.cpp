@@ -17,6 +17,9 @@ SpinningController::SpinningController(Character* c, int b) : Controller(c)
 
 void SpinningController::act(Game* g)
 {
+	if (paused)
+		return;
+
     if (gameClock.getTimeStamp()-lastTime>=1000)
     {
         lastTime = gameClock.getTimeStamp();

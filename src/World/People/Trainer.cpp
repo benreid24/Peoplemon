@@ -16,6 +16,7 @@ using namespace sf;
 Trainer::Trainer(Game* g, string file, bool lost)
 {
     beaten = lost;
+    confrontingPlayer = false;
 
     File input(file);
 
@@ -59,7 +60,7 @@ void Trainer::update(Game* game)
 {
     Character::update(game);
 
-    if (!beaten)
+    if (!beaten && !confrontingPlayer)
     {
         Object* o =game->world.getFirstObject(mapPos,dir,range);
         if (Player* p = dynamic_cast<Player*>(o))
@@ -90,12 +91,43 @@ string Trainer::getIdentifier()
 
 void Trainer::startFight(Game* game)
 {
-    BattleState* b = new BattleState(game,new RandomBattler(&peoplemon,items),name,loserSay,prizeMoney,false);
-    ConversationState* pre = new ConversationState(game,this,&preBattle);
-    ConversationState* post = new ConversationState(game,this,&postBattle);
-    TrainerSpottedPlayerState* s = new TrainerSpottedPlayerState(game,this,b,pre,post);
+	confrontingPlayer = true;
+	behavior->setPaused(true);
+	game->player.setLock(true,true);
+
+    TrainerSpottedPlayerState* s = new TrainerSpottedPlayerState(game,this);
     game->runStateUnderPriveldged(s,false);
-    beaten = b->playerWon();
     delete s;
+    if (game->data.gameClosedFlag)
+		return;
+
+    ConversationState* pre = new ConversationState(game,this,&preBattle);
+    game->runStateUnderPriveldged(pre,false);
+    delete pre;
+    if (game->data.gameClosedFlag)
+		return;
+
+	BattleState* b = new BattleState(game,new RandomBattler(&peoplemon,items),name,loserSay,prizeMoney,false);
+	game->runStateUnderPriveldged(b,false);
+	if (game->data.gameClosedFlag)
+	{
+		delete b;
+		return;
+	}
+	if (b->playerWon())
+	{
+		ConversationState* post = new ConversationState(game,this,&postBattle);
+		game->runStateUnderPriveldged(post,false);
+		delete post;
+	}
+	else
+	{
+		//TODO - do whiteout thing
+	}
+
+    beaten = b->playerWon();
     delete b;
+    game->player.resetLock();
+    behavior->setPaused(false);
+    confrontingPlayer = false;
 }

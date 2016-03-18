@@ -20,7 +20,7 @@ class Trainer : public Character
     std::vector<PeoplemonRef> peoplemon;
     std::vector<int> items;
     int prizeMoney;
-    bool beaten;
+    bool beaten, confrontingPlayer;
     int range;
     int aiType; //TODO - figure out encoding to battler types (random, smart, etc)
 

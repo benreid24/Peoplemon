@@ -78,7 +78,6 @@ void Conversation::load(string file)
         {
             temp.say = input.getString();
             temp.line = input.getString();
-            cout << "Loaded checkString(" << temp.say << ", " << temp.line << ")\n";
         }
         else if (temp.code=='w')
 			temp.line = input.getString();
@@ -102,7 +101,6 @@ vector<string> Conversation::update(Game* game, Player* player, Character* perso
     }
     else
         cLine++;
-	cout << "Checking line: " << cLine << endl;
 
    start:
 
@@ -150,7 +148,6 @@ vector<string> Conversation::update(Game* game, Player* player, Character* perso
 			else
 			{
 				ret.push_back("Gave "+intToString(lines[cLine].d2)+" money!");
-				cout << "gave money\n";
 				return ret;
 			}
         }
@@ -166,7 +163,6 @@ vector<string> Conversation::update(Game* game, Player* player, Character* perso
 			{
 				player->takeItem(lines[cLine].d2,1);
 				ret.push_back("Gave the "+game->itemList[lines[cLine].d2].name+"!");
-				cout << "gave item\n";
 				return ret;
 			}
 		}
@@ -205,7 +201,6 @@ vector<string> Conversation::update(Game* game, Player* player, Character* perso
 	}
 	else if (lines[cLine].code=='z')
 	{
-		cout << "Running script: " << lines[cLine].line << endl;
 		env->runScript(shared_ptr<Script>(new Script(lines[cLine].line)));
 		cLine++;
 		goto start;

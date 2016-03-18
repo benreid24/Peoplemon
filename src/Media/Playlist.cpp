@@ -30,6 +30,7 @@ void Playlist::load(string file, bool savePrev)
 {
 	if (file==curList)
 		return;
+	stop();
 
     prevList = "";
     if (savePrev)
@@ -59,14 +60,14 @@ void Playlist::load(string file, bool savePrev)
     while (temp.size()!=0)
     {
         int i = Random(0,temp.size()-1);
-        order.push_back(i);
+        order.push_back(temp[i]);
         temp.erase(temp.begin()+i);
     }
 }
 
 void Playlist::play()
 {
-    if (songs.size()>0 && !game->data.gameMuted)
+    if (songs.size()>0 && !game->data.gameMuted && !started)
     {
         audio.play();
         started = true;
@@ -77,7 +78,16 @@ void Playlist::play()
 
 void Playlist::stop()
 {
+	if (started && audio.getStatus()==Music::Playing)
+	{
+		while (audio.getVolume()>2)
+		{
+			audio.setVolume(audio.getVolume()-1);
+			sleep(milliseconds(3));
+		}
+	}
     audio.stop();
+    audio.setVolume(100);
     started = false;
 }
 

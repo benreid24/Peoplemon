@@ -39,7 +39,6 @@ void Character::spawn(Vector2f pos, int d)
     mapPos.x = pos.x/32;
     mapPos.y = pos.y/32;
     dir = d;
-    cout << "spawning character " << name << " at position (" << mapPos.x << "," << mapPos.y << ")\n";
 }
 
 string Character::getName()

@@ -40,6 +40,9 @@ int PathController::reverseDirection(int dir)
 
 void PathController::act(Game* g)
 {
+	if (paused)
+		return;
+
     int dir = (movingForward)?path[curStep]:reverseDirection(path[curStep]);
     if (owner->getDir()!=dir)
         owner->move(g,dir);
