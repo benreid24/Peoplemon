@@ -129,6 +129,6 @@ void SoundEngine::update()
         if (game->data.gameMuted)
 			stopAll();
 
-        sleep(milliseconds(150));
+        sleep(milliseconds(10));
     }
 }

@@ -9,7 +9,9 @@ using namespace sf;
 
 NewGamestate::NewGamestate(Game* g) : Gamestate(g,NULL)
 {
-    //ctor
+	g->music.stop();
+    g->music.load("start.plst");
+    g->music.play();
 }
 
 bool NewGamestate::execute()

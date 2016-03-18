@@ -18,6 +18,7 @@ MainMenuState::MainMenuState(Game* g, Gamestate* n) : Gamestate(g,n), background
     choices.setTextProps(Color::Black, 36);
     menu.add(&background);
     menu.add(&choices);
+    g->music.load("menu.plst");
 }
 
 MainMenuState::~MainMenuState()
@@ -27,7 +28,7 @@ MainMenuState::~MainMenuState()
 
 bool MainMenuState::execute()
 {
-    cout << "Main menu state\n";
+    game->music.play();
 
     while (!finishFrame())
     {

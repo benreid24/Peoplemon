@@ -115,7 +115,6 @@ void World::load(string file, int spId)
     }
 
     tInt = input.get<uint16_t>();
-    cout << "loading " << tInt << " zones\n";
     PeoplemonZone tempZone;
     for (int i = 0; i<tInt; ++i)
     {
@@ -204,7 +203,6 @@ void World::load(string file, int spId)
     }
 
     tInt = input.get<uint16_t>();
-    cout << "loading " << tInt << " spawns\n";
     for (int i = 0; i<tInt; ++i)
     {
         Vector2f pos;
@@ -226,7 +224,6 @@ void World::load(string file, int spId)
     setRenderPosition(game->player.getPosition());
 
     tInt = input.get<uint16_t>();
-    cout << "loading " << tInt << " people\n";
     for (int i = 0; i<tInt; ++i)
     {
         Character* c;
@@ -620,11 +617,7 @@ void World::moveOntoTile(Vector2i playerPos, Vector2i lastPos)
         {
             vector<PeoplemonRef> ppl = getWildPeoplemon();
             if (ppl.size()>0)
-            {
-            	cout << "Entering battle\n";
 				game->runStateUnderPriveldged((new BattleState(game, new RandomBattler(&ppl,vector<int>()), "WILD "+ppl[0].name,"",0,true)));
-				cout << "Battle done\n";
-            }
             else
 				cout << "Catch tile at location (" << playerPos.x << ", " << playerPos.y << ") but no zone is present there!\n";
         }
