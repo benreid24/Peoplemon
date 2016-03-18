@@ -29,8 +29,6 @@ BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm,
     background.setTexture(*backgroundTxtr);
     playerAnims.load(game, player->getPeoplemon()->at(player->getCurrentPeoplemon()),opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()),true);
     opponentAnims.load(game, opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()), player->getPeoplemon()->at(player->getCurrentPeoplemon()),false);
-    game->music.load("battle.plst",true);
-    game->music.play();
 }
 
 BattleState::~BattleState()
@@ -55,6 +53,8 @@ bool BattleState::shouldClose()
 bool BattleState::execute()
 {
     cout << "Battle being entered\n";
+    game->music.load("battle.plst",true);
+    game->music.play();
     //transition screen
 
     //first send outs with intro text in between, or maybe use existing structure (below) to do the send outs

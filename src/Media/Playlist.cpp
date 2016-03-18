@@ -61,7 +61,6 @@ void Playlist::load(string file, bool savePrev)
     {
         int i = Random(0,temp.size()-1);
         order.push_back(temp[i]);
-        cout << "Added song: " << temp[i] << endl;
         temp.erase(temp.begin()+i);
     }
 }
@@ -100,7 +99,6 @@ void Playlist::update()
         if (unsigned(curSong)>=order.size())
             curSong = 0;
         audio.openFromFile(Properties::MusicPath+songs[order[curSong]]);
-        cout << "Switching to song: " << order[curSong] << endl;
         audio.play();
     }
     if (wasMutedLast && !game->data.gameMuted && started)

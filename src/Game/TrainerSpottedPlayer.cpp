@@ -9,15 +9,10 @@
 using namespace std;
 using namespace sf;
 
-TrainerSpottedPlayerState::TrainerSpottedPlayerState(Game* g, Trainer* t, BattleState* b, ConversationState* before, ConversationState* after, Gamestate* n) : Gamestate(g,n)
+TrainerSpottedPlayerState::TrainerSpottedPlayerState(Game* g, Trainer* t) : Gamestate(g,NULL)
 {
-    battle = b;
     trainer = t;
-    preConv = before;
-    postConv = after;
-    t->setLock(true,true);
     g->player.setLock(true,true);
-    g->player.forceStop();
 }
 
 TrainerSpottedPlayerState::~TrainerSpottedPlayerState()
@@ -48,12 +43,21 @@ bool TrainerSpottedPlayerState::execute()
     if (nPDir>3)
         nPDir -= 4;
 
+	Vector2i destPos = game->player.getMapPos();
+	if (nTDir==0)
+		destPos.y++;
+	else if (nTDir==1)
+		destPos.x--;
+	else if (nTDir==2)
+		destPos.y--;
+	else
+		destPos.x++;
+
     int ensureFps = gameClock.getTimeStamp();
     int rTime = ensureFps;
-    while (trainer->getMapPos().x-game->player.getMapPos().x+trainer->getMapPos().y-game->player.getMapPos().y>1)
-    {
-        ensureFps = gameClock.getTimeStamp();
-        cout << trainer->move(game,nTDir) << endl;
+    while (game->player.getPosition().x!=game->player.getMapPos().x*32 || game->player.getPosition().y!=game->player.getMapPos().y*32)
+	{
+		ensureFps = gameClock.getTimeStamp();
 
         if (finishFrame())
             return true;
@@ -71,16 +75,32 @@ bool TrainerSpottedPlayerState::execute()
         }
 
         sleep(milliseconds(8-(gameClock.getTimeStamp()-ensureFps)));
-    }
+	}
+	game->player.forceStop();
 
-    if (game->runState(preConv,false))
-        return true;
-    if (game->runState(battle,false))
-        return true;
-    if (!game->data.gameClosedFlag && battle->playerWon())
+    while (trainer->getMapPos()!=destPos)
     {
-        if (game->runState(postConv,false))
+        ensureFps = gameClock.getTimeStamp();
+        trainer->move(game,nTDir);
+        if (game->player.getDir()!=nPDir)
+			game->player.move(game,nPDir,false,true,false);
+
+        if (finishFrame())
             return true;
+
+        game->world.update();
+        game->hud.update();
+
+		if (gameClock.getTimeStamp()-rTime>=16)
+        {
+        	game->mainWindow.clear();
+			game->world.draw(&game->mainWindow);
+			game->hud.draw(&game->mainWindow);
+			game->mainWindow.display();
+			rTime = gameClock.getTimeStamp();
+        }
+
+        sleep(milliseconds(8-(gameClock.getTimeStamp()-ensureFps)));
     }
 
     return false;

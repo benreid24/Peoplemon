@@ -760,14 +760,14 @@ Object* World::getFirstObject(Vector2i pos, int dir, int range)
         chg.x = -1;
     cur += chg;
 
-    for (int i = 0; i<range; ++i)
+    for (int i = 0; i<=range; ++i)
     {
         for (unsigned int j = 0; j<objects.size(); ++j)
         {
         	if (int(objects[j]->getPosition().x/32+0.01)==cur.x && int(objects[j]->getPosition().y/32+0.01)==cur.y)
                 return objects[j];
         }
-        if (collisions(cur.x,cur.y)==0) //TODO - if this function is broken check this line first
+        if (collisions(cur.x,cur.y)==1)
             return NULL;
         cur += chg;
     }

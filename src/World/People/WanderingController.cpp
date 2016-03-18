@@ -125,6 +125,9 @@ int WanderingController::bestDirFromPos(Vector2i pos)
 
 void WanderingController::act(Game* g)
 {
+	if (paused)
+		return;
+
     if (!initialized)
     {
         initialized = true;

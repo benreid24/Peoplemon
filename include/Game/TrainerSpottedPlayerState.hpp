@@ -31,7 +31,7 @@ public:
      * \param t A pointer to the trainer who has spotted the player
      * \param n The next state to run
      */
-    TrainerSpottedPlayerState(Game* g, Trainer* t, BattleState* b, ConversationState* before, ConversationState* after, Gamestate* n = NULL);
+    TrainerSpottedPlayerState(Game* g, Trainer* t);
 
     /**
      * Unlocks the player and trainer
