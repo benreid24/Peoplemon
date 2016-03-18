@@ -125,6 +125,11 @@ string ChoiceBox::getChoice()
     return string("");
 }
 
+Vector2f ChoiceBox::getSize()
+{
+	return Vector2f(box.getGlobalBounds().width,box.getGlobalBounds().height);
+}
+
 string ChoiceBox::getCurrentChoice()
 {
     return choices[curC];

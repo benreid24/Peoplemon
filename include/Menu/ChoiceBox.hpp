@@ -134,6 +134,11 @@ public:
     std::string getCurrentChoice();
 
     /**
+     * Returns the size of the box containing the choices
+     */
+	sf::Vector2f getSize();
+
+    /**
      * Sets the little pointer to the given choice
      *
      * \param c The choice to set the pointer to
