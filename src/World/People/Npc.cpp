@@ -55,6 +55,11 @@ bool Npc::talkedTo()
     return wasTalkedTo;
 }
 
+void Npc::setTalked()
+{
+	wasTalkedTo = true;
+}
+
 string Npc::getIdentifier()
 {
     return "NPC: "+name;

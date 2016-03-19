@@ -43,6 +43,11 @@ public:
     bool talkedTo();
 
     /**
+     * Sets the NPC so that they've been talked to
+     */
+	void setTalked();
+
+    /**
      * Returns a string to identify the object for debug purposes
      */
     std::string getIdentifier();

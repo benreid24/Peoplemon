@@ -17,6 +17,7 @@ class Trainer : public Character
 {
     Conversation preBattle, postBattle;
     std::string loserSay; //what to say in battle after losing
+    std::string bMusic, bBgnd;
     std::vector<PeoplemonRef> peoplemon;
     std::vector<int> items;
     int prizeMoney;
@@ -57,6 +58,11 @@ public:
      * Returns whether or not the trainer has been beaten by the player yet
      */
     bool isDefeated();
+
+    /**
+     * Sets the trainer so that they've been beaten
+     */
+	void setBeaten();
 
     /**
      * Returns a string to identify the object for debug purposes

@@ -239,10 +239,7 @@ void World::load(string file, int spId)
             for (unsigned int j = 0; j<beatenTrainers.size(); ++j)
             {
                 if (c->getName()==beatenTrainers[j])
-                {
-                    delete c;
-                    c = new Trainer(game,Properties::TrainerPath+file,true); //too lazy to make a setter XD
-                }
+                    dynamic_cast<Trainer*>(c)->setBeaten();
             }
         }
         else
@@ -251,10 +248,7 @@ void World::load(string file, int spId)
             for (unsigned int i = 0; i<talkedToNpcs.size(); ++i)
             {
                 if (c->getName()==talkedToNpcs[i])
-                {
-                    delete c;
-                    c = new Npc(Properties::NpcPath+file,true);
-                }
+					dynamic_cast<Npc*>(c)->setTalked();
             }
         }
         c->spawn(pos+Vector2f(32,32),dir);

@@ -28,6 +28,8 @@ Trainer::Trainer(Game* g, string file, bool lost)
     file = input.getString();
     postBattle.load(file);
     loserSay = input.getString();
+    bMusic = input.getString();
+    bBgnd = input.getString();
     range = input.get<uint8_t>();
     int t = input.get<uint16_t>();
     for (int i = 0; i<t; ++i)
@@ -84,6 +86,11 @@ bool Trainer::isDefeated()
     return beaten;
 }
 
+void Trainer::setBeaten()
+{
+	beaten = true;
+}
+
 string Trainer::getIdentifier()
 {
     return "Trainer: "+name;
@@ -107,7 +114,7 @@ void Trainer::startFight(Game* game)
     if (game->data.gameClosedFlag)
 		return;
 
-	BattleState* b = new BattleState(game,new RandomBattler(&peoplemon,items),name,loserSay,prizeMoney,false);
+	BattleState* b = new BattleState(game,new RandomBattler(&peoplemon,items),name,loserSay,prizeMoney,false,bMusic,bBgnd);
 	game->runStateUnderPriveldged(b,false);
 	if (game->data.gameClosedFlag)
 	{

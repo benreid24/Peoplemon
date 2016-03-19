@@ -17,7 +17,7 @@ class BattleState : public Gamestate
 {
     Battler *player, *opponent;
     PeoplemonAnimations playerAnims, opponentAnims;
-    std::string opponentName, loseLine;
+    std::string opponentName, loseLine, playlist;
     int prizeMoney;
     bool canRun, playerWinned;
     bool ensureClosed;
@@ -189,9 +189,11 @@ public:
      * \param ll What the opponent will say in battle when they lose
      * \param pm The prize money awarded for victory
      * \param cr Whether or not the player may run
+     * \param music The filename of the playlist to file
+     * \param bgnd The filename of the image to make the background
      * \param n The next state to execute
      */
-    BattleState(Game* g, Battler* op, std::string opName, std::string ll, int pm, bool cr, Gamestate* n = NULL); //creating method above this knows if it is network or AI
+    BattleState(Game* g, Battler* op, std::string opName, std::string ll, int pm, bool cr, std::string music = "battle.plst", std::string bgnd = "battleBgnd.png", Gamestate* n = NULL); //creating method above this knows if it is network or AI
 
     /**
      * Destructor, does nothing

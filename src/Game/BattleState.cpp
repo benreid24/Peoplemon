@@ -8,7 +8,7 @@
 using namespace std;
 using namespace sf;
 
-BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm, bool cr, Gamestate* n) : Gamestate(g,n)
+BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm, bool cr, string music, string bgnd, Gamestate* n) : Gamestate(g,n)
 {
     lastMoveHit = false;
     ensureClosed = false;
@@ -25,7 +25,7 @@ BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm,
     playerBox.setIsPlayer();
     playerBox.update(player->getPeoplemon()->at(player->getCurrentPeoplemon()));
     opBox.update(opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()));
-    backgroundTxtr = imagePool.loadResource(Properties::BattleImagePath+"battleBgnd.png"); //TODO - figure out how to specify backgrounds
+    backgroundTxtr = imagePool.loadResource(Properties::BattleImagePath+bgnd); //TODO - figure out how to specify backgrounds
     background.setTexture(*backgroundTxtr);
     playerAnims.load(game, player->getPeoplemon()->at(player->getCurrentPeoplemon()),opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()),true);
     opponentAnims.load(game, opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()), player->getPeoplemon()->at(player->getCurrentPeoplemon()),false);
@@ -53,7 +53,7 @@ bool BattleState::shouldClose()
 bool BattleState::execute()
 {
     cout << "Battle being entered\n";
-    game->music.load("battle.plst",true);
+    game->music.load(playlist,true);
     game->music.play();
     //transition screen
 
