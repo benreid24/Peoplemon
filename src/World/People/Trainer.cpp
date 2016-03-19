@@ -29,6 +29,7 @@ Trainer::Trainer(Game* g, string file, bool lost)
     postBattle.load(file);
     loserSay = input.getString();
     bMusic = input.getString();
+    cout << "music: " << bMusic << endl;
     bBgnd = input.getString();
     range = input.get<uint8_t>();
     int t = input.get<uint16_t>();

@@ -22,6 +22,7 @@ BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm,
     opponentName = opName;
     loseLine = ll;
     prizeMoney = pm;
+    playlist = music;
     playerBox.setIsPlayer();
     playerBox.update(player->getPeoplemon()->at(player->getCurrentPeoplemon()));
     opBox.update(opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()));
