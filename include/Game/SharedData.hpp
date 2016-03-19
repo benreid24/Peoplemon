@@ -28,6 +28,9 @@ struct SharedData
     int nextSpawnId;
     int nextWeather;
 
+    std::string nextBattlePplmon, nextBattleMusic, nextBattleBgnd;
+    int nextBattleAi;
+
     std::string storePrompt, storeError;
     std::vector<std::pair<int,int> > storeItems;
 

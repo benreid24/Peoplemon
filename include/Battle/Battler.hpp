@@ -133,4 +133,6 @@ public:
     BattlerFlags state;
 };
 
+Battler* createBattler(int aiType, std::vector<PeoplemonRef>* pplmon, std::vector<int> items);
+
 #endif // BATTLER_HPP

@@ -25,7 +25,7 @@ BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm,
     playerBox.setIsPlayer();
     playerBox.update(player->getPeoplemon()->at(player->getCurrentPeoplemon()));
     opBox.update(opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()));
-    backgroundTxtr = imagePool.loadResource(Properties::BattleImagePath+bgnd); //TODO - figure out how to specify backgrounds
+    backgroundTxtr = imagePool.loadResource(Properties::BattleImagePath+bgnd);
     background.setTexture(*backgroundTxtr);
     playerAnims.load(game, player->getPeoplemon()->at(player->getCurrentPeoplemon()),opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()),true);
     opponentAnims.load(game, opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()), player->getPeoplemon()->at(player->getCurrentPeoplemon()),false);
@@ -38,6 +38,8 @@ BattleState::~BattleState()
     game->hud.setAlwaysShow(false);
     player->zeroStages();
     player->healAils(false);
+    delete player;
+    delete opponent;
 }
 
 bool BattleState::shouldClose()
@@ -52,7 +54,6 @@ bool BattleState::shouldClose()
 
 bool BattleState::execute()
 {
-    cout << "Battle being entered\n";
     game->music.load(playlist,true);
     game->music.play();
     //transition screen

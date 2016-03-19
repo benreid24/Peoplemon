@@ -114,7 +114,7 @@ void Trainer::startFight(Game* game)
     if (game->data.gameClosedFlag)
 		return;
 
-	BattleState* b = new BattleState(game,new RandomBattler(&peoplemon,items),name,loserSay,prizeMoney,false,bMusic,bBgnd);
+	BattleState* b = new BattleState(game,createBattler(aiType,&peoplemon,items),name,loserSay,prizeMoney,false,bMusic,bBgnd);
 	game->runStateUnderPriveldged(b,false);
 	if (game->data.gameClosedFlag)
 	{

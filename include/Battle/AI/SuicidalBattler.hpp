@@ -33,6 +33,15 @@ public:
      * Destructor. Does nothing
      */
     virtual ~SuicidalBattler();
+
+    /**
+     * Returns the new index of the peoplemon to switch to
+     *
+     * \param op The opponent's peoplemon
+     * \param g A pointer to the main Game object
+     * \return The index of the new active peoplemon, or -1 if all are dead
+     */
+    int getSwitchPeoplemon(PeoplemonRef op, Game* g);
 };
 
 #endif // SUICIDALBATTLER_HPP

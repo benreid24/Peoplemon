@@ -3,6 +3,8 @@
 #include "Game/CreditsState.hpp"
 #include "Game/StorageSystem.hpp"
 #include "Game/StoreState.hpp"
+#include "Game/BattleState.hpp"
+#include "Battle/Battler.hpp"
 #include "SFML.hpp"
 #include "Game/Game.hpp"
 #include "Properties.hpp"
@@ -22,7 +24,6 @@ MainGameState::~MainGameState()
 
 bool MainGameState::execute()
 {
-    cout << "Main game state\n";
     int sTime = gameClock.getTimeStamp();
     int rTime = sTime;
 
@@ -105,6 +106,15 @@ bool MainGameState::handleFlags()
 	{
 		game->data.interactFlag = false;
 		game->player.interact(game);
+	}
+	if (game->data.nextBattlePplmon.size()>0)
+	{
+		vector<PeoplemonRef> pplmon;
+		PeoplemonRef ppl;
+		ppl.load(game,Properties::WildPeoplemonPath+game->data.nextBattlePplmon);
+		pplmon.push_back(ppl);
+		game->data.nextBattlePplmon = "";
+		return game->runState(new BattleState(game,createBattler(game->data.nextBattleAi,&pplmon,vector<int>()),"WILD "+ppl.name,"",0,true,game->data.nextBattleMusic,game->data.nextBattleBgnd));
 	}
 
     return false;

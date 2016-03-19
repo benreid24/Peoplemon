@@ -85,7 +85,7 @@ public:
      * \param g A pointer to the main Game object
      * \return The index of the new active peoplemon, or -1 if all are dead
      */
-    virtual int getSwitchPeoplemon(PeoplemonRef op, Game* g) = 0;
+    virtual int getSwitchPeoplemon(PeoplemonRef op, Game* g);
 };
 
 #endif // AIBATTLER_HPP

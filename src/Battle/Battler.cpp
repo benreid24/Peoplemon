@@ -1,4 +1,12 @@
 #include "Battle/Battler.hpp"
+#include "Battle/AI/AggressiveBattler.hpp"
+#include "Battle/AI/AverageBattler.hpp"
+#include "Battle/AI/DefensiveBattler.hpp"
+#include "Battle/AI/DumbBattler.hpp"
+#include "Battle/AI/LearningBattler.hpp"
+#include "Battle/AI/RandomBattler.hpp"
+#include "Battle/AI/SmartBattler.hpp"
+#include "Battle/AI/SuicidalBattler.hpp"
 using namespace std;
 
 BattlerFlags::BattlerFlags()
@@ -113,4 +121,27 @@ void Battler::setLastDamageDealt(int d)
 void Battler::setLastDamageTaken(int d)
 {
     lastDamageTaken = d;
+}
+
+Battler* createBattler(int aiType, vector<PeoplemonRef>* pplmon, vector<int> items)
+{
+	switch (aiType)
+	{
+	case 0:
+		return new RandomBattler(pplmon,items);
+	case 1:
+		return new DumbBattler(pplmon,items);
+	case 2:
+		return new SmartBattler(pplmon,items);
+	case 3:
+		return new SuicidalBattler(pplmon,items);
+	case 4:
+		return new AggressiveBattler(pplmon,items);
+	case 5:
+		return new DefensiveBattler(pplmon,items);
+	case 6:
+		return new AverageBattler(pplmon,items);
+	default:
+		return new LearningBattler(pplmon,items);
+	}
 }

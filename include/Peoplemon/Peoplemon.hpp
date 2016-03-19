@@ -133,7 +133,7 @@ struct PeoplemonRef
     void load(Game* g, File* file);
 
     /**
-     * Loads the peoplemon from an independant peoplemon file
+     * Loads the peoplemon from an independent peoplemon file
      *
      * \param g A pointer to the main Game object
      * \param file The path of the file to load from

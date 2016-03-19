@@ -82,6 +82,7 @@ namespace {
 					"spawnNPC",
 					"spawnTrainer",
 					"sqrt",
+					"startBattle",
 					"stringToInt",
 					"takeItem",
 					"trainerDefeated",
@@ -350,6 +351,12 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		}
 		else if (name=="mapVisited")
 			ret.iValue = environment->getGame()->world.mapVisited(args.at(0).sValue);
+		else if (name=="startBattle")
+		{
+			environment->getGame()->data.nextBattleBgnd = args.at(2).sValue;
+			environment->getGame()->data.nextBattleMusic = args.at(1).sValue;
+			environment->getGame()->data.nextBattlePplmon = args.at(0).sValue;
+		}
 		else if (name=="saveGame")
 			environment->getGame()->data.saveGameFlag = true;
 		else if (name=="runScript")
