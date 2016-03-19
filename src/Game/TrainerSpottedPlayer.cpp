@@ -77,14 +77,19 @@ bool TrainerSpottedPlayerState::execute()
         sleep(milliseconds(8-(gameClock.getTimeStamp()-ensureFps)));
 	}
 	game->player.forceStop();
+	ensureFps = rTime = gameClock.getTimeStamp();
 
-    while (trainer->getMapPos()!=destPos)
+    while (true)
     {
         ensureFps = gameClock.getTimeStamp();
-        trainer->move(game,nTDir);
+        if (trainer->move(game,nTDir))
+			cout << "moved\n";
         if (game->player.getDir()!=nPDir)
 			game->player.move(game,nPDir,false,true,false);
 
+
+		if (trainer->getMapPos()==destPos && trainer->getPosition().x==trainer->getMapPos().x*32 && trainer->getPosition().y==trainer->getMapPos().y*32)
+			break;
         if (finishFrame())
             return true;
 
