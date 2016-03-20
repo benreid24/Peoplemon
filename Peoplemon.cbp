@@ -96,9 +96,8 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os" />
-					<Add option="-O3" />
 					<Add option="-std=c++11" />
+					<Add option="-g" />
 					<Add option="-DSFML_STATIC" />
 					<Add option="-DRELEASE" />
 					<Add option="-DLinux" />
@@ -107,7 +106,6 @@
 					<Add directory="/home/developer/sfml/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-s" />
 					<Add option="-static-libgcc" />
 					<Add library="\home\developer\sfml\lib\libsfml-audio.so.2.0" />
 					<Add library="\home\developer\sfml\lib\libsfml-graphics.so.2.0" />
