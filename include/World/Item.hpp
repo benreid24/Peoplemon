@@ -53,7 +53,8 @@ public:
      */
     void interact(Game* game)
     {
-        game->world.setSpaceOccupied(sf::Vector2i(position.x/32,position.y/32),false);
+    	if (itemId<500)
+			game->world.setSpaceOccupied(sf::Vector2i(position.x/32,position.y/32),false);
         game->player.giveItem(itemId);
         game->world.setItemPickedUp(mapId);
         game->world.removeObject(this);
