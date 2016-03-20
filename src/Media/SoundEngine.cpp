@@ -26,10 +26,14 @@ AudioReference SoundEngine::playSound(string file, int loops)
     t->curPlays = 1;
     t->maxPlays = loops;
     t->ref = audioPool.loadResource(Properties::AudioPath+file);
+    cout << "playing: " << Properties::AudioPath+file << endl;
     t->sound.setBuffer(*t->ref);
     t->sound.setLoop(false);
     if (!game->data.gameMuted)
+	{
 		t->sound.play();
+		cout << "played sound\n";
+	}
     lock.lock();
     sounds[lastAssigned+1] = t;
     lock.unlock();
