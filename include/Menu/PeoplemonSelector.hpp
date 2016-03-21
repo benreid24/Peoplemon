@@ -53,6 +53,7 @@ public:
  */
 class PeoplemonButtonMain : public PeoplemonButtonBase
 {
+	MenuImage pplmon;
     MenuText name, level, hp, item;
     sf::RectangleShape hpBar;
 

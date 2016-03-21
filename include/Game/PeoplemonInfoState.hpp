@@ -52,9 +52,10 @@ class PeoplemonInfoState : public Gamestate
      * Wraps the given string to a certain size
      *
      * \param str The string to wrap
+     * \param w The width to wrap to in pixels
      * \return The wrapped string
      */
-    std::string wordWrap(std::string str);
+    std::string wordWrap(std::string str, int w);
 
 public:
     /**

@@ -23,11 +23,11 @@ void MenuText::useSecondaryFont()
 
 void MenuText::setText(string t)
 {
-    text.setString(t);
     if (m)
 		text.setFont(Properties::PrimaryMenuFont);
 	else
 		text.setFont(Properties::SecondaryMenuFont);
+	text.setString(t);
 }
 
 void MenuText::setProps(Color col, int size)

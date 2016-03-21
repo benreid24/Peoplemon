@@ -85,7 +85,7 @@ std::string HUD::getChoice(string message, vector<string> opts, bool block)
     choiceBox.setBackgroundColor(Color::White);
     choiceBox.setBorder(Color::Black, 3);
     choiceBox.setTextProps(Color::Black, 18);
-    choiceBox.setPosition(Vector2f(620,597-choiceBox.getSize().y));
+    choiceBox.setPosition(Vector2f(620,600-choiceBox.getSize().y));
     gettingChoice = true;
     if (block)
     {

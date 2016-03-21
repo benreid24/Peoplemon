@@ -17,7 +17,7 @@ PeopledexState::PeopledexState(Game* g) : Gamestate(g), peoplemonList(g)
     pplOwnedT.setPosition(Vector2f(145,555));
     peoplemonPic.setPosition(Vector2f(45,80));
     peoplemonName.setPosition(Vector2f(45, 345));
-    peoplemonDesc.setPosition(Vector2f(65, 375));
+    peoplemonDesc.setPosition(Vector2f(50, 375));
     peoplemonDesc.setProps(Color::Blue, 22);
     peoplemonName.setProps(Color::Red, 26);
     pplSeenT.setProps(Color::Red, 22);
@@ -87,7 +87,7 @@ void PeopledexState::update()
     {
         peoplemonName.setText(game->peoplemonList[peoplemonList.getCurPeoplemon()].name);
         peoplemonDesc.setText(wordWrap(game->peoplemonList[peoplemonList.getCurPeoplemon()].description));
-        peoplemonPic.setImage(Properties::PeoplemonImagePath+game->peoplemonList[peoplemonList.getCurPeoplemon()].name+".png", false);
+        peoplemonPic.setImage(Properties::PeoplemonImagePath+intToString(peoplemonList.getCurPeoplemon())+".png", false);
         pplSeenT.setText(intToString(game->peoplemonList[peoplemonList.getCurPeoplemon()].numSeen));
         pplOwnedT.setText(intToString(game->peoplemonList[peoplemonList.getCurPeoplemon()].numCaught));
     }

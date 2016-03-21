@@ -46,15 +46,15 @@ void PeopledexList::draw(RenderWindow* window)
     {
         if (curPos==i)
         {
-            selBox.setPosition(Vector2f(440, 65+i*55));
+            selBox.setPosition(Vector2f(440, 65+(i-topBut)*55));
             selBox.draw(window);
         }
         else
         {
-            unSelBox.setPosition(Vector2f(440, 65+i*55));
+            unSelBox.setPosition(Vector2f(440, 65+(i-topBut)*55));
             unSelBox.draw(window);
         }
-        pplName.setPosition(Vector2f(460, 70+i*55));
+        pplName.setPosition(Vector2f(460, 70+(i-topBut)*55));
         pplName.setText(pplList[i].second);
         pplName.draw(window);
     }

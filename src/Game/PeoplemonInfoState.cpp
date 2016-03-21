@@ -20,7 +20,7 @@ PeoplemonInfoState::PeoplemonInfoState(Game* g, PeoplemonRef ppl) : Gamestate(g,
     pageChoice.setPosition(Vector2f(700,510));
 
     basicsBgnd.setImage("pplBasicsBgnd.png");
-    pplPic.setImage(Properties::PeoplemonImagePath+g->peoplemonList[ppl.id].name+".png",false);
+    pplPic.setImage(Properties::PeoplemonImagePath+intToString(ppl.id)+".png",false);
     name.setText(g->peoplemonList[ppl.id].name);
     level.setText(intToString(ppl.level));
     id.setText(intToString(ppl.id));
@@ -31,7 +31,7 @@ PeoplemonInfoState::PeoplemonInfoState(Game* g, PeoplemonRef ppl) : Gamestate(g,
     spAtkStat.setText("SpAtk: "+intToString(ppl.stats.spAtk));
     spDefStat.setText("SpDef: "+intToString(ppl.stats.spDef));
     spdStat.setText("Spd: "+intToString(ppl.stats.spd));
-    ability.setText("Ability: "+Peoplemon::abilityTexts[g->peoplemonList[ppl.id].specialAbilityId].first+"\n"+wordWrap(Peoplemon::abilityTexts[g->peoplemonList[ppl.id].specialAbilityId].second));
+    ability.setText("Ability: "+Peoplemon::abilityTexts[g->peoplemonList[ppl.id].specialAbilityId].first+"\n"+wordWrap(Peoplemon::abilityTexts[g->peoplemonList[ppl.id].specialAbilityId].second,400));
     item.setText(g->itemList[ppl.holdItem].name);
     curXp.setText(intToString(ppl.curXp));
     reqXp.setText(intToString(ppl.nextLvlXp));
@@ -40,8 +40,8 @@ PeoplemonInfoState::PeoplemonInfoState(Game* g, PeoplemonRef ppl) : Gamestate(g,
     basicsBgnd.setPosition(Vector2f(345,75));
     pplPic.setPosition(Vector2f(25,160));
     name.setPosition(Vector2f(32,75));
-    level.setPosition(Vector2f(256,110));
-    id.setPosition(Vector2f(60,110));
+    level.setPosition(Vector2f(256,113));
+    id.setPosition(Vector2f(60,113));
     type.setPosition(Vector2f(385,152));
     hpStat.setPosition(Vector2f(400,212));
     atkStat.setPosition(Vector2f(400,265));
@@ -55,21 +55,21 @@ PeoplemonInfoState::PeoplemonInfoState(Game* g, PeoplemonRef ppl) : Gamestate(g,
     reqXp.setPosition(Vector2f(98,515));
     status.setPosition(Vector2f(163,568));
 
-    name.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),30);
-    level.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),24);
-    id.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),22);
-    type.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),22);
-    hpStat.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),22);
-    atkStat.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),22);
-    defStat.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),22);
-    spAtkStat.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),22);
-    spDefStat.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),22);
-    spdStat.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),22);
-    ability.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),21);
-    item.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),22);
-    curXp.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),20);
-    reqXp.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),20);
-    status.setProps(Color(Random(0,255),Random(0,255),Random(0,255)),22);
+    name.setProps(Color::White,30);
+    level.setProps(Color::White,24);
+    id.setProps(Color::White,22);
+    type.setProps(Color::White,22);
+    hpStat.setProps(Color::White,22);
+    atkStat.setProps(Color::White,22);
+    defStat.setProps(Color::White,22);
+    spAtkStat.setProps(Color::White,22);
+    spDefStat.setProps(Color::White,22);
+    spdStat.setProps(Color::White,22);
+    ability.setProps(Color::White,21);
+    item.setProps(Color::White,22);
+    curXp.setProps(Color::White,20);
+    reqXp.setProps(Color::White,20);
+    status.setProps(Color::White,22);
 
     basicPage.add(&background);
     basicPage.add(&basicsBgnd);
@@ -89,6 +89,7 @@ PeoplemonInfoState::PeoplemonInfoState(Game* g, PeoplemonRef ppl) : Gamestate(g,
     basicPage.add(&reqXp);
     basicPage.add(&status);
     basicPage.add(&pageChoice);
+    basicPage.add(&name);
 
     moveSel.setImage("pplMoveSel.png");
     moveUnsel.setImage("pplMoveUnsel.png");
@@ -134,15 +135,15 @@ PeoplemonInfoState::PeoplemonInfoState(Game* g, PeoplemonRef ppl) : Gamestate(g,
     movePage.add(&level);
 }
 
-string PeoplemonInfoState::wordWrap(string str)
+string PeoplemonInfoState::wordWrap(string str, int w)
 {
     Text temp;
     temp.setFont(Properties::PrimaryMenuFont);
-    temp.setCharacterSize(20);
+    temp.setCharacterSize(21);
     temp.setString(str);
     for (unsigned int i = 0; i<str.size(); ++i)
     {
-        if (temp.findCharacterPos(i).x>=230)
+        if (temp.findCharacterPos(i).x>=w)
         {
             for (unsigned int j = i; j>=0; j--)
             {
@@ -163,7 +164,7 @@ void PeoplemonInfoState::updateMoveStuff()
     moveAtk.setText(intToString(game->moveList[moves[curMove].id].dmg));
     moveAcc.setText(intToString(game->moveList[moves[curMove].id].acc));
     moveType.setText(game->typeList[game->moveList[moves[curMove].id].type]);
-    moveDesc.setText(wordWrap(game->moveList[moves[curMove].id].description));
+    moveDesc.setText(wordWrap(game->moveList[moves[curMove].id].description,270));
 }
 
 bool PeoplemonInfoState::execute()

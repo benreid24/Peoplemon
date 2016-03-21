@@ -55,8 +55,6 @@ bool BattleState::shouldClose()
 
 bool BattleState::execute()
 {
-    game->music.load(playlist,true);
-    game->music.play();
     //transition screen
 
     //first send outs with intro text in between, or maybe use existing structure (below) to do the send outs
@@ -69,11 +67,16 @@ bool BattleState::execute()
     //      if not dead, do second turn. if dead then get the peoplemon to switch to and play switch anims
     //      if second mover killed the first get their switch and play switch anims
 
+	game->music.load(playlist,true);
+    game->music.play();
     transitionScreen();
 
     //introduce opponent peoplemon
     game->hud.setAlwaysShow(true);
     opBox.update(getPeoplemon(opponent,opponent->getCurrentPeoplemon()),true);
+    playerBox.update(getPeoplemon(player,player->getCurrentPeoplemon()),true);
+    renderStatic();
+    sleep(milliseconds(1500));
     if (canRun)
         toDraw.push_back(&opponentAnims.still);
     displayMessage(getIntroLine());
@@ -89,7 +92,6 @@ bool BattleState::execute()
     game->hud.displayMessage("");
 
     //send in player peoplemon
-    playerBox.update(getPeoplemon(player,player->getCurrentPeoplemon()),true);
     displayMessage("Go "+getPeoplemonName(player,player->getCurrentPeoplemon())+"!");
     if (shouldClose())
         return true;
@@ -129,9 +131,9 @@ bool BattleState::execute()
         {
             PeoplemonRef p = getPeoplemon(player,player->getCurrentPeoplemon()), op = getPeoplemon(opponent,opponent->getCurrentPeoplemon());
             Turn pTurn = player->getTurn(op,game);
-
             if (shouldClose())
                 return true;
+
             Turn oTurn = opponent->getTurn(p,game);
             bool pFirst = true;
             if (oTurn.type==Turn::Switch || oTurn.type==Turn::Item)
@@ -1172,7 +1174,6 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 void BattleState::transitionScreen()
 {
     //TODO - transition here
-    cout << "transition function\n";
     CircleShape circle;
     circle.setFillColor(Color(Random(0,255),Random(0,255),Random(0,255)));
     circle.setRadius(1);
@@ -1215,6 +1216,8 @@ void BattleState::playIntroAnim(Battler* b)
         game->mainWindow.draw(background);
         anim->draw(&game->mainWindow);
         renderQueue();
+        opBox.draw(&game->mainWindow);
+        playerBox.draw(&game->mainWindow);
         game->hud.draw(&game->mainWindow);
         game->mainWindow.display();
 

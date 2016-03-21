@@ -31,6 +31,7 @@ void PeoplemonButtonBase::draw(RenderWindow* window)
 
 PeoplemonButtonMain::PeoplemonButtonMain(Vector2f pos, PeoplemonRef ppl, Game* g) : PeoplemonButtonBase()
 {
+	pplmon.setImage(Properties::PeoplemonImagePath+intToString(ppl.id)+".png",false,Vector2f(110,110));
     pic.setImage("peoplemonButton.png");
     activePic.setImage("hPeoplemonButton.png");
     hp.setProps(Color::Black, 22);
@@ -38,6 +39,7 @@ PeoplemonButtonMain::PeoplemonButtonMain(Vector2f pos, PeoplemonRef ppl, Game* g
     level.setProps(Color::Black, 22);
     item.setProps(Color::Black, 22);
 
+	pplmon.setPosition(pos+Vector2f(23,21));
     pic.setPosition(pos);
     activePic.setPosition(pos);
     name.setPosition(Vector2f(pos.x+132, pos.y+16));
@@ -61,6 +63,7 @@ PeoplemonButtonMain::~PeoplemonButtonMain()
 
 void PeoplemonButtonMain::update(PeoplemonRef ppl, Game* g)
 {
+	pplmon.setImage(Properties::PeoplemonImagePath+intToString(ppl.id)+".png",false,Vector2f(110,110));
     name.setText(ppl.name);
     level.setText(intToString(ppl.level));
     if (ppl.holdItem!=0)
@@ -82,13 +85,14 @@ void PeoplemonButtonMain::draw(RenderWindow* window)
 {
     window->draw(hpBar);
     PeoplemonButtonBase::draw(window);
+    pplmon.draw(window);
 }
 
 PeoplemonButtonCancel::PeoplemonButtonCancel() : PeoplemonButtonBase()
 {
     pic.setImage("peoplemonCancel.png");
     activePic.setImage("hPeoplemonCancel.png");
-    pic.setPosition(Vector2f(600, 550));
+    pic.setPosition(Vector2f(600,550));
     activePic.setPosition(Vector2f(600,550));
 }
 
