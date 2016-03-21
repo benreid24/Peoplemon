@@ -3,6 +3,7 @@
 
 #include "Object.hpp"
 #include "Resources/ResourcePool.hpp"
+#include "Properties.hpp"
 
 extern class ResourcePool<sf::Texture> imagePool;
 std::string intToString(int i);
@@ -31,7 +32,7 @@ public:
         itemId = iId;
         mapId = mId;
         position = pos+sf::Vector2f(32,32);
-        ball = imagePool.loadResource("Resources/Media/Images/World/Misc/item.png");
+        ball = imagePool.loadResource(Properties::MiscImagePath+"item.png");
         if (iId<500)
         {
             w->setSpaceOccupied(sf::Vector2i(position.x/32,position.y/32),true);

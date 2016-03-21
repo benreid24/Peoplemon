@@ -45,7 +45,8 @@ void Player::newGame(bool b, string n)
 
     //TODO - remove after demo
     PeoplemonRef temp;
-    temp.load(game,"Resources/Data/Peoplemon/Owned/Vince.ppl");
+    temp.load(game,Properties::OwnedPeoplemonPath+"Vince.ppl");
+    temp.curHp = temp.stats.hp;
     curPeoplemon.push_back(temp);
 }
 

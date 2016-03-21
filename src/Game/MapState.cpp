@@ -11,15 +11,15 @@ MapState::MapState(Game* g, bool cF) : Gamestate(g)
 {
     canFly = cF;
     //TODO - figure out how to initialize navPos with scaled player position from the world. maybe have an icon there
-    backgroundTxtr = imagePool.loadResource("Resources/Media/Images/Menu/mapBgnd.png");
-    townTxtr = imagePool.loadResource("Resources/Media/Menu/Images/mapTown.png");
-    crossHairTxtr = imagePool.loadResource("Resources/Media/Menu/Images/mapPointer.png");
+    backgroundTxtr = imagePool.loadResource(Properties::MenuImagePath+"mapBgnd.png");
+    townTxtr = imagePool.loadResource(Properties::MenuImagePath+"mapTown.png");
+    crossHairTxtr = imagePool.loadResource(Properties::MenuImagePath+"mapPointer.png");
     background.setTexture(*backgroundTxtr);
     town.setTexture(*townTxtr);
     crossHair.setTexture(*crossHairTxtr);
 
     MapObject temp;
-    File file("Resources/Data/map.db");
+    File file(Properties::DataPath+"map.db");
 
     int size = file.get<uint16_t>();
     for (int i = 0; i<size; ++i)

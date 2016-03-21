@@ -53,8 +53,13 @@ void HUD::displayMessage(string m, string sound, bool block)
         game->soundEngine.playSound(sound);
     displayingMessage = true;
     if (block)
+	{
 		while (displayingMessage)
+		{
 			sleep(milliseconds(100));
+		}
+	}
+
 }
 
 bool HUD::messageFinished()

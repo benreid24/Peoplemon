@@ -1,6 +1,7 @@
 #include "World/Weather.hpp"
 #include "Game/Game.hpp"
 #include "Globals.hpp"
+#include "Properties.hpp"
 using namespace std;
 using namespace sf;
 
@@ -76,9 +77,9 @@ RainWeather::RainWeather(Game* g, bool isHard, bool thunder)
     lastTime = 0;
     creationTimer = gameClock.getTimeStamp();
     canThunder = thunder;
-    airDrop = imagePool.loadResource("Resources/Media/Images/World/Misc/rainDrop.png");
-    splashDrop[0] = imagePool.loadResource("Resources/Media/Images/World/Misc/rainSplash1.png");
-    splashDrop[1] = imagePool.loadResource("Resources/Media/Images/World/Misc/rainSplash2.png");
+    airDrop = imagePool.loadResource(Properties::MiscImagePath+"rainDrop.png");
+    splashDrop[0] = imagePool.loadResource(Properties::MiscImagePath+"rainSplash1.png");
+    splashDrop[1] = imagePool.loadResource(Properties::MiscImagePath+"rainSplash2.png");
     airSpr.setTexture(*airDrop);
     splashSpr[0].setTexture(*splashDrop[0]);
     splashSpr[1].setTexture(*splashDrop[1]);
@@ -218,7 +219,7 @@ SnowWeather::SnowWeather(Game* g, bool h, bool t)
     lastTime = 0;
     creationTimer = gameClock.getTimeStamp();
     _g = g;
-    flake = imagePool.loadResource("Resources/Media/Images/World/Misc/snowFlake.png");
+    flake = imagePool.loadResource(Properties::MiscImagePath+"snowFlake.png");
     spr.setTexture(*flake);
     canThunder = t;
     createPerSec = 0.364;
@@ -410,7 +411,7 @@ FogWeather::FogWeather(Game* g, bool isThick)
     isStopping = false;
     lastTime = 0;
     spr.setColor(Color(255,255,255,0)); //gradually increase
-    fogTxtr = imagePool.loadResource("Resources/Media/Images/World/Misc/fog.png");
+    fogTxtr = imagePool.loadResource(Properties::MiscImagePath+"fog.png");
     spr.setTexture(*fogTxtr);
     spr.setOrigin(fogTxtr->getSize().x/2-4,fogTxtr->getSize().y/2-4);
 
@@ -506,8 +507,8 @@ SandstormWeather::SandstormWeather(Game* g) : cover(Vector2f(800,600))
     lastTime = 0;
     a = 0;
     lChng = 30;
-    mainTxtr = imagePool.loadResource("Resources/Media/Images/World/Misc/sandMain.png");
-    swirlTxtr = imagePool.loadResource("Resources/Media/Images/World/Misc/sandSwirl.png");
+    mainTxtr = imagePool.loadResource(Properties::MiscImagePath+"sandMain.png");
+    swirlTxtr = imagePool.loadResource(Properties::MiscImagePath+"sandSwirl.png");
     mainSpr.setTexture(*mainTxtr);
     mainSpr.setOrigin(Vector2f(mainTxtr->getSize().x/2,mainTxtr->getSize().y/2));
     swirlSpr.setTexture(*swirlTxtr);

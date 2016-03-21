@@ -52,7 +52,7 @@ int CreditsObject::getPos()
 
 CreditsState::CreditsState(Game* g) : Gamestate(g)
 {
-    File file("Resources/Data/credits.cr");
+    File file(Properties::DataPath+"credits.cr");
     int size = file.get<uint16_t>();
     int y = 0;
     for (int i = 0; i<size; ++i)

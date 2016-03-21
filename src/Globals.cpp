@@ -17,8 +17,10 @@ const string Properties::GameSavePath = "Resources/Saves/";
 #endif
 
 const string Properties::MapPath = "Resources/Data/Maps/";
+const string Properties::DataPath = "Resources/Data/";
 const string Properties::TilesetPath = "Resources/Data/Tilesets/";
 const string Properties::PeoplePath = "Resources/Data/People/";
+const string Properties::PeoplemonBasePath = "Resources/Data/Peoplemon/";
 const string Properties::WildPeoplemonPath = "Resources/Data/Peoplemon/Wilds/";
 const string Properties::OwnedPeoplemonPath = "Resources/Data/Peoplemon/Owned/";
 const string Properties::MapTilePath = "Resources/Media/Images/World/Tiles/";
@@ -28,6 +30,7 @@ const string Properties::PeoplemonImagePath = "Resources/Media/Images/Peoplemon/
 const string Properties::BattleImagePath = "Resources/Media/Images/Battle/";
 const string Properties::MoveAnimationPath = "Resources/Data/Animations/Moves/";
 const string Properties::MiscAnimationPath = "Resources/Data/Animations/Misc/";
+const string Properties::MiscImagePath = "Resources/Media/Images/World/Misc/";
 const string Properties::SpriteSheetPath = "Resources/Media/Images/SpriteSheets/";
 const string Properties::ScriptPath = "Resources/Data/Scripts/";
 const string Properties::FontPath = "Resources/Media/Fonts/";

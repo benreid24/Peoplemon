@@ -11,7 +11,7 @@ using namespace std;
 
 Game::Game() : scriptEnvironment(this), soundEngine(this), player(this), world(this), hud(this), music(this)
 {
-    File itemFile("Resources/Data/items.db");
+    File itemFile(Properties::DataPath+"items.db");
     int size;
 
     size = itemFile.get<uint16_t>();
@@ -25,7 +25,7 @@ Game::Game() : scriptEnvironment(this), soundEngine(this), player(this), world(t
         itemList[id] = temp;
     }
 
-    File moveFile("Resources/Data/Peoplemon/moves.db");
+    File moveFile(Properties::PeoplemonBasePath+"moves.db");
     size = moveFile.get<uint16_t>();
     for (int i = 0; i<size; ++i)
     {
@@ -50,7 +50,7 @@ Game::Game() : scriptEnvironment(this), soundEngine(this), player(this), world(t
         moveList[temp.id] = temp;
     }
 
-    File pFile("Resources/Data/Peoplemon/peoplemon.db");
+    File pFile(Properties::PeoplemonBasePath+"peoplemon.db");
     size = pFile.get<uint16_t>();
     for (int i = 0; i<size; ++i)
     {
