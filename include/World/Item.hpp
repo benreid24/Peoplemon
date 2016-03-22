@@ -38,8 +38,6 @@ public:
             w->setSpaceOccupied(sf::Vector2i(position.x/32,position.y/32),true);
             sprite.setTexture(*ball);
         }
-        else
-			iId -= 500;
     }
 
     /**
@@ -56,6 +54,8 @@ public:
     {
     	if (itemId<500)
 			game->world.setSpaceOccupied(sf::Vector2i(position.x/32,position.y/32),false);
+		else
+			itemId -= 500;
         game->player.giveItem(itemId);
         game->world.setItemPickedUp(mapId);
         game->world.removeObject(this);

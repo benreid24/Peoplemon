@@ -47,8 +47,6 @@ void Playlist::load(string file, bool savePrev)
     songs.resize(size);
     for (int i = 0; i<size; ++i)
         songs[i] = input.getString();
-    if (songs.size()>0)
-        audio.openFromFile(Properties::MusicPath+songs[0]);
     audio.setLoop(false);
 
     vector<int> temp;
@@ -63,6 +61,9 @@ void Playlist::load(string file, bool savePrev)
         order.push_back(temp[i]);
         temp.erase(temp.begin()+i);
     }
+    curSong = 0;
+    if (songs.size()>0)
+        audio.openFromFile(Properties::MusicPath+songs[order[0]]);
 }
 
 void Playlist::play()
