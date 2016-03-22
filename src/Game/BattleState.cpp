@@ -348,7 +348,7 @@ bool BattleState::execute()
                     displayMessage("Got away safely!");
                     if (shouldClose())
                         return true;
-                    return false; //TODO - figure out end battle procedure and how to communicate results to outside
+                    return false;
                 }
                 else
                 {

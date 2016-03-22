@@ -132,7 +132,7 @@ bool BagState::execute()
                     {
                         if (id<22 && id>38 && id<50) //validate that it can be used in battle
                         {
-                            //check to see if we need a peoplemon to use it on
+                            //TODO - check to see if we need a peoplemon to use it on
                             choice = itemList.getCurrentItem();
                             game->player.takeItem(itemList.getCurrentItem());
                             return false;

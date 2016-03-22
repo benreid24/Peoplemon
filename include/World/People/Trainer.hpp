@@ -23,7 +23,7 @@ class Trainer : public Character
     int prizeMoney;
     bool beaten, confrontingPlayer;
     int range;
-    int aiType; //TODO - figure out encoding to battler types (random, smart, etc)
+    int aiType;
 
     /**
      * Starts a battle with the player by invoking the TrainerSpottedPlayer state

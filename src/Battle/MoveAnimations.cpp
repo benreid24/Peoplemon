@@ -22,9 +22,9 @@ void MoveAnimations::load(string pplmon, string op, Move m, bool isPlayer)
     fgnd = animPool.loadResource(Properties::MoveAnimationPath+m.name+"/"+p1+"/Foreground.anim");
 
     background.setSource(bgnd);
-    background.setPosition(Vector2f(800,600)); //TODO - figure out why this is here
+    //background.setPosition(Vector2f(800,600)); //TODO - figure out why this is here
     foreground.setSource(fgnd);
-    foreground.setPosition(Vector2f(800,600));
+    //foreground.setPosition(Vector2f(800,600));
 
     attacker.setSource(atk);
     attacker.setPosition(posA);

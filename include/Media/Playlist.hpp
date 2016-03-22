@@ -16,7 +16,7 @@ class Playlist
 {
 	Game* game;
     sf::Music audio;
-    std::vector<std::string> songs; //TODO - possibly threadsafe this
+    std::vector<std::string> songs;
     std::vector<int> order;
     int curSong;
     bool started, wasMutedLast;
