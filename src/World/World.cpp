@@ -401,7 +401,6 @@ void World::update()
 			}
 		}
 	}
-    game->music.update();
     weather.update();
 
     for (unsigned int i = 0; i<objDelQueue.size(); ++i)

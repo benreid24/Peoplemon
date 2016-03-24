@@ -485,7 +485,6 @@ void BattleState::displayMessage(string m)
         }
 
         game->hud.update();
-        game->music.update();
         opBox.update();
         playerBox.update();
 
@@ -508,7 +507,6 @@ void BattleState::renderStatic()
     {
         opBox.update();
         playerBox.update();
-        game->music.update();
         playerAnims.still.update();
         opponentAnims.still.update();
 
@@ -1211,7 +1209,6 @@ void BattleState::playIntroAnim(Battler* b)
         }
 
         anim->update();
-        game->music.update();
 
         game->mainWindow.draw(background);
         anim->draw(&game->mainWindow);
@@ -1246,7 +1243,6 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
     while (!anims[i]->comeIn.finished())
     {
         anims[i]->comeIn.update();
-        game->music.update();
 
         game->mainWindow.draw(background);
         anims[i]->comeIn.draw(&game->mainWindow);
@@ -1268,7 +1264,6 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
     while (!temp.sendOut.finished())
     {
         temp.sendOut.update();
-        game->music.update();
 
         game->mainWindow.draw(background);
         temp.sendOut.draw(&game->mainWindow);
@@ -1323,7 +1318,6 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
         anims[i]->moves[m].foreground.update();
         opBox.update();
         playerBox.update();
-        game->music.update();
 
         game->mainWindow.draw(background);
         anims[i]->moves[m].background.draw(&game->mainWindow);
@@ -1356,7 +1350,6 @@ bool BattleState::playFaintAnim(Battler* b, Battler* o, int curPpl)
             return true;
         }
         anims[i]->faint.update();
-        game->music.update();
 
         game->mainWindow.draw(background);
         anims[i]->faint.draw(&game->mainWindow);
@@ -1380,7 +1373,6 @@ bool BattleState::playFaintAnim(Battler* b, Battler* o, int curPpl)
             return true;
         }
         temp.sendOut.update();
-        game->music.update();
 
         game->mainWindow.draw(background);
         temp.sendOut.draw(&game->mainWindow);

@@ -6,7 +6,18 @@
 using namespace sf;
 using namespace std;
 
-Playlist::Playlist(Game* g)
+namespace {
+	void playlistUpdater(Playlist* music)
+	{
+		while (music->isActive())
+		{
+			music->update();
+			sleep(milliseconds(25));
+		}
+	}
+}
+
+Playlist::Playlist(Game* g) : updater(&playlistUpdater,this)
 {
 	game = g;
     curSong = 0;
@@ -16,7 +27,10 @@ Playlist::Playlist(Game* g)
 
 Playlist::~Playlist()
 {
-    if (started && audio.getStatus()==Music::Playing)
+	started = false;
+	updater.wait();
+
+    if (audio.getStatus()==Music::Playing)
 	{
 		while (audio.getVolume()>2)
 		{
@@ -72,6 +86,7 @@ void Playlist::play()
     {
         audio.play();
         started = true;
+        updater.launch();
     }
     else if (game->data.gameMuted)
 		started = true;
@@ -81,6 +96,9 @@ void Playlist::stop()
 {
 	if (started && audio.getStatus()==Music::Playing)
 	{
+        started = false;
+        updater.wait();
+
 		while (audio.getVolume()>2)
 		{
 			audio.setVolume(audio.getVolume()-1);
@@ -94,6 +112,7 @@ void Playlist::stop()
 
 void Playlist::update()
 {
+	lock.lock();
     if (audio.getStatus()==Music::Stopped && started && songs.size()>0 && !game->data.gameMuted)
     {
         curSong++;
@@ -107,6 +126,7 @@ void Playlist::update()
 	if (game->data.gameMuted)
 		audio.pause();
 	wasMutedLast = game->data.gameMuted;
+	lock.unlock();
 }
 
 void Playlist::previous()
@@ -115,4 +135,9 @@ void Playlist::previous()
         load(prevList);
     else
         stop();
+}
+
+bool Playlist::isActive()
+{
+	return game->mainWindow.isOpen() && started;
 }

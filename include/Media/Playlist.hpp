@@ -22,6 +22,9 @@ class Playlist
     bool started, wasMutedLast;
     std::string curList, prevList;
 
+    sf::Thread updater;
+    sf::Mutex lock;
+
 public:
     /**
      * Creates an empty playlist
@@ -62,6 +65,11 @@ public:
      * Checks if the current song has finished playing, and moves to the next song if it has
      */
     void update();
+
+    /**
+     * Returns whether or not the playlist needs to be updated. This is called by the updater thread
+     */
+	bool isActive();
 };
 
 #endif // PLAYLIST_HPP

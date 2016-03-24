@@ -286,7 +286,6 @@ bool OptionsMenuState::execute()
                 game->mainWindow.display();
                 sleep(milliseconds(30));
             }
-            game->music.update();
             sleep(milliseconds(200));
             optBox.reset();
         }
