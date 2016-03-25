@@ -5,6 +5,7 @@
 #include "World/Object.hpp"
 #include "Controller.hpp"
 #include <queue>
+#include <stack>
 
 /**
  * \defgroup Entities
@@ -20,7 +21,8 @@ class Character : public Object
 {
 protected:
     std::string name;
-    bool isLocked, wasLocked;
+    bool isLocked;
+    std::stack<bool> prevLockStates;
     int dir;
     sf::Vector2i mapPos, lastPos; //used for movement checking. use Object::position for interpolation. movement is limited by checking mapPos*32==position. change speed by changing interpolation speed
     Animation walking[4];

@@ -10,7 +10,6 @@ Character::Character()
     behavior = NULL;
     isMoving = false;
     isLocked = false;
-    wasLocked = false;
     dir = 0;
     lastTime = 0;
 }
@@ -179,13 +178,24 @@ void Character::shift(int x, int y)
 void Character::setLock(bool l, bool r)
 {
     if (r)
-        wasLocked = isLocked;
+        prevLockStates.push(isLocked);
+	else
+	{
+		while (prevLockStates.size()>0)
+			prevLockStates.pop();
+	}
     isLocked = l;
 }
 
 void Character::resetLock()
 {
-    isLocked = wasLocked;
+	if (prevLockStates.size()>0)
+	{
+		isLocked = prevLockStates.top();
+		prevLockStates.pop();
+	}
+	else
+		isLocked = false;
 }
 
 void Character::forceStop()
