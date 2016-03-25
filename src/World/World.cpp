@@ -819,11 +819,12 @@ void World::loadGame(File* file)
     talkedToNpcs.clear();
     beatenTrainers.clear();
     visitedMaps.clear();
-    string nm;
+    string nm, lMap;
     int sz,t;
 
     name = file->getString();
     lastMap = file->getString();
+    lMap = lastMap;
     lastPos.x = file->get<uint32_t>();
     lastPos.y = file->get<uint32_t>();
     lastDir = file->get<uint8_t>();
@@ -848,6 +849,7 @@ void World::loadGame(File* file)
     }
 
     load(name, -1);
+    lastMap = lMap;
 }
 
 void World::lockAllPeople()

@@ -1172,7 +1172,6 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 void BattleState::transitionScreen()
 {
 	int trans = Random(0,1);
-	trans = 0;
 	Image bgndData = game->mainWindow.capture();
 	Texture bgndTxtr;
 	Sprite bgnd;

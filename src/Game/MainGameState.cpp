@@ -80,6 +80,7 @@ bool MainGameState::handleFlags()
         StorageSystem ss(game,game->player.getStoredPeoplemon());
         if (ss.run())
             return true;
+		sleep(milliseconds(225));
     }
     if (game->data.openStoreFlag)
     {

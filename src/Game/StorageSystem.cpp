@@ -23,7 +23,7 @@ StorageSystem::StorageSystem(Game* g, vector<StoredPeoplemon>* ppl) : Gamestate(
     }
     for (auto i = g->peoplemonList.begin(); i!=g->peoplemonList.end(); ++i)
     {
-        peoplemonTxtrs[i->first] = imagePool.loadResource(Properties::PeoplemonImagePath+i->second.name+".png");
+        peoplemonTxtrs[i->first] = imagePool.loadResource(Properties::PeoplemonImagePath+intToString(i->second.id)+".png");
     }
 
     cursor.setTexture(*cursorTxtr);
@@ -141,7 +141,23 @@ bool StorageSystem::execute()
             {
                 mainMenu.reset();
                 sleep(milliseconds(225));
-                PeoplemonState* ps = new PeoplemonState(game,true,game->player.getCurrentPeoplemon(),"Deposit this Peoplemon?");
+                PeoplemonState* ps = new PeoplemonState(game,false,game->player.getCurrentPeoplemon(),"Deposit this Peoplemon?");
+                if (game->player.getCurrentPeoplemon()->size()<=1)
+				{
+					game->hud.displayMessage("You don't have enough to Peoplemon in your party to get rid of one!");
+
+					while (!game->hud.messageFinished())
+					{
+						game->hud.update();
+						if (finishFrame())
+							return true;
+
+                        game->hud.draw(&game->mainWindow); //hopefully this is enough
+                        game->mainWindow.display();
+                        sleep(milliseconds(40));
+					}
+					goto done;
+				}
                 sleep(milliseconds(225));
                 if (ps->run())
                 {
@@ -178,7 +194,7 @@ bool StorageSystem::execute()
         {
             if (user.isInputActive(PlayerInput::Up) && cursorPos.y>0)
                 cursorPos.y--;
-            else if (user.isInputActive(PlayerInput::Down))
+            else if (user.isInputActive(PlayerInput::Right))
             {
                 cursorPos.x++;
                 if (cursorPos.x>=9)
@@ -191,7 +207,7 @@ bool StorageSystem::execute()
                     }
                 }
             }
-            else if (user.isInputActive(PlayerInput::Interact))
+            else if (user.isInputActive(PlayerInput::Left))
             {
                 cursorPos.x--;
                 if (cursorPos.x<0)
