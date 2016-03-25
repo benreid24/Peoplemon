@@ -28,6 +28,9 @@ ScriptEnvironment::~ScriptEnvironment()
 
 void ScriptEnvironment::runScript(shared_ptr<Script> scr)
 {
+	if (scr->isRunning())
+		return;
+
     shared_ptr<ScriptData> temp(new ScriptData());
     temp->owner = this;
     temp->script = scr;

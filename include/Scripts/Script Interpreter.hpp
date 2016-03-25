@@ -83,6 +83,11 @@ public:
 	 * Stops the script and returns when the script has finished
 	 */
 	void stop();
+
+	/**
+	 * Tells whether or not the script is currently running
+	 */
+	bool isRunning();
 };
 
 #endif // SCRIPTINTERPRETER_HPP

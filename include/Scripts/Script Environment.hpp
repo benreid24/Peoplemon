@@ -62,7 +62,7 @@ public:
     ~ScriptEnvironment();
 
     /**
-     * Runs a script from the map
+     * Runs a script from the map. Will not run the script if it is already running
      *
      * \param scr A pointer to the Script to run
      */

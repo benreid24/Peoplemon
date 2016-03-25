@@ -727,3 +727,8 @@ void Script::stop()
 	while (!stopped)
 		sleep(milliseconds(30));
 }
+
+bool Script::isRunning()
+{
+	return !stopped;
+}
