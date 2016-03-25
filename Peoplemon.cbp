@@ -214,6 +214,11 @@
 		<Unit filename="include/World/Tileset.hpp" />
 		<Unit filename="include/World/Weather.hpp" />
 		<Unit filename="include/World/World.hpp" />
+		<Unit filename="res.rc">
+			<Option compilerVar="WINDRES" />
+			<Option target="Debug" />
+			<Option target="Windows" />
+		</Unit>
 		<Unit filename="src/Battle/AI/AIBattler.cpp" />
 		<Unit filename="src/Battle/AI/AggressiveBattler.cpp" />
 		<Unit filename="src/Battle/AI/AverageBattler.cpp" />

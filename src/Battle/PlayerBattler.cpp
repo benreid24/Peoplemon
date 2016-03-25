@@ -14,8 +14,8 @@ PlayerBattler::PlayerBattler(BattleState* b, Player* p, bool cR) : Battler(p->ge
     moveChoice.addChoice("Temp");
     moveChoice.setBackgroundColor(Color::White);
     moveChoice.setBorder(Color::Transparent,1);
-    moveChoice.setTextProps(Color::Black,34);
-    moveChoice.setAllowedCols(3);
+    moveChoice.setTextProps(Color::Black,24);
+    moveChoice.setAllowedCols(2);
 
     typeChoice.setPosition(Vector2f(525,505));
     typeChoice.addChoice("Move");

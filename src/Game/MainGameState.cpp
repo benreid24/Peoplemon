@@ -33,6 +33,9 @@ bool MainGameState::execute()
         game->world.update();
         game->hud.update();
 
+        if (handleFlags())
+            return true;
+
 		if (gameClock.getTimeStamp()-rTime>16)
         {
         	game->mainWindow.clear();
@@ -44,9 +47,6 @@ bool MainGameState::execute()
 
 		if (gameClock.getTimeStamp()-sTime<8)
 			sleep(milliseconds(8-gameClock.getTimeStamp()+sTime));
-
-        if (handleFlags())
-            return true;
     }
 
     return true;

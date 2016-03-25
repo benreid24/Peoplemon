@@ -82,8 +82,7 @@ bool TrainerSpottedPlayerState::execute()
     while (true)
     {
         ensureFps = gameClock.getTimeStamp();
-        if (trainer->move(game,nTDir))
-			cout << "moved\n";
+        trainer->move(game,nTDir);
         if (game->player.getDir()!=nPDir)
 			game->player.move(game,nPDir,false,true,false);
 

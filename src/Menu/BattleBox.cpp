@@ -13,6 +13,9 @@ BattleBox::BattleBox() : hpBar(Vector2f(0,10)), xpBar(Vector2f(0,7))
     boxTxtr = imagePool.loadResource(Properties::BattleImagePath+"opBox.png");
     box.setTexture(*boxTxtr,true);
     box.setPosition(position);
+    name.useSecondaryFont();
+    level.useSecondaryFont();
+    level.useSecondaryFont();
     name.setPosition(position+Vector2f(5,18));
     name.setProps(Color::Black,24);
     level.setPosition(position+Vector2f(167,14));
@@ -40,7 +43,8 @@ void BattleBox::update(PeoplemonRef ppl, bool grad)
 {
     name.setText(ppl.name);
     level.setText(intToString(ppl.level));
-    curHp.setText(intToString(ppl.curHp)+"/"+intToString(ppl.stats.hp));
+    hpString = intToString(ppl.curHp)+"/"+intToString(ppl.stats.hp);
+    curHp.setText(hpString);
     hpTargetW = double(ppl.curHp)/double(ppl.stats.hp)*96;
     xpTargetW = double(ppl.curXp)/double(ppl.nextLvlXp)*192;
     if (hpTargetW<0)
@@ -67,6 +71,7 @@ void BattleBox::update(PeoplemonRef ppl, bool grad)
 
 void BattleBox::update()
 {
+	curHp.setText(hpString);
     if (abs(hpBar.getSize().x-hpTargetW)>1)
     {
         if (hpBar.getSize().x<hpTargetW)

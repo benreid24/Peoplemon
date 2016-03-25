@@ -21,6 +21,7 @@ class BattleBox
     MenuText name, level, curHp;
     TextureReference boxTxtr;
     sf::Sprite box;
+    std::string hpString; //to continually reset the hp MenuText to fix the garbage text problem
 
 public:
     /**
