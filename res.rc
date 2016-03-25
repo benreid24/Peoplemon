@@ -1,0 +1,21 @@
+1 VERSIONINFO
+FILEVERSION     9,0,1,1
+PRODUCTVERSION  9,0,1,1
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904E4"
+    BEGIN
+      VALUE "CompanyName", "22nd Century Gaming"
+      VALUE "FileDescription", "Capture your friends and make them fight each other!"
+      VALUE "FileVersion", "9.0.1.1"
+      VALUE "InternalName", "Peoplemon"
+      VALUE "LegalCopyright", "22nd Century Gaming"
+      VALUE "OriginalFilename", "Peoplemon.exe"
+      VALUE "ProductName", "Peoplemon"
+      VALUE "ProductVersion", "1.0"
+    END
+  END
+END
+
+id ICON "icon.ico"
