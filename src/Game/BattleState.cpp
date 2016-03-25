@@ -1171,28 +1171,86 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 
 void BattleState::transitionScreen()
 {
-    //TODO - transition here
-    CircleShape circle;
-    circle.setFillColor(Color(Random(0,255),Random(0,255),Random(0,255)));
-    circle.setRadius(1);
-    circle.setPosition(Properties::ScreenWidth/2,Properties::ScreenHeight/2);
-    circle.setOutlineColor(Color(Random(0,255),Random(0,255),Random(0,255)));
-    circle.setOutlineThickness(8);
-    int t = 0;
+	int trans = Random(0,1);
+	trans = 0;
+	Image bgndData = game->mainWindow.capture();
+	Texture bgndTxtr;
+	Sprite bgnd;
 
-    for (int r = 1; r<500; r += 3)
+	bgndTxtr.loadFromImage(bgndData);
+	bgnd.setTexture(bgndTxtr);
+
+
+    if (trans==0)
     {
-        circle.setOrigin(circle.getRadius(),circle.getRadius());
-        circle.setRadius(r);
-        t++;
-        if (t%12==0)
-        {
-            circle.setFillColor(Color(Random(0,255),Random(0,255),Random(0,255)));
-            circle.setOutlineColor(Color(Random(0,255),Random(0,255),Random(0,255)));
-        }
-        game->mainWindow.draw(circle);
-        game->mainWindow.display();
+    	CircleShape circle;
+		circle.setFillColor(Color(Random(0,255),Random(0,255),Random(0,255)));
+		circle.setRadius(1);
+		circle.setPosition(Properties::ScreenWidth/2,Properties::ScreenHeight/2);
+		circle.setOutlineColor(Color(Random(0,255),Random(0,255),Random(0,255)));
+		circle.setOutlineThickness(8);
+		int t = 0;
+
+		for (int r = 1; r<510; r += 6)
+		{
+			circle.setOrigin(circle.getRadius(),circle.getRadius());
+			circle.setRadius(r);
+			t++;
+			if (t%12==0)
+			{
+				circle.setFillColor(Color(Random(0,255),Random(0,255),Random(0,255)));
+				circle.setOutlineColor(Color(Random(0,255),Random(0,255),Random(0,255)));
+			}
+			game->mainWindow.draw(bgnd);
+			game->mainWindow.draw(circle);
+			game->mainWindow.display();
+			sleep(milliseconds(10));
+		}
     }
+    else
+	{
+		TextureReference ballTxtr = imagePool.loadResource(Properties::BattleImagePath+"battleBall.png");
+		Sprite ball;
+		CircleShape coverer;
+		RectangleShape cover(Vector2f(Properties::ScreenWidth,Properties::ScreenHeight));
+
+		ball.setTexture(*ballTxtr);
+		ball.setScale(0,0);
+		ball.setPosition(Properties::ScreenWidth/2,Properties::ScreenHeight/2);
+		coverer.setFillColor(Color::Black);
+		coverer.setRadius(25);
+		cover.setFillColor(Color::Transparent);
+
+		game->mainWindow.clear();
+		game->mainWindow.draw(bgnd);
+		game->mainWindow.display();
+
+		for (int x = -25; x<Properties::ScreenWidth-10; x += 5)
+		{
+            for (int i = 0; i<Properties::ScreenHeight/50; ++i)
+			{
+				if (i%2==0)
+					coverer.setPosition(x,i*50);
+				else
+					coverer.setPosition(Properties::ScreenWidth-x,i*50);
+				game->mainWindow.draw(coverer);
+			}
+			float s = float(x+25)/float(Properties::ScreenWidth);
+			ball.setScale(s,s);
+			ball.setOrigin(float(ballTxtr->getSize().x)*s/2,float(ballTxtr->getSize().y)*s/2);
+			game->mainWindow.draw(ball);
+			game->mainWindow.display();
+			sleep(milliseconds(5));
+		}
+
+		for (int a = 0; a<220; a += 5)
+		{
+			cover.setFillColor(Color(255,255,255,a));
+			game->mainWindow.draw(cover);
+			game->mainWindow.display();
+			sleep(milliseconds(15));
+		}
+	}
 }
 
 void BattleState::playIntroAnim(Battler* b)
