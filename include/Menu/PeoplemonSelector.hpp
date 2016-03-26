@@ -118,6 +118,7 @@ class PeoplemonSelector
     int curPointer, secondPointer;
     bool getSecondary;
     bool enterPressed;
+    bool aCancel;
 
 public:
     /**
@@ -125,8 +126,9 @@ public:
      *
      * \param ppl The party of peoplemon to initialize the menu with
      * \param g A pointer to the main Game object
+     * \param allowCancel Whether or not to allow the player to cancel
      */
-    PeoplemonSelector(std::vector<PeoplemonRef>* ppl, Game* g);
+    PeoplemonSelector(std::vector<PeoplemonRef>* ppl, Game* g, bool allowCancel = true);
 
     /**
      * Cleans up internal resources

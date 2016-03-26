@@ -76,7 +76,7 @@ void Trainer::update(Game* game)
 void Trainer::interact(Game* game)
 {
     if (beaten)
-        game->data.gameClosedFlag = game->runState(new ConversationState(game,this,&preBattle));
+        game->data.gameClosedFlag = game->runState(new ConversationState(game,this,&postBattle));
     else
         startFight(game);
 }
@@ -123,6 +123,7 @@ void Trainer::startFight(Game* game)
 	}
 	if (b->playerWon())
 	{
+		game->world.setTrainerBeaten(name);
 		ConversationState* post = new ConversationState(game,this,&postBattle);
 		game->runStateUnderPriveldged(post,false);
 		delete post;

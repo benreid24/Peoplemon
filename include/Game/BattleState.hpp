@@ -137,17 +137,6 @@ class BattleState : public Gamestate
     void playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl);
 
     /**
-     * Same as playSwitchAnim but plays the faint animations in place of switch ones
-     *
-     * \param b The Battler who is switching
-     * \param o The opponent Battler
-     * \param curPpl The index of the currently out peoplemon
-     * \param newPpl The index of the peoplemon to switch to
-     * \return Whether or not the battler is all out of peoplemon
-     */
-    bool playFaintAnim(Battler* b, Battler* o, int curPpl);
-
-    /**
      * Plays and handles the timing for the animations for when the given battler uses the given move
      *
      * \param b The Battler

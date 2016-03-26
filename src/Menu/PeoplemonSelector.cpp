@@ -101,10 +101,11 @@ PeoplemonButtonCancel::~PeoplemonButtonCancel()
     //dtor
 }
 
-PeoplemonSelector::PeoplemonSelector(vector<PeoplemonRef>* ppl, Game* g)
+PeoplemonSelector::PeoplemonSelector(vector<PeoplemonRef>* ppl, Game* g, bool allowCancel)
 {
     curPointer = secondPointer = 0;
     getSecondary = enterPressed = false;
+    aCancel = allowCancel;
     sync(ppl,g);
 }
 
@@ -126,7 +127,7 @@ void PeoplemonSelector::sync(vector<PeoplemonRef>* ppl, Game* g)
         else
             ((PeoplemonButtonMain*)(buttons[i]))->update((*ppl)[i],g);
     }
-    if (make)
+    if (make && aCancel)
         buttons.push_back(new PeoplemonButtonCancel());
     getSecondary = enterPressed = false;
 }

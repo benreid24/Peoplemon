@@ -77,7 +77,7 @@ void World::load(string file, int spId)
     game->music.load(file);
     addVisitedMap(name);
 
-    if (name=="PC Center") //TODO - verify that this will be the actual name
+    if (name=="Peoplemon Center")
     {
         pcMap = file;
         pcSpawn = spId;

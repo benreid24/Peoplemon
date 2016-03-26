@@ -99,6 +99,7 @@ bool BattleState::execute()
     if (shouldClose())
         return true;
     toDraw.clear();
+    sentIn.push_back(player->getCurrentPeoplemon());
 
     //handle Bud ability
     player->getPeoplemon()->at(player->getCurrentPeoplemon()).curAbility = game->peoplemonList[player->getPeoplemon()->at(player->getCurrentPeoplemon()).id].specialAbilityId;
@@ -202,6 +203,12 @@ bool BattleState::execute()
                 renderStatic();
                 if (shouldClose())
                     return true;
+
+				if (order[i]==player)
+				{
+					if (find(sentIn.begin(),sentIn.end(),order[i]->getCurrentPeoplemon())==sentIn.end())
+						sentIn.push_back(order[i]->getCurrentPeoplemon());
+				}
             }
             else if (turns[i].type==Turn::Item)
             {
@@ -564,14 +571,48 @@ string BattleState::getMoveLine(Battler* b, int id)
 
 bool BattleState::doFaint(int i, int j)
 {
-    int old = order[j]->getCurrentPeoplemon();
-    bool done = playFaintAnim(order[j],order[i],old);
-    if (shouldClose())
-        return true;
+    bool done = false;
+    toDraw.clear();
+    toDraw.push_back(&anims[i]->still);
+
+    PeoplemonAnimations temp;
+    Battler* b = order[i];
+    Battler* o = order[j];
+    bool isPlayer = b==player;
+
+    anims[j]->faint.play();
+    while (!anims[j]->faint.finished())
+    {
+        if (finishFrame())
+        {
+            game->data.gameClosedFlag = true;
+            return true;
+        }
+        anims[j]->faint.update();
+
+        game->mainWindow.draw(background);
+        anims[j]->faint.draw(&game->mainWindow);
+        anims[i]->still.draw(&game->mainWindow);
+        game->hud.draw(&game->mainWindow);
+        game->mainWindow.display();
+
+        sleep(milliseconds(30));
+    }
+
     displayMessage(getPeoplemonName(order[j],order[j]->getCurrentPeoplemon())+" fainted!");
     if (shouldClose())
         return true;
-    if (order[i]==player)
+
+    int id = o->getSwitchPeoplemon(b->getPeoplemon()->at(b->getCurrentPeoplemon()), game);
+    if (shouldClose())
+		return true;
+
+    if (id==-1)
+        done = true;
+	if (!done)
+		temp.load(game,o->getPeoplemon()->at(id),b->getPeoplemon()->at(b->getCurrentPeoplemon()),isPlayer);
+
+    if (isPlayer)
     {
         int index = order[j]->getCurrentPeoplemon();
         double xp = (canRun)?(1):(1.5);
@@ -639,7 +680,38 @@ bool BattleState::doFaint(int i, int j)
                 }
             }
         }
+        sentIn.clear();
+        sentIn.push_back(player->getCurrentPeoplemon());
     }
+
+    if (!done)
+    {
+    	temp.sendOut.play();
+		while (!temp.sendOut.finished())
+		{
+			if (finishFrame())
+			{
+				game->data.gameClosedFlag = true;
+				return true;
+			}
+			temp.sendOut.update();
+
+			game->mainWindow.draw(background);
+			temp.sendOut.draw(&game->mainWindow);
+			anims[j]->still.draw(&game->mainWindow);
+			game->hud.draw(&game->mainWindow);
+			game->mainWindow.display();
+
+			sleep(milliseconds(30));
+		}
+
+		if (isPlayer)
+			playerAnims = temp;
+		else
+			opponentAnims = temp;
+		toDraw.push_back(&anims[j]->still);
+    }
+
     game->hud.displayMessage("");
     if (done)
     {
@@ -652,7 +724,7 @@ bool BattleState::doFaint(int i, int j)
             displayMessage(game->player.getName()+" oranged out!");
             if (shouldClose())
                 return true;
-            game->world.whiteout();
+            game->data.whiteoutFlag = true;
             return true;
         }
         else
@@ -1172,6 +1244,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 void BattleState::transitionScreen()
 {
 	int trans = Random(0,1);
+	trans = 1;
 	Image bgndData = game->mainWindow.capture();
 	Texture bgndTxtr;
 	Sprite bgnd;
@@ -1217,14 +1290,14 @@ void BattleState::transitionScreen()
 		ball.setScale(0,0);
 		ball.setPosition(Properties::ScreenWidth/2,Properties::ScreenHeight/2);
 		coverer.setFillColor(Color::Black);
-		coverer.setRadius(25);
+		coverer.setRadius(26);
 		cover.setFillColor(Color::Transparent);
 
 		game->mainWindow.clear();
 		game->mainWindow.draw(bgnd);
 		game->mainWindow.display();
 
-		for (int x = -25; x<Properties::ScreenWidth-10; x += 5)
+		for (int x = -25; x<Properties::ScreenWidth+25; x += 7)
 		{
             for (int i = 0; i<Properties::ScreenHeight/50; ++i)
 			{
@@ -1389,63 +1462,6 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
         sleep(milliseconds(30));
     }
     renderStatic();
-}
-
-bool BattleState::playFaintAnim(Battler* b, Battler* o, int curPpl)
-{
-    PeoplemonAnimations temp;
-    int i = (b==order[0])?(0):(1);
-    int j = (i==0)?(1):(0);
-    bool isPlayer = b==player;
-
-    anims[i]->faint.play();
-    while (!anims[i]->faint.finished())
-    {
-        if (finishFrame())
-        {
-            game->data.gameClosedFlag = true;
-            return true;
-        }
-        anims[i]->faint.update();
-
-        game->mainWindow.draw(background);
-        anims[i]->faint.draw(&game->mainWindow);
-        anims[j]->still.draw(&game->mainWindow);
-        game->hud.draw(&game->mainWindow);
-        game->mainWindow.display();
-
-        sleep(milliseconds(30));
-    }
-    int id = b->getSwitchPeoplemon(o->getPeoplemon()->at(o->getCurrentPeoplemon()), game);
-    if (id==-1)
-        return true;
-    temp.load(game,b->getPeoplemon()->at(id),o->getPeoplemon()->at(o->getCurrentPeoplemon()),isPlayer);
-
-    temp.sendOut.play();
-    while (!temp.sendOut.finished())
-    {
-        if (finishFrame())
-        {
-            game->data.gameClosedFlag = true;
-            return true;
-        }
-        temp.sendOut.update();
-
-        game->mainWindow.draw(background);
-        temp.sendOut.draw(&game->mainWindow);
-        anims[j]->still.draw(&game->mainWindow);
-        game->hud.draw(&game->mainWindow);
-        game->mainWindow.display();
-
-        sleep(milliseconds(30));
-    }
-
-    if (isPlayer)
-        playerAnims = temp;
-    else
-        opponentAnims = temp;
-
-    return false;
 }
 
 bool BattleState::playerWon()
