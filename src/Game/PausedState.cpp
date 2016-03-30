@@ -78,6 +78,8 @@ bool PausedState::execute()
         {
             choices.reset();
             game->save();
+            MenuImage bgnd;
+            bgnd.setImage("gamesave.png");
             game->hud.displayMessage(game->player.getName()+" saved the game!", "gamesave.wav");
             while (!game->hud.messageFinished())
             {
@@ -86,8 +88,7 @@ bool PausedState::execute()
                     return true;
 
                 game->mainWindow.clear();
-                game->world.draw(&game->mainWindow);
-                choices.draw(&game->mainWindow);
+                bgnd.draw(&game->mainWindow);
                 game->hud.draw(&game->mainWindow);
                 game->mainWindow.display();
 
