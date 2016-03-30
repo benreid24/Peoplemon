@@ -95,7 +95,6 @@ bool MainGameState::handleFlags()
     if (game->data.whiteoutFlag)
     {
         game->data.whiteoutFlag = false;
-        game->player.whiteout();
         game->world.whiteout();
     }
     if (game->data.nextWeather!=-1)

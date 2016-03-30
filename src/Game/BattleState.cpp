@@ -215,6 +215,29 @@ bool BattleState::execute()
                 if (shouldClose())
                     return true;
                 //TODO - apply the item with id turns[i].id to the peoplemon& at order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon())
+                if (order[i]!=player)
+				{
+					switch (turns[i].id)
+					{
+					case 1:
+						order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp += 20;
+						break;
+					case 2:
+						order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp += 50;
+						break;
+					case 3:
+						order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp += 200;
+						break;
+					case 4:
+						order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp += 9001;
+						for (int i = 0; i<4; ++i)
+							order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curAils[i] = Peoplemon::None;
+						break;
+					}
+					if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp>order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp)
+						order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp;
+					renderStatic();
+				}
             }
             else if (turns[i].type==Turn::Move)
             {
@@ -401,17 +424,19 @@ bool BattleState::execute()
                 if (shouldClose())
                     return true;
 
-                int dmg = ppl.stats.hp/16;
+                int dmg = float(ppl.stats.hp)/16.0+0.5;
                 if (dmg>ppl.curHp)
                     dmg = ppl.curHp;
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp -= dmg;
                 order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp += dmg;
                 if (order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp>order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).stats.hp)
                     order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).stats.hp;
+				renderStatic();
+				renderStatic();
 
                 if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<=0)
                 {
-                    bool done = doFaint(i,j);
+                    bool done = doFaint(j,i);
                     if (shouldClose())
                         return true;
                     if (done)

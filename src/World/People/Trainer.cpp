@@ -116,7 +116,6 @@ void Trainer::startFight(Game* game)
 
 	BattleState* b = new BattleState(game,createBattler(aiType,&peoplemon,items),name,loserSay,prizeMoney,false,bMusic,bBgnd);
 	game->runStateUnderPriveldged(b,false);
-	game->music.previous();
 	if (game->data.gameClosedFlag)
 	{
 		delete b;
@@ -124,6 +123,7 @@ void Trainer::startFight(Game* game)
 	}
 	if (b->playerWon())
 	{
+		game->music.previous();
 		game->world.setTrainerBeaten(name);
 		ConversationState* post = new ConversationState(game,this,&postBattle);
 		game->runStateUnderPriveldged(post,false);

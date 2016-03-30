@@ -16,8 +16,8 @@ World::World(Game* g) : light(TrianglesFan, 362), weather(g)
     game = g;
     lightTxtr.create(800,600);
     lightSpr.setTexture(lightTxtr.getTexture());
-    pcMap = "HomeTown";
-    pcSpawn = 0; //TODO - init these to actual default
+    pcMap = "HometownDemo";
+    pcSpawn = 3; //TODO - init these to actual default
     loadedOnce = false;
 }
 
@@ -26,10 +26,10 @@ World::~World()
     //dtor
 }
 
-void World::load(string file, int spId)
+void World::load(string file, int spId, bool trans)
 {
 	stopAnimations();
-	if (loadedOnce)
+	if (loadedOnce && trans)
 	{
 		RectangleShape cover;
 		cover.setSize(Vector2f(800,600));
@@ -239,10 +239,7 @@ void World::load(string file, int spId)
             for (unsigned int j = 0; j<beatenTrainers.size(); ++j)
             {
                 if (c->getName()==beatenTrainers[j])
-				{
 					dynamic_cast<Trainer*>(c)->setBeaten();
-					cout << "set beaten: " << c->getName() << endl;
-				}
             }
         }
         else
@@ -844,10 +841,7 @@ void World::loadGame(File* file)
         talkedToNpcs.push_back(file->getString());
 	sz = file->get<uint16_t>();
 	for (int i = 0; i<sz; ++i)
-	{
 		beatenTrainers.push_back(file->getString());
-		cout << "beaten trainer: " << beatenTrainers[beatenTrainers.size()-1] << endl;
-	}
     sz = file->get<uint16_t>();
     for (int i = 0; i<sz; ++i)
     {
@@ -937,7 +931,8 @@ void World::editTile(int x, int y, int layer, int nId)
 
 void World::whiteout()
 {
-    load(pcMap,pcSpawn);
+	sleep(milliseconds(2000));
+    load(pcMap,pcSpawn,false);
     game->player.whiteout();
 }
 

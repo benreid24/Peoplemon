@@ -14,7 +14,7 @@ PlayerBattler::PlayerBattler(BattleState* b, Player* p, bool cR) : Battler(p->ge
     moveChoice.addChoice("Temp");
     moveChoice.setBackgroundColor(Color::White);
     moveChoice.setBorder(Color::Transparent,1);
-    moveChoice.setTextProps(Color::Black,24);
+    moveChoice.setTextProps(Color::Black,22);
     moveChoice.setAllowedCols(2);
 
     typeChoice.setPosition(Vector2f(525,505));
@@ -36,6 +36,7 @@ PlayerBattler::~PlayerBattler()
 
 Turn PlayerBattler::getTurn(PeoplemonRef op, Game* g)
 {
+	sleep(milliseconds(250));
     typeChoice.reset();
     moveChoice.reset();
     moveChoice.clear();

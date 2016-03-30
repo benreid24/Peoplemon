@@ -114,6 +114,8 @@ void PeoplemonRef::load(Game* g, File* file)
         name = g->peoplemonList[id].name;
 
     recalcStats(g);
+    if (curHp==0)
+		curHp = stats.hp;
 }
 
 void PeoplemonRef::load(Game* g, string file)
