@@ -132,7 +132,10 @@ void Playlist::update()
 void Playlist::previous()
 {
     if (prevList.size()>0)
-        load(prevList);
+	{
+		load(prevList);
+		play();
+	}
     else
         stop();
 }

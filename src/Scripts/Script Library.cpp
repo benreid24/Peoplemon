@@ -406,7 +406,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		{
 			environment->getGame()->hud.setAlwaysShow(true);
 			for (unsigned int i = 0; i<args.size(); ++i)
-				environment->getGame()->hud.displayMessage(args.at(0).sValue,"",true);
+				environment->getGame()->hud.displayMessage(args.at(i).sValue,"",true);
 			environment->getGame()->hud.setAlwaysShow(false);
 		}
 		else if (name=="choiceBox")

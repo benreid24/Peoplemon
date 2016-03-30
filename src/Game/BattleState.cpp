@@ -34,7 +34,6 @@ BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm,
 
 BattleState::~BattleState()
 {
-    game->music.previous();
     game->data.gameClosedFlag = ensureClosed;
     game->hud.setAlwaysShow(false);
     player->zeroStages();
@@ -146,7 +145,7 @@ bool BattleState::execute()
             {
                 int opMoveP = game->moveList[oTurn.id].priority;
                 int pMoveP = game->moveList[pTurn.id].priority;
-                pFirst = !(opMoveP>pMoveP || (opMoveP==pMoveP && (op.hasAilment(Peoplemon::Annoyed)?(op.stats.spd/4):(op.stats.spd))>(p.hasAilment(Peoplemon::Annoyed)?(p.stats.spd/4):(p.stats.spd))));
+				pFirst = !(opMoveP>pMoveP || (opMoveP==pMoveP && (op.hasAilment(Peoplemon::Annoyed)?(op.stats.spd/4):(op.stats.spd))>(p.hasAilment(Peoplemon::Annoyed)?(p.stats.spd/4):(p.stats.spd))));
             }
 
             if (pFirst)

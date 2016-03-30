@@ -613,7 +613,10 @@ void World::moveOntoTile(Vector2i playerPos, Vector2i lastPos)
         {
             vector<PeoplemonRef> ppl = getWildPeoplemon();
             if (ppl.size()>0)
+			{
 				game->runStateUnderPriveldged((new BattleState(game, new RandomBattler(&ppl,vector<int>()), "WILD "+ppl[0].name,"",0,true)));
+				game->music.previous();
+			}
             else
 				cout << "Catch tile at location (" << playerPos.x << ", " << playerPos.y << ") but no zone is present there!\n";
         }
