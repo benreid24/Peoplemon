@@ -17,6 +17,9 @@ Tileset::Tileset(string file)
 
 void Tileset::load(string file)
 {
+	if (file==lastFile)
+		return;
+	lastFile = file;
     File input(Properties::TilesetPath+file);
     vector<pair<int,string> > files;
     int size, tMax = 0;

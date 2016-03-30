@@ -239,7 +239,10 @@ void World::load(string file, int spId)
             for (unsigned int j = 0; j<beatenTrainers.size(); ++j)
             {
                 if (c->getName()==beatenTrainers[j])
-                    dynamic_cast<Trainer*>(c)->setBeaten();
+				{
+					dynamic_cast<Trainer*>(c)->setBeaten();
+					cout << "set beaten: " << c->getName() << endl;
+				}
             }
         }
         else
@@ -793,13 +796,13 @@ void World::saveGame(File* file)
     file->write<uint16_t>(visitedMaps.size());
     for (unsigned int i = 0; i<visitedMaps.size(); ++i)
         file->writeString(visitedMaps[i]);
-	file->write<uint16_t>(beatenTrainers.size());
-    for (auto i = beatenTrainers.begin(); i!=beatenTrainers.end(); ++i)
+    file->write<uint16_t>(talkedToNpcs.size());
+    for (auto i = talkedToNpcs.begin(); i!=talkedToNpcs.end(); ++i)
     {
         file->writeString(*i);
     }
-    file->write<uint16_t>(talkedToNpcs.size());
-    for (auto i = talkedToNpcs.begin(); i!=talkedToNpcs.end(); ++i)
+    file->write<uint16_t>(beatenTrainers.size());
+    for (auto i = beatenTrainers.begin(); i!=beatenTrainers.end(); ++i)
     {
         file->writeString(*i);
     }
@@ -838,7 +841,10 @@ void World::loadGame(File* file)
         talkedToNpcs.push_back(file->getString());
 	sz = file->get<uint16_t>();
 	for (int i = 0; i<sz; ++i)
-        beatenTrainers.push_back(file->getString());
+	{
+		beatenTrainers.push_back(file->getString());
+		cout << "beaten trainer: " << beatenTrainers[beatenTrainers.size()-1] << endl;
+	}
     sz = file->get<uint16_t>();
     for (int i = 0; i<sz; ++i)
     {

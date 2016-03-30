@@ -12,6 +12,7 @@
  */
 class Tileset
 {
+	std::string lastFile;
     std::vector<TextureReference> textures;
     std::vector<AnimationReference> animations;
 

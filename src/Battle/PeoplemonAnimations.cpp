@@ -7,7 +7,7 @@ using namespace sf;
 
 void PeoplemonAnimations::load(Game* g, PeoplemonRef ppl, PeoplemonRef op, bool isPlayer)
 {
-    Vector2f pos = (isPlayer)?(Vector2f(375,490)):(Vector2f(/*675*/0,/*290*/600));
+    Vector2f pos = (isPlayer)?(Vector2f(/*375*/0,/*490*/0)):(Vector2f(/*675*/0,/*290*/0));
     string p1 = (isPlayer)?("Back"):("Front");
     cIn = animPool.loadResource(Properties::PeoplemonAnimationPath+intToString(ppl.id)+"/"+p1+"/ComeIn.anim");
     sO = animPool.loadResource(Properties::PeoplemonAnimationPath+intToString(ppl.id)+"/"+p1+"/SendOut.anim");

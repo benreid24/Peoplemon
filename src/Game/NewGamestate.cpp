@@ -95,6 +95,7 @@ bool NewGamestate::execute()
                 game->hud.setAlwaysShow(false);
                 game->world.load("roomDemo",1);
                 gameClock.setClockTime(ClockTime(12,0));
+                gameClock.unPause();
                 return game->runState(new MainGameState(game));
             }
         }
