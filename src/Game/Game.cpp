@@ -216,9 +216,12 @@ Game::~Game()
 
 void Game::start()
 {
+	Image icon;
+	icon.loadFromFile(Properties::ResourcesPath+"icon.png");
     mainWindow.create(VideoMode(Properties::ScreenWidth,Properties::ScreenHeight,32), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Titlebar|Style::Close);
 	mainWindow.setMouseCursorVisible(false);
 	mainWindow.setVerticalSyncEnabled(true);
+	mainWindow.setIcon(icon.getSize().x,icon.getSize().y,icon.getPixelsPtr());
 
     Gamestate* state = new MainMenuState(this);
     state->run();

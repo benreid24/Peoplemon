@@ -16,6 +16,7 @@ const string Properties::GameSavePath = string(getenv("APPDATA"))+"/Peoplemon/";
 const string Properties::GameSavePath = "Resources/Saves/";
 #endif
 
+const string Properties::ResourcesPath = "Resources/";
 const string Properties::MapPath = "Resources/Data/Maps/";
 const string Properties::DataPath = "Resources/Data/";
 const string Properties::TilesetPath = "Resources/Data/Tilesets/";

@@ -61,10 +61,10 @@ void BattleBox::update(PeoplemonRef ppl, bool grad)
         xpBar.setSize(Vector2f(xpTargetW, xpBar.getSize().y));
     }
     double hp = hpBar.getSize().x/96.0;
-    if (hp<0.4)
-        hpBar.setFillColor(Color::Yellow);
-    else if (hp<0.25)
+    if (hp<0.25)
         hpBar.setFillColor(Color::Red);
+    else if (hp<0.4)
+        hpBar.setFillColor(Color::Yellow);
     else
         hpBar.setFillColor(Color::Green);
 }
@@ -87,10 +87,10 @@ void BattleBox::update()
             xpBar.setSize(xpBar.getSize()+Vector2f(-3,0));
     }
     double hp = hpBar.getSize().x/96;
-    if (hp<0.4)
-        hpBar.setFillColor(Color::Yellow);
-    else if (hp<0.25)
+    if (hp<0.25)
         hpBar.setFillColor(Color::Red);
+    else if (hp<0.4)
+        hpBar.setFillColor(Color::Yellow);
     else
         hpBar.setFillColor(Color::Green);
 }

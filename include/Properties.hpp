@@ -17,6 +17,7 @@ public:
     const static int TilesWide = 25;
     const static int TilesTall = 19;
 
+	const static std::string ResourcesPath;
     const static std::string GameSavePath;
     const static std::string DataPath;
     const static std::string MapPath;
