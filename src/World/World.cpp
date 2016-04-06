@@ -476,7 +476,7 @@ void World::draw(sf::RenderWindow* window)
                     }
                     else if (layers[i](x,y).nonZero)
                     {
-                        layers[i](x,y).spr.setPosition(x*32-camPos.x,y*32-camPos.y);
+                        layers[i](x,y).spr.setPosition(x*32-camPos.x+32,y*32-camPos.y+32);
                         window->draw(layers[i](x,y).spr);
                     }
                 }
@@ -501,7 +501,7 @@ void World::draw(sf::RenderWindow* window)
                         }
                         else if (ySortedTiles[i](x,y).second->nonZero)
                         {
-                            ySortedTiles[i](x,y).second->spr.setPosition(x*32-camPos.x,ySortedTiles[i](x,y).first*32-camPos.y);
+                            ySortedTiles[i](x,y).second->spr.setPosition(x*32-camPos.x+32,ySortedTiles[i](x,y).first*32-camPos.y+32);
                             window->draw(ySortedTiles[i](x,y).second->spr);
                         }
                     }
@@ -554,7 +554,7 @@ void World::draw(sf::RenderWindow* window)
                     }
                     else if (layers[i](x,y).nonZero)
                     {
-                        layers[i](x,y).spr.setPosition(x*32-camPos.x,y*32-camPos.y);
+                        layers[i](x,y).spr.setPosition(x*32-camPos.x+32,y*32-camPos.y+32);
                         window->draw(layers[i](x,y).spr);
                     }
                 }
@@ -569,16 +569,16 @@ void World::setRenderPosition(Vector2f playerPos)
     if (camPos.x<0)
         camPos.x = 0;
     else if (camPos.x>size.x*32-Properties::ScreenWidth)
-        camPos.x = size.x*32-Properties::ScreenWidth;
+        camPos.x = size.x*32-Properties::ScreenWidth+32;
     if (camPos.y<0)
         camPos.y = 0;
     else if (camPos.y>size.y*32-Properties::ScreenHeight)
-        camPos.y = size.y*32-Properties::ScreenHeight;
+        camPos.y = size.y*32-Properties::ScreenHeight+32;
 
     if (Properties::ScreenWidth>=size.x*32)
-        camPos.x = size.x*16-Properties::ScreenWidth/2;
+        camPos.x = size.x*16-Properties::ScreenWidth/2+32;
     if (Properties::ScreenHeight>=size.y*32)
-        camPos.y = size.y*16-Properties::ScreenHeight/2;
+        camPos.y = size.y*16-Properties::ScreenHeight/2+32;
 
     camPosTiles.x = camPos.x/32;
     camPosTiles.y = camPos.y/32;

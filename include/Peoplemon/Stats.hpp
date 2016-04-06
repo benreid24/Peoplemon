@@ -74,6 +74,14 @@ struct Stats
         if (spd>c)
             spd = c;
     }
+
+    /**
+     * Default constructor. Simply zeros all the stats
+     */
+    Stats()
+    {
+    	zero();
+    }
 };
 
 #endif // STATS_HPP

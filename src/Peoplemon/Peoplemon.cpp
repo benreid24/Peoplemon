@@ -39,6 +39,18 @@ double Peoplemon::getStatMultiplier(int s, bool isCrit)
     }
 }
 
+PeoplemonRef::PeoplemonRef()
+{
+	level = 0;
+	curXp = 0;
+	nextLvlXp = 0;
+	holdItem = 0;
+	curHp = 0;
+	turnsWithAil = 0;
+	turnsConfused = 0;
+	curAbility = Peoplemon::NoAbility;
+}
+
 void PeoplemonRef::save(File* file)
 {
     file->writeString(name);

@@ -118,6 +118,11 @@ struct PeoplemonRef
     Peoplemon::SpecialAbility curAbility;
 
     /**
+     * Default constructor. Simply zeros everything
+     */
+    PeoplemonRef();
+
+    /**
      * Saves the peoplemon's data to the given file
      *
      * \param file The file to save to
