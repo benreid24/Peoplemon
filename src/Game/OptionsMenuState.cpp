@@ -14,10 +14,6 @@ OptionsMenuState::OptionsMenuState(Game* g, Gamestate* n) : Gamestate(g,n)
 
 bool OptionsMenuState::execute()
 {
-    cout << "Options menu\n";
-    //TODO - present list of things to change (controls, sound, theme?)
-    //have little submenus right in here for each thing to change
-
     Menu menu;
     MenuImage background("optionsBgnd.png");
     ChoiceBox optBox;

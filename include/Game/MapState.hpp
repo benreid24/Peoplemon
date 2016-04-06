@@ -3,6 +3,7 @@
 
 #include "Gamestate.hpp"
 #include "SFML.hpp"
+#include "Menu/Menu.hpp"
 #include "Resources/ResourcePool.hpp"
 #include <vector>
 #include <string>
@@ -12,8 +13,9 @@
  */
 struct MapObject
 {
-    std::string displayName, referenceName, mapName; //reference for map visited map in world class, mapName for file to actually load
+    std::string displayName, referenceName, mapName,description; //reference for map visited map in world class, mapName for file to actually load
     int spId; //where to spawn them
+    TextureReference image;
 
     sf::Vector2i pos; //in the map window
     bool visited; //how to display
@@ -31,8 +33,15 @@ class MapState : public Gamestate
     sf::Vector2i navPos;
     std::vector<MapObject> towns;
 
-    TextureReference crossHairTxtr, townTxtr, backgroundTxtr;
-    sf::Sprite crossHair, town, background; //TODO - get stuff for dialog box on the side of the screen and add code to populate it. also adjust rendering to fit it
+    TextureReference crossHairTxtr, townTxtr, backgroundTxtr, playerTxtr, sideBoxTxtr;
+    sf::Sprite crossHair, town, background, player, sideBox;
+	MenuText townName, townDesc;
+	sf::Sprite townImage;
+
+	/**
+	 * Wraps the given string to fit in the description box
+	 */
+	std::string wordWrap(std::string str);
 
     /**
      * Runs the state

@@ -150,6 +150,16 @@ public:
     ~World();
 
     /**
+     * Returns the name of the currently loaded map
+     */
+	std::string getName();
+
+	/**
+	 * Returns the size of the currently loaded map in tiles
+	 */
+	sf::Vector2i getSize();
+
+    /**
      * Saves all the world data to the given file. This is for game saves
      *
      * \param saveTo The file to save to

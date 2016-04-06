@@ -26,6 +26,16 @@ World::~World()
     //dtor
 }
 
+string World::getName()
+{
+	return name;
+}
+
+Vector2i World::getSize()
+{
+	return size;
+}
+
 void World::load(string file, int spId, bool trans)
 {
 	stopAnimations();
