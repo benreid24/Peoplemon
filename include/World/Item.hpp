@@ -31,7 +31,7 @@ public:
     {
         itemId = iId;
         mapId = mId;
-        position = pos+sf::Vector2f(32,32);
+        position = pos;
         ball = imagePool.loadResource(Properties::MiscImagePath+"item.png");
         if (iId<500)
         {

@@ -528,7 +528,7 @@ void World::draw(sf::RenderWindow* window)
                 light[0].color = Color::Transparent;
                 for (unsigned int j = 1; j<362; ++j)
                 {
-                    light[j].position = lights[i].position + Vector2f(lights[i].radius*cos(double(j)/180*3.1415926)-camPos.x,lights[i].radius*sin(double(j)/180*3.1415926)-camPos.y);
+                    light[j].position = lights[i].position + Vector2f(lights[i].radius*cos(double(j)/180*3.1415926)-camPos.x+32,lights[i].radius*sin(double(j)/180*3.1415926)-camPos.y+32);
                     light[j].color = Color(0,0,0,currentLighting);
                     light[j].position.y = 600-light[j].position.y;
                 }
