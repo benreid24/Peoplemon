@@ -15,9 +15,7 @@ BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm,
     playerWinned = false;
     player = new PlayerBattler(this, &g->player,cr);
     player->healAils(false);
-    player->zeroStages();
     opponent = op;
-    op->zeroStages();
     canRun = cr;
     opponentName = opName;
     loseLine = ll;
@@ -69,6 +67,15 @@ bool BattleState::execute()
 	game->music.load(playlist,true);
     game->music.play();
     transitionScreen();
+
+    cout << "Player stats:\n";
+    player->getPeoplemon()->at(player->getCurrentPeoplemon()).stats.print();
+    cout << "Opponent stats:\n";
+    opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).stats.print();
+
+    //Calculate all stats to ensure they are current
+    player->recalcStats(game);
+    opponent->recalcStats(game);
 
     //introduce opponent peoplemon
     game->hud.setAlwaysShow(true);
@@ -807,7 +814,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
     }
 
     double multiplier = 1;
-    bool hit = Random(0,100)<game->moveList[id].acc*attacker.stats.acc/defender.stats.evade || game->moveList[id].acc==0;
+    bool hit = (Random(0,100)<game->moveList[id].acc*attacker.stats.acc/defender.stats.evade) || game->moveList[id].acc==0;
     bool critical = Random(0,100)<(6.25*pow(2,attacker.stats.crit));
     double stab = Peoplemon::getDamageMultiplier(game->peoplemonList[attacker.id].type,game->peoplemonList[defender.id].type,game->moveList[id].type);
     bool isSuper = stab==1.5;
@@ -1474,12 +1481,12 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
         playerBox.update();
 
         game->mainWindow.draw(background);
+        opBox.draw(&game->mainWindow);
+        playerBox.draw(&game->mainWindow);
         anims[i]->moves[m].background.draw(&game->mainWindow);
         anims[i]->moves[m].attacker.draw(&game->mainWindow);
         anims[i]->moves[m].defender.draw(&game->mainWindow);
         anims[i]->moves[m].foreground.draw(&game->mainWindow);
-        opBox.draw(&game->mainWindow);
-        playerBox.draw(&game->mainWindow);
         game->hud.draw(&game->mainWindow);
         game->mainWindow.display();
 

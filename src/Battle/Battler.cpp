@@ -44,6 +44,7 @@ Battler::Battler(vector<PeoplemonRef>* ppl)
             break;
         }
     }
+    zeroStages();
 }
 
 Battler::~Battler()

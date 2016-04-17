@@ -1,6 +1,8 @@
 #ifndef STATS_HPP
 #define STATS_HPP
 
+#include <iostream>
+
 /**
  * Strcuture for storing all of the stats associated with a peoplemon
  *
@@ -53,6 +55,21 @@ struct Stats
     {
         return (hp+atk+def+spd+spAtk+spDef);
     }
+
+    /**
+     * Prints all stats for debug purposes
+     */
+	void print()
+	{
+		std::cout << "Hp: " << hp << std::endl;
+		std::cout << "Atk: " << atk << std::endl;
+		std::cout << "Def: " << def << std::endl;
+		std::cout << "SpAtk: " << spAtk << std::endl;
+		std::cout << "SpDef: " << spDef << std::endl;
+		std::cout << "Spd: " << spd << std::endl;
+		std::cout << "Evade: " << evade << std::endl;
+		std::cout << "Crit: " << crit << std::endl;
+	}
 
     /**
      * Caps the 6 EV stats to the passed value

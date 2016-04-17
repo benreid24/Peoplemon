@@ -1,4 +1,4 @@
-if(getSaveEntry("TheBPTisDead")!="Died")
+if(trainerDefeated("BPT.tnr")==1)
 {
 setPlayerLock(1);
 moveNPC(BPTW,0);

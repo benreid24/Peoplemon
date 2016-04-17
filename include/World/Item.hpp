@@ -70,7 +70,7 @@ public:
      */
     void draw(sf::RenderWindow* window, sf::Vector2f camPos)
     {
-        sprite.setPosition(position-camPos-sf::Vector2f(32,32));
+        sprite.setPosition(position-camPos);
         window->draw(sprite);
     }
 

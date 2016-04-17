@@ -84,6 +84,7 @@ void Character::update(Game* game)
 
 void Character::draw(RenderWindow* window, Vector2f camPos)
 {
+	camPos.y += 6;
     if (isMoving)
         walking[dir].update();
     else

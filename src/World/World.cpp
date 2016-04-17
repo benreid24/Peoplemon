@@ -576,12 +576,12 @@ void World::draw(sf::RenderWindow* window)
 void World::setRenderPosition(Vector2f playerPos)
 {
     camPos = playerPos - Vector2f(Properties::ScreenWidth/2,Properties::ScreenHeight/2);
-    if (camPos.x<0)
-        camPos.x = 0;
+    if (camPos.x<32)
+        camPos.x = 32;
     else if (camPos.x>size.x*32-Properties::ScreenWidth)
         camPos.x = size.x*32-Properties::ScreenWidth+32;
-    if (camPos.y<0)
-        camPos.y = 0;
+    if (camPos.y<32)
+        camPos.y = 32;
     else if (camPos.y>size.y*32-Properties::ScreenHeight)
         camPos.y = size.y*32-Properties::ScreenHeight+32;
 

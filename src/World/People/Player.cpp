@@ -224,6 +224,7 @@ void Player::update(Game* game)
 
 void Player::draw(RenderWindow* window, Vector2f camPos)
 {
+	camPos.y += 6;
     if (isRunning)
     {
         running[dir].update();
