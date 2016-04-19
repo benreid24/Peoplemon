@@ -162,7 +162,7 @@ class BattleState : public Gamestate
     /**
      * Handles checking end of battle conditions, switching peoplemon, playing animations and doing XP stuff. Really magical
      *
-     * \param i The index of the Battler who's turn it currently is
+     * \param i The index of the Battler who is still alive
      * \param j The index of the other Battler
      * \return Whether or not the battle is over. Calling code should still check shouldClose
      */

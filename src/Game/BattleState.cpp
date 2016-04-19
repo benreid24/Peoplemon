@@ -68,11 +68,6 @@ bool BattleState::execute()
     game->music.play();
     transitionScreen();
 
-    cout << "Player stats:\n";
-    player->getPeoplemon()->at(player->getCurrentPeoplemon()).stats.print();
-    cout << "Opponent stats:\n";
-    opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).stats.print();
-
     //Calculate all stats to ensure they are current
     player->recalcStats(game);
     opponent->recalcStats(game);
@@ -241,6 +236,7 @@ bool BattleState::execute()
 							order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curAils[i] = Peoplemon::None;
 						break;
 					}
+					//cap health
 					if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp>order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp)
 						order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp;
 					renderStatic();
@@ -641,7 +637,7 @@ bool BattleState::doFaint(int i, int j)
     if (id==-1)
         done = true;
 	if (!done)
-		temp.load(game,o->getPeoplemon()->at(id),b->getPeoplemon()->at(b->getCurrentPeoplemon()),isPlayer);
+		temp.load(game,o->getPeoplemon()->at(id),b->getPeoplemon()->at(b->getCurrentPeoplemon()),!isPlayer);
 
     if (isPlayer)
     {
@@ -678,25 +674,31 @@ bool BattleState::doFaint(int i, int j)
                     if (learnSet[m].first==level)
                     {
                         string moveName = game->moveList[learnSet[m].second].name;
+                        int moveId = learnSet[m].second;
                         bool learned = false;
-                        for (int n = 0; n<4; ++n)
-                        {
-                            if (order[i]->getPeoplemon()->at(sentIn[k]).moves[n].id==0)
-                            {
-                                order[i]->getPeoplemon()->at(sentIn[k]).moves[n].id = learnSet[m].second;
-                                order[i]->getPeoplemon()->at(sentIn[k]).moves[n].curPp = game->moveList[learnSet[m].second].pp;
-                                learned = true;
-                                break;
-                            }
-                        }
-                        if (!learned)
-                        {
-                            DeleteMoveState* state = new DeleteMoveState(game,&order[i]->getPeoplemon()->at(sentIn[k]),learnSet[m].second);
-                            if (game->runState(state))
-                                return true;
-                            if (sentIn[k]==order[i]->getCurrentPeoplemon())
-                                anims[i]->load(game,getPeoplemon(order[i],sentIn[k]),getPeoplemon(order[j],order[j]->getCurrentPeoplemon()),true);
-                        }
+						if (!order[i]->getPeoplemon()->at(sentIn[k]).knowsMove(moveId))
+						{
+							learned = order[i]->getPeoplemon()->at(sentIn[k]).teachMove(game,moveId);
+
+							if (!learned)
+							{
+								displayMessage(getPeoplemon(order[i],sentIn[k]).name+" is trying to learn "+moveName+"!");
+								if (shouldClose())
+									return true;
+
+								DeleteMoveState* state = new DeleteMoveState(game,&order[i]->getPeoplemon()->at(sentIn[k]),learnSet[m].second);
+								if (game->runState(state))
+									return true;
+								if (sentIn[k]==order[i]->getCurrentPeoplemon())
+									anims[i]->load(game,getPeoplemon(order[i],sentIn[k]),getPeoplemon(order[j],order[j]->getCurrentPeoplemon()),true);
+							}
+							else
+							{
+								displayMessage(getPeoplemon(order[i],sentIn[k]).name+" learned "+moveName+"!");
+								if (shouldClose())
+									return true;
+							}
+						}
                     }
                 }
 
@@ -717,7 +719,18 @@ bool BattleState::doFaint(int i, int j)
 
     if (!done)
     {
+    	string line = (isPlayer)?(opponentName+" sent out "+opponent->getPeoplemon()->at(id).name+"!"):("Go "+player->getPeoplemon()->at(id).name+"!");
+    	displayMessage(line);
+    	if (shouldClose())
+			return true;
+
+    	toDraw.clear();
     	temp.sendOut.play();
+    	if (isPlayer)
+			opBox.update(o->getPeoplemon()->at(id),true);
+		else
+			playerBox.update(o->getPeoplemon()->at(id),true);
+
 		while (!temp.sendOut.finished())
 		{
 			if (finishFrame())
@@ -726,20 +739,29 @@ bool BattleState::doFaint(int i, int j)
 				return true;
 			}
 			temp.sendOut.update();
+			opBox.update();
+			playerBox.update();
 
 			game->mainWindow.draw(background);
 			temp.sendOut.draw(&game->mainWindow);
-			anims[j]->still.draw(&game->mainWindow);
+			anims[i]->still.draw(&game->mainWindow);
 			game->hud.draw(&game->mainWindow);
 			game->mainWindow.display();
 
 			sleep(milliseconds(30));
 		}
 
-		if (isPlayer)
+		if (!isPlayer)
+		{
 			playerAnims = temp;
+			opponentAnims.load(game,opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()),player->getPeoplemon()->at(player->getCurrentPeoplemon()),false);
+		}
 		else
+		{
 			opponentAnims = temp;
+			playerAnims.load(game,player->getPeoplemon()->at(player->getCurrentPeoplemon()),opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()),true);
+		}
+		toDraw.push_back(&anims[i]->still);
 		toDraw.push_back(&anims[j]->still);
     }
 
@@ -815,7 +837,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 
     double multiplier = 1;
     bool hit = (Random(0,100)<game->moveList[id].acc*attacker.stats.acc/defender.stats.evade) || game->moveList[id].acc==0;
-    bool critical = Random(0,100)<(6.25*pow(2,attacker.stats.crit));
+    bool critical = Random(0,100)<=attacker.stages.getCritChance();
     double stab = Peoplemon::getDamageMultiplier(game->peoplemonList[attacker.id].type,game->peoplemonList[defender.id].type,game->moveList[id].type);
     bool isSuper = stab==1.5;
     bool isBad = stab==0.5;
@@ -839,7 +861,12 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
         atkS /= 2;
     double defS = (isSpecial)?(defender.stats.spDef):(defender.stats.def);
     double power = game->moveList[id].dmg;
-    double damage = (((2*attacker.level+10)/250)*(atkS/defS)*power+2)*multiplier;
+    double damage = (((2*double(attacker.level)+10)/250)*(atkS/defS)*power+2)*multiplier;
+
+    if (atk==player) //TODO - remove after testing is done
+		damage = defender.curHp;
+	else
+		damage = 0;
 
     if (attacker.holdItem==54)
 	{
@@ -857,6 +884,14 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 		else
 			def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp -= damage;
 	}
+	else
+	{
+		ret.clear();
+        ret.push_back("But it missed!");
+        lastMoveHit = false;
+        return ret;
+	}
+
     if (def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp<0)
         def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp = 0;
 
@@ -866,13 +901,6 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
         ret.push_back("It was super effective!");
     if (isBad && damage>0)
         ret.push_back("It wasn't very effective");
-    if (!hit)
-    {
-        ret.clear();
-        ret.push_back("But it missed!");
-        lastMoveHit = false;
-        return ret;
-    }
 
     Move::Effect effect = game->moveList[id].effect;
     int intensity = game->moveList[id].intensityOfEffect;
@@ -1477,8 +1505,6 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
         anims[i]->moves[m].defender.update();
         anims[i]->moves[m].background.update();
         anims[i]->moves[m].foreground.update();
-        opBox.update();
-        playerBox.update();
 
         game->mainWindow.draw(background);
         opBox.draw(&game->mainWindow);

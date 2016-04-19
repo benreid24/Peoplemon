@@ -93,8 +93,12 @@ int AnimationSource::incFrame(int cFrm, int lTime)
     if (cFrm<0 || unsigned(cFrm)>=frames.size())
         return 0;
 
-	if (frames[0].size()==0)
-		return 0;
+	if (frames[cFrm].size()==0) //current frame is empty, go to next
+	{
+		if (unsigned(cFrm+1)<frames.size())
+			return cFrm+1;
+		return cFrm;
+	}
 
     if (gameClock.getTimeStamp()-lTime>=frames[cFrm][0].length)
     {

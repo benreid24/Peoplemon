@@ -93,6 +93,24 @@ struct Stats
     }
 
     /**
+     * Returns the percent chance of a critical hit
+     */
+	int getCritChance()
+	{
+		switch (crit)
+		{
+		case 0:
+			return 7;
+		case 1:
+			return 13;
+		case 2:
+			return 50;
+		default:
+			return 100;
+		}
+	}
+
+    /**
      * Default constructor. Simply zeros all the stats
      */
     Stats()

@@ -27,7 +27,7 @@ BattleBox::BattleBox() : hpBar(Vector2f(0,10)), xpBar(Vector2f(0,7))
 void BattleBox::setIsPlayer()
 {
     isPlayer = true;
-    position = Vector2f(540,380);
+    position = Vector2f(540,360);
     hpBar.setPosition(position+Vector2f(149,54));
     xpBar.setPosition(position+Vector2f(52,88));
     boxTxtr = imagePool.loadResource(Properties::BattleImagePath+"pBox.png");

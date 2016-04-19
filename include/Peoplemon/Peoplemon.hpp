@@ -179,6 +179,24 @@ struct PeoplemonRef
      * \return Whether or not the Peoplemon has the given ailment
      */
     bool hasAilment(Peoplemon::Ailment ail);
+
+    /**
+     * Tells whether or not the peoplemon knows the given move
+     *
+     * \param m The id of the move to check for
+     * \return Whether or not the peoplemon knows the move
+     */
+	bool knowsMove(int m);
+
+	/**
+	 * Teaches the peoplemon the given move. If an index is specified the move will overwrite that spot, otherwise the move is placed, if possible, into an empty spot
+	 *
+	 * \param g A pointer to the main Game object
+	 * \param m The id of the move to learn
+	 * \param i The index to place the move. Leave empty to put in empty slot
+	 * \return Whether or not the move was taught
+	 */
+	bool teachMove(Game* g, int m, int i = -1);
 };
 
 //current formula for XP to next level: level^3 - (level-1)^3

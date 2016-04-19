@@ -213,6 +213,36 @@ bool PeoplemonRef::hasAilment(Peoplemon::Ailment ail)
     return false;
 }
 
+bool PeoplemonRef::knowsMove(int m)
+{
+	for (int i = 0; i<4; ++i)
+	{
+		if (moves[i].id==m)
+			return true;
+	}
+	return false;
+}
+
+bool PeoplemonRef::teachMove(Game* g, int m, int i)
+{
+	if (i!=-1)
+	{
+		moves[i].id = m;
+		moves[i].curPp = g->moveList[m].pp;
+		return true;
+	}
+	for (unsigned int j = 0; j<4; ++j)
+	{
+		if (moves[j].id==0)
+		{
+			moves[j].id = m;
+			moves[j].curPp = g->moveList[m].pp;
+			return true;
+		}
+	}
+	return false;
+}
+
 void WildPeoplemon::load(string file)
 {
     File input(file);
