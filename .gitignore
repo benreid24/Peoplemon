@@ -1,0 +1,7 @@
+*.o
+*.ini
+*.exe
+*.a
+*.dll
+*.depend
+*.layout
