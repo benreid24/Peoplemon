@@ -14,10 +14,12 @@ HUD::HUD(Game* g)
     timeTillDone = 0;
     ghostTimer = 0;
     minDelay = 0;
+    wrapW = 390;
+    position = Vector2f(200,500);
     textBox.setImage("messageBox.png");
-    textBox.setPosition(Vector2f(200,500));
+    textBox.setPosition(position);
     messageText.setProps(Color::Black,20);
-    messageText.setPosition(Vector2f(205,505));
+    messageText.setPosition(position+Vector2f(5,5));
 }
 
 string HUD::wordWrap(string str)
@@ -28,7 +30,7 @@ string HUD::wordWrap(string str)
     temp.setString(str);
     for (unsigned int i = 0; i<str.size(); ++i)
     {
-        if (temp.findCharacterPos(i).x>=390)
+        if (temp.findCharacterPos(i).x>=wrapW)
         {
             for (unsigned int j = i; j>=0; j--)
             {
@@ -42,6 +44,14 @@ string HUD::wordWrap(string str)
         }
     }
     return str;
+}
+
+void HUD::rePosition(Vector2f pos, int w)
+{
+	wrapW = w;
+	position = pos;
+	textBox.setPosition(position);
+	messageText.setPosition(position+Vector2f(5,5));
 }
 
 void HUD::displayMessage(string m, string sound, bool block)

@@ -27,6 +27,8 @@ class HUD
     MenuImage textBox;
     MenuText messageText;
     ChoiceBox choiceBox;
+    int wrapW;
+    sf::Vector2f position;
 
     //animations
     std::vector<std::pair<std::pair<int,int>,Animation> > playingAnims;
@@ -98,6 +100,14 @@ public:
      * \return The last choice chosen by the player, or empty if none
      */
     std::string getChoice(); //use this for ConversationState because that thread can't be blocked in the above function like scripts can
+
+	/**
+	 * Moves the text box to a different spot. Leave blank to reset. Same goes for the wrap width
+	 *
+	 * \param pos The new position of the text box
+	 * \param wrapWidth The width to wrap the text at
+	 */
+	void rePosition(sf::Vector2f pos = sf::Vector2f(200,500), int wrapWidth = 390);
 
     /**
      * Plays the given animation at the given spot on the screen for the given number of playbacks

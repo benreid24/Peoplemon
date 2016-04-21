@@ -7,9 +7,7 @@
 		<Option compiler="gcc" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[Fix blocked tiles issue when npc's are removed via scripts
-
-Implement better battle screen text]]>
+				<![CDATA[Implement better battle screen text]]>
 			</notes>
 		</Option>
 		<Build>

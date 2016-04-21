@@ -28,6 +28,7 @@ BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm,
     background.setTexture(*backgroundTxtr);
     playerAnims.load(game, player->getPeoplemon()->at(player->getCurrentPeoplemon()),opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()),true);
     opponentAnims.load(game, opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()), player->getPeoplemon()->at(player->getCurrentPeoplemon()),false);
+	game->hud.rePosition(Vector2f(15,480),480);
 }
 
 BattleState::~BattleState()
@@ -36,6 +37,7 @@ BattleState::~BattleState()
     game->hud.setAlwaysShow(false);
     player->zeroStages();
     player->healAils(false);
+    game->hud.rePosition();
     delete player;
     delete opponent;
 }
