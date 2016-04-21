@@ -7,7 +7,9 @@
 		<Option compiler="gcc" />
 		<Option show_notes="0">
 			<notes>
-				<![CDATA[Next:Trainer spotting player and wild peoplemon mechanism, battle transitions]]>
+				<![CDATA[Fix blocked tiles issue when npc's are removed via scripts
+
+Implement better battle screen text]]>
 			</notes>
 		</Option>
 		<Build>
@@ -24,6 +26,7 @@
 					<Add option="-DWindows" />
 					<Add directory="include" />
 					<Add directory="../Game" />
+					<Add directory="../Peoplemon" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc" />
@@ -50,6 +53,7 @@
 					<Add option="-DWindows" />
 					<Add directory="include" />
 					<Add directory="../Game" />
+					<Add directory="../Peoplemon" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
