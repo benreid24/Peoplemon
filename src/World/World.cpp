@@ -404,6 +404,10 @@ void World::update()
 		{
 			if (objects[i]==objDelQueue[t])
 			{
+				Character* c = dynamic_cast<Character*>(objects[i]);
+				if (c)
+					c->resetCollisions(game);
+
 				delete objects[i];
 				objects.erase(objects.begin()+i);
 				i--;

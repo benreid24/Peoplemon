@@ -129,6 +129,13 @@ public:
     void resetLock();
 
     /**
+     * Sets the current position and last position of the character on the map to be open
+     *
+     * \param g A pointer to the main Game object
+     */
+	void resetCollisions(Game* g);
+
+    /**
      * Stops all movement animations. This is to get rid of a weird artifact when maps are loaded
      */
 	virtual void forceStop();

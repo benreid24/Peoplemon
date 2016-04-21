@@ -199,6 +199,12 @@ void Character::resetLock()
 		isLocked = false;
 }
 
+void Character::resetCollisions(Game* g)
+{
+	g->world.setSpaceOccupied(mapPos,false);
+	g->world.setSpaceOccupied(lastPos,false);
+}
+
 void Character::forceStop()
 {
 	isMoving = false;
