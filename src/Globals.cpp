@@ -98,30 +98,6 @@ string keyToString(Keyboard::Key key)
 	return "Unknown";
 }
 
-void setPlayerControl(Keyboard::Key* k, string c)
-{
-    if (c=="Z")
-        *k = Keyboard::Z;
-    if (c=="X")
-        *k = Keyboard::X;
-    if (c=="C")
-        *k = Keyboard::C;
-    if (c=="V (Default)")
-        *k = Keyboard::V;
-    if (c=="B")
-        *k = Keyboard::B;
-    if (c=="N")
-        *k = Keyboard::N;
-    if (c=="M")
-        *k = Keyboard::M;
-    if (c=="L")
-        *k = Keyboard::L;
-    if (c=="K")
-        *k = Keyboard::K;
-    if (c=="J")
-        *k = Keyboard::J;
-}
-
 vector<string> getDirectory(string dir, std::string ext)
 {
     DIR* cDir;

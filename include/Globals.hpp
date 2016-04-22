@@ -38,16 +38,6 @@ std::string keyToString(sf::Keyboard::Key key);
 int Random(int min, int max);
 
 /**
- * Converts a string to a key value
- *
- * \ingroup Global
- *
- * \param k The key to store the control in
- * \param The string representation of the key
- */
-void setPlayerControl(sf::Keyboard::Key* k, std::string c);
-
-/**
  * Returns all files in the given directory with the given extension
  *
  * \ingroup Global
