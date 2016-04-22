@@ -9,11 +9,12 @@
 using namespace sf;
 using namespace std;
 
-Game::Game() : scriptEnvironment(this), soundEngine(this), player(this), world(this), hud(this), music(this)
+Game::Game() : scriptEnvironment(this), soundEngine(this), player(this), world(this), hud(this), music(this), inFocus(true)
 {
+	user.setGame(this);
+
     File itemFile(Properties::DataPath+"items.db");
     int size;
-
     size = itemFile.get<uint16_t>();
     for (int i = 0; i<size; ++i)
     {

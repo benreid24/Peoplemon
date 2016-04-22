@@ -1,10 +1,12 @@
 #include "World/People/PlayerInput.hpp"
+#include "Game/Game.hpp"
 #include "SFML.hpp"
 #include "Properties.hpp"
 using namespace sf;
 
 PlayerInput::PlayerInput()
 {
+	game = NULL;
 	type = None;
 	Joystick::update();
 	for (int i = 0; i<Joystick::Count; ++i)
@@ -43,9 +45,20 @@ void PlayerInput::update()
 	}
 }
 
+void PlayerInput::setGame(Game* g)
+{
+	game = g;
+}
+
 bool PlayerInput::isInputActive(Input i)
 {
 	update();
+
+	if (game)
+	{
+		if (!game->inFocus)
+			return false;
+	}
 
 	switch (i)
 	{

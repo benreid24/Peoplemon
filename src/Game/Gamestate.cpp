@@ -25,6 +25,13 @@ bool Gamestate::finishFrame()
             game->mainWindow.close();
             return true;
         }
+        if (event.type==Event::GainedFocus)
+			game->inFocus = true;
+		if (event.type==Event::LostFocus)
+		{
+			game->inFocus = false;
+			game->data.pauseGameFlag = true;
+		}
     }
     return false;
 }

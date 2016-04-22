@@ -42,8 +42,8 @@ void scriptInserter(Game* g)
 int main(int argC, const char* argV[])
 {
 	#ifndef DEBUG
-    cout.setstate(ios_base::failbit);
-    cerr.setstate(ios_base::failbit);
+   // cout.setstate(ios_base::failbit);
+    //cerr.setstate(ios_base::failbit);
     #endif // DEBUG
 
 	#ifdef Windows

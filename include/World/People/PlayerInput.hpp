@@ -1,6 +1,8 @@
 #ifndef PLAYERINPUT_HPP
 #define PLAYERINPUT_HPP
 
+class Game;
+
 /**
  * Abstraction class to manage player inputs. Handles responses from both the keyboard and joysticks
  *
@@ -8,6 +10,7 @@
  */
 class PlayerInput
 {
+	Game* game;
 	int js;
 	enum Type
 	{
@@ -37,6 +40,13 @@ public:
 		Run,
 		Pause
 	};
+
+	/**
+	 * Set the internal reference to the main Game object. Call this function to ensure that the game only updates when in focus
+	 *
+	 * \param g A pointer to the main Game object
+	 */
+	void setGame(Game* g);
 
 	/**
 	 * Tells whether or not the given input is occurring

@@ -75,7 +75,7 @@ public:
     /**
      * Loads the game from the given file
      *
-     * \param name The name of the player file to load, without path or extension
+     * \param name The name of the save file to load, without path or extension
      */
     void load(std::string name);
 
@@ -88,6 +88,7 @@ public:
     HUD hud;
     Playlist music;
     SharedData data;
+    bool inFocus;
 
     std::map<int,Peoplemon> peoplemonList;
     std::map<int,Move> moveList;
