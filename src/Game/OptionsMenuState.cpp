@@ -37,12 +37,44 @@ bool OptionsMenuState::execute()
         if (optBox.getChoice()=="Controls")
         {
             sleep(milliseconds(200));
+
+            MenuText upText, rightText, downText, leftText, interactText, runText, pauseText;
+            upText.setProps(Color::Black,25);
+            rightText.setProps(Color::Black,25);
+            downText.setProps(Color::Black,25);
+            leftText.setProps(Color::Black,25);
+            interactText.setProps(Color::Black,25);
+            runText.setProps(Color::Black,25);
+            pauseText.setProps(Color::Black,25);
+            upText.setPosition(Vector2f(440,200));
+            rightText.setPosition(Vector2f(440,225));
+            downText.setPosition(Vector2f(440,250));
+            leftText.setPosition(Vector2f(440,275));
+            interactText.setPosition(Vector2f(440,300));
+            runText.setPosition(Vector2f(440,325));
+            pauseText.setPosition(Vector2f(440,350));
+            upText.setText("Move Up: "+keyToString(Properties::upKey));
+            rightText.setText("Move Right: "+keyToString(Properties::rightKey));
+            downText.setText("Move Down: "+keyToString(Properties::downKey));
+            leftText.setText("Move Left: "+keyToString(Properties::leftKey));
+            interactText.setText("Interact: "+keyToString(Properties::interactKey));
+            runText.setText("Run/Back: "+keyToString(Properties::runKey));
+            pauseText.setText("Pause: "+keyToString(Properties::pauseKey));
+
+            MenuText prompt;
+            prompt.setPosition(Vector2f(100,100));
+            prompt.setProps(Color::Black,40);
+            prompt.setText("Press the key you want to map to the control");
+
             ChoiceBox opts;
             opts.setTextProps(Color::Black, 25);
             opts.setPosition(Vector2f(300,200));
-            opts.addChoice("Movement");
-            opts.addChoice("Interaction");
-            opts.addChoice("Running");
+            opts.addChoice("Move Up");
+            opts.addChoice("Move Right");
+            opts.addChoice("Move Down");
+            opts.addChoice("Move Left");
+            opts.addChoice("Interact");
+            opts.addChoice("Run/Back");
             opts.addChoice("Pause");
             opts.addChoice("Back");
 
@@ -50,198 +82,87 @@ bool OptionsMenuState::execute()
             {
                 opts.update();
 
-                if (opts.getChoice()=="Movement")
-                {
-                    sleep(milliseconds(200));
-                    ChoiceBox inner;
-                    inner.setTextProps(Color::Black, 22);
-                    inner.setPosition(Vector2f(450,200));
-                    inner.addChoice("WASD");
-                    inner.addChoice("Arrow Keys (Default)");
-                    inner.addChoice("Back");
+                if (opts.getChoice().size()>0 && opts.getChoice()!="Back")
+				{
+					sleep(milliseconds(250));
+					if (finishFrame())
+						return true;
+					prompt.draw(&game->mainWindow);
+					game->mainWindow.display();
+					Keyboard::Key key;
 
-                    while (true)
-                    {
-                        inner.update();
+					while (true)
+					{
+						Event evt;
 
-                        if (inner.getChoice()=="WASD")
-                        {
-                            Properties::upKey = Keyboard::W;
-                            Properties::rightKey = Keyboard::D;
-                            Properties::downKey = Keyboard::S;
-                            Properties::leftKey = Keyboard::A;
-                            break;
-                        }
-                        if (inner.getChoice()=="Arrow Keys (Default)")
-                        {
-                            Properties::upKey = Keyboard::Up;
-                            Properties::rightKey = Keyboard::Right;
-                            Properties::downKey = Keyboard::Down;
-                            Properties::leftKey = Keyboard::Left;
-                            break;
-                        }
-                        if (inner.getChoice()=="Back" || user.isInputActive(PlayerInput::Run))
-                            break;
+						while (game->mainWindow.pollEvent(evt))
+						{
+							if (evt.type==Event::Closed)
+								return true;
+							if (evt.type==Event::KeyPressed)
+							{
+								key = evt.key.code;
+                                goto pressed;
+							}
+						}
 
-                        if (finishFrame())
-                            return true;
+						sleep(milliseconds(40));
+					}
+					pressed:
 
-                        menu.draw(&game->mainWindow);
-                        inner.draw(&game->mainWindow);
-                        opts.draw(&game->mainWindow);
-                        game->mainWindow.display();
-                        sleep(milliseconds(30));
-                    }
-                    sleep(milliseconds(200));
-                    opts.reset();
-                }
-                if (opts.getChoice()=="Interaction")
-                {
-                    sleep(milliseconds(200));
-                    ScrollChoiceBox inner;
-                    inner.setTextProps(Color::Black, 22);
-                    inner.setPosition(Vector2f(450,200));
-                    inner.setVisibleChoices(6);
-                    inner.addChoice("Back");
-                    inner.addChoice("Z");
-                    inner.addChoice("X");
-                    inner.addChoice("C");
-                    inner.addChoice("V (Default)");
-                    inner.addChoice("B");
-                    inner.addChoice("N");
-                    inner.addChoice("M");
-                    inner.addChoice("L");
-                    inner.addChoice("K");
-                    inner.addChoice("J");
-
-                    while (true)
-                    {
-                        inner.update();
-
-                        if (inner.getChoice()=="Back" || user.isInputActive(PlayerInput::Run))
-                            break;
-                        else if (inner.getChoice().size()>0)
-                        {
-                            setPlayerControl(&Properties::interactKey, inner.getChoice());
-                            break;
-                        }
-
-                        if (finishFrame())
-                            return true;
-
-                        menu.draw(&game->mainWindow);
-                        inner.draw(&game->mainWindow);
-                        opts.draw(&game->mainWindow);
-                        game->mainWindow.display();
-                        sleep(milliseconds(30));
-                    }
-                    sleep(milliseconds(200));
-                    opts.reset();
-                }
-                if (opts.getChoice()=="Running")
-                {
-                    sleep(milliseconds(200));
-                    ChoiceBox inner;
-                    inner.setTextProps(Color::Black, 22);
-                    inner.setPosition(Vector2f(450,200));
-                    inner.addChoice("Space (Default)");
-                    inner.addChoice("Left Alt");
-                    inner.addChoice("Right Alt");
-                    inner.addChoice("Back");
-
-                    while (true)
-                    {
-                        inner.update();
-
-                        if (inner.getChoice()=="Space (Default)")
-                        {
-                            Properties::runKey = Keyboard::Space;
-                            break;
-                        }
-                        if (inner.getChoice()=="Left Alt")
-                        {
-                            Properties::runKey = Keyboard::LAlt;
-                            break;
-                        }
-                        if (inner.getChoice()=="Right Alt")
-                        {
-                            Properties::runKey = Keyboard::RAlt;
-                            break;
-                        }
-                        if (inner.getChoice()=="Back" || user.isInputActive(PlayerInput::Run))
-                            break;
-
-                        if (finishFrame())
-                            return true;
-
-                        menu.draw(&game->mainWindow);
-                        inner.draw(&game->mainWindow);
-                        opts.draw(&game->mainWindow);
-                        game->mainWindow.display();
-                        sleep(milliseconds(30));
-                    }
-                    sleep(milliseconds(200));
-                    opts.reset();
-                }
-                if (opts.getChoice()=="Pause")
-                {
-                    sleep(milliseconds(200));
-                    ChoiceBox inner;
-                    inner.setTextProps(Color::Black, 22);
-                    inner.setPosition(Vector2f(450,200));
-                    inner.addChoice("Enter (Default)");
-                    inner.addChoice("Right Shift");
-                    inner.addChoice("Left Shift");
-                    inner.addChoice("Backspace");
-                    inner.addChoice("Back");
-
-                    while (true)
-                    {
-                        inner.update();
-
-                        if (inner.getChoice()=="Enter (Default)")
-                        {
-                            Properties::pauseKey = Keyboard::Return;
-                            break;
-                        }
-                        if (inner.getChoice()=="Right Shift")
-                        {
-                            Properties::pauseKey = Keyboard::RShift;
-                            break;
-                        }
-                        if (inner.getChoice()=="Left Shift")
-                        {
-                            Properties::pauseKey = Keyboard::LShift;
-                            break;
-                        }
-                        if (inner.getChoice()=="Backspace")
-                        {
-                            Properties::pauseKey = Keyboard::BackSpace;
-                            break;
-                        }
-                        if (inner.getChoice()=="Back" || user.isInputActive(PlayerInput::Run))
-                            break;
-
-                        if (finishFrame())
-                            return true;
-
-                        menu.draw(&game->mainWindow);
-                        inner.draw(&game->mainWindow);
-                        opts.draw(&game->mainWindow);
-                        game->mainWindow.display();
-                        sleep(milliseconds(30));
-                    }
-                    sleep(milliseconds(200));
-                    opts.reset();
-                }
-                if (opts.getChoice()=="Back" || user.isInputActive(PlayerInput::Run))
-                    break;
+					if (opts.getChoice()=="Move Up")
+					{
+						Properties::upKey = key;
+						upText.setText("Move Up: "+keyToString(key));
+					}
+					else if (opts.getChoice()=="Move Right")
+					{
+						Properties::rightKey = key;
+						rightText.setText("Move Right: "+keyToString(key));
+					}
+					else if (opts.getChoice()=="Move Down")
+					{
+						Properties::downKey = key;
+						downText.setText("Move Down: "+keyToString(key));
+					}
+					else if (opts.getChoice()=="Move Left")
+					{
+						Properties::leftKey = key;
+						leftText.setText("Move Left: "+keyToString(key));
+					}
+					else if (opts.getChoice()=="Interact")
+					{
+						Properties::interactKey = key;
+						interactText.setText("Interact: "+keyToString(key));
+					}
+					else if (opts.getChoice()=="Run/Back")
+					{
+						Properties::runKey = key;
+						runText.setText("Run/Back: "+keyToString(key));
+					}
+					else if (opts.getChoice()=="Pause")
+					{
+						Properties::pauseKey = key;
+						pauseText.setText("Pause: "+keyToString(key));
+					}
+					opts.reset();
+					sleep(milliseconds(300));
+				}
+				else if (opts.getChoice()=="Back" || user.isInputActive(PlayerInput::Run))
+					break;
 
                 if (finishFrame())
                     return true;
 
                 menu.draw(&game->mainWindow);
                 opts.draw(&game->mainWindow);
+                upText.draw(&game->mainWindow);
+                rightText.draw(&game->mainWindow);
+                downText.draw(&game->mainWindow);
+                leftText.draw(&game->mainWindow);
+                interactText.draw(&game->mainWindow);
+                runText.draw(&game->mainWindow);
+                pauseText.draw(&game->mainWindow);
                 game->mainWindow.display();
                 sleep(milliseconds(30));
             }

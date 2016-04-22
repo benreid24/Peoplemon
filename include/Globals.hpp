@@ -16,6 +16,15 @@ extern class PlayerInput user;
 extern class ResourcePool<sf::Texture> imagePool;
 extern class ResourcePool<sf::SoundBuffer> audioPool;
 extern class ResourcePool<AnimationSource> animPool;
+extern class std::vector<std::pair<sf::Keyboard::Key,std::string> > keymap;
+
+/**
+ * Returns the string representation of a key
+ *
+ * \param key The key to get the representation of
+ * \return A string representing the given key, or "Unknown" if the key isn't found
+ */
+std::string keyToString(sf::Keyboard::Key key);
 
 /**
  * Returns a random number in the range [min,max]
