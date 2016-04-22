@@ -155,7 +155,6 @@ bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool qu
         }
         else
 		{
-			cout << "Direction changed\n";
 			dir = d;
 			isMoving = false;
 		}

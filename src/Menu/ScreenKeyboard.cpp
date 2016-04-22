@@ -26,7 +26,7 @@ ScreenKeyboard::ScreenKeyboard(string i)
     keys.setTextProps(Color::Black,22);
     keys.setPosition(Vector2f(15,362));
     keys.setAllowedCols(15);
-    keys.setSpeed(150);
+    keys.setSpeed(275);
     lastTime = 0;
     charLim = 100;
 }
@@ -39,7 +39,7 @@ void ScreenKeyboard::setInputLimit(int l)
 void ScreenKeyboard::update()
 {
     keys.update();
-    if (gameClock.getTimeStamp()-lastTime>250)
+    if (gameClock.getTimeStamp()-lastTime>300)
     {
         lastTime = gameClock.getTimeStamp();
         string t = keys.getChoice();
