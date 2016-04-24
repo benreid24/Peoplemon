@@ -10,6 +10,7 @@
 #include "Util/File.hpp"
 #include "Properties.hpp"
 #include "Game/Game.hpp"
+#include "Globals.hpp"
 using namespace std;
 using namespace sf;
 
@@ -17,6 +18,7 @@ Trainer::Trainer(Game* g, string file, bool lost)
 {
     beaten = lost;
     confrontingPlayer = false;
+    lastTime = 0;
 
     File input(file);
 
@@ -75,6 +77,9 @@ void Trainer::update(Game* game)
 
 void Trainer::interact(Game* game)
 {
+	if (gameClock.getTimeStamp()-lastTime<500)
+		return;
+
     if (beaten)
         game->data.gameClosedFlag = game->runState(new ConversationState(game,this,&postBattle));
     else

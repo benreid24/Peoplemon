@@ -7,12 +7,14 @@
 #include "World/People/StandingController.hpp"
 #include "World/People/SpinningController.hpp"
 #include "Game/ConversationState.hpp"
+#include "Globals.hpp"
 using namespace std;
 using namespace sf;
 
 Npc::Npc(string file, bool talked)
 {
     wasTalkedTo = talked;
+    lastTime = 0;
 
     File input(file);
     name = input.getString();
@@ -39,6 +41,9 @@ void Npc::update(Game* game)
 
 void Npc::interact(Game* game)
 {
+	if (gameClock.getTimeStamp()-lastTime<500)
+		return;
+
     int tDir = dir;
     dir = game->player.getDir()+2;
     if (dir>3)
@@ -48,6 +53,7 @@ void Npc::interact(Game* game)
     if (!wasTalkedTo)
 		game->world.setNpcTalkedTo(name);
     wasTalkedTo = true;
+    lastTime = gameClock.getTimeStamp();
 }
 
 bool Npc::talkedTo()

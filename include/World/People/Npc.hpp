@@ -13,6 +13,7 @@ class Npc : public Character
 {
     Conversation convo;
     bool wasTalkedTo;
+    int lastTime;
 
 public:
     /**

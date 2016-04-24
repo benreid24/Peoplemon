@@ -24,6 +24,7 @@ class Trainer : public Character
     bool beaten, confrontingPlayer;
     int range;
     int aiType;
+    int lastTime;
 
     /**
      * Starts a battle with the player by invoking the TrainerSpottedPlayer state

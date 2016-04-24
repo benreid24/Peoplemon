@@ -4,14 +4,13 @@
 #include "Globals.hpp"
 #include "Menu/ChoiceBox.hpp"
 #include "Menu/ScreenKeyboard.hpp"
+#include "Properties.hpp"
 using namespace std;
 using namespace sf;
 
 NewGamestate::NewGamestate(Game* g) : Gamestate(g,NULL)
 {
-	g->music.stop();
-    g->music.load("start.plst");
-    g->music.play();
+	//
 }
 
 bool NewGamestate::execute()
@@ -26,18 +25,44 @@ bool NewGamestate::execute()
     background.setOrigin(Vector2f(500,500));
     background.setPosition(Vector2f(400,300));
     professor.setImage("professor.png");
+    RectangleShape cover(Vector2f(Properties::ScreenWidth,Properties::ScreenHeight));
+    cover.setFillColor(Color::Transparent);
+    int a = 0;
     int dir = 0;
     string playerName;
 
     game->hud.setAlwaysShow(true);
     game->hud.displayMessage(messages[curIndex]);
 
+    while (a!=255)
+	{
+		cover.setFillColor(Color(0,0,0,a));
+		a += 2;
+		if (a>255)
+			a = 255;
+
+		game->mainWindow.draw(cover);
+		game->mainWindow.display();
+		sleep(milliseconds(15));
+	}
+
+	game->music.stop();
+    game->music.load("start.plst");
+    game->music.play();
+
     while (!finishFrame())
     {
+    	if (a>0)
+		{
+			a -= 3;
+			if (a<0)
+				a = 0;
+			cover.setFillColor(Color(0,0,0,a));
+		}
         game->hud.update();
         dir += 4;
         background.rotate(dir);
-        if (game->hud.messageFinished())
+        if (game->hud.messageFinished() && a==0)
         {
             if (curIndex==nameIndex)
             {
@@ -103,6 +128,7 @@ bool NewGamestate::execute()
         background.draw(&game->mainWindow);
         professor.draw(&game->mainWindow);
         game->hud.draw(&game->mainWindow);
+        game->mainWindow.draw(cover);
         game->mainWindow.display();
         sleep(milliseconds(30));
     }
