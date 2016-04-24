@@ -865,11 +865,6 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
     double power = game->moveList[id].dmg;
     double damage = (((2*double(attacker.level)+10)/250)*(atkS/defS)*power+2)*multiplier;
 
-    if (atk==player) //TODO - remove after testing is done
-		damage = defender.curHp;
-	else
-		damage = 0;
-
     if (attacker.holdItem==54)
 	{
 		damage *= 1.1;
