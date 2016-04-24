@@ -16,8 +16,8 @@ World::World(Game* g) : light(TrianglesFan, 362), weather(g)
     game = g;
     lightTxtr.create(800,600);
     lightSpr.setTexture(lightTxtr.getTexture());
-    pcMap = "HometownDemo";
-    pcSpawn = 3; //TODO - init these to actual default
+    pcMap = "Ghettopolis/Worldmap";
+    pcSpawn = 10; //TODO - init these to actual default
     loadedOnce = false;
 }
 
