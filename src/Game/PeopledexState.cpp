@@ -85,9 +85,20 @@ void PeopledexState::update()
 {
     if (peoplemonList.getCurPeoplemon()!=-1)
     {
-        peoplemonName.setText(game->peoplemonList[peoplemonList.getCurPeoplemon()].name);
-        peoplemonDesc.setText(wordWrap(game->peoplemonList[peoplemonList.getCurPeoplemon()].description));
-        peoplemonPic.setImage(Properties::PeoplemonImagePath+intToString(peoplemonList.getCurPeoplemon())+".png", false);
+    	if (game->peoplemonList[peoplemonList.getCurPeoplemon()].numSeen>0)
+        {
+        	peoplemonName.setText(game->peoplemonList[peoplemonList.getCurPeoplemon()].name);
+			peoplemonPic.setImage(Properties::PeoplemonImagePath+intToString(peoplemonList.getCurPeoplemon())+".png", false);
+        }
+        else
+		{
+			peoplemonName.setText("?");
+			peoplemonPic.setImage("question.png");
+		}
+        if (game->peoplemonList[peoplemonList.getCurPeoplemon()].numCaught>0)
+			peoplemonDesc.setText(wordWrap(game->peoplemonList[peoplemonList.getCurPeoplemon()].description));
+		else
+			peoplemonDesc.setText("???");
         pplSeenT.setText(intToString(game->peoplemonList[peoplemonList.getCurPeoplemon()].numSeen));
         pplOwnedT.setText(intToString(game->peoplemonList[peoplemonList.getCurPeoplemon()].numCaught));
     }

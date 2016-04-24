@@ -19,7 +19,10 @@ PeopledexList::PeopledexList(Game* g)
 
     for (auto i = g->peoplemonList.begin(); i!=g->peoplemonList.end(); ++i)
     {
-        pplList.push_back(make_pair(i->second.id, i->second.name));
+    	if (i->second.numSeen>0)
+			pplList.push_back(make_pair(i->second.id, i->second.name));
+		else
+			pplList.push_back(make_pair(i->second.id,"?"));
     }
     pplList.push_back(make_pair(-1,"Back"));
 }

@@ -48,6 +48,9 @@ void Player::newGame(bool b, string n)
     temp.load(game,Properties::OwnedPeoplemonPath+"Vince.ppl");
     temp.curHp = temp.stats.hp;
     curPeoplemon.push_back(temp);
+    temp.load(game,Properties::OwnedPeoplemonPath+"kyler2.ppl");
+    temp.curHp = temp.stats.hp;
+    storedPeoplemon.push_back(StoredPeoplemon(0,Vector2i(0,0),temp));
 }
 
 void Player::save(File* saveFile)
