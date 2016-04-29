@@ -47,7 +47,7 @@ string Character::getName()
 
 void Character::update(Game* game)
 {
-    double dif = double(gameClock.getMicros()-lastTime)*0.00006060606;
+    double dif = double(gameClock.getMicros()-lastTime)*0.00008080808;
     lastTime = gameClock.getMicros();
 
     if (mapPos.x*32>position.x)

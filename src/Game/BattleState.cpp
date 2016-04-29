@@ -1473,9 +1473,17 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
     }
 
     if (isPlayer)
-        playerAnims = temp;
-    else
-        opponentAnims = temp;
+	{
+		playerAnims = temp;
+		opponentAnims.load(game,opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()),player->getPeoplemon()->at(player->getCurrentPeoplemon()),false);
+	}
+	else
+	{
+		opponentAnims = temp;
+		playerAnims.load(game,player->getPeoplemon()->at(player->getCurrentPeoplemon()),opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()),true);
+	}
+	toDraw.push_back(&anims[i]->still);
+	toDraw.push_back(&anims[j]->still);
 
 	if (b->getPeoplemon()->at(b->getCurrentPeoplemon()).curAbility==Peoplemon::Bud)
 	{

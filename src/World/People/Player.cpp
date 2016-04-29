@@ -145,10 +145,10 @@ void Player::interact(Game* game)
 
 void Player::update(Game* game)
 {
-    double dif = double(gameClock.getMicros()-lastTime)*0.00006060606;
+    double dif = double(gameClock.getMicros()-lastTime)*0.00008080808;
     lastTime = gameClock.getMicros();
     if (isRunning)
-		dif *= 2;
+		dif *= 2.5;
 
     if (mapPos.x*32>position.x)
     {
