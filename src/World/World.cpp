@@ -18,7 +18,6 @@ World::World(Game* g) : light(TrianglesFan, 362), weather(g)
     lightSpr.setTexture(lightTxtr.getTexture());
     pcMap = "Ghettopolis/Worldmap";
     pcSpawn = 10; //TODO - init these to actual default
-    loadedOnce = false;
 }
 
 World::~World()
@@ -39,7 +38,7 @@ Vector2i World::getSize()
 void World::load(string file, int spId, bool trans)
 {
 	stopAnimations();
-	if (loadedOnce && trans)
+	if (trans)
 	{
 		RectangleShape cover;
 		cover.setSize(Vector2f(800,600));
@@ -325,29 +324,25 @@ void World::load(string file, int spId, bool trans)
 		loadScript = Properties::ScriptPath+loadScript;
     game->scriptEnvironment.runScript(shared_ptr<Script>(new Script(loadScript)));
 
-	if (loadedOnce)
+	calculateLighting();
+	RectangleShape cover;
+	cover.setSize(Vector2f(800,600));
+	double a = 255;
+	int lTime = gameClock.getTimeStamp();
+	game->player.forceStop();
+	while (a!=0)
 	{
 		calculateLighting();
-		RectangleShape cover;
-		cover.setSize(Vector2f(800,600));
-		double a = 255;
-		int lTime = gameClock.getTimeStamp();
-        game->player.forceStop();
-		while (a!=0)
-		{
-			calculateLighting();
-			a -= double(gameClock.getTimeStamp()-lTime)*0.181818;
-			lTime = gameClock.getTimeStamp();
-			if (a<0)
-				a = 0;
-			cover.setFillColor(Color(0,0,0,a));
-			draw(&game->mainWindow);
-			game->mainWindow.draw(cover);
-			game->mainWindow.display();
-			sleep(milliseconds(2));
-		}
+		a -= double(gameClock.getTimeStamp()-lTime)*0.181818;
+		lTime = gameClock.getTimeStamp();
+		if (a<0)
+			a = 0;
+		cover.setFillColor(Color(0,0,0,a));
+		draw(&game->mainWindow);
+		game->mainWindow.draw(cover);
+		game->mainWindow.display();
+		sleep(milliseconds(2));
 	}
-	loadedOnce = true;
 }
 
 void World::clear()

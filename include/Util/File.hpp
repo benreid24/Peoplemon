@@ -128,6 +128,8 @@ class File : private sf::NonCopyable
         if (file.good())
         {
             int size = get<uint32_t>();
+            if (!file.good())
+				return "";
             char* buf = new char[size+1];
             file.read(buf,size);
             std::string ret(buf,size);

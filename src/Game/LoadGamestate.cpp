@@ -66,6 +66,20 @@ bool LoadGamestate::execute()
 				action.update();
 				if (action.getChoice()=="Load")
 				{
+					int a = 0;
+					RectangleShape cover(Vector2f(Properties::ScreenWidth,Properties::ScreenHeight));
+					cover.setFillColor(Color::Transparent);
+					while (a!=255)
+					{
+						cover.setFillColor(Color(0,0,0,a));
+						a += 2;
+						if (a>255)
+							a = 255;
+
+						game->mainWindow.draw(cover);
+						game->mainWindow.display();
+						sleep(milliseconds(15));
+					}
 					game->load(choices.getChoice());
 					return game->runState(new MainGameState(game));
 				}

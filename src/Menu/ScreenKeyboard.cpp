@@ -1,5 +1,6 @@
 #include "Menu/ScreenKeyboard.hpp"
 #include "Globals.hpp"
+#include "World/People/PlayerInput.hpp"
 #include <iostream>
 using namespace sf;
 using namespace std;
@@ -44,7 +45,7 @@ void ScreenKeyboard::update()
         lastTime = gameClock.getTimeStamp();
         string t = keys.getChoice();
         keys.reset();
-        if (t=="Back")
+        if (t=="Back" || user.isInputActive(PlayerInput::Run))
         {
             if (typedText.size()>0)
                 typedText.erase(typedText.size()-1);

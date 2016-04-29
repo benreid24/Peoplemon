@@ -97,7 +97,6 @@ class World
     std::vector<MapEvent> events;
     sf::Vector2f camPos;
     sf::Vector2i camPosTiles;
-    bool loadedOnce;
 
     std::string lastMap, pcMap, curMap;
     sf::Vector2f lastPos;
