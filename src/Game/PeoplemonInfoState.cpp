@@ -164,7 +164,7 @@ void PeoplemonInfoState::updateMoveStuff()
     moveAtk.setText(intToString(game->moveList[moves[curMove].id].dmg));
     moveAcc.setText(intToString(game->moveList[moves[curMove].id].acc));
     moveType.setText(game->typeList[game->moveList[moves[curMove].id].type]);
-    moveDesc.setText(wordWrap(game->moveList[moves[curMove].id].description,270));
+    moveDesc.setText(wordWrap(game->moveList[moves[curMove].id].description,245));
 }
 
 bool PeoplemonInfoState::execute()
@@ -195,7 +195,10 @@ bool PeoplemonInfoState::execute()
         if (pageChoice.getChoice()=="Back" || user.isInputActive(PlayerInput::Run))
             return false;
         else if (pageChoice.getChoice()=="Moves")
-            doingMoves = true;
+		{
+			doingMoves = true;
+			sleep(milliseconds(200));
+		}
         pageChoice.reset();
 
         if (pageChoice.getCurrentChoice()=="Moves")

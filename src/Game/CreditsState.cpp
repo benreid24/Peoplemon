@@ -47,7 +47,7 @@ void CreditsObject::draw(RenderWindow* window, int yOff)
 
 int CreditsObject::getPos()
 {
-    return yPos;
+    return yPos+text.getCharacterSize();
 }
 
 CreditsState::CreditsState(Game* g) : Gamestate(g)
@@ -61,12 +61,12 @@ CreditsState::CreditsState(Game* g) : Gamestate(g)
         y = objects[objects.size()-1].getPos();
     }
     file.close();
-    goToPos = y+Properties::ScreenHeight;
+    goToPos = y+10;
 }
 
 bool CreditsState::execute()
 {
-    int y = 0;
+    int y = -Properties::ScreenHeight;
 
     while (!finishFrame())
     {
@@ -77,7 +77,7 @@ bool CreditsState::execute()
         }
         game->mainWindow.display();
 
-        y += 5;
+        y += 2;
         if (y>=goToPos)
             return false;
 

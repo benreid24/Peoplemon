@@ -806,6 +806,8 @@ bool BattleState::doFaint(int i, int j)
 
 vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 {
+	cout << "Move " << game->moveList[id].name << " used with power " << game->moveList[id].dmg << endl;
+
     vector<string> ret;
     PeoplemonRef attacker = getPeoplemon(atk,atk->getCurrentPeoplemon()), defender = getPeoplemon(def,def->getCurrentPeoplemon());
 
@@ -863,7 +865,11 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
         atkS /= 2;
     double defS = (isSpecial)?(defender.stats.spDef):(defender.stats.def);
     double power = game->moveList[id].dmg;
-    double damage = (((2*double(attacker.level)+10)/250)*(atkS/defS)*power+2)*multiplier;
+    double damage = (power>0.1)?((((2*double(attacker.level)+10)/250)*(atkS/defS)*power+2)*multiplier):(0);
+    cout << "Damage was: " << damage << endl;
+
+    if (def==player && damage>0.1)
+		damage = 2;
 
     if (attacker.holdItem==54)
 	{
@@ -1484,9 +1490,6 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
     }
     int i = (b==order[0])?(0):(1);
 
-    opBox.update(opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()));
-    playerBox.update(player->getPeoplemon()->at(player->getCurrentPeoplemon()));
-
     anims[i]->moves[m].attacker.setFrame(0);
     anims[i]->moves[m].defender.setFrame(0);
     anims[i]->moves[m].background.setFrame(0);
@@ -1498,6 +1501,12 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
 
     while (!anims[i]->moves[m].attacker.finished() || !anims[i]->moves[m].defender.finished() || !anims[i]->moves[m].background.finished() || !anims[i]->moves[m].foreground.finished())
     {
+    	if (finishFrame())
+		{
+            game->data.gameClosedFlag = true;
+            return;
+		}
+
         anims[i]->moves[m].attacker.update();
         anims[i]->moves[m].defender.update();
         anims[i]->moves[m].background.update();
@@ -1515,6 +1524,8 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
 
         sleep(milliseconds(30));
     }
+    opBox.update(opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()));
+    playerBox.update(player->getPeoplemon()->at(player->getCurrentPeoplemon()));
     renderStatic();
 }
 
