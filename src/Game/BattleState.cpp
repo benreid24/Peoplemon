@@ -839,13 +839,15 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
         return ret;
     }
 
+	double power = game->moveList[id].dmg;
     double multiplier = 1;
     bool hit = (Random(0,100)<game->moveList[id].acc*attacker.stats.acc/defender.stats.evade) || game->moveList[id].acc==0;
-    bool critical = Random(0,100)<=attacker.stages.getCritChance();
-    double stab = Peoplemon::getDamageMultiplier(game->peoplemonList[attacker.id].type,game->peoplemonList[defender.id].type,game->moveList[id].type);
-    bool isSuper = stab==1.5;
-    bool isBad = stab==0.5;
-    multiplier *= stab;
+    bool critical = Random(0,100)<=attacker.stages.getCritChance() && power>0.1;
+    double stab = Peoplemon::getSTAB(game->peoplemonList[attacker.id].type,game->moveList[id].type);
+    double effectiveness = Peoplemon::getEffectivenessMultiplier(game->moveList[id].type,game->peoplemonList[defender.id].type);
+    bool isSuper = effectiveness>1 && power>0.1;
+    bool isBad = effectiveness<1 && power>0.1;
+    multiplier *= stab*effectiveness;
 
     if (critical && defender.curAbility==Peoplemon::Lax)
 	{
@@ -853,7 +855,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 		ret.push_back(defender.name+"'s Lax prevents critical hits!");
 	}
     multiplier *= (critical)?(2):(1);
-    if (attacker.curAbility==Peoplemon::Edumucator && game->moveList[id].type==Intelligent)
+    if (attacker.curAbility==Peoplemon::Edumucator && game->moveList[id].type==Intelligent && power>0.1)
 	{
 		multiplier *= 1.1;
 		ret.push_back(attacker.name+" does more damage with intelligent moves as an edumucator!");
@@ -864,7 +866,6 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
     if (attacker.hasAilment(Peoplemon::Frustrated) && !isSpecial)
         atkS /= 2;
     double defS = (isSpecial)?(defender.stats.spDef):(defender.stats.def);
-    double power = game->moveList[id].dmg;
     double damage = (power>0.1)?((((2*double(attacker.level)+10)/250)*(atkS/defS)*power+2)*multiplier):(0);
     cout << "Damage was: " << damage << endl;
 
@@ -898,12 +899,17 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
     if (def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp<0)
         def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp = 0;
 
-    if (critical && damage>0)
+    if (critical && hit)
         ret.push_back("It was a critical hit!");
-    if (isSuper && damage>0)
+    if (isSuper && hit)
         ret.push_back("It was super effective!");
-    if (isBad && damage>0)
-        ret.push_back("It wasn't very effective");
+    if (isBad && hit)
+	{
+		if (effectiveness>0)
+			ret.push_back("It wasn't very effective");
+		else
+			ret.push_back(game->typeList[game->moveList[id].type]+" moves don't affect "+defender.name+"!");
+	}
 
     Move::Effect effect = game->moveList[id].effect;
     int intensity = game->moveList[id].intensityOfEffect;

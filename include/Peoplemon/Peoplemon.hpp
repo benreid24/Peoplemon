@@ -77,14 +77,22 @@ struct Peoplemon  //there will exist one global vector of these
 	}specialAbilityId;
 
     /**
-     * Returns the STAB multiplier given the attacking and defending types
+     * Returns the STAB multiplier given the peoplemon and move type
      *
      * \param atk The attacer's type
-     * \param def The defender's type
      * \param mv The move type
      * \return The STAB multiplier
      */
-    static double getDamageMultiplier(Type atk, Type def, Type mv);
+    static double getSTAB(Type atk, Type mv);
+
+    /**
+     * Returns the effectiveness multiplier based on move type and peoplemon type (getting hit)
+     *
+     * \param mv The move type
+     * \param def The defender's type
+     * \return The multiplier based on the types
+     */
+	static double getEffectivenessMultiplier(Type mv, Type def);
 
     /**
      * Returns the multiplier for the given stat stage

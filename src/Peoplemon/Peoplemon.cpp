@@ -5,22 +5,25 @@
 using namespace std;
 using namespace sf;
 
-double Peoplemon::typeMultipliers[8][19];
-
 double Move::damageScore(double atkAdv, double spAtkAdv, Type userType, Type opType)
 {
     double stab = (userType==type)?(1.5):(1.0);
     double adv = (isSpecial)?(spAtkAdv):(atkAdv);
-    double typeM = Peoplemon::getDamageMultiplier(userType,opType,type);
+    double typeM = Peoplemon::getSTAB(userType,type)*Peoplemon::getEffectivenessMultiplier(type,opType);
     return double(dmg)*stab*typeM*adv/140;
 }
 
-double Peoplemon::getDamageMultiplier(Type atk, Type def, Type mv)
+double Peoplemon::getSTAB(Type atk, Type mv)
 {
 	double m = 1;
 	if (atk==mv || (atk==FunnyPartyAnimal && (mv==PartyAnimal || mv==Funny)) || (atk==IntelligentAthletic && (mv==Intelligent || mv==Athletic)) || (atk==IntelligentNormal && (mv==Normal || mv==Intelligent)) || (atk==NormalQuiet && (mv==Normal || mv==Quiet)) || (atk==AwkwardFunny && (mv==Awkward || mv==Funny)) || (atk==IntelligentFunny && (mv==Intelligent || mv==Funny)) || (atk==AthleticNormal && (mv==Athletic || mv==Normal)) || (atk==FunnyNormal && (mv==Funny || mv==Normal)) || (atk==NormalAwkward && (mv==Normal || mv==Awkward)) || (atk==QuietAthletic && (mv==Quiet || mv==Athletic)) || (atk==IntelligentAwkward && (mv==Intelligent || mv==Awkward)))
 		m = 1.5;
-    return typeMultipliers[atk][def]*m;
+    return m;
+}
+
+double Peoplemon::getEffectivenessMultiplier(Type mv, Type def)
+{
+	return typeMultipliers[mv][def];
 }
 
 double Peoplemon::getStatMultiplier(int s, bool isCrit)
@@ -365,3 +368,12 @@ StoredPeoplemon::StoredPeoplemon(int b, Vector2i pos, PeoplemonRef ppl)
     position = pos;
     data = ppl;
 }
+
+double Peoplemon::typeMultipliers[8][19] = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+											{1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,0,1,0},
+											{1,1,0.5,0.5,2,1,1,1,0.5,1,0.5,1,0.5,0.25,2,0.5,1,2,0.5},
+											{1,1,2,1,0.5,0.5,0.5,2,2,1,2,0.5,0.5,2,0.5,1,0.5,0.25,1},
+											{1,2,0.5,2,2,1,0,0.5,1,1,1,2,0,1,4,4,0,2,0},
+											{1,1,1,1,1,1,2,2,2,1,1,1,2,1,1,1,2,1,2},
+											{1,0,1,1,0,1,2,0.5,0.5,0,0,0,2,1,0,0,0,0,2},
+											{1,1,1,0.5,2,2,1,1,0.5,2,1,2,0.5,0.5,2,0.5,1,4,1}};
