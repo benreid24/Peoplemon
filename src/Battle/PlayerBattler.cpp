@@ -128,13 +128,11 @@ Turn PlayerBattler::getTurn(PeoplemonRef op, Game* g)
             Turn t;
             t.type = Turn::Switch;
             mustChoose = false;
-            t.id = getSwitchPeoplemon(op,g);
+            t.id = curPeoplemon;
+            int temp = getSwitchPeoplemon(op,g);
             mustChoose = true;
-            if (t.id!=-1 || g->data.gameClosedFlag)
-			{
-                swap(t.id,curPeoplemon);
+            if (temp!=-1 || g->data.gameClosedFlag)
 				return t;
-			}
             typeChoice.reset();
             sleep(milliseconds(225));
         }
@@ -166,5 +164,7 @@ int PlayerBattler::getSwitchPeoplemon(PeoplemonRef op, Game* g)
     g->runStateUnderPriveldged(s,false);
     int r = s->getChosenIndex();
     delete s;
+    if (r!=-1)
+		curPeoplemon = r;
     return r;
 }
