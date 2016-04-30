@@ -88,6 +88,7 @@ void ScriptEnvironment::save(File* file)
         file->writeString(i->first);
         file->write<int32_t>(i->second);
     }
+    file->write<uint16_t>(stringSaveEntries.size());
     for (auto i = stringSaveEntries.begin(); i!=stringSaveEntries.end(); ++i)
     {
         file->writeString(i->first);
