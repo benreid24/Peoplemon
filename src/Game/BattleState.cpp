@@ -405,6 +405,8 @@ bool BattleState::execute()
 			if (ppl.holdItem==50) //bag of goldfish
 			{
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp += order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp/16;
+                if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp>order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp)
+					order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp;
                 displayMessage(ppl.name+"'s Bag of Goldfish restored health!");
 			}
             if (ppl.hasAilment(Peoplemon::Frustrated))
@@ -877,6 +879,9 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 		damage *= 1.1;
 		ret.push_back(attacker.name+"'s Slapping Glove increased damage!");
 	}
+
+	atk->setLastDamageDealt(damage); //for ai
+	def->setLastDamageTaken(damage);
 
     if (hit)
 	{
