@@ -126,6 +126,8 @@ void Trainer::startFight(Game* game)
 		delete b;
 		return;
 	}
+	game->hud.setAlwaysShow(false);
+    game->hud.rePosition();
 	if (b->playerWon())
 	{
 		game->music.previous();

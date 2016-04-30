@@ -131,7 +131,10 @@ Turn PlayerBattler::getTurn(PeoplemonRef op, Game* g)
             t.id = getSwitchPeoplemon(op,g);
             mustChoose = true;
             if (t.id!=-1 || g->data.gameClosedFlag)
-                return t;
+			{
+                swap(t.id,curPeoplemon);
+				return t;
+			}
             typeChoice.reset();
             sleep(milliseconds(225));
         }

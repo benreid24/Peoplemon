@@ -103,7 +103,8 @@ Turn AIBattler::getTurn(PeoplemonRef opp, Game* g)
                 }
             }
             turn.type = Turn::Switch;
-            turn.id = bestIndex;
+            turn.id = curPeoplemon;
+            curPeoplemon = bestIndex;
             turnsSinceSwitch = 0;
             return turn;
         }

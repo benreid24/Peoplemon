@@ -75,8 +75,8 @@ int Battler::getSwitchPeoplemon(PeoplemonRef op, Game* g)
     {
         if (peoplemon->at(i).curHp>0)
         {
-            curPeoplemon = i;
-            return i;
+        	curPeoplemon = i;
+        	return i;
         }
     }
     return -1;
