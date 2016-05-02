@@ -109,8 +109,12 @@ class BattleState : public Gamestate
 
     /**
      * Renders the "static" battle view, and continues to do so until both HP bars are where they're supposed to be
+     *
+     * \param renderStill Whether or not to draw the still animations of the peoplemon
+     * \param updateP Whether or not to update the player box
+     * \param updateO Whether or not to update the opponent box
      */
-    void renderStatic();
+    void renderStatic(bool renderStill = true, bool updateP = true, bool updateO = true);
 
     /**
      * Displays a message in the textbox and doesn't return until it is fully vied by the player

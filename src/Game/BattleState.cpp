@@ -124,7 +124,7 @@ bool BattleState::execute()
 	}
 
     int runTries = 0;
-    bool applyAfterTurn[2] = [true,true]; //whether or not to apply after turn effects like hold items. Used when peoplemon faint or are switched out
+    bool applyAfterTurn[2] = {true,true}; //whether or not to apply after turn effects like hold items. Used when peoplemon faint or are switched out
     //battle loop
     while (true)
     {
@@ -544,10 +544,12 @@ void BattleState::displayMessage(string m)
     }
 }
 
-void BattleState::renderStatic()
+void BattleState::renderStatic(bool rs, bool up, bool op)
 {
-    opBox.update(getPeoplemon(opponent,opponent->getCurrentPeoplemon()),true);
-    playerBox.update(getPeoplemon(player,player->getCurrentPeoplemon()),true);
+	if (op)
+		opBox.update(getPeoplemon(opponent,opponent->getCurrentPeoplemon()),true);
+    if (up)
+		playerBox.update(getPeoplemon(player,player->getCurrentPeoplemon()),true);
     while (!opBox.barGood() || !playerBox.barGood())
     {
         opBox.update();
@@ -556,8 +558,12 @@ void BattleState::renderStatic()
         opponentAnims.still.update();
 
         game->mainWindow.draw(background);
-        playerAnims.still.draw(&game->mainWindow);
-        opponentAnims.still.draw(&game->mainWindow);
+        if (rs)
+        {
+        	playerAnims.still.draw(&game->mainWindow);
+			opponentAnims.still.draw(&game->mainWindow);
+        }
+        renderQueue();
         opBox.draw(&game->mainWindow);
         playerBox.draw(&game->mainWindow);
         game->hud.draw(&game->mainWindow);
@@ -666,6 +672,9 @@ bool BattleState::doFaint(int i, int j)
             displayMessage(getPeoplemonName(order[i],sentIn[k])+" earned "+intToString(xp)+" XP!");
             if (shouldClose())
                 return true;
+			renderStatic(false,true,false);
+			if (shouldClose())
+				return true;
 
             while (getPeoplemon(order[i],sentIn[k]).curXp>=getPeoplemon(order[i],sentIn[k]).nextLvlXp)
             {
