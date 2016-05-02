@@ -40,7 +40,7 @@ void CreditsObject::draw(RenderWindow* window, int yOff)
     }
     else
     {
-        text.setPosition(spr.getPosition().x,yPos-yOff);
+        text.setPosition(text.getPosition().x,yPos-yOff);
         window->draw(text);
     }
 }
