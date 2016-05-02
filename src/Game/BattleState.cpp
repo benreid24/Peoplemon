@@ -197,11 +197,20 @@ bool BattleState::execute()
 					continue;
 				}
 				applyAfterTurn[i] = false;
-                displayMessage(getSwitchLine(order[i],turns[i].id));
+				if (order[i]==player)
+				{
+					if (find(sentIn.begin(),sentIn.end(),turns[i].id)==sentIn.end())
+						sentIn.push_back(turns[i].id);
+					displayMessage("That's enough, "+order[i]->getPeoplemon()->at(turns[i].id).name+"!");
+					if (shouldClose())
+						return true;
+				}
+
+                playSwitchAnim(order[i],order[j],turns[i].id,order[i]->getCurrentPeoplemon());
                 if (shouldClose())
                     return true;
 
-                playSwitchAnim(order[i],order[j],turns[i].id,order[i]->getCurrentPeoplemon());
+				displayMessage(getSwitchLine(order[i],order[i]->getCurrentPeoplemon()));
                 if (shouldClose())
                     return true;
 
@@ -209,12 +218,6 @@ bool BattleState::execute()
                 renderStatic();
                 if (shouldClose())
                     return true;
-
-				if (order[i]==player)
-				{
-					if (find(sentIn.begin(),sentIn.end(),order[i]->getCurrentPeoplemon())==sentIn.end())
-						sentIn.push_back(order[i]->getCurrentPeoplemon());
-				}
             }
             else if (turns[i].type==Turn::Item)
             {
@@ -659,6 +662,15 @@ bool BattleState::doFaint(int i, int j)
 
     if (isPlayer)
     {
+    	for (unsigned int k = 0; k<sentIn.size(); ++k)
+		{
+			if (order[i]->getPeoplemon()->at(sentIn[k]).curHp==0)
+			{
+				sentIn.erase(sentIn.begin()+k);
+				k--;
+			}
+		}
+
         int index = order[j]->getCurrentPeoplemon();
         double xp = (canRun)?(1):(1.5);
         xp *= game->peoplemonList[getPeoplemon(order[j],index).id].xpYield;
@@ -1482,6 +1494,8 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
 		for (int i = 0; i<4; ++i)
 			b->getPeoplemon()->at(curPpl).curAils[i] = Peoplemon::None;
 	}
+	opBox.update(getPeoplemon(opponent,opponent->getCurrentPeoplemon()),false);
+	playerBox.update(getPeoplemon(player,player->getCurrentPeoplemon()),false);
 
     temp.sendOut.play();
     while (!temp.sendOut.finished())
