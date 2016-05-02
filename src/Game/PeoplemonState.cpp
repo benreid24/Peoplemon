@@ -72,6 +72,7 @@ bool PeoplemonState::execute()
 								game->mainWindow.display();
 								sleep(milliseconds(30));
 							}
+							menu.sync(peoplemon,game);
 							goto noAction;
 						}
 
