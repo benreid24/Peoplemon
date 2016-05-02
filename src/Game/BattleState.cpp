@@ -78,7 +78,6 @@ bool BattleState::execute()
     game->hud.setAlwaysShow(true);
     opBox.update(getPeoplemon(opponent,opponent->getCurrentPeoplemon()),true);
     playerBox.update(getPeoplemon(player,player->getCurrentPeoplemon()),true);
-    renderStatic();
     sleep(milliseconds(1500));
     if (canRun)
         toDraw.push_back(&opponentAnims.still);
@@ -125,11 +124,13 @@ bool BattleState::execute()
 	}
 
     int runTries = 0;
+    bool applyAfterTurn[2] = [true,true]; //whether or not to apply after turn effects like hold items. Used when peoplemon faint or are switched out
     //battle loop
     while (true)
     {
         //render everything first
         renderStatic();
+        applyAfterTurn[0] = applyAfterTurn[1] = true;
 
         //get player turn from input, opponent turn and determine order
         {
@@ -194,6 +195,7 @@ bool BattleState::execute()
 					displayMessage(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).name+"'s Engage prevents switching!");
 					continue;
 				}
+				applyAfterTurn[i] = false;
                 displayMessage(getSwitchLine(order[i],turns[i].id));
                 if (shouldClose())
                     return true;
@@ -347,6 +349,7 @@ bool BattleState::execute()
                 game->hud.displayMessage("");
                 if (getPeoplemon(order[j],order[j]->getCurrentPeoplemon()).curHp<=0) //they fainted
                 {
+                	applyAfterTurn[j] = false;
                     shouldStop = true;
                     bool done = doFaint(i,j);
                     if (shouldClose())
@@ -356,6 +359,7 @@ bool BattleState::execute()
                 }
                 if (getPeoplemon(order[i],order[i]->getCurrentPeoplemon()).curHp<=0) //attacker fainted
                 {
+                	applyAfterTurn[i] = false;
                     shouldStop = true;
                     bool done = doFaint(j,i);
                     if (shouldClose())
@@ -399,6 +403,9 @@ bool BattleState::execute()
         bool opAlive = true;
         for (int i = 0; i<2; ++i)
         {
+        	if (!applyAfterTurn[i]) //skip if not supposed to do end turn stuff
+				continue;
+
             int j = (i==0)?(1):(0);
             PeoplemonRef ppl = getPeoplemon(order[i],order[i]->getCurrentPeoplemon());
 
