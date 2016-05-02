@@ -1514,11 +1514,11 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
     anims[i]->moves[m].background.setFrame(0);
     anims[i]->moves[m].foreground.setFrame(0);
     anims[i]->moves[m].attacker.play();
-    anims[i]->moves[m].defender.play();
     anims[i]->moves[m].background.play();
     anims[i]->moves[m].foreground.play();
 
-    while (!anims[i]->moves[m].attacker.finished() || !anims[i]->moves[m].defender.finished() || !anims[i]->moves[m].background.finished() || !anims[i]->moves[m].foreground.finished())
+	cout << "Playing attacker,background,foreground...";
+    while (!anims[i]->moves[m].attacker.finished() || !anims[i]->moves[m].background.finished() || !anims[i]->moves[m].foreground.finished())
     {
     	if (finishFrame())
 		{
@@ -1527,7 +1527,6 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
 		}
 
         anims[i]->moves[m].attacker.update();
-        anims[i]->moves[m].defender.update();
         anims[i]->moves[m].background.update();
         anims[i]->moves[m].foreground.update();
 
@@ -1543,8 +1542,37 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
 
         sleep(milliseconds(30));
     }
+    cout << "done\n";
     opBox.update(opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()));
     playerBox.update(player->getPeoplemon()->at(player->getCurrentPeoplemon()));
+    anims[i]->moves[m].defender.play();
+
+	cout << "Player defender anim...";
+    while (!anims[i]->moves[m].defender.finished())
+	{
+		if (finishFrame())
+		{
+            game->data.gameClosedFlag = true;
+            return;
+		}
+
+		anims[i]->moves[m].defender.update();
+		opBox.update();
+		playerBox.update();
+
+		game->mainWindow.draw(background);
+        opBox.draw(&game->mainWindow);
+        playerBox.draw(&game->mainWindow);
+        anims[i]->moves[m].background.draw(&game->mainWindow);
+        anims[i]->moves[m].attacker.draw(&game->mainWindow);
+        anims[i]->moves[m].defender.draw(&game->mainWindow);
+        anims[i]->moves[m].foreground.draw(&game->mainWindow);
+        game->hud.draw(&game->mainWindow);
+        game->mainWindow.display();
+
+        sleep(milliseconds(30));
+	}
+	cout << "done\n";
     renderStatic();
 }
 

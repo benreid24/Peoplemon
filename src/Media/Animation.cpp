@@ -170,7 +170,7 @@ bool Animation::finished()
     if (!animSrc)
         return false;
 
-    return (!animSrc->isLooping() && curFrm==animSrc->numFrames()-1);
+    return (!animSrc->isLooping() && curFrm==animSrc->numFrames()-1) || animSrc->numFrames()==1;
 }
 
 bool Animation::isLooping()
