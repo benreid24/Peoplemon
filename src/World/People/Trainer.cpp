@@ -119,7 +119,14 @@ void Trainer::startFight(Game* game)
     if (game->data.gameClosedFlag)
 		return;
 
-	BattleState* b = new BattleState(game,createBattler(aiType,&peoplemon,items),name,loserSay,prizeMoney,false,bMusic,bBgnd);
+	int maxLevel = -1;
+	for (unsigned int i = 0; i<peoplemon.size(); ++i)
+	{
+		if (peoplemon[i].level>maxLevel)
+			maxLevel = peoplemon[i].level;
+	}
+
+	BattleState* b = new BattleState(game,createBattler(aiType,&peoplemon,items),name,loserSay,maxLevel*70,false,bMusic,bBgnd);
 	game->runStateUnderPriveldged(b,false);
 	if (game->data.gameClosedFlag)
 	{

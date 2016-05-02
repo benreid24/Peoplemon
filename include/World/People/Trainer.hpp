@@ -20,7 +20,6 @@ class Trainer : public Character
     std::string bMusic, bBgnd;
     std::vector<PeoplemonRef> peoplemon;
     std::vector<int> items;
-    int prizeMoney;
     bool beaten, confrontingPlayer;
     int range;
     int aiType;

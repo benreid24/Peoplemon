@@ -20,6 +20,7 @@ BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm,
     opponentName = opName;
     loseLine = ll;
     prizeMoney = pm;
+    cout << "Battle prize money is: " << prizeMoney << endl;
     playlist = music;
     playerBox.setIsPlayer();
     playerBox.update(player->getPeoplemon()->at(player->getCurrentPeoplemon()));
@@ -811,6 +812,7 @@ bool BattleState::doFaint(int i, int j)
             }
             if (prizeMoney>0)
             {
+            	game->player.alterMoney(prizeMoney);
                 displayMessage(game->player.getName()+" won "+intToString(prizeMoney)+" monies!");
                 if (shouldClose())
                     return true;
