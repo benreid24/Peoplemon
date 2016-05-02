@@ -265,7 +265,7 @@ bool BattleState::execute()
                         order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).removePassiveAilment(Peoplemon::Confused);
                         order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).turnsConfused = 0;
                     }
-                    if (Random(0,100)<50)
+                    else if (Random(0,100)<50)
                     {
                         displayMessage(attacker.name+" hurt itself in confusion!");
                         if (shouldClose())
