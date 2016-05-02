@@ -58,6 +58,23 @@ bool PeoplemonState::execute()
                 {
                     if (shouldReturnChoice || itemId!=-1 || choicePrompt.size()>0)
                     {
+                    	if ((shouldReturnChoice || itemId!=-1) && peoplemon->at(menu.primarySelection()).curHp==0)
+						{
+							game->hud.displayMessage("Don't take advantage of unconscious Peoplemon!");
+							while (!game->hud.messageFinished())
+							{
+								if (finishFrame())
+									return true;
+
+								game->hud.update();
+
+								game->hud.draw(&game->mainWindow);
+								game->mainWindow.display();
+								sleep(milliseconds(30));
+							}
+							goto noAction;
+						}
+
                     	sleep(milliseconds(175));
                         game->hud.getChoice(choicePrompt, vector<string>({"Yes","No"}),false);
                         while (true)
@@ -249,6 +266,7 @@ bool PeoplemonState::execute()
                         }
                     }
                 }
+                noAction:;
             }
         }
 
