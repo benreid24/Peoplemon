@@ -78,6 +78,13 @@ void BattleBox::update()
             hpBar.setSize(hpBar.getSize()+Vector2f(3,0));
         else
             hpBar.setSize(hpBar.getSize()+Vector2f(-3,0));
+
+		if (hpBar.getSize().x<0)
+			hpBar.setSize(Vector2f(0,hpBar.getSize().y));
+		if (hpBar.getSize().x>96)
+			hpBar.setSize(Vector2f(96,hpBar.getSize().y));
+		if (abs(hpBar.getSize().x-hpTargetW)<3)
+			hpBar.setSize(Vector2f(hpTargetW,hpBar.getSize().y));
     }
     if (abs(xpBar.getSize().x-xpTargetW)>1)
     {
@@ -85,6 +92,13 @@ void BattleBox::update()
             xpBar.setSize(xpBar.getSize()+Vector2f(3,0));
         else
             xpBar.setSize(xpBar.getSize()+Vector2f(-3,0));
+
+		if (xpBar.getSize().x<0)
+			xpBar.setSize(Vector2f(0,xpBar.getSize().y));
+		if (xpBar.getSize().x>192)
+			xpBar.setSize(Vector2f(192,xpBar.getSize().y));
+		if (abs(xpBar.getSize().x-xpTargetW)<3)
+			xpBar.setSize(Vector2f(xpTargetW,xpBar.getSize().y));
     }
     double hp = hpBar.getSize().x/96;
     if (hp<0.25)
@@ -97,7 +111,9 @@ void BattleBox::update()
 
 bool BattleBox::barGood()
 {
-    return hpBar.getSize().x==hpTargetW && isPlayer?(xpBar.getSize().x==xpTargetW):(true);
+	if (!isPlayer)
+		return int(hpBar.getSize().x+0.5)==hpTargetW;
+	return int(hpBar.getSize().x+0.5)==hpTargetW && int(xpBar.getSize().x+0.5)==xpTargetW;
 }
 
 void BattleBox::draw(RenderWindow* window)
