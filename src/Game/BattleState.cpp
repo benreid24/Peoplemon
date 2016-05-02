@@ -1517,7 +1517,6 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
     anims[i]->moves[m].background.play();
     anims[i]->moves[m].foreground.play();
 
-	cout << "Playing attacker,background,foreground...";
     while (!anims[i]->moves[m].attacker.finished() || !anims[i]->moves[m].background.finished() || !anims[i]->moves[m].foreground.finished())
     {
     	if (finishFrame())
@@ -1542,12 +1541,11 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
 
         sleep(milliseconds(30));
     }
-    cout << "done\n";
+
     opBox.update(opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()));
     playerBox.update(player->getPeoplemon()->at(player->getCurrentPeoplemon()));
     anims[i]->moves[m].defender.play();
 
-	cout << "Player defender anim...";
     while (!anims[i]->moves[m].defender.finished())
 	{
 		if (finishFrame())
@@ -1572,7 +1570,6 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
 
         sleep(milliseconds(30));
 	}
-	cout << "done\n";
     renderStatic();
 }
 
