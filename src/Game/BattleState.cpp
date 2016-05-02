@@ -817,6 +817,8 @@ bool BattleState::doFaint(int i, int j)
                 if (shouldClose())
                     return true;
             }
+            for (unsigned int i = 0; i<opponent->getPeoplemon()->size(); ++i)
+				game->peoplemonList[opponent->getPeoplemon()->at(i).id].numSeen++;
             return true;
         }
     }

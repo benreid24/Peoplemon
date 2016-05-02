@@ -48,8 +48,10 @@ void Player::newGame(bool b, string n)
     temp.load(game,Properties::OwnedPeoplemonPath+"Vince.ppl");
     temp.curHp = temp.stats.hp;
     curPeoplemon.push_back(temp);
+    game->peoplemonList[temp.id].numSeen++;
     temp.load(game,Properties::OwnedPeoplemonPath+"kyler2.ppl");
     temp.curHp = temp.stats.hp;
+    game->peoplemonList[temp.id].numSeen++;
     storedPeoplemon.push_back(StoredPeoplemon(0,Vector2i(0,0),temp));
 }
 
