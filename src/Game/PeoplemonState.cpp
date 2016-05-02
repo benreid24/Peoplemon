@@ -56,7 +56,7 @@ bool PeoplemonState::execute()
                     return false;
                 else
                 {
-                    if (shouldReturnChoice || itemId!=-1)
+                    if (shouldReturnChoice || itemId!=-1 || choicePrompt.size()>0)
                     {
                     	sleep(milliseconds(175));
                         game->hud.getChoice(choicePrompt, vector<string>({"Yes","No"}),false);

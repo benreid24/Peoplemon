@@ -52,11 +52,11 @@ StorageSystem::StorageSystem(Game* g, vector<StoredPeoplemon>* ppl) : Gamestate(
         box[i].setPosition(283,148);
     }
 
-    name.setPosition(Vector2f(70,445));
+    name.setPosition(Vector2f(70,440));
     name.setProps(Color::White,22);
-    level.setPosition(Vector2f(70,480));
+    level.setPosition(Vector2f(70,495));
     level.setProps(Color::White,20);
-    item.setPosition(Vector2f(70,505));
+    item.setPosition(Vector2f(70,520));
     item.setProps(Color::White,20);
 }
 
@@ -100,8 +100,16 @@ int StorageSystem::getIndex(int b, int x, int y)
 
 void StorageSystem::updateMenu(int i)
 {
+	if (i==-1)
+	{
+		name.setText("");
+		level.setText("");
+		item.setText("");
+		return;
+	}
+
     name.setText(peoplemon->at(i).data.name+"\n\\"+game->peoplemonList[peoplemon->at(i).data.id].name);
-    level.setText("Level: "+peoplemon->at(i).data.level);
+    level.setText("Level: "+intToString(peoplemon->at(i).data.level));
     if (peoplemon->at(i).data.holdItem!=0)
         item.setText("Item: "+game->itemList[peoplemon->at(i).data.holdItem].name);
     else
@@ -327,6 +335,8 @@ bool StorageSystem::execute()
             updateMenu(selectedIndex);
         else if (overIndex!=-1)
             updateMenu(overIndex);
+		else
+			updateMenu(-1);
 
         game->mainWindow.draw(background);
         mainMenu.draw(&game->mainWindow);
