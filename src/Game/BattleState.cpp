@@ -210,10 +210,6 @@ bool BattleState::execute()
                 if (shouldClose())
                     return true;
 
-				displayMessage(getSwitchLine(order[i],order[i]->getCurrentPeoplemon()));
-                if (shouldClose())
-                    return true;
-
                 game->hud.displayMessage("");
                 renderStatic();
                 if (shouldClose())
@@ -429,7 +425,7 @@ bool BattleState::execute()
                 if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<0)
                 {
                     order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = 0;
-                    bool done = doFaint(i,j);
+                    bool done = doFaint(j,i);
                     if (shouldClose())
                         return true;
                     if (done)
@@ -443,13 +439,13 @@ bool BattleState::execute()
                     return true;
 
                 int dmg = float(ppl.stats.hp)/16.0+0.5;
+                dmg = order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp;
                 if (dmg>ppl.curHp)
                     dmg = ppl.curHp;
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp -= dmg;
                 order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp += dmg;
                 if (order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp>order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).stats.hp)
                     order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).stats.hp;
-				renderStatic();
 				renderStatic();
 
                 if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<=0)
@@ -483,14 +479,14 @@ bool BattleState::execute()
 			{
 				displayMessage(ppl.name+" has a Super Tiny Mini Fridge!");
 				applyMove(order[i],order[j],81);
-				bool done = doFaint(j,i);
+				bool done = doFaint(i,j);
 				if (shouldClose())
 					return true;
 				if (done)
 					return false;
 				if (getPeoplemon(order[j],order[j]->getCurrentPeoplemon()).curHp<=0) //they fainted
                 {
-                    bool done = doFaint(i,j);
+                    bool done = doFaint(j,i);
                     if (shouldClose())
                         return true;
                     if (done)
@@ -1488,6 +1484,9 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
         sleep(milliseconds(30));
     }
     sleep(milliseconds(750)); //for natural pause
+    toDraw.clear();
+    toDraw.push_back(&anims[j]->still);
+    displayMessage(getSwitchLine(order[i],order[i]->getCurrentPeoplemon()));
 
     if (b->getPeoplemon()->at(curPpl).curAbility==Peoplemon::Forgiving)
 	{
@@ -1522,7 +1521,6 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
 		playerAnims.load(game,player->getPeoplemon()->at(player->getCurrentPeoplemon()),opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()),true);
 	}
 	toDraw.push_back(&anims[i]->still);
-	toDraw.push_back(&anims[j]->still);
 
 	if (b->getPeoplemon()->at(b->getCurrentPeoplemon()).curAbility==Peoplemon::Bud)
 	{
