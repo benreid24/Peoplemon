@@ -271,6 +271,7 @@ bool BattleState::execute()
                         if (shouldClose())
                             return true;
                         applyMove(order[i],order[i],80);
+                        renderStatic();
                         goto noMove;
                     }
                 }
@@ -439,7 +440,7 @@ bool BattleState::execute()
                     return true;
 
                 int dmg = float(ppl.stats.hp)/16.0+0.5;
-                dmg = order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp;
+                //dmg = order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp;
                 if (dmg>ppl.curHp)
                     dmg = ppl.curHp;
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp -= dmg;
