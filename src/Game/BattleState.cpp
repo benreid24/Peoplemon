@@ -476,7 +476,7 @@ bool BattleState::execute()
                 }
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).turnsWithAil++;
             }
-            if (ppl.holdItem==55 || true) //super tiny mini fridge
+            if (ppl.holdItem==55) //super tiny mini fridge
 			{
 				displayMessage(ppl.name+" has a Super Tiny Mini Fridge!");
 				applyMove(order[i],order[j],81);

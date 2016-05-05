@@ -89,7 +89,20 @@ bool PeoplemonState::execute()
 									string out;
 									int i = menu.primarySelection();
 
-									if (itemId==22) //keg of protein
+									if (itemId==1) //potion
+									{
+										if (peoplemon->at(i).curHp==peoplemon->at(i).stats.hp)
+											out = peoplemon->at(i).name+"'s HP is already full!";
+										else
+										{
+                                            int restore = peoplemon->at(i).stats.hp-peoplemon->at(i).curHp;
+                                            if (restore>20)
+												restore = 20;
+											out = peoplemon->at(i).name+"'s HP was restored by "+intToString(restore)+" points!";
+											peoplemon->at(i).curHp += restore;
+										}
+									}
+									else if (itemId==22) //keg of protein
 									{
 										int evCap = 510-peoplemon->at(i).evs.sum();
 										if (evCap<=0 || 252-peoplemon->at(i).evs.atk<=0)
@@ -111,6 +124,7 @@ bool PeoplemonState::execute()
 									while (!game->hud.messageFinished())
 									{
 										game->hud.update();
+										menu.sync(peoplemon,game);
 
 										if (finishFrame())
 											return true;
