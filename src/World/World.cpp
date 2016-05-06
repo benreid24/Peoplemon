@@ -22,7 +22,7 @@ World::World(Game* g) : light(TrianglesFan, 362), weather(g)
 
 World::~World()
 {
-    //dtor
+    clear();
 }
 
 string World::getName()
