@@ -173,6 +173,7 @@ bool BattleState::execute()
                 anims[1] = &playerAnims;
             }
         } //end input and ordering
+        renderStatic();
 
         //loop through turns and do them while outputting stuff. declare things here to indicate moves like protect being used
         bool shouldStop = false;
@@ -217,12 +218,12 @@ bool BattleState::execute()
             }
             else if (turns[i].type==Turn::Item)
             {
-                displayMessage(getItemLine(order[i],turns[i].id));
-                if (shouldClose())
-                    return true;
                 //TODO - apply the item with id turns[i].id to the peoplemon& at order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon())
                 if (order[i]!=player)
 				{
+					displayMessage(getItemLine(order[i],turns[i].id));
+					if (shouldClose())
+						return true;
 					switch (turns[i].id)
 					{
 					case 1:

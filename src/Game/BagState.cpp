@@ -133,6 +133,7 @@ bool BagState::execute()
 								if (ppl!=-1)
 								{
 									game->player.takeItem(itemList.getCurrentItem());
+									choice = id;
 									return false;
 								}
 								else
@@ -142,6 +143,7 @@ bool BagState::execute()
                             {
                             	cout << "Use non-Peoplemon item in battle here\n";
 								game->player.takeItem(itemList.getCurrentItem());
+								choice = id;
 								return false;
                             }
                         }
