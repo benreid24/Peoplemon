@@ -440,7 +440,6 @@ bool BattleState::execute()
                     return true;
 
                 int dmg = float(ppl.stats.hp)/16.0+0.5;
-                //dmg = order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp;
                 if (dmg>ppl.curHp)
                     dmg = ppl.curHp;
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp -= dmg;
