@@ -113,10 +113,8 @@ vector<string> getDirectory(string dir, std::string ext)
             if (tmp.find(".")!=string::npos)
             {
                 if (tmp.size()>2 && File::getExtension(tmp)==ext)
-                    total.push_back(dir+tmp);
+					total.push_back(dir+tmp);
             }
-            else
-                total.push_back(tmp);
         }
     }
     return total;
