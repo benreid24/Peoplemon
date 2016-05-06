@@ -320,9 +320,6 @@ void World::load(string file, int spId, bool trans)
         ySortedObjects[objects[i]->getPosition().y/32].push_back(objects[i]);
 
     game->music.play();
-    if (File::getExtension(loadScript)=="psc")
-		loadScript = Properties::ScriptPath+loadScript;
-    game->scriptEnvironment.runScript(shared_ptr<Script>(new Script(loadScript)));
 
 	calculateLighting();
 	RectangleShape cover;
@@ -343,6 +340,9 @@ void World::load(string file, int spId, bool trans)
 		game->mainWindow.display();
 		sleep(milliseconds(2));
 	}
+	if (File::getExtension(loadScript)=="psc")
+		loadScript = Properties::ScriptPath+loadScript;
+    game->scriptEnvironment.runScript(shared_ptr<Script>(new Script(loadScript)));
 }
 
 void World::clear()
@@ -686,11 +686,21 @@ void World::setItemPickedUp(int id)
 
 void World::setTrainerBeaten(string nm)
 {
+	for (unsigned int i = 0; i<beatenTrainers.size(); ++i)
+	{
+		if (beatenTrainers[i]==nm)
+			return;
+	}
     beatenTrainers.push_back(nm);
 }
 
 void World::setNpcTalkedTo(string nm)
 {
+	for (unsigned int i = 0; i<talkedToNpcs.size(); ++i)
+	{
+		if (talkedToNpcs[i]==nm)
+			return;
+	}
 	talkedToNpcs.push_back(nm);
 }
 
