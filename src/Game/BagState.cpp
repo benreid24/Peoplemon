@@ -120,32 +120,64 @@ bool BagState::execute()
                 if (cBox.getChoice()=="Use")
                 {
                     int id = itemList.getCurrentItem();
-                    int ppl = -1;
-                    if (id<=4 || (id>=18 && id<=32) || (id>=38 && id<=43) || id>=201)
-                        ppl = getPeoplemon(id);
-                    if (ppl==-1)
-                        break;
-                    if (ppl==-100)
-                        return true;
 
                     if (inBattle)
                     {
-                        if (id<22 && id>38 && id<50) //validate that it can be used in battle
+                        if (id<22 || (id>38 && id<50)) //validate that it can be used in battle
                         {
-                            //TODO - check to see if we need a peoplemon to use it on
-                            choice = itemList.getCurrentItem();
-                            game->player.takeItem(itemList.getCurrentItem());
-                            return false;
+                            if (id<=4 || (id>=38 && id<=43))
+							{
+								int ppl = getPeoplemon(id);
+								if (ppl==-100)
+									return true;
+								if (ppl!=-1)
+								{
+									game->player.takeItem(itemList.getCurrentItem());
+									return false;
+								}
+								else
+									break;
+							}
+							else
+                            {
+                            	cout << "Use non-Peoplemon item in battle here\n";
+								game->player.takeItem(itemList.getCurrentItem());
+								return false;
+                            }
                         }
-                        //error out if not
+                        else
+						{
+							game->hud.displayMessage("You can't use that now!");
+							while (!game->hud.messageFinished())
+							{
+								if (finishFrame())
+									return true;
+								game->hud.update();
+
+								game->hud.draw(&game->mainWindow);
+								game->mainWindow.display();
+								sleep(milliseconds(30));
+							}
+						}
                     }
                     else
                     {
-                        //TODO - use item, may need to get a peoplemon or reject
-                        cout << "Item use here\n";
-                        game->player.takeItem(itemList.getCurrentItem());
-                        break;
+						if (id<=4 || (id>=18 && id<=32) || (id>=38 && id<=43) || id>=201)
+						{
+							int ppl = getPeoplemon(id);
+							if (ppl!=-1)
+								game->player.takeItem(itemList.getCurrentItem());
+							if (ppl==-100)
+								return true;
+						}
+						else
+                        {
+                        	//TODO - use item
+							cout << "Item use here\n";
+							game->player.takeItem(itemList.getCurrentItem());
+                        }
                     }
+                    break;
                 }
                 if (cBox.getChoice()=="Give")
                 {
