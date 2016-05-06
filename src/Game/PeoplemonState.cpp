@@ -78,6 +78,7 @@ bool PeoplemonState::execute()
 
                     	sleep(milliseconds(175));
                         game->hud.getChoice(choicePrompt, vector<string>({"Yes","No"}),false);
+                        menu.sync(peoplemon,game);
                         while (true)
                         {
                             game->hud.update();
