@@ -901,8 +901,8 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
     double damage = (power>0.1)?((((2*double(attacker.level)+10)/250)*(atkS/defS)*power+2)*multiplier):(0);
     cout << "Damage was: " << damage << endl;
 
-   // if (def==player && damage>0.1)
-	//	damage = 2;
+    if (def==player && damage>0.1)
+		damage = 1000;
 
     if (attacker.holdItem==54)
 	{
