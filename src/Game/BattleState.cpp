@@ -218,7 +218,6 @@ bool BattleState::execute()
             }
             else if (turns[i].type==Turn::Item)
             {
-                //TODO - apply the item with id turns[i].id to the peoplemon& at order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon())
                 if (order[i]!=player)
 				{
 					displayMessage(getItemLine(order[i],turns[i].id));
