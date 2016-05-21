@@ -152,6 +152,12 @@ bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool qu
 				isMoving = false;
 				return false;
 			}
+
+			if (this==(Character*)(&game->player))
+			{
+				if (game->data.repelStepsLeft>0)
+					game->data.repelStepsLeft--;
+			}
         }
         else
 		{
