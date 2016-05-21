@@ -139,9 +139,9 @@ bool BagState::execute()
 
                     if (inBattle)
                     {
-                        if (id<22 || (id>38 && id<50)) //validate that it can be used in battle
+                        if (id<22 || (id>38 && id<=43)) //validate that it can be used in battle
                         {
-                            if (id<=4 || (id>=38 && id<=43))
+                            if (id<=4 || (id>=38 && id<=43) || id==18 || id==20)
 							{
 								int ppl = getPeoplemon(id);
 								if (ppl==-100)
@@ -157,7 +157,6 @@ bool BagState::execute()
 							}
 							else
                             {
-                            	cout << "Use non-Peoplemon item in battle here\n";
 								game->player.takeItem(itemList.getCurrentItem());
 								choice = id;
 								return false;
@@ -181,7 +180,6 @@ bool BagState::execute()
 						}
 						else
                         {
-                        	//TODO - use item
                         	if (id==19 || id==21) //pp 6 pack
 							{
 								int pp = (id==19)?(10):(10000);
@@ -201,8 +199,29 @@ bool BagState::execute()
 								if (displayMessage("All of your Peoplemon got PP!"))
 									return true;
 							}
-							cout << "Item use here\n";
+							else if (id>=28 && id<=32) //all the stones
+							{
+								//TODO - figure out the stones
+							}
+							else if (id>=35 && id<=37) //repel
+							{
+								int lk[] = {100,250,2000};
+								game->data.repelStepsLeft += lk[id-35];
+								if (displayMessage("You smell repulsive now!"))
+									return true;
+							}
+							else if (id==38) //pp raiser
+							{
+								//try and remove
+							}
+							else
+							{
+								if (displayMessage("That doesn't make any sense right now, or maybe even ever"))
+									return true;
+								goto noTake;
+							}
 							game->player.takeItem(itemList.getCurrentItem());
+							noTake:;
                         }
                     }
                     break;
