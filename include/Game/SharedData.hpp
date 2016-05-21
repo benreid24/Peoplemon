@@ -34,8 +34,6 @@ struct SharedData
     std::string storePrompt, storeError;
     std::vector<std::pair<int,int> > storeItems;
 
-    //TODO - data here for items like repel to manipulate
-    //for example
     int repelStepsLeft;
 
     /**

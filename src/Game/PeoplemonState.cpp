@@ -217,7 +217,56 @@ bool PeoplemonState::execute()
 											peoplemon->at(i).evs.cap(252);
                                         }
 									}
-									//TODO - other PM context items here
+									else if (itemId==39)
+									{
+                                        if (peoplemon->at(i).curAils[0]!=Peoplemon::Annoyed)
+											out = peoplemon->at(i).name+" isn't Annoyed yet, but you can keep trying";
+										else
+										{
+											peoplemon->at(i).curAils[0] = Peoplemon::None;
+											out = peoplemon->at(i).name+" is no longer Annoyed!";
+										}
+									}
+									else if (itemId==40)
+									{
+                                        if (peoplemon->at(i).curAils[0]!=Peoplemon::Frustrated)
+											out = peoplemon->at(i).name+" isn't Frustrated yet, but you can keep trying";
+										else
+										{
+											peoplemon->at(i).curAils[0] = Peoplemon::None;
+											out = peoplemon->at(i).name+" is no longer Frustrated!";
+										}
+									}
+									else if (itemId==41)
+									{
+                                        if (peoplemon->at(i).curAils[0]!=Peoplemon::Sleep)
+											out = peoplemon->at(i).name+" isn't Sleeping!";
+										else
+										{
+											peoplemon->at(i).curAils[0] = Peoplemon::None;
+											out = peoplemon->at(i).name+" is no longer Sleeping!";
+										}
+									}
+									else if (itemId==42)
+									{
+                                        if (peoplemon->at(i).curAils[0]!=Peoplemon::Sticky)
+											out = peoplemon->at(i).name+" isn't Sticky yet, but you can keep trying";
+										else
+										{
+											peoplemon->at(i).curAils[0] = Peoplemon::None;
+											out = peoplemon->at(i).name+" is no longer Sticky!";
+										}
+									}
+									else if (itemId==43)
+									{
+                                        if (peoplemon->at(i).curAils[0]!=Peoplemon::Frozen)
+											out = peoplemon->at(i).name+" isn't Frozen!";
+										else
+										{
+											peoplemon->at(i).curAils[0] = Peoplemon::None;
+											out = peoplemon->at(i).name+" is no longer Frozen!";
+										}
+									}
 
 									game->hud.displayMessage(out);
 
