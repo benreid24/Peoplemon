@@ -1,0 +1,17 @@
+print("MFTP running\n");
+setPlayerLock(1);
+npcToLocation("MFTP",46,28);
+sleep(1000);
+messageBox("...");
+sleep(1000);
+messageBox("...");
+sleep(1000);
+messageBox("...");
+sleep(1000);
+messageBox("...");
+sleep(1000);
+messageBox("...");
+sleep(1000);
+messageBox("...");
+removeNPC("MFTP");
+setPlayerLock(0);
