@@ -20,7 +20,6 @@ BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm,
     opponentName = opName;
     loseLine = ll;
     prizeMoney = pm;
-    cout << "Battle prize money is: " << prizeMoney << endl;
     playlist = music;
     playerBox.setIsPlayer();
     playerBox.update(player->getPeoplemon()->at(player->getCurrentPeoplemon()));
@@ -272,6 +271,14 @@ bool BattleState::execute()
                             return true;
                         applyMove(order[i],order[i],80);
                         renderStatic();
+                        if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp<=0)
+						{
+							bool done = doFaint(j,i);
+							if (shouldClose())
+								return true;
+							if (done)
+								return false;
+						}
                         goto noMove;
                     }
                 }

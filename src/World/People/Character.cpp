@@ -59,6 +59,12 @@ void Character::update(Game* game)
     else if (mapPos.y*32<position.y)
         position.y -= dif;
 
+	if (dif>32)
+	{
+		position.x = mapPos.x*32;
+		position.y = mapPos.y*32;
+	}
+
     if (abs(position.x-mapPos.x*32)<0.5)
         position.x = mapPos.x*32;
     if (abs(position.y-mapPos.y*32)<0.5)
