@@ -709,7 +709,6 @@ bool BattleState::doFaint(int i, int j)
 						if (!order[i]->getPeoplemon()->at(sentIn[k]).knowsMove(moveId))
 						{
 							learned = order[i]->getPeoplemon()->at(sentIn[k]).teachMove(game,moveId);
-							learned = false;
 
 							if (!learned)
 							{

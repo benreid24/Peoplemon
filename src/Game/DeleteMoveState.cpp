@@ -15,7 +15,7 @@ DeleteMoveState::DeleteMoveState(Game* g, PeoplemonRef* p, int m) : Gamestate(g,
     bgnd.setImage("delMoveWindow.png");
     power.setPosition(Vector2f(220,220));
     acc.setPosition(Vector2f(220,275));
-    type.setPosition(Vector2f(220,330));
+    type.setPosition(Vector2f(200,330));
     desc.setPosition(Vector2f(50,405));
     power.setProps(Color::White,22);
     acc.setProps(Color::White,22);
@@ -67,8 +67,6 @@ string DeleteMoveState::wordWrap(string str)
 
 bool DeleteMoveState::execute()
 {
-    int lMove = 10; //to ensure refresh on first loop
-
     while (!finishFrame())
     {
         choices.update();
@@ -122,17 +120,14 @@ bool DeleteMoveState::execute()
             }
 
             choices.reset(); //just continue with menu
+            sleep(milliseconds(225));
         }
 
-        if (revLookup[choices.getCurrentChoice()]!=lMove)
-        {
-            lMove = revLookup[choices.getCurrentChoice()];
-
-            power.setText(intToString(game->moveList[moves[lMove]].dmg));
-            acc.setText(intToString(game->moveList[moves[lMove]].acc));
-            type.setText(game->typeList[game->moveList[moves[lMove]].type]);
-            desc.setText(game->moveList[moves[lMove]].description);
-        }
+		int lMove = revLookup[choices.getCurrentChoice()];
+		power.setText(intToString(game->moveList[lMove].dmg));
+		acc.setText(intToString(game->moveList[lMove].acc));
+		type.setText(game->typeList[game->moveList[lMove].type]);
+		desc.setText(wordWrap(game->moveList[lMove].description));
 
         menu.draw(&game->mainWindow);
         game->mainWindow.display();
