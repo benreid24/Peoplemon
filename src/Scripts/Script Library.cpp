@@ -146,13 +146,13 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			ret.sValue = environment->getGame()->player.getName();
 		}
 		else if (name=="playerXWorldPos")
-			ret.iValue = environment->getGame()->player.getPosition().x-32;
+			ret.iValue = environment->getGame()->player.getPosition().x;
 		else if (name=="playerYWorldPos")
-			ret.iValue = environment->getGame()->player.getPosition().y-32;
+			ret.iValue = environment->getGame()->player.getPosition().y;
 		else if (name=="playerXScreenPos")
-			ret.iValue = environment->getGame()->player.getPosition().x-environment->getGame()->world.getCamera().x*32-32;
+			ret.iValue = environment->getGame()->player.getPosition().x-environment->getGame()->world.getCamera().x*32;
 		else if (name=="playerYScreenPos")
-			ret.iValue = environment->getGame()->player.getPosition().y-environment->getGame()->world.getCamera().y*32-32;
+			ret.iValue = environment->getGame()->player.getPosition().y-environment->getGame()->world.getCamera().y*32;
 		else if (name=="cameraXPos")
 			ret.iValue = environment->getGame()->world.getCamera().x;
 		else if (name=="cameraYPos")
