@@ -577,11 +577,11 @@ void World::setRenderPosition(Vector2f playerPos)
     camPos = playerPos - Vector2f(Properties::ScreenWidth/2,Properties::ScreenHeight/2);
     if (camPos.x<32)
         camPos.x = 32;
-    else if (camPos.x>size.x*32-Properties::ScreenWidth)
+    else if (camPos.x>size.x*32-Properties::ScreenWidth+32)
         camPos.x = size.x*32-Properties::ScreenWidth+32;
     if (camPos.y<32)
         camPos.y = 32;
-    else if (camPos.y>size.y*32-Properties::ScreenHeight)
+    else if (camPos.y>size.y*32-Properties::ScreenHeight+32)
         camPos.y = size.y*32-Properties::ScreenHeight+32;
 
     if (Properties::ScreenWidth>=size.x*32)
