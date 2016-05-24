@@ -228,7 +228,7 @@ bool BagState::execute()
                 }
                 if (cBox.getChoice()=="Give")
                 {
-                    if (getChoice)
+                    if (getChoice && !inBattle)
                     {
                         choice = itemList.getCurrentItem();
                         game->player.takeItem(itemList.getCurrentItem());
