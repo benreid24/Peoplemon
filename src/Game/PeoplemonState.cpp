@@ -3,6 +3,7 @@
 #include "Menu/PeoplemonSelector.hpp"
 #include "Game/BagState.hpp"
 #include "Game/DeleteMoveState.hpp"
+#include "Game/EvolveState.hpp"
 #include "Game/Game.hpp"
 #include "Globals.hpp"
 #include <iostream>
@@ -102,8 +103,7 @@ bool PeoplemonState::execute()
 										}
 										else
 										{
-											int lk[] = {20,50,200,9001};
-											int cap = lk[itemId-1];
+											int cap = (const int[]){20,50,200,9001}[itemId-1];
                                             int restore = peoplemon->at(i).stats.hp-peoplemon->at(i).curHp;
                                             if (restore>cap)
 												restore = cap;
@@ -243,6 +243,28 @@ bool PeoplemonState::execute()
 											peoplemon->at(i).evs.hp += plus;
 											peoplemon->at(i).evs.cap(252);
                                         }
+									}
+									else if (itemId>=28 && itemId<=32)
+									{
+										int pplId = peoplemon->at(i).id;
+										map<int,vector<int> > lookUp;
+										lookUp[28] = {0}; //TODO - put peoplemon id's in here based on items
+										lookUp[29] = {0};
+										lookUp[30] = {0};
+										lookUp[31] = {0};
+										lookUp[32] = {0};
+
+										if (find(lookUp[itemId].begin(),lookUp[itemId].end(),pplId)==lookUp[itemId].end())
+										{
+											out = "It had no effect";
+											used = false;
+										}
+										else
+										{
+                                            EvolveState* state = new EvolveState(game,&peoplemon->at(i));
+                                            if (game->runState(state,true))
+												return true;
+										}
 									}
 									else if (itemId==39)
 									{
