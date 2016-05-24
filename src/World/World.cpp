@@ -769,6 +769,9 @@ void World::setWeather(int t)
 
 Object* World::getFirstObject(Vector2i pos, int dir, int range)
 {
+	if (range==0)
+		return NULL;
+
     Vector2i cur = pos, chg;
     if (dir==0)
         chg.y = -1;
@@ -780,7 +783,7 @@ Object* World::getFirstObject(Vector2i pos, int dir, int range)
         chg.x = -1;
     cur += chg;
 
-    for (int i = 0; i<=range; ++i)
+    for (int i = 0; i<range; ++i)
     {
         for (unsigned int j = 0; j<objects.size(); ++j)
         {
