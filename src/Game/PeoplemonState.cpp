@@ -2,6 +2,7 @@
 #include "Game/PeoplemonInfoState.hpp"
 #include "Menu/PeoplemonSelector.hpp"
 #include "Game/BagState.hpp"
+#include "Game/DeleteMoveState.hpp"
 #include "Game/Game.hpp"
 #include "Globals.hpp"
 #include <iostream>
@@ -85,15 +86,20 @@ bool PeoplemonState::execute()
 
                             if (game->hud.getChoice()=="Yes")
                             {
+                            	chosenIndex = menu.primarySelection();
                                 if (itemId!=-1)
 								{
 									string out;
 									int i = menu.primarySelection();
+									bool used = true;
 
 									if (itemId>=1 && itemId<=4) //potion
 									{
 										if (peoplemon->at(i).curHp==peoplemon->at(i).stats.hp)
+										{
 											out = peoplemon->at(i).name+"'s HP is already full!";
+											used = false;
+										}
 										else
 										{
 											int lk[] = {20,50,200,9001};
@@ -114,7 +120,10 @@ bool PeoplemonState::execute()
 												full = false;
 										}
 										if (full)
+										{
 											out = peoplemon->at(i).name+"'s PP is all full!";
+											used = false;
+										}
 										else
 										{
 											int pp = (itemId==18)?(10):(10000);
@@ -131,7 +140,10 @@ bool PeoplemonState::execute()
 									{
 										int evCap = 510-peoplemon->at(i).evs.sum();
 										if (evCap<=0 || 252-peoplemon->at(i).evs.atk<=0)
+										{
 											out = peoplemon->at(i).name+"'s attack won't go any higher!";
+											used = false;
+										}
 										else
                                         {
                                         	int plus = 10;
@@ -146,7 +158,10 @@ bool PeoplemonState::execute()
 									{
 										int evCap = 510-peoplemon->at(i).evs.sum();
 										if (evCap<=0 || 252-peoplemon->at(i).evs.spAtk<=0)
+										{
 											out = peoplemon->at(i).name+"'s Special Attack won't go any higher!";
+											used = false;
+										}
 										else
                                         {
                                         	int plus = 10;
@@ -161,7 +176,10 @@ bool PeoplemonState::execute()
 									{
 										int evCap = 510-peoplemon->at(i).evs.sum();
 										if (evCap<=0 || 252-peoplemon->at(i).evs.spDef<=0)
+										{
 											out = peoplemon->at(i).name+"'s Special Defense won't go any higher!";
+											used = false;
+										}
 										else
                                         {
                                         	int plus = 10;
@@ -176,7 +194,10 @@ bool PeoplemonState::execute()
 									{
 										int evCap = 510-peoplemon->at(i).evs.sum();
 										if (evCap<=0 || 252-peoplemon->at(i).evs.def<=0)
+										{
 											out = peoplemon->at(i).name+"'s Defense won't go any higher!";
+											used = false;
+										}
 										else
                                         {
                                         	int plus = 10;
@@ -191,7 +212,10 @@ bool PeoplemonState::execute()
 									{
 										int evCap = 510-peoplemon->at(i).evs.sum();
 										if (evCap<=0 || 252-peoplemon->at(i).evs.spd<=0)
+										{
 											out = peoplemon->at(i).name+"'s Speed won't go any higher!";
+											used = false;
+										}
 										else
                                         {
                                         	int plus = 10;
@@ -206,7 +230,10 @@ bool PeoplemonState::execute()
 									{
 										int evCap = 510-peoplemon->at(i).evs.sum();
 										if (evCap<=0 || 252-peoplemon->at(i).evs.hp<=0)
+										{
 											out = peoplemon->at(i).name+"'s Health won't go any higher!";
+											used = false;
+										}
 										else
                                         {
                                         	int plus = 10;
@@ -220,7 +247,10 @@ bool PeoplemonState::execute()
 									else if (itemId==39)
 									{
                                         if (peoplemon->at(i).curAils[0]!=Peoplemon::Annoyed)
+										{
 											out = peoplemon->at(i).name+" isn't Annoyed yet, but you can keep trying";
+											used = false;
+										}
 										else
 										{
 											peoplemon->at(i).curAils[0] = Peoplemon::None;
@@ -230,7 +260,10 @@ bool PeoplemonState::execute()
 									else if (itemId==40)
 									{
                                         if (peoplemon->at(i).curAils[0]!=Peoplemon::Frustrated)
+										{
 											out = peoplemon->at(i).name+" isn't Frustrated yet, but you can keep trying";
+											used = false;
+										}
 										else
 										{
 											peoplemon->at(i).curAils[0] = Peoplemon::None;
@@ -240,7 +273,10 @@ bool PeoplemonState::execute()
 									else if (itemId==41)
 									{
                                         if (peoplemon->at(i).curAils[0]!=Peoplemon::Sleep)
+										{
 											out = peoplemon->at(i).name+" isn't Sleeping!";
+											used = false;
+										}
 										else
 										{
 											peoplemon->at(i).curAils[0] = Peoplemon::None;
@@ -250,7 +286,10 @@ bool PeoplemonState::execute()
 									else if (itemId==42)
 									{
                                         if (peoplemon->at(i).curAils[0]!=Peoplemon::Sticky)
+										{
 											out = peoplemon->at(i).name+" isn't Sticky yet, but you can keep trying";
+											used = false;
+										}
 										else
 										{
 											peoplemon->at(i).curAils[0] = Peoplemon::None;
@@ -260,11 +299,38 @@ bool PeoplemonState::execute()
 									else if (itemId==43)
 									{
                                         if (peoplemon->at(i).curAils[0]!=Peoplemon::Frozen)
+										{
 											out = peoplemon->at(i).name+" isn't Frozen!";
+											used = false;
+										}
 										else
 										{
 											peoplemon->at(i).curAils[0] = Peoplemon::None;
 											out = peoplemon->at(i).name+" is no longer Frozen!";
+										}
+									}
+									else if (itemId>=201)
+									{
+										int moveId = itemId-200;
+										string moveName = game->moveList[moveId].name;
+										if (peoplemon->at(i).knowsMove(moveId))
+										{
+											out = peoplemon->at(i).name+" already knows "+moveName+"!";
+											used = false;
+										}
+										else
+										{
+											if (peoplemon->at(i).teachMove(game,moveId))
+												out = peoplemon->at(i).name+" learned "+moveName+"!";
+											else
+											{
+												DeleteMoveState* state = new DeleteMoveState(game,&peoplemon->at(i),moveId);
+												if (game->runState(state,false))
+													return true;
+                                                if (!state->moveLearned())
+													used = false;
+												delete state;
+											}
 										}
 									}
 
@@ -284,8 +350,9 @@ bool PeoplemonState::execute()
 										game->mainWindow.display();
 										sleep(milliseconds(30));
 									}
+									if (!used)
+										chosenIndex = -1;
 								}
-								chosenIndex = menu.primarySelection();
                                 return false;
                             }
                             if (game->hud.getChoice()=="No")

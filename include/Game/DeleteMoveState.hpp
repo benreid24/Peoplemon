@@ -16,6 +16,7 @@ class DeleteMoveState : public Gamestate
     PeoplemonRef* ppl;
     int moves[5];
     std::map<std::string,int> revLookup;
+    bool taught;
 
     MenuImage bgnd;
     MenuText power, acc, type, desc;
@@ -44,6 +45,13 @@ public:
      * \param m The id of the move being learned
      */
     DeleteMoveState(Game* g, PeoplemonRef* p, int m);
+
+    /**
+     * Indicates whether or not the move was taught
+     *
+     * \return True if the Peoplemon learned the move, false otherwise
+     */
+	bool moveLearned();
 };
 
 #endif // DELETEMOVESTAT_HPP

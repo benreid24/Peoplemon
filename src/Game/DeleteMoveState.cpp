@@ -8,6 +8,7 @@ using namespace sf;
 DeleteMoveState::DeleteMoveState(Game* g, PeoplemonRef* p, int m) : Gamestate(g,NULL)
 {
     ppl = p;
+    taught = false;
     for (int i = 0; i<4; ++i)
         moves[i] = p->moves[i].id;
     moves[4] = m;
@@ -99,9 +100,10 @@ bool DeleteMoveState::execute()
                 message = ppl->name+" stopped trying to learn "+game->moveList[moves[4]].name+"!";
                 if (ch!=4)
                 {
+                	message = ppl->name+" forgot "+game->moveList[moves[ch]].name+" and learned "+game->moveList[moves[4]].name+"!";
                     ppl->moves[ch].id = moves[ch];
                     ppl->moves[ch].curPp = game->moveList[moves[ch]].pp;
-                    message = ppl->name+" forgot "+game->moveList[moves[ch]].name+" and learned "+game->moveList[moves[4]].name+"!";
+                    taught = true;
                 }
 
                 game->hud.displayMessage(message);
@@ -135,4 +137,9 @@ bool DeleteMoveState::execute()
     }
 
     return true;
+}
+
+bool DeleteMoveState::moveLearned()
+{
+	return taught;
 }

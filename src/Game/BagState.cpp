@@ -210,10 +210,6 @@ bool BagState::execute()
 								if (displayMessage("You smell repulsive now!"))
 									return true;
 							}
-							else if (id==38) //pp raiser
-							{
-								//try and remove
-							}
 							else
 							{
 								if (displayMessage("That doesn't make any sense right now, or maybe even ever"))
