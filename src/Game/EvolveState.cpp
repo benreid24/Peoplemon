@@ -11,10 +11,10 @@ EvolveState::EvolveState(Game* g, PeoplemonRef* p) : Gamestate(g,NULL)
     evolved = false;
 
     evolveText.setPosition(Vector2f(90,500));
-    evolveText.setText("What the poop? "+p->name+" is evolving!!!\nPress the pause key to cancel");
+    evolveText.setText("What the poop? "+p->name+" is evolving!!!\nPress the pause button to cancel");
     bgndTxtr = imagePool.loadResource(Properties::BattleImagePath+"evolveBgnd.png");
-    oldTxtr = imagePool.loadResource(Properties::PeoplemonImagePath+g->peoplemonList[p->id].name+".png");
-    newTxtr = imagePool.loadResource(Properties::PeoplemonImagePath+g->peoplemonList[g->peoplemonList[p->id].evolveNewId].name+".png");
+    oldTxtr = imagePool.loadResource(Properties::PeoplemonImagePath+intToString(game->peoplemonList[p->id].id)+".png");
+    newTxtr = imagePool.loadResource(Properties::PeoplemonImagePath+intToString(game->peoplemonList[p->id].evolveNewId)+".png");
 
     sparkles.setSource(animPool.loadResource(Properties::MiscAnimationPath+"sparkles.anim"));
     sparkles.setPosition(Vector2f(800,600));
@@ -86,7 +86,7 @@ bool EvolveState::execute()
 
     evolved = true;
     ppl->id = game->peoplemonList[ppl->id].evolveNewId;
-    evolveText.setText(ppl->name+" evolved into a "+game->peoplemonList[ppl->id].name+"!");
+    evolveText.setText(ppl->name+" evolved!");
     no:
 
     while (!user.isInputActive(PlayerInput::Interact))

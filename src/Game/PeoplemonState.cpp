@@ -23,7 +23,7 @@ bool PeoplemonState::execute()
     sleep(milliseconds(300));
 
     MenuImage background("peoplemonBgnd.png");
-    PeoplemonSelector menu(peoplemon, game,!shouldReturnChoice);
+    PeoplemonSelector menu(peoplemon, game, !shouldReturnChoice);
     bool gettingSecond = false;
 
     while (!finishFrame())
