@@ -878,8 +878,14 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
     }
 
 	double power = game->moveList[id].dmg;
+	double acc = attacker.stats.acc;
+	if (attacker.holdItem==52 && game->moveList[id].acc!=0 && !game->moveList[id].targetIsSelf)
+	{
+		acc *= 1.1;
+		ret.push_back(attacker.name+"'s Glasses increase Accuracy!");
+	}
     double multiplier = 1;
-    bool hit = (Random(0,100)<game->moveList[id].acc*attacker.stats.acc/defender.stats.evade) || game->moveList[id].acc==0;
+    bool hit = (Random(0,100)<game->moveList[id].acc*acc/defender.stats.evade) || game->moveList[id].acc==0;
     bool critical = Random(0,100)<=attacker.stages.getCritChance() && power>0.1;
     double stab = Peoplemon::getSTAB(game->peoplemonList[attacker.id].type,game->moveList[id].type);
     double effectiveness = Peoplemon::getEffectivenessMultiplier(game->moveList[id].type,game->peoplemonList[defender.id].type);
@@ -903,24 +909,35 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
     double atkS = (isSpecial)?(attacker.stats.spAtk):(attacker.stats.atk);
     if (attacker.hasAilment(Peoplemon::Frustrated) && !isSpecial)
         atkS /= 2;
+	if (attacker.holdItem==51)
+	{
+		atkS /= 2;
+		ret.push_back(attacker.name+"'s Backwards Hoodie reduces Attack!");
+	}
+	if (attacker.holdItem==53 && isSpecial && !game->moveList[id].targetIsSelf)
+	{
+		atkS *= 1.1;
+		ret.push_back(attacker.name+"'s Spoon increases Special Attack!");
+	}
+	if (attacker.holdItem==54 && !isSpecial && !game->moveList[id].targetIsSelf)
+	{
+		atkS *= 1.1;
+		ret.push_back(attacker.name+"'s Slapping Glove increases Attack!");
+	}
     double defS = (isSpecial)?(defender.stats.spDef):(defender.stats.def);
     double damage = (power>0.1)?((((2*double(attacker.level)+10)/250)*(atkS/defS)*power+2)*multiplier):(0);
     cout << "Damage was: " << damage << endl;
-
-    //if (def==player && damage>0.1)
-	//	damage = 1000;
-
-    if (attacker.holdItem==54)
-	{
-		damage *= 1.1;
-		ret.push_back(attacker.name+"'s Slapping Glove increased damage!");
-	}
 
 	atk->setLastDamageDealt(damage); //for ai
 	def->setLastDamageTaken(damage);
 
     if (hit)
 	{
+		if (defender.holdItem==51 && Random(0,100)<25 && !attacker.hasAilment(Peoplemon::Confused) && damage>0.1)
+		{
+			ret.push_back(defender.name+"'s Backwards Hoodie Confused "+attacker.name+"!");
+			attacker.addPassiveAilment(Peoplemon::Confused);
+		}
 		if (defender.curAbility==Peoplemon::EasyGoing && damage>=defender.curHp && defender.curHp>1)
 		{
 			ret.push_back(defender.name+"'s Easy Going nature prevented a one hit KO!");
