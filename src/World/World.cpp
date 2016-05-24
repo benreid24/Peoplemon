@@ -269,7 +269,7 @@ void World::load(string file, int spId, bool trans)
     {
         int itemId = input.get<uint16_t>();
         int mapId = input.get<uint16_t>();
-        cout << "Loaded item with mapId: " << mapId << endl;
+        //cout << "Loaded item with mapId: " << mapId << endl;
         Vector2f pos;
         pos.x = input.get<uint32_t>();
         pos.y = input.get<uint32_t>();
