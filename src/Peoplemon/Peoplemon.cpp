@@ -184,6 +184,11 @@ void PeoplemonRef::awardEVs(Game* g, Stats evAward)
 
 void PeoplemonRef::addPassiveAilment(Peoplemon::Ailment a)
 {
+	for (int i = 0; i<4; ++i)
+	{
+		if (curAils[i]==a)
+			return;
+	}
     for (int i = 1; i<4; ++i)
     {
         if (curAils[i]==Peoplemon::None || curAils[i]==a)
@@ -214,6 +219,16 @@ bool PeoplemonRef::hasAilment(Peoplemon::Ailment ail)
             return true;
     }
     return false;
+}
+
+bool PeoplemonRef::hasAtLeastOneAilment()
+{
+	for (int i = 0; i<4; ++i)
+	{
+		if (curAils[i]!=Peoplemon::None)
+			return false;
+	}
+	return true;
 }
 
 bool PeoplemonRef::knowsMove(int m)

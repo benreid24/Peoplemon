@@ -213,7 +213,7 @@ void Player::update(Game* game)
             isMoving = false;
             isRunning = false;
         }
-        if (isMoving)
+        if (isMoving) //for Questionable
 			pickupRandom();
         if (user.isInputActive(PlayerInput::Run) && isMoving)
             isRunning = true;

@@ -189,6 +189,13 @@ struct PeoplemonRef
     bool hasAilment(Peoplemon::Ailment ail);
 
     /**
+     * Tells whether or not this Peoplemon has at least one ailment
+     *
+     * \return True if there is at least on ailment, false otherwise
+     */
+	bool hasAtLeastOneAilment();
+
+    /**
      * Tells whether or not the peoplemon knows the given move
      *
      * \param m The id of the move to check for

@@ -64,6 +64,13 @@ public:
      */
     int getCurrentPeoplemon(); //Battle function will store a vector of peoplemon for each battler and will store its own index of the current peoplemon
 
+	/**
+	 * Sets the current Peoplemon. This is used by the Engage ability and Trap ailment to revert back if the switch couldn't occur
+	 *
+	 * \param c The index of the Peoplemon to switch to
+	 */
+	void setCurrentPeoplemon(int c);
+
     /**
      * Returns the action to take on their turn. Will be overridden by subclasses for network/UI/AI functionality
      *

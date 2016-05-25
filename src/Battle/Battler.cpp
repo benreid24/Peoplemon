@@ -64,6 +64,11 @@ int Battler::getCurrentPeoplemon()
     return curPeoplemon;
 }
 
+void Battler::setCurrentPeoplemon(int c)
+{
+	curPeoplemon = c;
+}
+
 bool Battler::statusIsGood()
 {
     return true;

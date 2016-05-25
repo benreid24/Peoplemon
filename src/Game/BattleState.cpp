@@ -214,8 +214,30 @@ bool BattleState::execute()
             	if (order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curAbility==Peoplemon::Engage)
 				{
 					displayMessage(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).name+"'s Engage prevents switching!");
+					order[i]->setCurrentPeoplemon(turns[i].id); //reset
+					if (shouldClose())
+						return true;
 					continue;
 				}
+				if (order[i]->getPeoplemon()->at(turns[i].id).hasAilment(Peoplemon::Trapped))
+				{
+					displayMessage(order[i]->getPeoplemon()->at(turns[i].id).name+" was Trapped and could not switch out!");
+					order[i]->setCurrentPeoplemon(turns[i].id);
+					if (shouldClose())
+						return true;
+					continue;
+				}
+				if (order[i]->getPeoplemon()->at(turns[i].id).curAbility==Peoplemon::Forgiving && order[i]->getPeoplemon()->at(turns[i].id).hasAtLeastOneAilment())
+				{
+					for (int z = 0; z<4; ++z)
+					{
+						order[i]->getPeoplemon()->at(turns[i].id).curAils[z] = Peoplemon::None;
+					}
+					displayMessage(order[i]->getPeoplemon()->at(turns[i].id).name+"'s Forgiving ability cured it of all ailments!");
+					if (shouldClose())
+						return true;
+				}
+
 				applyAfterTurn[i] = false;
 				if (order[i]==player)
 				{
@@ -425,7 +447,7 @@ bool BattleState::execute()
             }
         } //end turn loop
 
-        //TODO - apply end turn ailments and other effects here
+        //apply end turn ailments and other effects here
         order[0] = opponent;
         order[1] = player;
         for (int i = 0; i<2; ++i)
@@ -1048,7 +1070,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 	PeoplemonRef* taker = &def->getPeoplemon()->at(def->getCurrentPeoplemon());
 	bool reciprocateAil = taker->curAbility==Peoplemon::Share && !game->moveList[id].targetIsSelf;
 
-	if (taker->curAbility==Peoplemon::Sassy && !isSpecial)
+	if (taker->curAbility==Peoplemon::Sassy && game->moveList[id].makesContact && hit)
 	{
 		int dmg = giver->stats.hp/16;
 		giver->curHp -= dmg;
@@ -1056,10 +1078,10 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 			giver->curHp = 0;
 		ret.push_back(giver->name+" took damage because "+taker->name+" is Sassy!");
 	}
-	if (taker->curAbility==Peoplemon::Opinionated && giver->curAils[0]==Peoplemon::None && Random(0,100)<=20)
+	if (taker->curAbility==Peoplemon::Opinionated && giver->curAils[0]==Peoplemon::None && Random(0,100)<=20 && game->moveList[id].makesContact && hit)
 	{
 		giver->curAils[0] = Peoplemon::Annoyed;
-		ret.push_back(giver->name+" was annoyed because "+taker->name+" is opinionated!");
+		ret.push_back(giver->name+" was annoyed because "+taker->name+" is Opinionated!");
 	}
 
     if (Random(0,100)<=game->moveList[id].chanceOfEffect && effect!=Move::None)
@@ -1084,16 +1106,16 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
             {
                 taker->curAils[0] = Peoplemon::Sticky;
                 taker->turnsWithAil = 1;
-                ret.push_back(taker->name+" was made sticky!");
+                ret.push_back(taker->name+" was made Sticky!");
                 if (reciprocateAil)
 				{
 					if (giver->curAils[0]==Peoplemon::None)
 					{
 						giver->curAils[0] = Peoplemon::Sticky;
-						ret.push_back(taker->name+" Shared its stickiness with "+giver->name+"!");
+						ret.push_back(taker->name+" Shared its Stickiness with "+giver->name+"!");
 					}
 					else
-						ret.push_back(taker->name+" tried to Share its stickiness with "+giver->name+" but if failed!");
+						ret.push_back(taker->name+" tried to Share its Stickiness with "+giver->name+" but if failed!");
 				}
             }
             else
@@ -1104,60 +1126,60 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
             if (taker->curAils[0]==Peoplemon::None && canGetAils)
             {
                 taker->curAils[0] = Peoplemon::Frustrated;
-                ret.push_back(taker->name+" was frustrated!");
+                ret.push_back(taker->name+" was Frustrated!");
                 if (reciprocateAil)
 				{
                     if (giver->curAils[0]==Peoplemon::None)
 					{
 						giver->curAils[0] = Peoplemon::Frustrated;
-						ret.push_back(taker->name+" Shared its frustration with "+giver->name+"!");
+						ret.push_back(taker->name+" Shared its Frustration with "+giver->name+"!");
 					}
 					else
-						ret.push_back(taker->name+" tried to Share its frustration with "+giver->name+" but it failed!");
+						ret.push_back(taker->name+" tried to Share its Frustration with "+giver->name+" but it failed!");
 				}
             }
             else
-                ret.push_back(giver->name+" tried to frustrate "+taker->name+" but it failed!");
+                ret.push_back(giver->name+" tried to Frustrate "+taker->name+" but it failed!");
         }
         else if (effect==Move::Paralyze)
         {
             if (taker->curAils[0]==Peoplemon::None && canGetAils)
             {
                 taker->curAils[0] = Peoplemon::Annoyed;
-                ret.push_back(taker->name+" was annoyed!");
+                ret.push_back(taker->name+" was Annoyed!");
                 if (reciprocateAil)
 				{
                     if (giver->curAils[0]==Peoplemon::None)
 					{
 						giver->curAils[0] = Peoplemon::Annoyed;
-						ret.push_back(taker->name+" Shared its annoyance with "+giver->name+"!");
+						ret.push_back(taker->name+" Shared its Annoyance with "+giver->name+"!");
 					}
 					else
-						ret.push_back(taker->name+" tried to Share its annoyance with "+giver->name+" but it failed!");
+						ret.push_back(taker->name+" tried to Share its Annoyance with "+giver->name+" but it failed!");
 				}
             }
             else
-                ret.push_back(giver->name+" tried to annoy "+taker->name+" but it failed!");
+                ret.push_back(giver->name+" tried to Annoy "+taker->name+" but it failed!");
         }
         else if (effect==Move::Freeze)
         {
             if (taker->curAils[0]==Peoplemon::None && canGetAils)
             {
                 taker->curAils[0] = Peoplemon::Frozen;
-                ret.push_back(taker->name+" was frozen!");
+                ret.push_back(taker->name+" was Frozen!");
                 if (reciprocateAil)
 				{
                     if (giver->curAils[0]==Peoplemon::None)
 					{
 						giver->curAils[0] = Peoplemon::Frozen;
-						ret.push_back(taker->name+" Shared its frozeness with "+giver->name+"!");
+						ret.push_back(taker->name+" Shared its Frozenness with "+giver->name+"!");
 					}
 					else
-						ret.push_back(taker->name+" tried to Share its frozeness with "+giver->name+" but it failed!");
+						ret.push_back(taker->name+" tried to Share its Frozenness with "+giver->name+" but it failed!");
 				}
             }
             else
-                ret.push_back(giver->name+" tried to freeze "+taker->name+" but it failed!");
+                ret.push_back(giver->name+" tried to Freeze "+taker->name+" but it failed!");
         }
         else if (effect==Move::Confuse)
         {
@@ -1165,30 +1187,30 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
             {
                 taker->addPassiveAilment(Peoplemon::Confused);
                 taker->turnsConfused = 1;
-                ret.push_back(taker->name+" was confused!");
+                ret.push_back(taker->name+" was Confused!");
                 if (reciprocateAil)
 				{
 					giver->addPassiveAilment(Peoplemon::Confused);
-					ret.push_back(taker->name+" Shared its confusion with "+giver->name+"!");
+					ret.push_back(taker->name+" Shared its Confusion with "+giver->name+"!");
 				}
             }
             else
-                ret.push_back(giver->name+" tried to confuse "+taker->name+" but it failed!");
+                ret.push_back(giver->name+" tried to Confuse "+taker->name+" but it failed!");
         }
         else if (effect==Move::LeechSeed)
         {
             if (canGetAils)
             {
                 taker->addPassiveAilment(Peoplemon::Stolen);
-                ret.push_back(taker->name+" was jumped!");
+                ret.push_back(taker->name+" was Jumped!");
                 if (reciprocateAil)
 				{
 					giver->addPassiveAilment(Peoplemon::Stolen);
-					ret.push_back(taker->name+" Shared the mugging with "+giver->name+"!");
+					ret.push_back(taker->name+" Shared the Mugging with "+giver->name+"!");
 				}
             }
             else
-                ret.push_back(giver->name+" tried to jump "+taker->name+" but it failed!");
+                ret.push_back(giver->name+" tried to Jump "+taker->name+" but it failed!");
         }
         else if (effect==Move::Flinch && atk==order[0])
         {
