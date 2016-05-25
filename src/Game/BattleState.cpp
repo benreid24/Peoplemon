@@ -130,6 +130,8 @@ bool BattleState::execute()
     {
         //render everything first
         renderStatic();
+        player->recalcStats(game);
+        opponent->recalcStats(game);
         applyAfterTurn[0] = applyAfterTurn[1] = true;
 
         //get player turn from input, opponent turn and determine order
@@ -150,7 +152,25 @@ bool BattleState::execute()
             {
                 int opMoveP = game->moveList[oTurn.id].priority;
                 int pMoveP = game->moveList[pTurn.id].priority;
-				pFirst = !(opMoveP>pMoveP || (opMoveP==pMoveP && (op.hasAilment(Peoplemon::Annoyed)?(op.stats.spd/4):(op.stats.spd))>(p.hasAilment(Peoplemon::Annoyed)?(p.stats.spd/4):(p.stats.spd))));
+                float opSpd = (op.hasAilment(Peoplemon::Annoyed)?(op.stats.spd/4):(op.stats.spd));
+                float pSpd = (p.hasAilment(Peoplemon::Annoyed)?(p.stats.spd/4):(p.stats.spd));
+                if (p.holdItem==58 && p.curHp<=p.stats.hp/4) //speed juice
+				{
+					displayMessage(p.name+"'s Speed Juice increased Speed!");
+					if (shouldClose())
+						return true;
+					pSpd *= 1.1;
+					player->getPeoplemon()->at(player->getCurrentPeoplemon()).holdItem = 0;
+				}
+				if (op.holdItem==58 && op.curHp<=op.stats.hp/4) //speed juice
+				{
+					displayMessage(op.name+"'s Speed Juice increased Speed!");
+					if (shouldClose())
+						return true;
+					opSpd *= 1.1;
+					opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).holdItem = 0;
+				}
+				pFirst = !(opMoveP>pMoveP || (opMoveP==pMoveP && pSpd>=opSpd));
             }
 
             if (pFirst)
@@ -427,10 +447,11 @@ bool BattleState::execute()
 			{
                 if (ppl.curHp<=ppl.stats.hp/2)
 				{
-					displayMessage(ppl.name+"'s Sketchy Sack is hurting it!");
+					displayMessage(ppl.name+"was hurt by its Sketchy Sack!");
 					if (shouldClose())
 						return true;
 					order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp -= ppl.stats.hp/16;
+					order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).holdItem = 0;
 					renderStatic();
 					if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<=0)
 					{
@@ -443,6 +464,25 @@ bool BattleState::execute()
 						continue;
 					}
 				}
+			}
+			else if (ppl.holdItem==57 && ppl.curHp<=ppl.stats.hp/2) //goldfish cracker
+			{
+				displayMessage(ppl.name+" ate a Goldfish Cracker and regained health!");
+				if (shouldClose())
+					return true;
+				order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp += ppl.stats.hp/8;
+				if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp > ppl.stats.hp)
+					order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = ppl.stats.hp;
+				order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).holdItem = 0;
+				renderStatic();
+			}
+			else if (ppl.holdItem==61 && ppl.hasAilment(Peoplemon::Sleep)) //wake up belle
+			{
+				displayMessage(ppl.name+"'s Wake Up Belle shook it awake!");
+				if (shouldClose())
+					return true;
+				order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curAils[0] = Peoplemon::None;
+				renderStatic();
 			}
             if (ppl.hasAilment(Peoplemon::Frustrated))
             {
@@ -923,7 +963,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
     if (attacker.curAbility==Peoplemon::Edumucator && game->moveList[id].type==Intelligent && power>0.1)
 	{
 		multiplier *= 1.1;
-		ret.push_back(attacker.name+" does more damage with intelligent moves as an edumucator!");
+		ret.push_back(attacker.name+" does more damage with Intelligent moves as an Edumucator!");
 	}
 
     bool isSpecial = game->moveList[id].isSpecial;
@@ -945,7 +985,19 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 		atkS *= 1.1;
 		ret.push_back(attacker.name+"'s Slapping Glove increases Attack!");
 	}
+	if (attacker.holdItem==59 && attacker.curHp<=attacker.stats.hp/4 && power>0.1)
+	{
+		atkS *= 1.1;
+		ret.push_back(attacker.name+"'s Power Juice boosted it's attack!");
+		atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).holdItem = 0;
+	}
     double defS = (isSpecial)?(defender.stats.spDef):(defender.stats.def);
+    if (defender.holdItem==60 && defender.curHp<=defender.stats.hp/4 && power>0.1)
+	{
+		defS *= 1.1;
+		ret.push_back(defender.name+"'s Iced Tea made it more resilient!");
+		def->getPeoplemon()->at(def->getCurrentPeoplemon()).holdItem = 0;
+	}
     double damage = (power>0.1)?((((2*double(attacker.level)+10)/250)*(atkS/defS)*power+2)*multiplier):(0);
     cout << "Damage was: " << damage << endl;
 
