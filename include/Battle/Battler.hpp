@@ -19,7 +19,7 @@ class Game;
  */
 struct BattlerFlags
 {
-    bool flinched, isCharging, trapped, protectUsedLast, ailSafe;    int subHealth, lastMoveUsed;
+    bool isCharging, protectUsedLast;    int subHealth, lastMoveUsed;
 
     /**
      * Initializes all the data to the default values

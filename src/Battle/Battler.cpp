@@ -12,10 +12,7 @@ using namespace std;
 BattlerFlags::BattlerFlags()
 {
     protectUsedLast = false;
-    trapped = false;
-    ailSafe = false;
     isCharging = false;
-    flinched = false;
     subHealth = 0;
     lastMoveUsed = 0;
 }
@@ -23,9 +20,7 @@ BattlerFlags::BattlerFlags()
 void BattlerFlags::reset()
 {
     protectUsedLast = false;
-    trapped = false;
     isCharging = false;
-    flinched = false;
     subHealth = 0;
     lastMoveUsed = 0;
 }

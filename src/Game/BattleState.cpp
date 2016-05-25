@@ -607,6 +607,24 @@ bool BattleState::execute()
 				order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).removePassiveAilment(Peoplemon::Trapped);
 			if (ppl.hasAilment(Peoplemon::Distracted))
 				order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).removePassiveAilment(Peoplemon::Distracted);
+			for (unsigned int k = 0; k<order[i]->getPeoplemon()->size(); ++k)
+			{
+				if (order[i]->getPeoplemon()->at(k).hasAilment(Peoplemon::Guarded))
+				{
+					order[i]->getPeoplemon()->at(k).turnsWithAil++;
+					if (order[i]->getPeoplemon()->at(k).turnsWithAil>=5)
+					{
+						for (unsigned int l = 0; l<order[i]->getPeoplemon()->size(); ++l)
+						{
+							if (order[i]->getPeoplemon()->at(l).curAils[0]==Peoplemon::Guarded)
+								order[i]->getPeoplemon()->at(l).curAils[0] = Peoplemon::None;
+						}
+						displayMessage(ppl.name+"'s party was no longer Guarded!");
+						if (shouldClose())
+							return true;
+					}
+				}
+			}
         }
     } //end main loop
 
@@ -1093,16 +1111,16 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 	if (taker->curAbility==Peoplemon::Opinionated && giver->curAils[0]==Peoplemon::None && Random(0,100)<=20 && game->moveList[id].makesContact && hit)
 	{
 		giver->curAils[0] = Peoplemon::Annoyed;
-		ret.push_back(giver->name+" was annoyed because "+taker->name+" is Opinionated!");
+		ret.push_back(giver->name+" was Annoyed because "+taker->name+" is Opinionated!");
 	}
 
     if (Random(0,100)<=game->moveList[id].chanceOfEffect && effect!=Move::None)
     {
-        bool canGetAils = !def->state.ailSafe && def->state.subHealth==0;
+        bool canGetAils = !def->getPeoplemon()->at(def->getCurrentPeoplemon()).hasAilment(Peoplemon::Guarded) && def->state.subHealth==0;
         if (game->moveList[id].targetIsSelf)
         {
             swap(giver,taker);
-            canGetAils = !atk->state.ailSafe && atk->state.subHealth==0;
+            canGetAils = !atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).hasAilment(Peoplemon::Guarded)  && atk->state.subHealth==0;
         }
 
         if (effect==Move::Heal)
@@ -1228,29 +1246,27 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
         {
             if (canGetAils)
             {
-                def->state.flinched = true;
-                ret.push_back(taker->name+" was distracted!");
+                taker->addPassiveAilment(Peoplemon::Distracted);
+                ret.push_back(taker->name+" was Distracted!");
             }
             else
-                ret.push_back(giver->name+" tried to distract "+taker->name+" but it failed!");
+                ret.push_back(giver->name+" tried to Distract "+taker->name+" but it failed!");
         }
-        else
-            def->state.flinched = false; //catch all to make sure the flag is reset
 
         if (effect==Move::Trap)
         {
             if (canGetAils)
             {
-                def->state.trapped = true;
-                ret.push_back(taker->name+" was trapped!");
+                taker->addPassiveAilment(Peoplemon::Trapped);
+                ret.push_back(taker->name+" was Trapped!");
                 if (reciprocateAil)
 				{
-					atk->state.trapped = true;
+					giver->addPassiveAilment(Peoplemon::Trapped);
 					ret.push_back(taker->name+" Shared its entrapment with "+giver->name+"!");
 				}
             }
             else
-                ret.push_back(giver->name+" tried to trap "+taker->name+" but it failed!");
+                ret.push_back(giver->name+" tried to Trap "+taker->name+" but it failed!");
         }
         else if (effect==Move::Sleep)
         {
@@ -1296,19 +1312,23 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
             if (taker->curHp<=0)
             {
                 taker->curHp = 0;
-                ret.push_back(taker->name+" tried to create a substitute but killed itself!");
+                ret.push_back(taker->name+" tried to create a Substitute but killed itself!");
             }
             else if (atk->state.subHealth>0)
-                ret.push_back(taker->name+" tried to create a substitute but already has one!");
+                ret.push_back(taker->name+" tried to create a Substitute but already has one!");
             else
             {
-                ret.push_back(taker->name+" created a substitute!");
+                ret.push_back(taker->name+" created a Substitute!");
                 atk->state.subHealth = taker->stats.hp/4;
             }
         }
         else if (effect==Move::Safegaurd)
         {
-            atk->state.ailSafe = true;
+            for (unsigned int k = 0; k<atk->getPeoplemon()->size(); ++k)
+			{
+				if (atk->getPeoplemon()->at(k).curAils[0]==Peoplemon::None)
+					atk->getPeoplemon()->at(k).curAils[0] = Peoplemon::Guarded;
+			}
             ret.push_back(taker->name+"'s party is now blissfully ignorant");
         }
         else if (effect==Move::HealBell)
@@ -1321,77 +1341,77 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
             taker->stages.crit += intensity;
             taker->stages.crit = (taker->stages.crit>6)?(6):(taker->stages.crit);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s criticalness increased!");
+            ret.push_back(taker->name+"'s Criticalness increased!");
         }
         else if (effect==Move::AtkUp)
         {
             taker->stages.atk += intensity;
             taker->stages.atk = (taker->stages.atk>6)?(6):(taker->stages.atk);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s attack rose!");
+            ret.push_back(taker->name+"'s Attack rose!");
         }
         else if (effect==Move::DefUp)
         {
             taker->stages.def += intensity;
             taker->stages.def = (taker->stages.def>6)?(6):(taker->stages.def);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s defense rose!");
+            ret.push_back(taker->name+"'s Defense rose!");
         }
         else if (effect==Move::AccUp)
         {
             taker->stages.acc += intensity;
             taker->stages.acc = (taker->stages.acc>6)?(6):(taker->stages.acc);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s accuracy rose!");
+            ret.push_back(taker->name+"'s Accuracy rose!");
         }
         else if (effect==Move::EvdUp)
         {
             taker->stages.evade += intensity;
             taker->stages.evade = (taker->stages.evade>6)?(6):(taker->stages.evade);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s evasiveness rose!");
+            ret.push_back(taker->name+"'s Evasiveness rose!");
         }
         else if (effect==Move::SpdUp)
         {
             taker->stages.spd += intensity;
             taker->stages.spd = (taker->stages.spd>6)?(6):(taker->stages.spd);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s speed rose!");
+            ret.push_back(taker->name+"'s Speed rose!");
         }
         else if (effect==Move::SpAtkUp)
         {
             taker->stages.spAtk += intensity;
             taker->stages.spAtk = (taker->stages.spAtk>6)?(6):(taker->stages.spAtk);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s special attack rose!");
+            ret.push_back(taker->name+"'s Special Attack rose!");
         }
         else if (effect==Move::SpDefUp)
         {
             taker->stages.spDef += intensity;
             taker->stages.spDef = (taker->stages.spDef>6)?(6):(taker->stages.spDef);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s special defense rose!");
+            ret.push_back(taker->name+"'s Special Defense rose!");
         }
         else if (effect==Move::CritDown)
         {
             taker->stages.crit -= intensity;
             taker->stages.crit = (taker->stages.crit<-6)?(-6):(taker->stages.crit);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s criticalness fell!");
+            ret.push_back(taker->name+"'s Criticalness fell!");
         }
         else if (effect==Move::AtkDown)
         {
             taker->stages.atk -= intensity;
             taker->stages.atk = (taker->stages.atk<-6)?(-6):(taker->stages.atk);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s attack fell!");
+            ret.push_back(taker->name+"'s Attack fell!");
         }
         else if (effect==Move::DefDown)
         {
             taker->stages.def -= intensity;
             taker->stages.def = (taker->stages.def<-6)?(-6):(taker->stages.def);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s defense fell!");
+            ret.push_back(taker->name+"'s Defense fell!");
         }
         else if (effect==Move::AccDown)
         {
@@ -1402,7 +1422,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
             	taker->stages.acc -= intensity;
 				taker->stages.acc = (taker->stages.acc<-6)?(-6):(taker->stages.acc);
 				taker->recalcStats(game);
-				ret.push_back(taker->name+"'s accuracy fell!");
+				ret.push_back(taker->name+"'s Accuracy fell!");
             }
         }
         else if (effect==Move::EvdDown)
@@ -1410,28 +1430,28 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
             taker->stages.evade -= intensity;
             taker->stages.evade = (taker->stages.evade<-6)?(-6):(taker->stages.evade);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s evasiveness fell!");
+            ret.push_back(taker->name+"'s Evasiveness fell!");
         }
         else if (effect==Move::SpdDown)
         {
             taker->stages.spd -= intensity;
             taker->stages.spd = (taker->stages.spd<-6)?(-6):(taker->stages.spd);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s speed fell!");
+            ret.push_back(taker->name+"'s Speed fell!");
         }
         else if (effect==Move::SpAtkDown)
         {
             taker->stages.spAtk -= intensity;
             taker->stages.spAtk = (taker->stages.spAtk<-6)?(-6):(taker->stages.spAtk);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s special attack fell!");
+            ret.push_back(taker->name+"'s Special Attack fell!");
         }
         else if (effect==Move::SpDefDown)
         {
             taker->stages.spDef -= intensity;
             taker->stages.spDef = (taker->stages.spDef<-6)?(-6):(taker->stages.spDef);
             taker->recalcStats(game);
-            ret.push_back(taker->name+"'s special defense fell!");
+            ret.push_back(taker->name+"'s Special Defense fell!");
         }
         else if (effect==Move::Recoil)
         {
