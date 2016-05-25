@@ -85,13 +85,12 @@ class BattleState : public Gamestate
     PeoplemonRef getPeoplemon(Battler* b, int i);
 
     /**
-     * Returns what to output when the given Battler uses the given item
+     * Returns what to output when the opponent uses the given item
      *
-     * \param b The Battler
      * \param id The id of the used item
      * \return A string to output
      */
-    std::string getItemLine(Battler* b, int id);
+    std::string getItemLine(int id);
 
     /**
      * Returns what to output when the given Battler uses the given move
@@ -166,11 +165,11 @@ class BattleState : public Gamestate
     /**
      * Handles checking end of battle conditions, switching peoplemon, playing animations and doing XP stuff. Really magical
      *
-     * \param i The index of the Battler who is still alive
-     * \param j The index of the other Battler
+     * \param alive The index of the Battler who is still alive
+     * \param dead The index of the other Battler
      * \return Whether or not the battle is over. Calling code should still check shouldClose
      */
-    bool doFaint(int i, int j);
+    bool doFaint(int alive, int dead);
 
 public:
     /**

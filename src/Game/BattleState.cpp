@@ -219,7 +219,7 @@ bool BattleState::execute()
             {
                 if (order[i]!=player)
 				{
-					displayMessage(getItemLine(order[i],turns[i].id));
+					displayMessage(getItemLine(turns[i].id));
 					if (shouldClose())
 						return true;
 					switch (turns[i].id)
@@ -408,7 +408,6 @@ bool BattleState::execute()
         //TODO - apply end turn ailments and other effects here
         order[0] = opponent;
         order[1] = player;
-        bool opAlive = true;
         for (int i = 0; i<2; ++i)
         {
         	if (!applyAfterTurn[i]) //skip if not supposed to do end turn stuff
@@ -424,13 +423,35 @@ bool BattleState::execute()
 					order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp;
                 displayMessage(ppl.name+"'s Bag of Goldfish restored health!");
 			}
+			else if (ppl.holdItem==56) //sketchy sack
+			{
+                if (ppl.curHp<=ppl.stats.hp/2)
+				{
+					displayMessage(ppl.name+"'s Sketchy Sack is hurting it!");
+					if (shouldClose())
+						return true;
+					order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp -= ppl.stats.hp/16;
+					renderStatic();
+					if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<=0)
+					{
+						order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = 0;
+						bool done = doFaint(j,i);
+						if (shouldClose())
+							return true;
+						if (done)
+							return false;
+						continue;
+					}
+				}
+			}
             if (ppl.hasAilment(Peoplemon::Frustrated))
             {
-                displayMessage(ppl.name+" is hurt by frustration!");
+                displayMessage(ppl.name+" is hurt by Frustration!");
                 if (shouldClose())
                     return true;
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp -= order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp/16;
-                if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<0)
+                renderStatic();
+                if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<=0)
                 {
                     order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = 0;
                     bool done = doFaint(j,i);
@@ -438,9 +459,10 @@ bool BattleState::execute()
                         return true;
                     if (done)
                         return false;
+					continue;
                 }
             }
-            if (ppl.hasAilment(Peoplemon::Stolen) && opAlive)
+            if (ppl.hasAilment(Peoplemon::Stolen))
             {
                 displayMessage(ppl.name+" is having its health stolen by "+order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).name+"!");
                 if (shouldClose())
@@ -462,6 +484,7 @@ bool BattleState::execute()
                         return true;
                     if (done)
                         return false;
+					continue;
                 }
             }
             if (ppl.hasAilment(Peoplemon::Sticky))
@@ -471,6 +494,7 @@ bool BattleState::execute()
                     return true;
 
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp -= order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).turnsWithAil*order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp/16;
+                renderStatic();
                 if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<0)
                 {
                     order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = 0;
@@ -479,6 +503,7 @@ bool BattleState::execute()
                         return true;
                     if (done)
                         return false;
+                    continue;
                 }
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).turnsWithAil++;
             }
@@ -486,7 +511,8 @@ bool BattleState::execute()
 			{
 				displayMessage(ppl.name+" has a Super Tiny Mini Fridge!");
 				applyMove(order[i],order[j],81);
-				order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = 0;
+				order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = 0; //TODO - play animation here
+				renderStatic();
 				bool done = doFaint(j,i);
 				if (shouldClose())
 					return true;
@@ -497,12 +523,11 @@ bool BattleState::execute()
                         return true;
                     if (done)
                         return false;
-					opAlive = false;
-					if (i==0)
-						break;
+					applyAfterTurn[j] = false;
                 }
                 if (done)
 					return false;
+				continue;
 			}
             if (ppl.hasAilment(Peoplemon::Sleep))
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).turnsWithAil++;
@@ -605,15 +630,9 @@ PeoplemonRef BattleState::getPeoplemon(Battler* b, int i)
     return b->getPeoplemon()->at(i);
 }
 
-string BattleState::getItemLine(Battler* b, int id)
+string BattleState::getItemLine(int id)
 {
-    if (b==player)
-    {
-        //TODO - create something based on item effect
-        return "You used an item";
-    }
-    else
-        return opponentName+" used a "+game->itemList[id].name+"!";
+	return opponentName+" used a "+game->itemList[id].name+"!";
 }
 
 string BattleState::getMoveLine(Battler* b, int id)
@@ -621,8 +640,10 @@ string BattleState::getMoveLine(Battler* b, int id)
     return b->getPeoplemon()->at(b->getCurrentPeoplemon()).name+" used "+game->moveList[id].name+"!";
 }
 
-bool BattleState::doFaint(int i, int j)
+bool BattleState::doFaint(int alive, int dead)
 {
+	int i = alive;
+	int j = dead;
     bool done = false;
     toDraw.clear();
     toDraw.push_back(&anims[i]->still);
