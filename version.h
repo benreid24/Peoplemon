@@ -15,15 +15,15 @@ namespace AutoVersion{
 	
 	//Standard Version Type
 	static const long MAJOR  = 10;
-	static const long MINOR  = 1;
+	static const long MINOR  = 3;
 	static const long BUILD  = 33;
 	static const long REVISION  = 196;
 	
 	//Miscellaneous Version Types
-	static const long BUILDS_COUNT  = 3520;
-	#define RC_FILEVERSION 10,1,33,196
-	#define RC_FILEVERSION_STRING "10, 1, 33, 196\0"
-	static const char FULLVERSION_STRING [] = "10.1.33.196";
+	static const long BUILDS_COUNT  = 3521;
+	#define RC_FILEVERSION 10,3,33,196
+	#define RC_FILEVERSION_STRING "10, 3, 33, 196\0"
+	static const char FULLVERSION_STRING [] = "10.3.33.196";
 	
 	//These values are to keep track of your versioning state, don't modify them.
 	static const long BUILD_HISTORY  = 21;
