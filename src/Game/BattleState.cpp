@@ -293,13 +293,13 @@ bool BattleState::execute()
                 vector<string> lines;
                 if (attacker.hasAilment(Peoplemon::Confused))
                 {
-                    displayMessage(attacker.name+" is confused!");
+                    displayMessage(attacker.name+" is Confused!");
                     if (shouldClose())
                         return true;
 
                     if (Random(0,100)<35 || attacker.turnsConfused>=4)
                     {
-                        displayMessage(attacker.name+" snapped out of confusion!");
+                        displayMessage(attacker.name+" snapped out of Confusion!");
                         if (shouldClose())
                             return true;
 
@@ -308,7 +308,7 @@ bool BattleState::execute()
                     }
                     else if (Random(0,100)<50)
                     {
-                        displayMessage(attacker.name+" hurt itself in confusion!");
+                        displayMessage(attacker.name+" hurt itself in Confusion!");
                         if (shouldClose())
                             return true;
                         applyMove(order[i],order[i],80);
@@ -326,13 +326,13 @@ bool BattleState::execute()
                 }
                 if (attacker.hasAilment(Peoplemon::Annoyed))
                 {
-                    displayMessage(attacker.name+" is annoyed!");
+                    displayMessage(attacker.name+" is Annoyed!");
                     if (shouldClose())
                         return true;
 
                     if (Random(0,100)<25)
                     {
-                        displayMessage(attacker.name+" is too annoyed to move!");
+                        displayMessage(attacker.name+" is too Annoyed to move!");
                         if (shouldClose())
                             return true;
                         goto noMove;
@@ -347,10 +347,11 @@ bool BattleState::execute()
                         if (shouldClose())
                             return true;
                         order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curAils[0] = Peoplemon::None;
+                        order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).turnsWithAil = 0;
                     }
                     else
                     {
-                        displayMessage(attacker.name+" is asleep!");
+                        displayMessage(attacker.name+" is Sleeping!");
                         if (shouldClose())
                             return true;
                         goto noMove;
@@ -367,12 +368,19 @@ bool BattleState::execute()
                     }
                     else
                     {
-                        displayMessage(attacker.name+" is frozen!");
+                        displayMessage(attacker.name+" is Frozen!");
                         if (shouldClose())
                             return true;
                         goto noMove;
                     }
                 }
+                if (attacker.hasAilment(Peoplemon::Distracted))
+				{
+					displayMessage(attacker.name+" is distracted!");
+					if (shouldClose())
+						return true;
+					goto noMove;
+				}
 
                 lines = applyMove(order[i],order[j],turns[i].id);
                 displayMessage(getMoveLine(order[i],turns[i].id));
@@ -595,6 +603,10 @@ bool BattleState::execute()
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).turnsWithAil++;
             if (ppl.hasAilment(Peoplemon::Confused))
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).turnsConfused++;
+			if (ppl.hasAilment(Peoplemon::Trapped))
+				order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).removePassiveAilment(Peoplemon::Trapped);
+			if (ppl.hasAilment(Peoplemon::Distracted))
+				order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).removePassiveAilment(Peoplemon::Distracted);
         }
     } //end main loop
 
