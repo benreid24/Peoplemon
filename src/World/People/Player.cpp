@@ -456,3 +456,24 @@ void Player::forceStop()
 	for (int i = 0; i<4; ++i)
 		walking[i].setFrame(0);
 }
+
+void Player::addStoredPeoplemon(PeoplemonRef ppl)
+{
+	for (int b = 0; b<14; ++b)
+	{
+		for (int x = 0; x<8; ++x)
+		{
+			for (int y = 0; y<9; ++y)
+			{
+				for (unsigned int i = 0; i<storedPeoplemon.size(); ++i)
+				{
+					if (storedPeoplemon[i].boxId==b && storedPeoplemon[i].position.x==x && storedPeoplemon[i].position.y==y)
+						goto noAdd;
+				}
+				storedPeoplemon.push_back(StoredPeoplemon(b,Vector2i(x,y),ppl));
+                return;
+                noAdd:;
+			}
+		}
+	}
+}

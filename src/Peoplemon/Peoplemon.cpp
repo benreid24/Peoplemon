@@ -231,6 +231,50 @@ bool PeoplemonRef::hasAtLeastOneAilment()
 	return true;
 }
 
+double PeoplemonRef::getBallBonus(Game* g, int b, int t, int l)
+{
+	if ((id==123 || id==124) && b!=17)
+		return 0;
+
+    switch (b)
+    {
+	case 5:
+		return 0.25;
+	case 6:
+		return 1;
+	case 7:
+		return 1.5;
+	case 8:
+		return 2;
+	case 9:
+		return 2;
+	case 10:
+		return double(t+10)/10;
+	case 11:
+		return (g->peoplemonList[id].type==Type::Intelligent)?(2.5):(1);
+	case 12:
+		return (t==0)?(4):(1);
+	case 13:
+		return 1;
+	case 14:
+		if (level>=l)
+			return 1;
+		else if (level*4<l)
+			return 8;
+		else if (level*2<l)
+			return 4;
+		return 2;
+	case 15:
+		return 9999999;
+	case 16:
+		return 9999999;
+	case 17:
+		return 5;
+	default:
+		return 1;
+    }
+}
+
 bool PeoplemonRef::knowsMove(int m)
 {
 	for (int i = 0; i<4; ++i)

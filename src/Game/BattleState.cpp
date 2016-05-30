@@ -66,6 +66,7 @@ bool BattleState::execute()
     //      if not dead, do second turn. if dead then get the peoplemon to switch to and play switch anims
     //      if second mover killed the first get their switch and play switch anims
 
+	int turnsElapsed = 0;
 	game->music.load(playlist,true);
     game->music.play();
     transitionScreen();
@@ -290,13 +291,90 @@ bool BattleState::execute()
 				{
 					if (opponentName.find("WILD")==string::npos)
 					{
-						displayMessage("Kidnapping Peoplemon isn't legal, don't try it again creep");
-						if (shouldClose())
-							return true;
+						if (turns[i].id==15)
+						{
+							//clone
+						}
+						else
+						{
+							displayMessage("Kidnapping Peoplemon isn't legal, don't try it again creep");
+							if (shouldClose())
+								return true;
+						}
 					}
-					//else
+					else
 					{
 						cout << "Peopleball with id: " << turns[i].id << " used\n";
+						bool skip = false;
+						if (turns[i].id==13)
+						{
+							order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp -= order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).stats.hp/16;
+							renderStatic();
+							displayMessage("The Questionable Abuse Ball verbally abused "+order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).name+" and caused damage!");
+							if (shouldClose())
+								return true;
+							if (order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp<=0)
+							{
+								order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp = 0;
+								bool done = doFaint(i,j);
+								if (shouldClose())
+									return true;
+								if (done)
+									return false;
+								skip = true;
+							}
+						}
+						if (!skip)
+						{
+							double curHp = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp;
+							double maxHp = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).stats.hp;
+							double rate = 128; //TODO - play with this until it feels good
+							double status = (order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).hasAtLeastOneAilment())?(2):(1); //verify
+							double ball = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).getBallBonus(game,turns[i].id,turnsElapsed,order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).level);
+							double a = ((3*maxHp-2*curHp)*rate*ball*status)/(maxHp*3);
+							double b = 1048560 / sqrt(sqrt(16711680/a));
+							int shakes = 0;
+							for (int z = 0; z<4; ++z)
+							{
+								int r = Random(0,65535);
+								if (r<b)
+									shakes++;
+							}
+							cout << "Shakes: " << shakes << endl;
+							//TODO - play animations
+							if (shakes==4)
+							{
+								displayMessage("Gotcha! "+order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).name+" was caught!");
+								if (shouldClose())
+									return true;
+								int id = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).id;
+								if (game->peoplemonList[id].numCaught==0)
+								{
+									displayMessage(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).name+"'s data was added to the Peopledex");
+									if (shouldClose())
+										return true;
+								}
+								game->peoplemonList[id].numCaught++;
+								//TODO - prompt for nickname
+								if (game->player.getCurrentPeoplemon()->size()<6)
+									game->player.getCurrentPeoplemon()->push_back(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()));
+								else
+								{
+									game->player.addStoredPeoplemon(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()));
+									displayMessage(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).name+" was sent to the PC!");
+									if (shouldClose())
+										return true;
+								}
+								return false;
+							}
+							else
+							{
+								//TODO - play breakout animation
+								displayMessage("Crap! I thought I killed it that time!");
+								if (shouldClose())
+									return true;
+							}
+						}
 					}
 				}
             }
@@ -639,6 +717,7 @@ bool BattleState::execute()
 				}
 			}
         }
+        turnsElapsed++;
     } //end main loop
 
     return false;

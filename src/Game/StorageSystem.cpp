@@ -39,7 +39,7 @@ StorageSystem::StorageSystem(Game* g, vector<StoredPeoplemon>* ppl) : Gamestate(
     {
         icons.insert(make_pair(i->first,Sprite()));
         icons[i->first].setTexture(*i->second);
-        icons[i->first].setScale(40.0/float(i->second->getSize().x),40.0/float(i->second->getSize().y)); //TODO - change to actual size
+        icons[i->first].setScale(40.0/float(i->second->getSize().x),40.0/float(i->second->getSize().y));
     }
 
     cursor.setPosition(295,160);

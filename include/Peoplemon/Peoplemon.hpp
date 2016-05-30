@@ -195,6 +195,16 @@ struct PeoplemonRef
      */
 	bool hasAtLeastOneAilment();
 
+	/**
+	 * Returns the bonus multiplier for the given peopleball on this Peoplemon
+	 *
+	 * \param g A pointer to the main Game object
+	 * \param b The id of the ball being used
+	 * \param t The number of turns elapsed
+	 * \param l The level of the opponent Peoplemon
+	 */
+	double getBallBonus(Game* g, int b, int t, int l);
+
     /**
      * Tells whether or not the peoplemon knows the given move
      *

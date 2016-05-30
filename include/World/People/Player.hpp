@@ -143,6 +143,13 @@ public:
     std::vector<StoredPeoplemon>* getStoredPeoplemon();
 
     /**
+     * Adds a Peoplemon to the storage system
+     *
+     * \param ppl The Peoplemon to add
+     */
+    void addStoredPeoplemon(PeoplemonRef ppl);
+
+    /**
      * Returns whether or not the player can fly yet
      */
     bool canFly();
