@@ -286,6 +286,19 @@ bool BattleState::execute()
 						order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp;
 					renderStatic();
 				}
+				else if (turns[i].id>=5 && turns[i].id<=17)
+				{
+					if (opponentName.find("WILD")==string::npos)
+					{
+						displayMessage("Kidnapping Peoplemon isn't legal, don't try it again creep");
+						if (shouldClose())
+							return true;
+					}
+					//else
+					{
+						cout << "Peopleball with id: " << turns[i].id << " used\n";
+					}
+				}
             }
             else if (turns[i].type==Turn::Move)
             {
