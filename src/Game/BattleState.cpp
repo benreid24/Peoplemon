@@ -293,7 +293,10 @@ bool BattleState::execute()
 					{
 						if (turns[i].id==15)
 						{
-							//clone
+							game->player.addStoredPeoplemon(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()));
+							displayMessage(getPeoplemon(order[j],order[j]->getCurrentPeoplemon()).name+" was Cloned into the PC!");
+							if (shouldClose())
+								return true;
 						}
 						else
 						{

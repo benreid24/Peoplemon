@@ -199,10 +199,6 @@ bool BagState::execute()
 								if (displayMessage("All of your Peoplemon got PP!"))
 									return true;
 							}
-							else if (id>=28 && id<=32) //all the stones
-							{
-								//TODO - figure out the stones
-							}
 							else if (id>=35 && id<=37) //repel
 							{
 								int lk[] = {100,250,2000};
