@@ -123,7 +123,12 @@ public:
     void clearAll()
     {
         lock.lock();
-        resources.clear();
+		/*for (auto i = resources.begin(); i!=resources.end(); ++i)
+		{
+			std::cout << "Clearing resource: " << i->first << std::endl;
+			i->second.reset();
+		}*/
+		resources.clear();
         lock.unlock();
     }
 };
