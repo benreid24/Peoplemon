@@ -26,12 +26,20 @@
 				<Linker>
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add library="libsfml-audio-s-d.a" />
-					<Add library="libsfml-graphics-s-d.a" />
-					<Add library="libsfml-network-s-d.a" />
-					<Add library="libsfml-window-s-d.a" />
-					<Add library="libsfml-system-s-d.a" />
-					<Add library="libsfml-main-d.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-audio.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-graphics.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-network.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-window.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-system.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-main.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libFLAC.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libfreetype.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libjpeg.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libogg.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libopenal32.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libvorbis.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libvorbisenc.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libvorbisfile.a" />
 				</Linker>
 			</Target>
 			<Target title="Windows">
@@ -55,12 +63,20 @@
 					<Add option="-s" />
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add library="libsfml-audio-s.a" />
-					<Add library="libsfml-graphics-s.a" />
-					<Add library="libsfml-network-s.a" />
-					<Add library="libsfml-window-s.a" />
-					<Add library="libsfml-system-s.a" />
-					<Add library="libsfml-main.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-audio.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-graphics.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-network.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-window.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-system.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-main.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libFLAC.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libfreetype.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libjpeg.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libogg.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libopenal32.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libvorbis.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libvorbisenc.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libvorbisfile.a" />
 				</Linker>
 			</Target>
 			<Target title="MAC">
