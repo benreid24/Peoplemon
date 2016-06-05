@@ -7,6 +7,7 @@
 #include "Globals.hpp"
 #include <iostream>
 #include <memory>
+#include <cstdlib>
 
 #ifdef Linux
 #include <dirent.h>
@@ -17,7 +18,11 @@
 #include <direct.h>
 #endif
 
-#include <cstdlib>
+#ifdef OSX
+#include <dirent.h>
+#include <sys/stat.h>
+#endif
+
 using namespace sf;
 using namespace std;
 
@@ -50,7 +55,12 @@ int main(int argC, const char* argV[])
 	cout << "Creating directory: " << string(string(getenv("APPDATA"))+"/Peoplemon") << endl;
 	mkdir(string(string(getenv("APPDATA"))+"/Peoplemon").c_str());
 	#endif // Windows
-	//TODO - paths for saves on other systems
+	
+    #ifdef OSX
+    cout << "Creating directory: " << "/Users/"+string(getenv("USER"))+"/Library/Application Support/";
+    mkdir(string("/Users/"+string(getenv("USER"))+"/Library/Application Support/Peoplemon").c_str(),ACCESSPERMS);
+    #endif
+    
     #ifdef Linux
     if (!XInitThreads())
         return 1;

@@ -1,5 +1,6 @@
 #include "Util/File.hpp"
 #include <iostream>
+#include <algorithm>
 
 bool FileExists(std::string filename)
 {
@@ -64,12 +65,14 @@ std::string File::getBaseName(std::string file)
     {
         if (file[i]=='.')
             ret.clear();
-        else
+        else if (file[i]!='/' && file[i]!='\\')
             ret.push_back(file[i]);
         
         if (file[i]=='/' || file[i]=='\\')
-            return ret;
+            break;
     }
+    for (unsigned int i = 0; i<ret.size()/2; ++i)
+        std::swap(ret[i],ret[ret.size()-i-1]);
     return ret;
 }
 

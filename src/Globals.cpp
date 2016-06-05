@@ -18,7 +18,7 @@ const string Properties::GameSavePath = "Resources/Saves/";
 
 #ifdef OSX
 #include "ResourcePath.hpp"
-const string Properties::GameSavePath = "/Users/ben/Downloads";
+const string Properties::GameSavePath = "/Users/"+string(getenv("USER"))+"/Library/Application Support/Peoplemon/";
 const string Properties::ResourcesPath = resourcePath();
 const string Properties::MapPath = resourcePath()+"Data/Maps/";
 const string Properties::DataPath = resourcePath()+"Data/";

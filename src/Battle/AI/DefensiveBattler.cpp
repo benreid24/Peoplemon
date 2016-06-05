@@ -20,9 +20,8 @@ DefensiveBattler::DefensiveBattler(vector<PeoplemonRef>* pplmon, vector<int> itm
     reg.order[3] = ReactionPreference::AttackingAilment;
     reg.order[4] = ReactionPreference::PassiveAttack;
     reg.order[5] = ReactionPreference::DirectDefense;
-    reg.order[6] = ReactionPreference::DirectDefense;
-    reg.order[7] = ReactionPreference::HealingItem;
-    reg.order[8] = ReactionPreference::Switch;
+    reg.order[6] = ReactionPreference::HealingItem;
+    reg.order[7] = ReactionPreference::Switch;
     reactionSorter.setDefault(reg);
 }
 

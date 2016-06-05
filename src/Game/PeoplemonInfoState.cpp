@@ -145,7 +145,7 @@ string PeoplemonInfoState::wordWrap(string str, int w)
     {
         if (temp.findCharacterPos(i).x>=w)
         {
-            for (unsigned int j = i; j>=0; j--)
+            for (int j = i; j>=0; j--)
             {
                 if (str[j]==' ')
                 {

@@ -526,9 +526,8 @@ void World::draw(sf::RenderWindow* window)
     }
 
     weather.draw(&game->mainWindow);
-    if (currentLighting>40)
+    if (currentLighting>40 && false)
     {
-        cout << "Updating lights\n";
         IntRect t(camPos.x-400, camPos.y-300,1600,1200);
         lightTxtr.clear(Color(0,0,0,currentLighting));
         for (unsigned int i = 0; i<lights.size(); ++i)
@@ -538,9 +537,10 @@ void World::draw(sf::RenderWindow* window)
                 light[0].position = lights[i].position - camPos;
                 light[0].position.y = 600-light[0].position.y;
                 light[0].color = Color::Transparent;
+                cout << "Drawing light: (" << light[0].position.x << ", " << light[0].position.y << ")\n";
                 for (unsigned int j = 1; j<362; ++j)
                 {
-                    light[j].position = lights[i].position + Vector2f(lights[i].radius*cos(double(j)/180*3.1415926)-camPos.x+32,lights[i].radius*sin(double(j)/180*3.1415926)-camPos.y+32);
+                    light[j].position = lights[i].position + Vector2f(lights[i].radius*cos(double(j)/180*3.1415926)-camPos.x,lights[i].radius*sin(double(j)/180*3.1415926)-camPos.y);
                     light[j].color = Color(0,0,0,currentLighting);
                     light[j].position.y = 600-light[j].position.y;
                 }
@@ -550,7 +550,6 @@ void World::draw(sf::RenderWindow* window)
         lightSpr.setTexture(lightTxtr.getTexture(),true);
         lightSpr.setPosition(0,0);
         window->draw(lightSpr);
-        cout << "Drew them\n";
     }
 
     for (unsigned int i = firstTopLayer; i<layers.size(); ++i)

@@ -27,7 +27,7 @@ string BagState::wordWrap(string str)
     {
         if (temp.findCharacterPos(i).x>=600)
         {
-            for (unsigned int j = i; j>=0; j--)
+            for (int j = i; j>=0; j--)
             {
                 if (str[j]==' ')
                 {
