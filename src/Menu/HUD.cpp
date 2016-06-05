@@ -125,7 +125,7 @@ void HUD::update()
 {
     if (displayingMessage)
     {
-    	Properties::PrimaryMenuFont.loadFromFile(Properties::FontPath+"Dream.ttf");
+    	//Properties::PrimaryMenuFont.loadFromFile(Properties::FontPath+"Dream.ttf");
         if (user.isInputActive(PlayerInput::Interact) && gameClock.getTimeStamp()>minDelay)
         {
             if (messageShown!=message)

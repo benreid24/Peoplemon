@@ -8,6 +8,7 @@
 #include "Globals.hpp"
 #include "Game/BattleState.hpp"
 #include "Battle/AI/RandomBattler.hpp"
+#include <cmath>
 using namespace sf;
 using namespace std;
 
@@ -527,6 +528,7 @@ void World::draw(sf::RenderWindow* window)
     weather.draw(&game->mainWindow);
     if (currentLighting>40)
     {
+        cout << "Updating lights\n";
         IntRect t(camPos.x-400, camPos.y-300,1600,1200);
         lightTxtr.clear(Color(0,0,0,currentLighting));
         for (unsigned int i = 0; i<lights.size(); ++i)
@@ -545,7 +547,10 @@ void World::draw(sf::RenderWindow* window)
                 lightTxtr.draw(light, BlendNone);
             }
         }
+        lightSpr.setTexture(lightTxtr.getTexture(),true);
+        lightSpr.setPosition(0,0);
         window->draw(lightSpr);
+        cout << "Drew them\n";
     }
 
     for (unsigned int i = firstTopLayer; i<layers.size(); ++i)

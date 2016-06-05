@@ -1,4 +1,4 @@
-#ifndef PATHDINDER_HPP
+#ifndef PATHFINDER_HPP
 #define PATHFINDER_HPP
 
 #include "SFML.hpp"
@@ -43,4 +43,4 @@ public:
 	std::vector<int> getPath();
 };
 
-#endif // PATHDINDER_HPP
+#endif // PATHFINDER_HPP

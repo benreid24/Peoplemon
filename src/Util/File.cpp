@@ -46,24 +46,29 @@ void File::close()
 
 std::string File::getExtension(std::string file)
 {
-    unsigned int i = 0;
-    while (i<file.size() && file[i]!='.')
-        ++i;
-    if (i+1<file.size())
-        return file.substr(i+1);
-    return "";
+    std::string ret;
+    for (unsigned int i = 0; i<file.size(); ++i)
+    {
+        if (file[i]=='.')
+            ret.clear();
+        else
+            ret.push_back(file[i]);
+    }
+    return ret;
 }
 
 std::string File::getBaseName(std::string file)
 {
     std::string ret;
-    for (unsigned int i = 0; i<file.size(); ++i)
+    for (int i = file.size()-1; i>=0; --i)
     {
         if (file[i]=='.')
-            return ret;
-        ret.push_back(file[i]);
-        if (file[i]=='/' || file[i]=='\\')
             ret.clear();
+        else
+            ret.push_back(file[i]);
+        
+        if (file[i]=='/' || file[i]=='\\')
+            return ret;
     }
     return ret;
 }
@@ -78,8 +83,6 @@ std::string File::getPath(std::string file)
 			ret += temp+"/";
 			temp.clear();
 		}
-		else if (file[i]=='.')
-			return ret;
 		else
 			temp.push_back(file[i]);
 	}

@@ -1,6 +1,7 @@
 #include "Menu/BattleBox.hpp"
 #include "Properties.hpp"
 #include "Globals.hpp"
+#include <cmath>
 using namespace std;
 using namespace sf;
 

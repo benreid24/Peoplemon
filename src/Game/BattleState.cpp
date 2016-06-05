@@ -5,6 +5,7 @@
 #include "Battle/PlayerBattler.hpp"
 #include "Game/EvolveState.hpp"
 #include "Game/DeleteMoveState.hpp"
+#include <cmath>
 using namespace std;
 using namespace sf;
 

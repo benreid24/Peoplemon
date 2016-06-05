@@ -2,6 +2,7 @@
 #include "Game/Game.hpp"
 #include "Globals.hpp"
 #include "Properties.hpp"
+#include <cmath>
 using namespace std;
 using namespace sf;
 

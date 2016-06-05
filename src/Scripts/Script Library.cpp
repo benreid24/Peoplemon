@@ -12,6 +12,7 @@
 #include <vector>
 #include <sstream>
 #include <memory>
+#include <cmath>
 using namespace std;
 using namespace sf;
 

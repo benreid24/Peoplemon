@@ -16,6 +16,38 @@ const string Properties::GameSavePath = string(getenv("APPDATA"))+"/Peoplemon/";
 const string Properties::GameSavePath = "Resources/Saves/";
 #endif
 
+#ifdef OSX
+#include "ResourcePath.hpp"
+const string Properties::GameSavePath = "/Users/ben/Downloads";
+const string Properties::ResourcesPath = resourcePath();
+const string Properties::MapPath = resourcePath()+"Data/Maps/";
+const string Properties::DataPath = resourcePath()+"Data/";
+const string Properties::TilesetPath = resourcePath()+"Data/Tilesets/";
+const string Properties::PeoplePath = resourcePath()+"Data/People/";
+const string Properties::PeoplemonBasePath = resourcePath()+"Data/Peoplemon/";
+const string Properties::WildPeoplemonPath = resourcePath()+"Data/Peoplemon/Wilds/";
+const string Properties::OwnedPeoplemonPath = resourcePath()+"Data/Peoplemon/Owned/";
+const string Properties::MapTilePath = resourcePath()+"Media/Images/World/Tiles/";
+const string Properties::AnimationPath = resourcePath()+"Data/Animations/World/";
+const string Properties::PeoplemonAnimationPath = resourcePath()+"Data/Animations/Peoplemon/";
+const string Properties::PeoplemonImagePath = resourcePath()+"Media/Images/Peoplemon/";
+const string Properties::BattleImagePath = resourcePath()+"Media/Images/Battle/";
+const string Properties::MoveAnimationPath = resourcePath()+"Data/Animations/Moves/";
+const string Properties::MiscAnimationPath = resourcePath()+"Data/Animations/Misc/";
+const string Properties::MiscImagePath = resourcePath()+"Media/Images/World/Misc/";
+const string Properties::SpriteSheetPath = resourcePath()+"Media/Images/SpriteSheets/";
+const string Properties::ScriptPath = resourcePath()+"Data/Scripts/";
+const string Properties::FontPath = resourcePath()+"Media/Fonts/";
+const string Properties::PlaylistPath = resourcePath()+"Data/Playlists/";
+const string Properties::MusicPath = resourcePath()+"Media/Music/";
+const string Properties::AudioPath = resourcePath()+"Media/Audio/";
+const string Properties::ConversationPath = resourcePath()+"Data/People/Conversations/";
+const string Properties::TrainerPath = resourcePath()+"Data/People/Trainers/";
+const string Properties::NpcPath = resourcePath()+"Data/People/NPCs/";
+const string Properties::MenuImagePath = resourcePath()+"Media/Images/Menu/";
+const string Properties::CreditsPath = resourcePath()+"Media/Images/Credits/";
+
+#else
 const string Properties::ResourcesPath = "Resources/";
 const string Properties::MapPath = "Resources/Data/Maps/";
 const string Properties::DataPath = "Resources/Data/";
@@ -43,6 +75,8 @@ const string Properties::TrainerPath = "Resources/Data/People/Trainers/";
 const string Properties::NpcPath = "Resources/Data/People/NPCs/";
 const string Properties::MenuImagePath = "Resources/Media/Images/Menu/";
 const string Properties::CreditsPath = "Resources/Media/Images/Credits/";
+#endif
+
 Font Properties::PrimaryMenuFont;
 Font Properties::SecondaryMenuFont;
 Font Properties::ConversationFont;
