@@ -107,7 +107,7 @@
 				</Linker>
 			</Target>
 			<Target title="Linux">
-				<Option output="Peoplemon" prefix_auto="1" extension_auto="1" />
+				<Option output="PeoplemonBin" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -120,16 +120,34 @@
 					<Add option="-DLinux" />
 					<Add directory="include" />
 					<Add directory="../Peoplemon" />
-					<Add directory="/home/developer/sfml/include" />
+					<Add directory="/home/developer/SFML-2.3.2/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc" />
-					<Add library="/home/developer/sfml/lib/libsfml-audio.so.2.0" />
-					<Add library="/home/developer/sfml/lib/libsfml-graphics.so.2.0" />
-					<Add library="/home/developer/sfml/lib/libsfml-network.so.2.0" />
-					<Add library="/home/developer/sfml/lib/libsfml-window.so.2.0" />
-					<Add library="/home/developer/sfml/lib/libsfml-system.so.2.0" />
+					<Add library="pthread" />
 					<Add library="X11" />
+					<Add library="GL" />
+					<Add library="Xrandr" />
+					<Add library="GLEW" />
+					<Add library="jpeg" />
+					<Add library="sndfile" />
+					<Add library="openal" />
+					<Add library="/home/developer/SFML-2.3.2/lib/libsfml-audio-s.a" />
+					<Add library="/home/developer/SFML-2.3.2/lib/libsfml-graphics-s.a" />
+					<Add library="/home/developer/SFML-2.3.2/lib/libsfml-network-s.a" />
+					<Add library="/home/developer/SFML-2.3.2/lib/libsfml-window-s.a" />
+					<Add library="/home/developer/SFML-2.3.2/lib/libsfml-system-s.a" />
+					<Add library="vorbisenc" />
+					<Add library="xcb" />
+					<Add library="FLAC" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+					<Add library="freetype" />
+					<Add library="vorbisfile" />
+					<Add library="xcb-randr" />
+					<Add library="xcb-image" />
+					<Add library="X11-xcb" />
+					<Add library="udev" />
 				</Linker>
 			</Target>
 		</Build>
