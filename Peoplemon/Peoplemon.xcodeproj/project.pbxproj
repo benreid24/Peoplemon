@@ -87,6 +87,7 @@
 		B557AABE1D03B34D002900BC /* Tileset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B557AA721D03B34D002900BC /* Tileset.cpp */; };
 		B557AABF1D03B34D002900BC /* Weather.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B557AA731D03B34D002900BC /* Weather.cpp */; };
 		B557AAC01D03B34D002900BC /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B557AA741D03B34D002900BC /* World.cpp */; };
+		B557D0091D0528C100F1F133 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B557D0081D0528C100F1F133 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -266,6 +267,7 @@
 		B557AA731D03B34D002900BC /* Weather.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Weather.cpp; sourceTree = "<group>"; };
 		B557AA741D03B34D002900BC /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; };
 		B557AA751D03B34D002900BC /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../../version.h; sourceTree = "<group>"; };
+		B557D0081D0528C100F1F133 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -304,6 +306,7 @@
 				B557A99A1D03B285002900BC /* ResourcePath.mm */,
 				B557A99C1D03B285002900BC /* ResourcePath.hpp */,
 				B557A99F1D03B285002900BC /* Resources */,
+				B557D0081D0528C100F1F133 /* Images.xcassets */,
 				B557A9981D03B285002900BC /* Supporting Files */,
 			);
 			path = Peoplemon;
@@ -755,6 +758,7 @@
 				B557A9B31D03B335002900BC /* Media in Resources */,
 				B557A9B21D03B335002900BC /* icon.png in Resources */,
 				B557A9B41D03B335002900BC /* test.ppl in Resources */,
+				B557D0091D0528C100F1F133 /* Images.xcassets in Resources */,
 				B557A9B11D03B335002900BC /* Data in Resources */,
 				B557AA761D03B34D002900BC /* what.txt in Resources */,
 			);
@@ -961,6 +965,7 @@
 		B557A9AB1D03B285002900BC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PREPROCESSOR_DEFINITIONS = OSX;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/,
@@ -977,6 +982,7 @@
 		B557A9AC1D03B285002900BC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PREPROCESSOR_DEFINITIONS = OSX;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/,
