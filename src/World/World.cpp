@@ -534,21 +534,19 @@ void World::draw(sf::RenderWindow* window)
         {
             if (t.contains(Vector2i(lights[i].position)))
             {
-                light[0].position = lights[i].position - camPos;
+                light[0].position = lights[i].position - camPos + Vector2f(32,32);
                 light[0].position.y = 600-light[0].position.y;
                 light[0].color = Color::Transparent;
                 //cout << "Drawing light: (" << light[0].position.x << ", " << light[0].position.y << ")\n";
                 for (unsigned int j = 1; j<362; ++j)
                 {
-                    light[j].position = lights[i].position + Vector2f(lights[i].radius*cos(double(j)/180*3.1415926)-camPos.x,lights[i].radius*sin(double(j)/180*3.1415926)-camPos.y);
+                    light[j].position = lights[i].position + Vector2f(lights[i].radius*cos(double(j)/180*3.1415926)-camPos.x+32,lights[i].radius*sin(double(j)/180*3.1415926)-camPos.y+32);
                     light[j].color = Color(0,0,0,currentLighting);
                     light[j].position.y = 600-light[j].position.y;
                 }
                 lightTxtr.draw(light, BlendNone);
             }
         }
-        lightSpr.setTexture(lightTxtr.getTexture(),true);
-        lightSpr.setPosition(0,0);
         window->draw(lightSpr);
     }
 
