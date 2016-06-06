@@ -269,6 +269,10 @@ void Game::save()
     player.save(&output);
     world.saveGame(&output);
     scriptEnvironment.save(&output);
+    output.close();
+    #ifdef Linux
+    system(string("chmod 777 "+Properties::GameSavePath+player.getName()+".sav").c_str());
+    #endif
 }
 
 void Game::load(string name)
