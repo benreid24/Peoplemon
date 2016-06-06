@@ -11,7 +11,11 @@
 
 #ifdef Linux
 #include <dirent.h>
+#include <sys/stat.h>
 #include <X11/Xlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 #endif
 
 #ifdef Windows
@@ -55,15 +59,23 @@ int main(int argC, const char* argV[])
 	cout << "Creating directory: " << string(string(getenv("APPDATA"))+"/Peoplemon") << endl;
 	mkdir(string(string(getenv("APPDATA"))+"/Peoplemon").c_str());
 	#endif // Windows
-	
+
     #ifdef OSX
     cout << "Creating directory: " << "/Users/"+string(getenv("USER"))+"/Library/Application Support/";
     mkdir(string("/Users/"+string(getenv("USER"))+"/Library/Application Support/Peoplemon").c_str(),ACCESSPERMS);
     #endif
-    
+
     #ifdef Linux
     if (!XInitThreads())
         return 1;
+    struct passwd *pw = getpwuid(getuid());
+    string homedir = pw->pw_dir;
+    cout << "Creating directory: "+homedir+"/.config/Peoplemon\n";
+    cout << Properties::GameSavePath << endl;
+    umask(777);
+    mkdir(string(homedir+"/.config").c_str(),ACCESSPERMS);
+    mkdir(string(homedir+"/.config/Peoplemon").c_str(),ACCESSPERMS);
+    system(string("chmod 777 "+string(homedir+"/.config/Peoplemon")).c_str());
     #endif
 
 	srand(time(0));

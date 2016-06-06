@@ -13,7 +13,10 @@ using namespace sf;
 const string Properties::GameSavePath = string(getenv("APPDATA"))+"/Peoplemon/";
 #endif
 #ifdef Linux
-const string Properties::GameSavePath = "Resources/Saves/";
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+const string Properties::GameSavePath = string(getpwuid(getuid())->pw_dir)+"/.config/Peoplemon/";
 #endif
 
 #ifdef OSX
