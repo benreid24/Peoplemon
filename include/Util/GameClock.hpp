@@ -55,6 +55,7 @@ public:
     {
         startTime = 0;
         pausedTime = 0;
+        start = ClockTime(12,0);
         paused = false;
     }
 
@@ -85,9 +86,9 @@ public:
     ClockTime getClockTime() //present scale: 3 seconds = 1 minute
     {
         ClockTime t;
-        int s = (paused)?pausedTime:getTimeStamp()-startTime;
+        int s = (paused)?(pausedTime):(getTimeStamp()-startTime);
 
-        t.hour = ((start.hour+s/3000+start.minute)/60)%24;
+        t.hour = (start.hour+(s/3000+start.minute)/60)%24;
         t.minute = (start.minute+s/3000)%60;
 
         return t;
@@ -103,6 +104,16 @@ public:
         start = t;
         startTime = timer.getElapsedTime().asMilliseconds();
     }
+
+    /**
+     * Sets the time to noon and resets the timer so that the time is synced
+     */
+	void newGame()
+	{
+		setClockTime(ClockTime(12,0));
+		startTime = getTimeStamp();
+		paused = false;
+	}
 
     /**
      * Stops recording simulation time passing. Pauses time in essence, however getTimeStamp will still function
