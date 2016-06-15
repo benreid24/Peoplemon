@@ -330,7 +330,7 @@ Value Script::evaluate(vector<Token> tkns)
 	//1. search and replace variables
 	//2. search and run functions
 	//3. Call evalEq
-	try{
+
 	for (unsigned int i = 0; i<tkns.size(); ++i)
 	{
 		if (tkns.at(i).type==Token::Identifier)
@@ -345,10 +345,6 @@ Value Script::evaluate(vector<Token> tkns)
 			else if (!isFunction(tkns.at(i).data))
 				throw  runtime_error("Unknown identifier '"+tkns.at(i).data+"' encountered on line "+intToString(tkns.at(i).line)+" in file "+tkns.at(i).file);
 		}
-	}}
-	catch (...)
-	{
-		cout << "Caught\n";
 	}
 
 	enum

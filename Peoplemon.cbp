@@ -16,6 +16,7 @@
 					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add option="-fno-aggressive-loop-optimizations" />
+					<Add option="-mthreads" />
 					<Add option="-DSFML_STATIC" />
 					<Add option="-DDEBUG" />
 					<Add option="-DWindows" />
@@ -24,8 +25,6 @@
 					<Add directory="../Peoplemon" />
 				</Compiler>
 				<Linker>
-					<Add option="-static-libgcc" />
-					<Add option="-static-libstdc++" />
 					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-audio.a" />
 					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-graphics.a" />
 					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-network.a" />
@@ -61,8 +60,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-static-libgcc" />
-					<Add option="-static-libstdc++" />
 					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-audio.a" />
 					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-graphics.a" />
 					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-network.a" />

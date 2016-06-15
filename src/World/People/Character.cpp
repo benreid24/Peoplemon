@@ -38,6 +38,7 @@ void Character::spawn(Vector2f pos, int d)
     position = pos;
     mapPos.x = pos.x/32;
     mapPos.y = pos.y/32;
+    lastPos = mapPos;
     dir = d;
 }
 
