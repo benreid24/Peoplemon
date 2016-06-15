@@ -9,8 +9,7 @@ using namespace std;
 
 Parser::Parser(string source)
 {
-	file = "Not loaded from file";
-
+	file = source;
 
 	if (File::getExtension(source)=="psc")
 	{
@@ -19,7 +18,6 @@ Parser::Parser(string source)
 		if (!FileExists(source))
 			throw runtime_error("Failed to load script: "+source);
 		File input(source);
-		file = source;
 		string temp;
 		while (input.good())
 		{

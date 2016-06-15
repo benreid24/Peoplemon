@@ -330,7 +330,7 @@ Value Script::evaluate(vector<Token> tkns)
 	//1. search and replace variables
 	//2. search and run functions
 	//3. Call evalEq
-
+	try{
 	for (unsigned int i = 0; i<tkns.size(); ++i)
 	{
 		if (tkns.at(i).type==Token::Identifier)
@@ -343,8 +343,12 @@ Value Script::evaluate(vector<Token> tkns)
 					tkns.at(i) = stackFrames.top().locals[tkns.at(i).data];
 			}
 			else if (!isFunction(tkns.at(i).data))
-				throw runtime_error("Unknown identifier '"+tkns.at(i).data+"' encountered on line "+intToString(tkns.at(i).line)+" in file "+tkns.at(i).file);
+				throw  runtime_error("Unknown identifier '"+tkns.at(i).data+"' encountered on line "+intToString(tkns.at(i).line)+" in file "+tkns.at(i).file);
 		}
+	}}
+	catch (...)
+	{
+		cout << "Caught\n";
 	}
 
 	enum
@@ -705,17 +709,20 @@ Value Script::runTokens(int pos)
 
 void Script::run(ScriptEnvironment* env)
 {
+	if (tokens.size()==0)
+		return;
+
 	stopped = stopping = false;
 	environment = env;
 	try
 	{
 		runTokens(0);
 	}
-	catch (out_of_range e)
+	catch (const out_of_range& e)
 	{
 		cout << "Parenthesis or bracket mismatch somewhere in file "+tokens.at(0).file << endl;
 	}
-	catch (runtime_error e)
+	catch (const runtime_error& e)
 	{
 		cout << e.what() << endl;
 	}
