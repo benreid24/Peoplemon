@@ -247,14 +247,16 @@ bool OptionsMenuState::execute()
 				if (game->data.fullscreen)
 				{
 					game->mainWindow.close();
-					game->mainWindow.create(VideoMode(Properties::ScreenWidth,Properties::ScreenHeight,32), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Fullscreen);
+					game->mainWindow.create(getBestVideoMode(), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Fullscreen);
+					View view(FloatRect(0,0,Properties::ScreenWidth,Properties::ScreenHeight));
+					game->mainWindow.setView(view);
 					game->mainWindow.setMouseCursorVisible(false);
 					game->mainWindow.setVerticalSyncEnabled(true);
 				}
 				else
 				{
 					game->mainWindow.close();
-					game->mainWindow.create(VideoMode(Properties::ScreenWidth,Properties::ScreenHeight,32), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Titlebar|Style::Close);
+					game->mainWindow.create(VideoMode(Properties::ScreenWidth,Properties::ScreenHeight,32), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Titlebar|Style::Close|Style::Resize);
 					game->mainWindow.setMouseCursorVisible(false);
 					game->mainWindow.setVerticalSyncEnabled(true);
 				}

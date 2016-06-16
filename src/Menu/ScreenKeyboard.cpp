@@ -27,7 +27,7 @@ ScreenKeyboard::ScreenKeyboard(string i)
     keys.setTextProps(Color::Black,22);
     keys.setPosition(Vector2f(15,362));
     keys.setAllowedCols(15);
-    keys.setSpeed(275);
+    keys.setSpeed(125);
     lastTime = 0;
     charLim = 100;
 }

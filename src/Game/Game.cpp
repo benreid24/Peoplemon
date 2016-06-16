@@ -219,7 +219,7 @@ void Game::start()
 {
 	Image icon;
 	icon.loadFromFile(Properties::ResourcesPath+"icon.png");
-    mainWindow.create(VideoMode(Properties::ScreenWidth,Properties::ScreenHeight,32), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Titlebar|Style::Close);
+    mainWindow.create(VideoMode(Properties::ScreenWidth,Properties::ScreenHeight,32), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Titlebar|Style::Close|Style::Resize);
 	mainWindow.setMouseCursorVisible(false);
 	mainWindow.setVerticalSyncEnabled(true);
 	mainWindow.setIcon(icon.getSize().x,icon.getSize().y,icon.getPixelsPtr());
@@ -305,7 +305,9 @@ void Game::load(string name)
     if (data.fullscreen)
 	{
 		mainWindow.close();
-		mainWindow.create(VideoMode(Properties::ScreenWidth,Properties::ScreenHeight,32), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Fullscreen);
+		mainWindow.create(getBestVideoMode(), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Fullscreen);
+		View view(FloatRect(0,0,Properties::ScreenWidth,Properties::ScreenHeight));
+		mainWindow.setView(view);
 		mainWindow.setMouseCursorVisible(false);
 		mainWindow.setVerticalSyncEnabled(true);
 	}
