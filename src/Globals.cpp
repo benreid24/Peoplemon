@@ -173,6 +173,23 @@ int stringToInt(string s)
     return i;
 }
 
+VideoMode getBestVideoMode()
+{
+	vector<VideoMode> modes = VideoMode::getFullscreenModes();
+	unsigned int hX = 0, hI = -1;
+
+	for (unsigned int i = 0; i<modes.size(); ++i)
+	{
+		if (modes[i].width*3==modes[i].height*4 && modes[i].width>hX)
+		{
+            hX = modes[i].width;
+            hI = i;
+		}
+	}
+
+	return modes[hI];
+}
+
 vector<pair<Keyboard::Key,string> > keymap({make_pair(Keyboard::A,"A"),
 											make_pair(Keyboard::B,"B"),
 											make_pair(Keyboard::C,"C"),

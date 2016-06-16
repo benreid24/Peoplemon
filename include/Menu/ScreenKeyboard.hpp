@@ -18,6 +18,7 @@ class ScreenKeyboard
     ChoiceBox keys;
     bool finished;
     int lastTime, charLim;
+    std::string lastInput;
 
 public:
     /**

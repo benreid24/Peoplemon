@@ -15,7 +15,7 @@ NewGamestate::NewGamestate(Game* g) : Gamestate(g,NULL)
 
 bool NewGamestate::execute()
 {
-    vector<string> messages({"Hello there!", "My name is Professor Prof", "You must be my new neighbor in our little town of HomeTown!",
+    vector<string> messages({"Hello there!", "My name is Professor Professor", "You must be my new neighbor in our little town of HomeTown!",
                         "You're.... uh... I'm going to be completely honest, I have no idea what your name is!",
                         "Please, remind me","TEMP STRING TO BE OVERWRITTEN", "I'm also at least partially blind, maybe even fully blind. Are you a boy or a girl?",
                         "Oh... Oh I was not expecting that at all", "Well... uh... I should get going now", "See ya!"});
@@ -83,7 +83,7 @@ bool NewGamestate::execute()
                     game->hud.draw(&game->mainWindow);
                     kBoard.draw(&game->mainWindow);
                     game->mainWindow.display();
-                    sleep(milliseconds(50));
+                    sleep(milliseconds(30));
                 }
                 playerName = kBoard.getText();
                 messages[curIndex+1] = "Oh that's right! You're " + playerName + "!";
@@ -105,7 +105,7 @@ bool NewGamestate::execute()
                     professor.draw(&game->mainWindow);
                     game->hud.draw(&game->mainWindow);
                     game->mainWindow.display();
-                    sleep(milliseconds(50));
+                    sleep(milliseconds(30));
                 }
                 bool isBoy = game->hud.getChoice()=="Boy";
                 game->player.newGame(isBoy,playerName);
@@ -116,11 +116,9 @@ bool NewGamestate::execute()
                 game->hud.displayMessage(messages[curIndex]);
             else
             {
-                //TODO - init game to initial stuff
                 game->hud.setAlwaysShow(false);
-                game->world.load("roomDemo",1);
-                gameClock.setClockTime(ClockTime(12,0));
-                gameClock.unPause();
+                game->world.load("WorldMap",84);
+                gameClock.newGame();
                 return game->runState(new MainGameState(game));
             }
         }
