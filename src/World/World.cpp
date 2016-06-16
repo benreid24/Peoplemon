@@ -526,7 +526,7 @@ void World::draw(sf::RenderWindow* window)
     }
 
     weather.draw(&game->mainWindow);
-    if (currentLighting>40 && false)
+    if (currentLighting>40)
     {
         IntRect t(camPos.x-400, camPos.y-300,1600,1200);
         lightTxtr.clear(Color(0,0,0,currentLighting));
