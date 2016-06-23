@@ -112,8 +112,6 @@ class World
     std::shared_ptr<Script> unloadScript;
 
     std::vector<PeoplemonZone> zones;
-    
-    bool followCols;
 
     /**
      * When it is determined that a wild peoplemon will attack the player, this function determines which peoplemon will do it and returns that peoplemon
