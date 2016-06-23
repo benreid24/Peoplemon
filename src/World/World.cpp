@@ -447,6 +447,7 @@ void World::update()
     
     if (Keyboard::isKeyPressed(Keyboard::C))
     {
+        setSpaceOccupied(game->player.getMapPos(), false);
         followCols = !followCols;
         sleep(milliseconds(225));
     }
@@ -680,7 +681,8 @@ bool World::spaceFree(Vector2i pos)
 
 void World::setSpaceOccupied(Vector2i pos, bool o)
 {
-    collisions(pos.x-1,pos.y-1) = int(!o);
+    if (followCols)
+        collisions(pos.x-1,pos.y-1) = int(!o);
 }
 
 void World::removeObject(Object* o)
