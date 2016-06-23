@@ -19,6 +19,7 @@ World::World(Game* g) : light(TrianglesFan, 362), weather(g)
     lightSpr.setTexture(lightTxtr.getTexture());
     pcMap = "Ghettopolis/Worldmap";
     pcSpawn = 10; //TODO - init these to actual default
+    followCols = true;
 }
 
 World::~World()
@@ -345,6 +346,7 @@ void World::load(string file, int spId, bool trans)
 	if (File::getExtension(loadScript)=="psc")
 		loadScript = Properties::ScriptPath+loadScript;
     game->scriptEnvironment.runScript(shared_ptr<Script>(new Script(loadScript)));
+    game->mainWindow.setTitle(curMap+" ("+intToString(game->player.getMapPos().x)+","+intToString(game->player.getMapPos().y)+")"+(followCols?(" REGULAR"):(" IGNORING COLLISIONS")));
 }
 
 void World::clear()
@@ -442,6 +444,12 @@ void World::update()
 	{
 		anims[i].update();
 	}
+    
+    if (Keyboard::isKeyPressed(Keyboard::C))
+    {
+        followCols = !followCols;
+        sleep(milliseconds(225));
+    }
 }
 
 void World::calculateLighting()
@@ -598,6 +606,7 @@ void World::setRenderPosition(Vector2f playerPos)
 
 void World::moveOntoTile(Vector2i playerPos, Vector2i lastPos)
 {
+    game->mainWindow.setTitle(curMap+" ("+intToString(game->player.getMapPos().x)+","+intToString(game->player.getMapPos().y)+")"+(followCols?(" REGULAR"):(" IGNORING COLLISIONS")));
     moveOntoTile(playerPos);
     playerPos.x--;
     playerPos.y--;
@@ -661,6 +670,9 @@ Vector2f World::getCamera()
 
 bool World::spaceFree(Vector2i pos)
 {
+    if (!followCols)
+        return true;
+    
 	if (pos.x<=0 || pos.x>size.x || pos.y<=0 || pos.y>size.y)
 		return false;
     return collisions(pos.x-1,pos.y-1)==1;
