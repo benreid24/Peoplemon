@@ -409,7 +409,7 @@ bool BattleState::execute()
                             return true;
                         applyMove(order[i],order[i],80);
                         renderStatic();
-                        if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp<=0)
+                        if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<=0)
 						{
 							bool done = doFaint(j,i);
 							if (shouldClose())
