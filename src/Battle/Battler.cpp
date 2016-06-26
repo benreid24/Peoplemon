@@ -40,6 +40,7 @@ Battler::Battler(vector<PeoplemonRef>* ppl)
         }
     }
     zeroStages();
+    isWild = false;
 }
 
 Battler::~Battler()
@@ -145,4 +146,9 @@ Battler* createBattler(int aiType, vector<PeoplemonRef>* pplmon, vector<int> ite
 	default:
 		return new LearningBattler(pplmon,items);
 	}
+}
+
+void Battler::setIsWild(bool wild)
+{
+	isWild = wild;
 }

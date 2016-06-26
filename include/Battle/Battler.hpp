@@ -43,6 +43,7 @@ protected:
     std::vector<PeoplemonRef>* peoplemon;
     int curPeoplemon;
     int lastDamageDealt, lastDamageTaken;
+    bool isWild;
 
 public:
     /**
@@ -136,6 +137,13 @@ public:
      * \param d The amount of damage last taken
      */
     void setLastDamageTaken(int d);
+
+    /**
+     * Tell the Battler whether or not it is wild. The default is to not be wild
+     *
+     * \param wild Whether or not the Battler is wild
+     */
+	void setIsWild(bool wild);
 
     BattlerFlags state;
 };

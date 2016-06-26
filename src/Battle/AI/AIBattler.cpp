@@ -90,7 +90,7 @@ Turn AIBattler::getTurn(PeoplemonRef opp, Game* g)
             items.erase(items.begin());
             return turn;
         }
-        else if (action.order[i]==ReactionPreference::Switch)
+        else if (action.order[i]==ReactionPreference::Switch && !isWild)
         {
             int bestIndex = 0;
             double bestScore = 0;
@@ -133,12 +133,18 @@ Turn AIBattler::getTurn(PeoplemonRef opp, Game* g)
         }
     }
 
-    cout << "Critical error, AI move selection failure\n";
-    int* crash = NULL;
-    for (int x = 0; true; ++x)
-    {
-        crash[x] = 0;
-    }
+    if (turn.type==Turn::Void)
+	{
+		//randomly select a move
+		cout << "Error in selecting action for turn, randomly selecting a move (this may infinitely loop)\n";
+		int i = Random(0,3);
+		while (peoplemon->at(curPeoplemon).moves[i].id==0)
+			i = Random(0,3);
+		turn.type = Turn::Move;
+		turn.id = i;
+		return turn;
+	}
+	return turn; //to get rid of the warning, control should never reach here though
 }
 
 ReactionPreference AIBattler::getReaction(StateFlags state, Score score)

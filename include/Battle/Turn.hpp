@@ -18,10 +18,13 @@ struct Turn
         Move,
         Item,
         Switch,
-        Run
+        Run,
+        Void
     }type;
 
     int id; //of the move or item, or the old index of the peoplemon being switched out
+
+    Turn() { type = Void; }
 };
 
 #endif // TURN_HPP

@@ -17,6 +17,7 @@ BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm,
     player = new PlayerBattler(this, &g->player,cr);
     player->healAils(false);
     opponent = op;
+    opponent->setIsWild(opName.find("WILD")!=string::npos);
     canRun = cr;
     opponentName = opName;
     loseLine = ll;
@@ -732,7 +733,8 @@ void BattleState::renderBase()
     playerAnims.still.update();
     opponentAnims.still.update();
 
-    game->mainWindow.draw(background);
+    game->mainWindow.clear();
+	game->mainWindow.draw(background);
     playerAnims.still.draw(&game->mainWindow);
     opponentAnims.still.draw(&game->mainWindow);
     opBox.draw(&game->mainWindow);
@@ -754,7 +756,8 @@ void BattleState::displayMessage(string m)
         opBox.update();
         playerBox.update();
 
-        game->mainWindow.draw(background);
+        game->mainWindow.clear();
+		game->mainWindow.draw(background);
         renderQueue();
         opBox.draw(&game->mainWindow);
         playerBox.draw(&game->mainWindow);
@@ -778,7 +781,8 @@ void BattleState::renderStatic(bool rs, bool up, bool op)
         playerAnims.still.update();
         opponentAnims.still.update();
 
-        game->mainWindow.draw(background);
+        game->mainWindow.clear();
+		game->mainWindow.draw(background);
         if (rs)
         {
         	playerAnims.still.draw(&game->mainWindow);
@@ -851,7 +855,8 @@ bool BattleState::doFaint(int alive, int dead)
         }
         anims[j]->faint.update();
 
-        game->mainWindow.draw(background);
+        game->mainWindow.clear();
+		game->mainWindow.draw(background);
         anims[j]->faint.draw(&game->mainWindow);
         anims[i]->still.draw(&game->mainWindow);
         game->hud.draw(&game->mainWindow);
@@ -988,6 +993,7 @@ bool BattleState::doFaint(int alive, int dead)
 			opBox.update();
 			playerBox.update();
 
+			game->mainWindow.clear();
 			game->mainWindow.draw(background);
 			temp.sendOut.draw(&game->mainWindow);
 			anims[i]->still.draw(&game->mainWindow);
@@ -1689,7 +1695,8 @@ void BattleState::playIntroAnim(Battler* b)
 
         anim->update();
 
-        game->mainWindow.draw(background);
+        game->mainWindow.clear();
+		game->mainWindow.draw(background);
         anim->draw(&game->mainWindow);
         renderQueue();
         opBox.draw(&game->mainWindow);
@@ -1723,7 +1730,8 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
     {
         anims[i]->comeIn.update();
 
-        game->mainWindow.draw(background);
+        game->mainWindow.clear();
+		game->mainWindow.draw(background);
         anims[i]->comeIn.draw(&game->mainWindow);
         anims[j]->still.draw(&game->mainWindow);
         game->hud.draw(&game->mainWindow);
@@ -1749,7 +1757,8 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
     {
         temp.sendOut.update();
 
-        game->mainWindow.draw(background);
+        game->mainWindow.clear();
+game->mainWindow.draw(background);
         temp.sendOut.draw(&game->mainWindow);
         anims[j]->still.draw(&game->mainWindow);
         game->hud.draw(&game->mainWindow);
@@ -1809,7 +1818,9 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
         anims[i]->moves[m].background.update();
         anims[i]->moves[m].foreground.update();
 
-        game->mainWindow.draw(background);
+		game->mainWindow.clear();
+        game->mainWindow.clear();
+		game->mainWindow.draw(background);
         opBox.draw(&game->mainWindow);
         playerBox.draw(&game->mainWindow);
         anims[i]->moves[m].background.draw(&game->mainWindow);
@@ -1838,6 +1849,8 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
 		opBox.update();
 		playerBox.update();
 
+		game->mainWindow.clear();
+		game->mainWindow.clear();
 		game->mainWindow.draw(background);
         opBox.draw(&game->mainWindow);
         playerBox.draw(&game->mainWindow);

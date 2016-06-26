@@ -17,8 +17,8 @@ World::World(Game* g) : light(TrianglesFan, 362), weather(g)
     game = g;
     lightTxtr.create(800,600);
     lightSpr.setTexture(lightTxtr.getTexture());
-    pcMap = "Ghettopolis/Worldmap";
-    pcSpawn = 10; //TODO - init these to actual default
+    pcMap = "Worldmap";
+    pcSpawn = 84;
 }
 
 World::~World()
@@ -137,7 +137,7 @@ void World::load(string file, int spId, bool trans)
         {
         	file = input.getString();
 			WildPeoplemon temp;
-			temp.load(Properties::WildPeoplemonPath+"/"+file);
+			temp.load(Properties::WildPeoplemonPath+file);
 			tempZone.peoplemon.push_back(temp);
         }
         zones.push_back(tempZone);
