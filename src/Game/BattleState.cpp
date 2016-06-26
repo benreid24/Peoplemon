@@ -333,11 +333,12 @@ bool BattleState::execute()
 						{
 							double curHp = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp;
 							double maxHp = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).stats.hp;
-							double rate = 128; //TODO - play with this until it feels good
+							double rate = 48; //TODO - play with this until it feels good
 							double status = (order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).hasAtLeastOneAilment())?(2):(1); //verify
 							double ball = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).getBallBonus(game,turns[i].id,turnsElapsed,order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).level);
 							double a = ((3*maxHp-2*curHp)*rate*ball*status)/(maxHp*3);
 							double b = 1048560 / sqrt(sqrt(16711680/a));
+							cout << "b: " << b << endl;
 							int shakes = 0;
 							for (int z = 0; z<4; ++z)
 							{
