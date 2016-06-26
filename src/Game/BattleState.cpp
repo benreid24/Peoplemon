@@ -333,12 +333,13 @@ bool BattleState::execute()
 						{
 							double curHp = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp;
 							double maxHp = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).stats.hp;
-							double rate = 48; //TODO - play with this until it feels good
+							double rate = 48;
 							double status = (order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).hasAtLeastOneAilment())?(2):(1); //verify
 							double ball = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).getBallBonus(game,turns[i].id,turnsElapsed,order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).level);
 							double a = ((3*maxHp-2*curHp)*rate*ball*status)/(maxHp*3);
 							double b = 1048560 / sqrt(sqrt(16711680/a));
 							cout << "b: " << b << endl;
+
 							int shakes = 0;
 							for (int z = 0; z<4; ++z)
 							{
@@ -347,7 +348,11 @@ bool BattleState::execute()
 									shakes++;
 							}
 							cout << "Shakes: " << shakes << endl;
-							//TODO - play animations
+
+							playPeopleballAnimations(shakes,turns[i].id);
+							if (shouldClose())
+								return true;
+
 							if (shakes==4)
 							{
 								displayMessage("Gotcha! "+order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).name+" was caught!");
@@ -1866,6 +1871,115 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
         sleep(milliseconds(30));
 	}
     renderStatic();
+}
+
+void BattleState::playPeopleballAnimations(int r, int p)
+{
+	Animation* playing[2] = {&ballThrow,NULL};
+	int rocks = 0;
+	enum
+	{
+		Throwing,
+		Falling,
+		Shaking,
+		Finishing,
+		Done
+	}state = Throwing;
+
+	ballThrow.play();
+
+	while (state!=Done)
+	{
+		for (int i = 0; i<2; ++i)
+		{
+			if (playing[i]!=NULL)
+				playing[i]->update();
+		}
+		if (finishFrame())
+		{
+			game->data.gameClosedFlag = true;
+			return;
+		}
+
+		switch (state)
+		{
+		case Throwing:
+			if (playing[0]->finished())
+			{
+				state = Falling;
+				ballFall.play();
+				opponentAnims.suckIn.play();
+				playing[0] = &ballFall;
+                playing[1] = &opponentAnims.suckIn;
+			}
+			break;
+
+		case Falling:
+			if (playing[0]->finished() && playing[1]->finished())
+			{
+				state = Shaking;
+				ballRock.play();
+				playing[0] = &ballRock;
+				playing[1] = NULL;
+			}
+			break;
+
+		case Shaking:
+			if (playing[0]->finished())
+			{
+				rocks++;
+				if (rocks>=r)
+				{
+					state = Finishing;
+					if (r==4)
+					{
+						ballClick.play();
+						playing[0] = &ballClick;
+					}
+					else
+					{
+						ballBreak.play();
+						opponentAnims.breakout.play();
+						playing[0] = &ballBreak;
+						playing[1] = &opponentAnims.breakout;
+					}
+				}
+				else
+					ballRock.play();
+			}
+			break;
+
+		case Finishing:
+			if (playing[0]->finished())
+			{
+				bool done = true;
+                if (playing[1]!=NULL)
+				{
+					if (!playing[1]->finished())
+						done = false;
+				}
+				if (done)
+					state = Done;
+			}
+			break;
+
+		default:
+			break;
+		}
+
+		game->mainWindow.clear();
+		game->mainWindow.draw(background);
+		playerBox.draw(&game->mainWindow);
+		opBox.draw(&game->mainWindow);
+		for (int i = 0; i<2; ++i)
+		{
+			if (playing[i]!=NULL)
+				playing[i]->draw(&game->mainWindow);
+		}
+		game->hud.draw(&game->mainWindow);
+		game->mainWindow.display();
+		sleep(milliseconds(30));
+	}
 }
 
 bool BattleState::playerWon()

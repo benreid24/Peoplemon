@@ -14,9 +14,9 @@ class Game;
  */
 struct PeoplemonAnimations
 {
-    AnimationReference cIn, sO, fnt, st;
+    AnimationReference cIn, sO, fnt, st, bko, ski;
     MoveAnimations moves[4];
-    Animation comeIn, sendOut, faint, still;
+    Animation comeIn, sendOut, faint, still, breakout, suckIn;
 
     /**
      * Loads all the proper animations given the data passed

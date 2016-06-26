@@ -33,6 +33,9 @@ class BattleState : public Gamestate
     BattleBox playerBox, opBox;
     std::vector<Animation*> toDraw; //rendered and updated by each of the below functions as necessary
 
+	AnimationReference ballT, ballF, ballB, ballC;
+    Animation ballThrow, ballFall, ballRock, ballBreak, ballClick; //simply make into arrays if we do unique animations
+
     /**
      * Runs the state
      */
@@ -170,6 +173,14 @@ class BattleState : public Gamestate
      * \return Whether or not the battle is over. Calling code should still check shouldClose
      */
     bool doFaint(int alive, int dead);
+
+    /**
+     * Plays the Peopleball animations, including throwing, falling, rocking and breaking out/clicking
+     *
+     * \param r The number of rocks to do
+     * \param p The id of the Peopleball that was thrown
+     */
+	void playPeopleballAnimations(int r, int p);
 
 public:
     /**
