@@ -360,6 +360,7 @@ bool BattleState::execute()
 										return true;
 								}
 								game->peoplemonList[id].numCaught++;
+								game->peoplemonList[id].numSeen++;
 								//TODO - prompt for nickname
 								if (game->player.getCurrentPeoplemon()->size()<6)
 									game->player.getCurrentPeoplemon()->push_back(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()));
