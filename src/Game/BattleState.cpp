@@ -31,6 +31,16 @@ BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm,
     playerAnims.load(game, player->getPeoplemon()->at(player->getCurrentPeoplemon()),opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()),true);
     opponentAnims.load(game, opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()), player->getPeoplemon()->at(player->getCurrentPeoplemon()),false);
 	game->hud.rePosition(Vector2f(15,480),480);
+    ballT = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Throw.anim");
+    ballB = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Break.anim");
+    ballR = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Rock.anim");
+    ballF = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Fall.anim");
+    ballC = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Click.anim");
+    ballThrow.setSource(ballT);
+    ballBreak.setSource(ballB);
+    ballRock.setSource(ballR);
+    ballFall.setSource(ballF);
+    ballClick.setSource(ballC);
 }
 
 BattleState::~BattleState()

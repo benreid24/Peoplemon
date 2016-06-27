@@ -33,7 +33,7 @@ class BattleState : public Gamestate
     BattleBox playerBox, opBox;
     std::vector<Animation*> toDraw; //rendered and updated by each of the below functions as necessary
 
-	AnimationReference ballT, ballF, ballB, ballC;
+	AnimationReference ballT, ballF, ballB, ballC, ballR;
     Animation ballThrow, ballFall, ballRock, ballBreak, ballClick; //simply make into arrays if we do unique animations
 
     /**

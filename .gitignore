@@ -5,4 +5,5 @@
 *.dll
 *.depend
 *.layout
+*.cscope_file_list
 PeoplemonBin
