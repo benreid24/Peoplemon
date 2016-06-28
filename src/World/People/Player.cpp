@@ -42,18 +42,6 @@ void Player::newGame(bool b, string n)
     curPeoplemon.clear();
     storedPeoplemon.clear();
     money = 500;
-
-    PeoplemonRef temp;
-    temp.load(game,Properties::OwnedPeoplemonPath+"Vince.ppl");
-    temp.curHp = temp.stats.hp;
-    curPeoplemon.push_back(temp);
-    game->peoplemonList[temp.id].numSeen++;
-    game->peoplemonList[temp.id].numCaught++;
-    temp.load(game,Properties::OwnedPeoplemonPath+"kyler2.ppl");
-    temp.curHp = temp.stats.hp;
-    game->peoplemonList[temp.id].numSeen++;
-    game->peoplemonList[temp.id].numCaught++;
-    storedPeoplemon.push_back(StoredPeoplemon(0,Vector2i(0,0),temp));
 }
 
 void Player::save(File* saveFile)
