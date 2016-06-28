@@ -14,6 +14,7 @@ namespace AutoVersion{
 	static const char STATUS_SHORT[] =  "a";
 	
 	//Standard Version Type
+<<<<<<< HEAD
 	static const long MAJOR  = 11;
 	static const long MINOR  = 1;
 	static const long BUILD  = 1;
@@ -24,6 +25,18 @@ namespace AutoVersion{
 	#define RC_FILEVERSION 11,1,1,1
 	#define RC_FILEVERSION_STRING "11, 1, 1, 1\0"
 	static const char FULLVERSION_STRING [] = "11.1.1.1";
+=======
+	static const long MAJOR  = 10;
+	static const long MINOR  = 6;
+	static const long BUILD  = 121;
+	static const long REVISION  = 676;
+	
+	//Miscellaneous Version Types
+	static const long BUILDS_COUNT  = 3705;
+	#define RC_FILEVERSION 10,6,121,676
+	#define RC_FILEVERSION_STRING "10, 6, 121, 676\0"
+	static const char FULLVERSION_STRING [] = "10.6.121.676";
+>>>>>>> testing
 	
 	//These values are to keep track of your versioning state, don't modify them.
 	static const long BUILD_HISTORY  = 4;
