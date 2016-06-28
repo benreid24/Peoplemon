@@ -43,7 +43,6 @@ void Player::newGame(bool b, string n)
     storedPeoplemon.clear();
     money = 500;
 
-    //TODO - remove after testing
     PeoplemonRef temp;
     temp.load(game,Properties::OwnedPeoplemonPath+"Vince.ppl");
     temp.curHp = temp.stats.hp;

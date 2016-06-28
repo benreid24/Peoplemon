@@ -82,7 +82,7 @@ public:
      *
      * \return Whether or not the player finished viewing the last message passed
      */
-    bool messageFinished(); //used in ConversationState
+    bool messageFinished();
 
     /**
      * Prompts the user for a choice. Can block while waiting for input or run concurrently
@@ -108,6 +108,16 @@ public:
 	 * \param wrapWidth The width to wrap the text at
 	 */
 	void rePosition(sf::Vector2f pos = sf::Vector2f(200,500), int wrapWidth = 390);
+
+	/**
+	 * Returns the current position of the HUD
+	 */
+	sf::Vector2f getPosition();
+
+	/**
+	 * Returns the current wrap width of the HUD
+	 */
+	int getWrapWidth();
 
     /**
      * Plays the given animation at the given spot on the screen for the given number of playbacks

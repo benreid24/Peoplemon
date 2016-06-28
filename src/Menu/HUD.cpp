@@ -54,6 +54,16 @@ void HUD::rePosition(Vector2f pos, int w)
 	messageText.setPosition(position+Vector2f(5,5));
 }
 
+Vector2f HUD::getPosition()
+{
+	return position;
+}
+
+int HUD::getWrapWidth()
+{
+	return wrapW;
+}
+
 void HUD::displayMessage(string m, string sound, bool block)
 {
     minDelay = gameClock.getTimeStamp()+500;

@@ -18,6 +18,9 @@ class NicknameState : public Gamestate
 	MenuImage background, pplPic;
 	ScreenKeyboard keyboard;
 
+	sf::Vector2f oldHudPos;
+	int oldWrapWidth;
+
 	/**
 	 * Runs the state
 	 */
@@ -32,6 +35,11 @@ public:
 	 * \param n A pointer to the next Gamestate to execute
 	 */
 	NicknameState(Game* g, PeoplemonRef* ppl, Gamestate* n = NULL);
+
+	/**
+	 * Cleans up resources and resets the HUD
+	 */
+	~NicknameState();
 };
 
 #endif // NICKNAMESTATE_HPP

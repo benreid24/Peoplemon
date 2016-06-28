@@ -143,10 +143,6 @@ void Trainer::startFight(Game* game)
 		game->runStateUnderPriveldged(post,false);
 		delete post;
 	}
-	else
-	{
-		//TODO - do whiteout thing
-	}
 
     beaten = b->playerWon();
     delete b;
