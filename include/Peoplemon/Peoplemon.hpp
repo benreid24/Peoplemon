@@ -232,7 +232,7 @@ struct PeoplemonRef
  *
  * \ingroup Peoplemon
  */
-struct WildPeoplemon //TODO - http://www.gamefaqs.com/boards/696959-pokemon-x/68539129
+struct WildPeoplemon //http://www.gamefaqs.com/boards/696959-pokemon-x/68539129
 {
     int id;
     int minL,maxL;

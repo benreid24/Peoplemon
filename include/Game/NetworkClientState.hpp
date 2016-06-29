@@ -23,9 +23,10 @@ public:
 	/**
 	 * Initializes the UI
 	 *
+	 * \param g A pointer to the main Game object
 	 * \param n A reference to the connected Network object
 	 */
-	NetworkClientState(Network& n);
+	NetworkClientState(Game* g, Network& n);
 };
 
 #endif // NETWORKCONNECTINGSTATE_HPP

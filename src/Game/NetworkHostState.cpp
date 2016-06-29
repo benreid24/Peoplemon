@@ -5,3 +5,12 @@
 using namespace std;
 using namespace sf;
 
+NetworkHostState::NetworkHostState(Game* g, Network& n) : Gamestate(g), network(n)
+{
+	//
+}
+
+bool NetworkHostState::execute()
+{
+	return false;
+}

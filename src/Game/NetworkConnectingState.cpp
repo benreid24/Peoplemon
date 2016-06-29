@@ -4,3 +4,13 @@
 #include "Globals.hpp"
 using namespace std;
 using namespace sf;
+
+NetworkConnectingState::NetworkConnectingState(Game* g) : Gamestate(g)
+{
+	//
+}
+
+bool NetworkConnectingState::execute()
+{
+	return false;
+}

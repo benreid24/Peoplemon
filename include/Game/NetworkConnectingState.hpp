@@ -19,8 +19,10 @@ class NetworkConnectingState : public Gamestate
 public:
 	/**
 	 * Creates UI elements and initializes all data
+	 *
+	 * \param g A pointer to the main Game object
 	 */
-	NetworkConnectingState();
+	NetworkConnectingState(Game* g);
 };
 
 #endif // NETWORKCONNECTINGSTATE_HPP

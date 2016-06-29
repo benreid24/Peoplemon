@@ -3,6 +3,7 @@
 
 #include "SFML.hpp"
 #include "Peoplemon/Peoplemon.hpp"
+#include "DataPacket.hpp"
 #include <stack>
 
 /**
@@ -17,10 +18,6 @@
  */
 class Network
 {
-    sf::TcpListener listener;
-    sf::TcpSocket connection;
-    std::stack<sf::Packet> gamePackets;
-
 public:
 	/**
 	 * An enum for storing the current connection mode
@@ -31,8 +28,41 @@ public:
 		Client
 	};
 
-    /**
-     * Initializes the internal state, but does not open any connections
+	/**
+	 * An enum for storing the current state of the network
+	 */
+	enum State
+	{
+		NotConnected,
+		Listening,
+		Connected,
+		Disconnected,
+		Error
+	};
+
+	/**
+	 * An enum for storing the current error type of the network, if any
+	 */
+	enum ErrorType
+	{
+		None,
+		FailedToListen,
+		FailedToConnect,
+		UnexpectedDisconnect
+	};
+
+private:
+	Mode mode;
+	State state;
+	ErrorType eType;
+
+    sf::TcpListener listener;
+    sf::TcpSocket connection;
+    std::stack<sf::Packet> gamePackets;
+
+public:
+	/**
+     * Initializes the internal state, but does not open any connections. Opens a listener if the specified mode is Host
      */
     Network(Mode m = Host);
 
@@ -42,45 +72,46 @@ public:
     ~Network();
 
     /**
-     * Attempts to connect to the remote node at the given address
+     * Attempts to connect to the remote peer at the given address
      *
-     * \param addr The address of the remote node
+     * \param addr The address of the remote peer
+     * \param port The port to connect to
      * \return Whether or not the connection was successful
      */
-    bool connect(sf::IpAddress addr);
+    bool connect(sf::IpAddress addr, int port);
 
     /**
-     * Waits for an incoming connection. Times out after 30 seconds
+     * Checks to see if a client has connected
      *
-     * \return Whether or not the connection was successful
+     * \return True if a client has connected, false otherwise
      */
-    bool waitConnection();
+    bool checkClientConnected();
 
     /**
-     * Tells whether or not the connection is still good
+     * Returns the current state of the network
      *
-     * \return Whether or not the client is still connected
+     * \return The state of the network
      */
-    bool connectionGood();
+    State getState();
 
     /**
-     * Checks to see if an application packet has been receieved and returns it if there is one in the queue
+     * Returns the type of error last encountered
+     *
+     * \return The last type of error that occurred
+     */
+	ErrorType getLastError();
+
+    /**
+     * Checks to see if an application packet has been received and returns it if there is one in the queue
      *
      * \return The packet that was received. Empty if there was nothing waiting
      */
-    sf::Packet pollPacket(); //TODO - received packets are first interpreted by the Network then put in the queue if non network related
+    DataPacket pollPacket();
 
     /**
-     * Waits for a packet to come in. Only returns early if the connection fails
+     * Sends the given packet to the remote peer
      *
-     * \return The packet that was received. Empty if the connection failed
-     */
-    sf::Packet waitPacket();
-
-    /**
-     * Sends the given packet to the remote node
-     *
-     * \param p The packket to send
+     * \param p The packet to send
      * \return Whether or not the packet was sent
      */
     bool sendPacket(sf::Packet p);
@@ -100,7 +131,6 @@ public:
      * \param p The peoplemon to put the data into
      */
     static void unpackPeoplemon(sf::Packet& pk, PeoplemonRef& p);
-    //TODO - more helper functions
 };
 
 #endif // NETWORK_HPP

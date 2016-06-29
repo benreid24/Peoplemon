@@ -15,7 +15,7 @@ class BattleState;
 class PlayerBattler : public Battler
 {
     BattleState* battle;
-    ChoiceBox typeChoice, moveChoice; //TODO - this will update/render these in getTurn and send turn to network if network.connectionGood()
+    ChoiceBox typeChoice, moveChoice;
     bool mustChoose, canRun;
 
 public:
