@@ -2,6 +2,8 @@
 #define NETWORK_HPP
 
 #include "SFML.hpp"
+#include "Peoplemon/Peoplemon.hpp"
+#include <stack>
 
 /**
  * \defgroup Network
@@ -15,13 +17,24 @@
  */
 class Network
 {
-    //TODO - networking stuff here
+    sf::TcpListener listener;
+    sf::TcpSocket connection;
+    std::stack<sf::Packet> gamePackets;
 
 public:
+	/**
+	 * An enum for storing the current connection mode
+	 */
+	enum Mode
+	{
+		Host,
+		Client
+	};
+
     /**
      * Initializes the internal state, but does not open any connections
      */
-    Network();
+    Network(Mode m = Host);
 
     /**
      * Terminates any open connections
