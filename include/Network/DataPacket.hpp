@@ -16,6 +16,7 @@ public:
 	 */
 	enum Type
 	{
+		Empty = 0,
         PlayerInfo = 4,
         Peoplemon = 5
 	};
@@ -25,6 +26,11 @@ private:
 	sf::Packet data;
 
 public:
+	/**
+	 * Creates an empty DataPacket
+	 */
+	DataPacket();
+
 	/**
 	 * Interprets the type code and stores the data
 	 *

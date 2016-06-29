@@ -2,6 +2,11 @@
 using namespace sf;
 using namespace std;
 
+DataPacket::DataPacket()
+{
+	type = Empty;
+}
+
 DataPacket::DataPacket(sf::Packet p)
 {
 	Uint16 code;

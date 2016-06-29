@@ -2,11 +2,53 @@
 using namespace sf;
 using namespace std;
 
-Network::Network(Mode m)
+void Network::update()
 {
+	Uint16 type;
+	while (running)
+	{
+		if (state==Connected)
+		{
+			Packet data;
+			Socket::Status s = connection.receive(data);
+
+			if (s==Socket::Error)
+			{
+				state = Error;
+				eType = Other;
+				break;
+			}
+			if (s==Socket::Disconnected)
+			{
+                state = Error;
+                eType = UnexpectedDisconnect;
+                break;
+			}
+
+			DataPacket dp(data);
+			data >> type;
+
+			switch (type)
+			{
+			case 2: //disconnect
+				State = Disconnected;
+				connection.disconnect();
+				break;
+
+			default: //application data
+				lock.lock();
+				gamePackets.push(dp);
+				lock.unlock();
+			}
+	}
+}
+
+Network::Network(Mode m) : runner(&Network::update, this)
+{
+	running = true;
 	mode = m;
 	eType = None;
-	connection.setBlocking(false);
+	connection.setBlocking(true);
 	if (m==Host)
 	{
 		listener.setBlocking(false);
@@ -21,6 +63,8 @@ Network::Network(Mode m)
 	}
 	else
 		state = NotConnected;
+
+	runner.launch();
 }
 
 Network::~Network()
@@ -30,9 +74,11 @@ Network::~Network()
 		Packet signal;
 		signal << Uint16(2);
 		connection.send(signal);
-		sleep(milliseconds(50)); //try and buy it time
 		connection.disconnect();
 	}
+	lock.unlock(); //to ensure runner isn't stuck
+	running = false;
+	runner.wait();
 }
 
 bool Network::connect(IpAddress addr, int port)
@@ -42,7 +88,81 @@ bool Network::connect(IpAddress addr, int port)
 	{
 		state = Error;
 		eType = FailedToConnect;
+		return false;
 	}
     else
-		state = Connected;
+	{
+		Packet p, r;
+		Uint16 t;
+		Uint32 c;
+		p << Uint16(1) << Uint32(837565);
+		connection.send(p);
+		connection.receive(r);
+        r >> t >> c;
+        if (t==1 && c==837565)
+			state = Connected;
+		else
+		{
+			state = Error;
+			eType = AuthFailure;
+			return false;
+		}
+	}
+	return true;
+}
+
+bool Network::checkClientConnected()
+{
+	if (state!=Listening) //what?
+		return false;
+
+	Socket::Status s = listener.accept(connection);
+	if (s==Socket::Done)
+	{
+		Packet p, r;
+		Uint16 t;
+		Uint32 c;
+		p << Uint16(1) << Uint32(837565);
+		connection.send(p);
+		connection.receive(r);
+        r >> t >> c;
+        if (t==1 && c==837565)
+			state = Connected;
+		else
+		{
+			state = Error;
+			eType = AuthFailure;
+			return false;
+		}
+		return true;
+	}
+	else if (s==Socket::Error)
+	{
+		state = Error;
+        eType = FailedToAccept;
+	}
+	return false;
+}
+
+Network::State Network::getState()
+{
+	return state;
+}
+
+Network::ErrorType Network::getLastError()
+{
+	return eType;
+}
+
+DataPacket Network::pollPacket()
+{
+	if (gamePackets.size()>0)
+	{
+		lock.lock();
+		DataPacket ret = gamePackets.top();
+		gamePackets.pop();
+		lock.unlock();
+		return ret;
+	}
+	return DataPacket();
 }

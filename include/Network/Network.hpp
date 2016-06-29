@@ -46,9 +46,12 @@ public:
 	enum ErrorType
 	{
 		None,
+		AuthFailure,
 		FailedToListen,
 		FailedToConnect,
-		UnexpectedDisconnect
+		FailedToAccept,
+		UnexpectedDisconnect,
+		Other
 	};
 
 private:
@@ -58,7 +61,16 @@ private:
 
     sf::TcpListener listener;
     sf::TcpSocket connection;
-    std::stack<sf::Packet> gamePackets;
+    std::stack<DataPacket> gamePackets;
+
+    sf::Thread runner;
+    sf::Mutex lock;
+    bool running;
+
+    /**
+     * This is the update function that the data parsing thread lives in
+     */
+	void update();
 
 public:
 	/**
