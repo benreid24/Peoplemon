@@ -64,6 +64,11 @@ int HUD::getWrapWidth()
 	return wrapW;
 }
 
+bool HUD::isAlwaysShowing()
+{
+	return alwaysShow;
+}
+
 void HUD::displayMessage(string m, string sound, bool block)
 {
     minDelay = gameClock.getTimeStamp()+500;

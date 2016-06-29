@@ -9,6 +9,7 @@
 #include "Game/Game.hpp"
 #include "Properties.hpp"
 #include "Globals.hpp"
+#include "Game/NicknameState.hpp"
 using namespace sf;
 using namespace std;
 

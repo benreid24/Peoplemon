@@ -57,6 +57,13 @@ public:
     void setAlwaysShow(bool as);
 
     /**
+     * This tells whether or not the HUD is always showing
+     *
+     * \return True if the HUD is always showing, false otherwise
+     */
+	bool isAlwaysShowing();
+
+    /**
      * Updates the on screen dialogue box and any other elements that need updating
      */
     void update();

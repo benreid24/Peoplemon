@@ -10,17 +10,22 @@ NicknameState::NicknameState(Game* g, PeoplemonRef* ppl, Gamestate* n) : Gamesta
 	peoplemon = ppl;
 	background.setImage("nicknameBgnd.png");
 	pplPic.setImage(Properties::PeoplemonImagePath+intToString(ppl->id)+".png",false);
+	pplPic.setPosition(Vector2f(50,50));
 	keyboard.setInputLimit(32);
 
 	oldHudPos = game->hud.getPosition();
 	oldWrapWidth = game->hud.getWrapWidth();
+	wasAS = game->hud.isAlwaysShowing();
+	game->hud.setAlwaysShow(true);
 	game->hud.displayMessage("Give "+ppl->name+" a nickname!");
 }
 
 NicknameState::~NicknameState()
 {
     game->hud.rePosition(oldHudPos,oldWrapWidth);
-    game->hud.displayMessage("");
+    game->hud.setAlwaysShow(wasAS);
+    if (wasAS)
+		game->hud.displayMessage("");
 }
 
 bool NicknameState::execute()
@@ -43,6 +48,7 @@ bool NicknameState::execute()
 				background.draw(&game->mainWindow);
 				pplPic.draw(&game->mainWindow);
 				keyboard.draw(&game->mainWindow);
+				game->hud.draw(&game->mainWindow);
 				game->mainWindow.display();
 
 				sleep(milliseconds(30));
@@ -55,6 +61,7 @@ bool NicknameState::execute()
 		background.draw(&game->mainWindow);
 		pplPic.draw(&game->mainWindow);
         keyboard.draw(&game->mainWindow);
+        game->hud.draw(&game->mainWindow);
         game->mainWindow.display();
 
         sleep(milliseconds(30));
