@@ -182,6 +182,7 @@
 		<Unit filename="include/Game/MainMenuState.hpp" />
 		<Unit filename="include/Game/MapState.hpp" />
 		<Unit filename="include/Game/NewGamestate.hpp" />
+		<Unit filename="include/Game/NicknameState.hpp" />
 		<Unit filename="include/Game/OptionsMenuState.hpp" />
 		<Unit filename="include/Game/PausedState.hpp" />
 		<Unit filename="include/Game/PeopledexState.hpp" />
@@ -277,6 +278,7 @@
 		<Unit filename="src/Game/MainMenuState.cpp" />
 		<Unit filename="src/Game/MapState.cpp" />
 		<Unit filename="src/Game/NewGamestate.cpp" />
+		<Unit filename="src/Game/NicknameState.cpp" />
 		<Unit filename="src/Game/OptionsMenuState.cpp" />
 		<Unit filename="src/Game/PausedState.cpp" />
 		<Unit filename="src/Game/PeopledexState.cpp" />

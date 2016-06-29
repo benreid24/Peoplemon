@@ -5,6 +5,7 @@
 #include "Battle/PlayerBattler.hpp"
 #include "Game/EvolveState.hpp"
 #include "Game/DeleteMoveState.hpp"
+#include "Game/NicknameState.hpp"
 #include <cmath>
 using namespace std;
 using namespace sf;
@@ -365,25 +366,29 @@ bool BattleState::execute()
 
 							if (shakes==4)
 							{
-								displayMessage("Gotcha! "+order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).name+" was caught!");
+								PeoplemonRef ppl = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon());
+								displayMessage("Gotcha! "+ppl.name+" was caught!");
 								if (shouldClose())
 									return true;
-								int id = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).id;
-								if (game->peoplemonList[id].numCaught==0)
+								if (game->peoplemonList[ppl.id].numCaught==0)
 								{
-									displayMessage(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).name+"'s data was added to the Peopledex");
+									displayMessage(ppl.name+"'s data was added to the Peopledex");
 									if (shouldClose())
 										return true;
 								}
-								game->peoplemonList[id].numCaught++;
-								game->peoplemonList[id].numSeen++;
-								//TODO - prompt for nickname
+								game->peoplemonList[ppl.id].numCaught++;
+								game->peoplemonList[ppl.id].numSeen++;
+
+								NicknameState* state = new NicknameState(game, &ppl);
+                                if (game->runState(state,true))
+									return true;
+
 								if (game->player.getCurrentPeoplemon()->size()<6)
-									game->player.getCurrentPeoplemon()->push_back(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()));
+									game->player.getCurrentPeoplemon()->push_back(ppl);
 								else
 								{
-									game->player.addStoredPeoplemon(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()));
-									displayMessage(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).name+" was sent to the PC!");
+									game->player.addStoredPeoplemon(ppl);
+									displayMessage(ppl.name+" was sent to the PC!");
 									if (shouldClose())
 										return true;
 								}
