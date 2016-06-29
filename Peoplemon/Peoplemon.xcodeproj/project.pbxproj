@@ -88,6 +88,7 @@
 		B557AABF1D03B34D002900BC /* Weather.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B557AA731D03B34D002900BC /* Weather.cpp */; };
 		B557AAC01D03B34D002900BC /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B557AA741D03B34D002900BC /* World.cpp */; };
 		B557D0091D0528C100F1F133 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B557D0081D0528C100F1F133 /* Images.xcassets */; };
+		B59793681D241BEF00F124B4 /* NicknameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59793671D241BEF00F124B4 /* NicknameState.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -268,6 +269,7 @@
 		B557AA741D03B34D002900BC /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		B557AA751D03B34D002900BC /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../../version.h; sourceTree = "<group>"; };
 		B557D0081D0528C100F1F133 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		B59793671D241BEF00F124B4 /* NicknameState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NicknameState.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -588,6 +590,7 @@
 				B557AA371D03B34D002900BC /* Game.cpp */,
 				B557AA381D03B34D002900BC /* Gamestate.cpp */,
 				B557AA391D03B34D002900BC /* LoadGamestate.cpp */,
+				B59793671D241BEF00F124B4 /* NicknameState.cpp */,
 				B557AA3A1D03B34D002900BC /* MainGameState.cpp */,
 				B557AA3B1D03B34D002900BC /* MainMenuState.cpp */,
 				B557AA3C1D03B34D002900BC /* MapState.cpp */,
@@ -808,6 +811,7 @@
 				B557AA7D1D03B34D002900BC /* Prioritizer.cpp in Sources */,
 				B557AA8B1D03B34D002900BC /* Game.cpp in Sources */,
 				B557AA7E1D03B34D002900BC /* RandomBattler.cpp in Sources */,
+				B59793681D241BEF00F124B4 /* NicknameState.cpp in Sources */,
 				B557AAB91D03B34D002900BC /* Player.cpp in Sources */,
 				B557AA7A1D03B34D002900BC /* DefensiveBattler.cpp in Sources */,
 				B557AA911D03B34D002900BC /* NewGamestate.cpp in Sources */,
