@@ -16,14 +16,17 @@ struct Turn
     enum Type
     {
         Move = 0,
-        Item,
-        Switch,
-        Run,
-        Void
+        Item = 1,
+        Switch = 2,
+        Run = 3,
+        Void = 4
     }type;
 
     int id; //of the move or item, or the old index of the peoplemon being switched out
 
+	/**
+	 * Default constructor. Makes the type Void
+	 */
     Turn() { type = Void; }
 };
 

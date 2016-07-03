@@ -17,9 +17,30 @@ public:
 	enum Type
 	{
 		Empty = 0,
-        PlayerInfo = 4,
-        Peoplemon = 5
+		ActionChoice = 4,
+		ActionConfirmation = 5,
+        PlayerInfo = 6,
+        Peoplemon = 7,
+        Turn = 8
 	};
+
+	/**
+	 * If the DataPacket contains an ActionChoice then this enum will contain the choice itself
+     */
+	enum Choice
+	{
+		Trade = 1,
+		Battle = 2
+	}choice;
+
+	/**
+	 * If the DataPacket contains an ActionConfirmation then this enum will contain the confirmation itself
+	 */
+	enum Confirmation
+	{
+		No = 0,
+		Yes = 1
+	}confirmation;
 
 private:
 	Type type;

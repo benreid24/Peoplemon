@@ -6,12 +6,22 @@
 #include <iostream>
 
 /**
- * Namespace to try and keep the global namespace cleaner
+ * Namespace for Network helpers to try and keep the global namespace cleaner
  *
  * \ingroup Network
  */
 namespace Packing
 {
+	/**
+	 * Helper struct to contain player information that gets sent over the network
+	 */
+	struct PlayerInfo
+	{
+		std::string name;
+		int money, gender; //1 = boy, 2 = girl
+		std::vector<int> items;
+	};
+
 	/**
 	 * This function packs objects to be sent over the network. Any object that is sent must have a specialization
 	 * of this function defined for it. If it is called on an object with no specialization then a disconnect signal
