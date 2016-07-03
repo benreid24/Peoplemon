@@ -17,6 +17,8 @@ public:
 	enum Type
 	{
 		Empty = 0,
+		Disconnect = 2,
+		TransmissionComplete = 3,
 		ActionChoice = 4,
 		ActionConfirmation = 5,
         PlayerInfo = 6,

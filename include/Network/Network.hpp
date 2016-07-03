@@ -129,6 +129,27 @@ public:
      * \param p The packet to send
      */
     void sendPacket(sf::Packet p);
+
+    /**
+     * Sends a signal of the given type to the remote peer
+     *
+     * \param s The type of signal to send
+     */
+	void sendSignal(DataPacket::Type s);
+
+	/**
+	 * Overload of sendSignal for sending the ActionChoice
+	 *
+	 * \param c The ActionChoice to send
+	 */
+	void sendSignal(DataPacket::Choice c);
+
+	/**
+	 * Overload of sendSignal for sending the ActionConfirmation
+	 *
+     * \param c The ActionConfirmation to send
+     */
+	void sendSignal(DataPacket::Confirmation c);
 };
 
 #endif // NETWORK_HPP

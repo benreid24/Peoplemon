@@ -183,3 +183,26 @@ void Network::sendPacket(Packet p)
 	outgoingPackets.push(p);
 	lock.unlock();
 }
+
+void Network::sendSignal(DataPacket::Type s)
+{
+	Packet p;
+	p << Uint16(s);
+	sendPacket(p);
+}
+
+void Network::sendSignal(DataPacket::Choice c)
+{
+	Packet p;
+	p << Uint16(4);
+	p << Uint8(c);
+	sendPacket(p);
+}
+
+void Network::sendSignal(DataPacket::Confirmation c)
+{
+	Packet p;
+	p << Uint16(5);
+	p << Uint8(c);
+	sendPacket(p);
+}
