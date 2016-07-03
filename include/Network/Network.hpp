@@ -4,7 +4,9 @@
 #include "SFML.hpp"
 #include "Peoplemon/Peoplemon.hpp"
 #include "DataPacket.hpp"
+#include "Packing.hpp"
 #include <stack>
+#include <queue>
 
 /**
  * \defgroup Network
@@ -62,6 +64,7 @@ private:
     sf::TcpListener listener;
     sf::TcpSocket connection;
     std::stack<DataPacket> gamePackets;
+    std::queue<sf::Packet> outgoingPackets;
 
     sf::Thread runner;
     sf::Mutex lock;
@@ -124,25 +127,8 @@ public:
      * Sends the given packet to the remote peer
      *
      * \param p The packet to send
-     * \return Whether or not the packet was sent
      */
-    bool sendPacket(sf::Packet p);
-
-    /**
-     * Use this function to pack a peoplemon into a packet
-     *
-     * \param pk The packet to put data into
-     * \param p The peoplemon whose data should be added
-     */
-    static void packPeoplemon(sf::Packet& pk, PeoplemonRef p);
-
-    /**
-     * Extracts peoplemon data from the given packet
-     *
-     * \param pk The packet to extract from
-     * \param p The peoplemon to put the data into
-     */
-    static void unpackPeoplemon(sf::Packet& pk, PeoplemonRef& p);
+    void sendPacket(sf::Packet p);
 };
 
 #endif // NETWORK_HPP

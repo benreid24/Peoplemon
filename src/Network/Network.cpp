@@ -31,7 +31,7 @@ void Network::update()
 			switch (type)
 			{
 			case 2: //disconnect
-				State = Disconnected;
+				state = Disconnected;
 				connection.disconnect();
 				break;
 
@@ -40,6 +40,16 @@ void Network::update()
 				gamePackets.push(dp);
 				lock.unlock();
 			}
+		}
+		lock.lock();
+		while (outgoingPackets.size()>0)
+		{
+			connection.send(outgoingPackets.front());
+			outgoingPackets.pop();
+		}
+		lock.unlock();
+
+		sleep(milliseconds(80));
 	}
 }
 
@@ -165,4 +175,11 @@ DataPacket Network::pollPacket()
 		return ret;
 	}
 	return DataPacket();
+}
+
+void Network::sendPacket(Packet p)
+{
+	lock.lock();
+	outgoingPackets.push(p);
+	lock.unlock();
 }

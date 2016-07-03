@@ -15,7 +15,7 @@ struct Turn
      */
     enum Type
     {
-        Move,
+        Move = 0,
         Item,
         Switch,
         Run,

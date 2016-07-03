@@ -213,6 +213,7 @@
 		<Unit filename="include/Menu/ScrollChoiceBox.hpp" />
 		<Unit filename="include/Network/DataPacket.hpp" />
 		<Unit filename="include/Network/Network.hpp" />
+		<Unit filename="include/Network/Packing.hpp" />
 		<Unit filename="include/Peoplemon/Move.hpp" />
 		<Unit filename="include/Peoplemon/Peoplemon.hpp" />
 		<Unit filename="include/Peoplemon/Stats.hpp" />
@@ -314,6 +315,7 @@
 		<Unit filename="src/Menu/ScrollChoiceBox.cpp" />
 		<Unit filename="src/Network/DataPacket.cpp" />
 		<Unit filename="src/Network/Network.cpp" />
+		<Unit filename="src/Network/Packing.cpp" />
 		<Unit filename="src/Peoplemon/Peoplemon.cpp" />
 		<Unit filename="src/Resources/ResourcePool.cpp" />
 		<Unit filename="src/Scripts/Parser.cpp" />
