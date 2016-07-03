@@ -88,6 +88,12 @@
 		B557AABF1D03B34D002900BC /* Weather.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B557AA731D03B34D002900BC /* Weather.cpp */; };
 		B557AAC01D03B34D002900BC /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B557AA741D03B34D002900BC /* World.cpp */; };
 		B557D0091D0528C100F1F133 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B557D0081D0528C100F1F133 /* Images.xcassets */; };
+		B587F3241D2974A600F35AA4 /* NetworkClientState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F3211D2974A600F35AA4 /* NetworkClientState.cpp */; };
+		B587F3251D2974A600F35AA4 /* NetworkConnectingState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F3221D2974A600F35AA4 /* NetworkConnectingState.cpp */; };
+		B587F3261D2974A600F35AA4 /* NetworkHostState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F3231D2974A600F35AA4 /* NetworkHostState.cpp */; };
+		B587F32C1D29751200F35AA4 /* DataPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F3291D29751200F35AA4 /* DataPacket.cpp */; };
+		B587F32D1D29751200F35AA4 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F32A1D29751200F35AA4 /* Network.cpp */; };
+		B587F32E1D29751200F35AA4 /* Packing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F32B1D29751200F35AA4 /* Packing.cpp */; };
 		B59793681D241BEF00F124B4 /* NicknameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59793671D241BEF00F124B4 /* NicknameState.cpp */; };
 /* End PBXBuildFile section */
 
@@ -269,6 +275,18 @@
 		B557AA741D03B34D002900BC /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		B557AA751D03B34D002900BC /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../../version.h; sourceTree = "<group>"; };
 		B557D0081D0528C100F1F133 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		B587F31D1D29747700F35AA4 /* NetworkClientState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetworkClientState.hpp; sourceTree = "<group>"; };
+		B587F31E1D29747700F35AA4 /* NetworkConnectingState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetworkConnectingState.hpp; sourceTree = "<group>"; };
+		B587F31F1D29747700F35AA4 /* NetworkHostState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetworkHostState.hpp; sourceTree = "<group>"; };
+		B587F3201D29747700F35AA4 /* NicknameState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NicknameState.hpp; sourceTree = "<group>"; };
+		B587F3211D2974A600F35AA4 /* NetworkClientState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkClientState.cpp; sourceTree = "<group>"; };
+		B587F3221D2974A600F35AA4 /* NetworkConnectingState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkConnectingState.cpp; sourceTree = "<group>"; };
+		B587F3231D2974A600F35AA4 /* NetworkHostState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkHostState.cpp; sourceTree = "<group>"; };
+		B587F3271D2974EA00F35AA4 /* DataPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataPacket.hpp; sourceTree = "<group>"; };
+		B587F3281D2974EA00F35AA4 /* Packing.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Packing.hpp; sourceTree = "<group>"; };
+		B587F3291D29751200F35AA4 /* DataPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DataPacket.cpp; path = Network/DataPacket.cpp; sourceTree = "<group>"; };
+		B587F32A1D29751200F35AA4 /* Network.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Network.cpp; path = Network/Network.cpp; sourceTree = "<group>"; };
+		B587F32B1D29751200F35AA4 /* Packing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Packing.cpp; path = Network/Packing.cpp; sourceTree = "<group>"; };
 		B59793671D241BEF00F124B4 /* NicknameState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NicknameState.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -402,6 +420,10 @@
 				B557A9D41D03B34D002900BC /* MainGameState.hpp */,
 				B557A9D51D03B34D002900BC /* MainMenuState.hpp */,
 				B557A9D61D03B34D002900BC /* MapState.hpp */,
+				B587F31D1D29747700F35AA4 /* NetworkClientState.hpp */,
+				B587F31E1D29747700F35AA4 /* NetworkConnectingState.hpp */,
+				B587F31F1D29747700F35AA4 /* NetworkHostState.hpp */,
+				B587F3201D29747700F35AA4 /* NicknameState.hpp */,
 				B557A9D71D03B34D002900BC /* NewGamestate.hpp */,
 				B557A9D81D03B34D002900BC /* OptionsMenuState.hpp */,
 				B557A9D91D03B34D002900BC /* PausedState.hpp */,
@@ -448,6 +470,8 @@
 		B557A9F31D03B34D002900BC /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				B587F3271D2974EA00F35AA4 /* DataPacket.hpp */,
+				B587F3281D2974EA00F35AA4 /* Packing.hpp */,
 				B557A9F41D03B34D002900BC /* Network.hpp */,
 			);
 			path = Network;
@@ -539,6 +563,7 @@
 				B557AA481D03B34D002900BC /* Main.cpp */,
 				B557AA491D03B34D002900BC /* Media */,
 				B557AA4D1D03B34D002900BC /* Menu */,
+				B587F32F1D29752500F35AA4 /* Network */,
 				B557AA5A1D03B34D002900BC /* Peoplemon */,
 				B557AA5C1D03B34D002900BC /* Resources */,
 				B557AA5E1D03B34D002900BC /* Scripts */,
@@ -594,6 +619,9 @@
 				B557AA3A1D03B34D002900BC /* MainGameState.cpp */,
 				B557AA3B1D03B34D002900BC /* MainMenuState.cpp */,
 				B557AA3C1D03B34D002900BC /* MapState.cpp */,
+				B587F3211D2974A600F35AA4 /* NetworkClientState.cpp */,
+				B587F3221D2974A600F35AA4 /* NetworkConnectingState.cpp */,
+				B587F3231D2974A600F35AA4 /* NetworkHostState.cpp */,
 				B557AA3D1D03B34D002900BC /* NewGamestate.cpp */,
 				B557AA3E1D03B34D002900BC /* OptionsMenuState.cpp */,
 				B557AA3F1D03B34D002900BC /* PausedState.cpp */,
@@ -701,6 +729,16 @@
 			path = People;
 			sourceTree = "<group>";
 		};
+		B587F32F1D29752500F35AA4 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				B587F3291D29751200F35AA4 /* DataPacket.cpp */,
+				B587F32A1D29751200F35AA4 /* Network.cpp */,
+				B587F32B1D29751200F35AA4 /* Packing.cpp */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -794,10 +832,12 @@
 				B557AA821D03B34D002900BC /* MoveAnimations.cpp in Sources */,
 				B557AAAC1D03B34D002900BC /* Peoplemon.cpp in Sources */,
 				B557AAAF1D03B34D002900BC /* Script Environment.cpp in Sources */,
+				B587F3261D2974A600F35AA4 /* NetworkHostState.cpp in Sources */,
 				B557AAA91D03B34D002900BC /* PeoplemonSelector.cpp in Sources */,
 				B557AAAB1D03B34D002900BC /* ScrollChoiceBox.cpp in Sources */,
 				B557AA871D03B34D002900BC /* ConversationState.cpp in Sources */,
 				B557AAB21D03B34D002900BC /* Traverser.cpp in Sources */,
+				B587F3251D2974A600F35AA4 /* NetworkConnectingState.cpp in Sources */,
 				B557AA951D03B34D002900BC /* PeoplemonInfoState.cpp in Sources */,
 				B557AA9B1D03B34D002900BC /* Globals.cpp in Sources */,
 				B557AA771D03B34D002900BC /* AggressiveBattler.cpp in Sources */,
@@ -815,11 +855,13 @@
 				B557AAB91D03B34D002900BC /* Player.cpp in Sources */,
 				B557AA7A1D03B34D002900BC /* DefensiveBattler.cpp in Sources */,
 				B557AA911D03B34D002900BC /* NewGamestate.cpp in Sources */,
+				B587F3241D2974A600F35AA4 /* NetworkClientState.cpp in Sources */,
 				B557AAAE1D03B34D002900BC /* Parser.cpp in Sources */,
 				B557AA9D1D03B34D002900BC /* Animation.cpp in Sources */,
 				B557AAAA1D03B34D002900BC /* ScreenKeyboard.cpp in Sources */,
 				B557AA7F1D03B34D002900BC /* SmartBattler.cpp in Sources */,
 				B557AA8F1D03B34D002900BC /* MainMenuState.cpp in Sources */,
+				B587F32C1D29751200F35AA4 /* DataPacket.cpp in Sources */,
 				B557AA921D03B34D002900BC /* OptionsMenuState.cpp in Sources */,
 				B557AA851D03B34D002900BC /* BagState.cpp in Sources */,
 				B557AABF1D03B34D002900BC /* Weather.cpp in Sources */,
@@ -837,10 +879,12 @@
 				B557AA7B1D03B34D002900BC /* DumbBattler.cpp in Sources */,
 				B557AABE1D03B34D002900BC /* Tileset.cpp in Sources */,
 				B557AA981D03B34D002900BC /* StorageSystem.cpp in Sources */,
+				B587F32E1D29751200F35AA4 /* Packing.cpp in Sources */,
 				B557AA831D03B34D002900BC /* PeoplemonAnimations.cpp in Sources */,
 				B557AAA01D03B34D002900BC /* BagItemList.cpp in Sources */,
 				B557AAB01D03B34D002900BC /* Script Interpreter.cpp in Sources */,
 				B557AAA41D03B34D002900BC /* HUD.cpp in Sources */,
+				B587F32D1D29751200F35AA4 /* Network.cpp in Sources */,
 				B557AAAD1D03B34D002900BC /* ResourcePool.cpp in Sources */,
 				B557AAA51D03B34D002900BC /* Menu.cpp in Sources */,
 				B557AA841D03B34D002900BC /* PlayerBattler.cpp in Sources */,
