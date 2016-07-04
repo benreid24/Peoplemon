@@ -408,7 +408,7 @@ RemotePlayer NetworkConnectingState::receiveData(Network& n)
 void NetworkConnectingState::transferData(Network& n)
 {
     n.sendPacket(Packing::pack(game->player));
-    ///for (unsigned int i = 0; i<game->player.getCurrentPeoplemon()->size(); ++i)
-	//	n.sendPacket(Packing::pack(game->player.getCurrentPeoplemon()->at(i)));
+    for (unsigned int i = 0; i<game->player.getCurrentPeoplemon()->size(); ++i)
+		n.sendPacket(Packing::pack(game->player.getCurrentPeoplemon()->at(i)));
     n.sendSignal(DataPacket::TransmissionComplete);
 }
