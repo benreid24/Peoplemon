@@ -21,6 +21,17 @@ class NetworkHostState : public Gamestate
 	ChoiceBox gameType;
 	MenuText prompt;
 
+	const int Battle = 0;
+	const int Trade = 1;
+
+	/**
+	 * Waits for the client confirmation and then enters the specified game mode
+	 *
+	 * \param mode The mode to enter if the client confirms
+	 * \return True if the game should close, false otherwise
+	 */
+	bool waitConfirmation(int mode);
+
 	/**
 	 * Runs the state
 	 */

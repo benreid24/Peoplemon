@@ -20,8 +20,32 @@ bool NetworkClientState::execute()
 		DataPacket p = network.pollPacket();
 		if (p.getType()==DataPacket::ActionChoice)
 		{
-			//confirm
-			cout << "Received choice!\n";
+			if (p.choice==DataPacket::Battle)
+			{
+				game->hud.getChoice(peer.info.name+" wants to battle! Is this OK?", vector<string>({"Yes","No"}),false);
+				while (game->hud.getChoice().size()==0)
+				{
+					game->hud.update();
+					if (finishFrame())
+						return true;
+
+					game->mainWindow.clear();
+					background.draw(&game->mainWindow);
+					prompt.draw(&game->mainWindow);
+					game->hud.draw(&game->mainWindow);
+					game->mainWindow.display();
+					sleep(milliseconds(30));
+				}
+
+				if (game->hud.getChoice()=="Yes")
+				{
+					network.sendSignal(DataPacket::Yes);
+					cout << "Battle!\n";
+					return false;
+				}
+				else
+					network.sendSignal(DataPacket::No);
+			}
 		}
 		else if (p.getType()!=DataPacket::Empty)
 			cout << "WARNING: Received errant packet when waiting for ActionChoice\n";
@@ -30,7 +54,7 @@ bool NetworkClientState::execute()
 		background.draw(&game->mainWindow);
 		prompt.draw(&game->mainWindow);
 		game->mainWindow.display();
-		sleep(milliseconds(100));
+		sleep(milliseconds(30));
 	}
 
 	return true;
