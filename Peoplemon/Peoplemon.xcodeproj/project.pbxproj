@@ -96,6 +96,7 @@
 		B587F32E1D29751200F35AA4 /* Packing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F32B1D29751200F35AA4 /* Packing.cpp */; };
 		B59793681D241BEF00F124B4 /* NicknameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59793671D241BEF00F124B4 /* NicknameState.cpp */; };
 		B5B3B8701D29EF08000CA3EF /* IpEnter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B3B86F1D29EF08000CA3EF /* IpEnter.cpp */; };
+		B5B3B8731D2A17FC000CA3EF /* HostSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B3B8721D2A17FC000CA3EF /* HostSelector.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -291,6 +292,8 @@
 		B59793671D241BEF00F124B4 /* NicknameState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NicknameState.cpp; sourceTree = "<group>"; };
 		B5B3B86F1D29EF08000CA3EF /* IpEnter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IpEnter.cpp; sourceTree = "<group>"; };
 		B5B3B8711D29EF38000CA3EF /* IpEnter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IpEnter.hpp; sourceTree = "<group>"; };
+		B5B3B8721D2A17FC000CA3EF /* HostSelector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HostSelector.cpp; sourceTree = "<group>"; };
+		B5B3B8741D2A1821000CA3EF /* HostSelector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HostSelector.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -458,6 +461,7 @@
 				B557A9E81D03B34D002900BC /* BagSectionSelector.hpp */,
 				B557A9E91D03B34D002900BC /* BattleBox.hpp */,
 				B557A9EA1D03B34D002900BC /* ChoiceBox.hpp */,
+				B5B3B8741D2A1821000CA3EF /* HostSelector.hpp */,
 				B557A9EB1D03B34D002900BC /* HUD.hpp */,
 				B5B3B8711D29EF38000CA3EF /* IpEnter.hpp */,
 				B557A9EC1D03B34D002900BC /* Menu.hpp */,
@@ -657,6 +661,7 @@
 				B557AA4F1D03B34D002900BC /* BagSectionSelector.cpp */,
 				B557AA501D03B34D002900BC /* BattleBox.cpp */,
 				B557AA511D03B34D002900BC /* ChoiceBox.cpp */,
+				B5B3B8721D2A17FC000CA3EF /* HostSelector.cpp */,
 				B557AA521D03B34D002900BC /* HUD.cpp */,
 				B5B3B86F1D29EF08000CA3EF /* IpEnter.cpp */,
 				B557AA531D03B34D002900BC /* Menu.cpp */,
@@ -865,6 +870,7 @@
 				B557AA9D1D03B34D002900BC /* Animation.cpp in Sources */,
 				B557AAAA1D03B34D002900BC /* ScreenKeyboard.cpp in Sources */,
 				B557AA7F1D03B34D002900BC /* SmartBattler.cpp in Sources */,
+				B5B3B8731D2A17FC000CA3EF /* HostSelector.cpp in Sources */,
 				B557AA8F1D03B34D002900BC /* MainMenuState.cpp in Sources */,
 				B587F32C1D29751200F35AA4 /* DataPacket.cpp in Sources */,
 				B557AA921D03B34D002900BC /* OptionsMenuState.cpp in Sources */,

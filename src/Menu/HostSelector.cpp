@@ -50,8 +50,6 @@ void HostSelector::updateHosts()
 			i--;
 			if (curHost>=hosts.size())
 				curHost = hosts.size()-1;
-			if (curHost<0)
-				curHost = 0;
 		}
 	}
 }
