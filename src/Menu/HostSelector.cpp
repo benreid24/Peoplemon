@@ -4,16 +4,20 @@
 using namespace std;
 using namespace sf;
 
-HostSelector::HostSelector(Network* n)
+HostSelector::HostSelector()
 {
 	curHost = 0;
 	finished = false;
-	network = n;
 	box.setImage("hostBut.png");
 	selBox.setImage("hostButLight.png");
 	title.setText("Games on the local network:");
 	title.setPosition(Vector2f(300,25));
 	title.setProps(Color::Cyan, 36);
+}
+
+void HostSelector::setNetwork(Network* n)
+{
+	network = n;
 }
 
 void HostSelector::updateHosts()

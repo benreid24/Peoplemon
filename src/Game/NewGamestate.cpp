@@ -41,6 +41,7 @@ bool NewGamestate::execute()
 		if (a>255)
 			a = 255;
 
+		game->mainWindow.clear();
 		game->mainWindow.draw(cover);
 		game->mainWindow.display();
 		sleep(milliseconds(15));
@@ -78,6 +79,7 @@ bool NewGamestate::execute()
                     if (finishFrame())
                         return true;
 
+                    game->mainWindow.clear();
                     background.draw(&game->mainWindow);
                     professor.draw(&game->mainWindow);
                     game->hud.draw(&game->mainWindow);
@@ -101,6 +103,7 @@ bool NewGamestate::execute()
                     if (finishFrame())
                         return true;
 
+                    game->mainWindow.clear();
                     background.draw(&game->mainWindow);
                     professor.draw(&game->mainWindow);
                     game->hud.draw(&game->mainWindow);
@@ -123,6 +126,7 @@ bool NewGamestate::execute()
             }
         }
 
+        game->mainWindow.clear();
         background.draw(&game->mainWindow);
         professor.draw(&game->mainWindow);
         game->hud.draw(&game->mainWindow);

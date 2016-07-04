@@ -39,6 +39,7 @@ bool PeopledexState::execute()
         if (peoplemonList.isFinished() || user.isInputActive(PlayerInput::Run))
             return false;
 
+        game->mainWindow.clear();
         background.draw(&game->mainWindow);
         peoplemonList.draw(&game->mainWindow);
         pplSeen.draw(&game->mainWindow);

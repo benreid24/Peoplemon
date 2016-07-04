@@ -86,6 +86,7 @@ bool StoreState::execute()
     {
         money.setText("Money: "+intToString(game->player.getMoney()));
 
+        game->mainWindow.clear();
         background.draw(&game->mainWindow);
         mainChoice.draw(&game->mainWindow);
         desc.draw(&game->mainWindow);
@@ -135,6 +136,7 @@ bool StoreState::execute()
                 if (game->player.getMoney()<item.second)
                 {
                     desc.setText(wordWrap(hobo));
+                    game->mainWindow.clear();
                     background.draw(&game->mainWindow);
                     mainChoice.draw(&game->mainWindow);
                     buyItems.draw(&game->mainWindow);
@@ -169,6 +171,7 @@ bool StoreState::execute()
                         if (finishFrame())
                             return true;
 
+                        game->mainWindow.clear();
                         background.draw(&game->mainWindow);
                         mainChoice.draw(&game->mainWindow);
                         buyItems.draw(&game->mainWindow);
@@ -241,6 +244,7 @@ bool StoreState::execute()
                     if (finishFrame())
                         return true;
 
+                    game->mainWindow.clear();
                     background.draw(&game->mainWindow);
                     mainChoice.draw(&game->mainWindow);
                     sellItems.draw(&game->mainWindow);

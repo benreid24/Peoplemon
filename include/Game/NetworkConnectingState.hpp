@@ -15,9 +15,32 @@
 class NetworkConnectingState : public Gamestate
 {
 	MenuImage background;
+	MenuText prompt;
     ChoiceBox conType;
     IpEnter ipEnter;
     HostSelector hostSelector;
+    bool end; //flag to indicate if functions should terminate after submenus are ran or not
+
+    /**
+     * Menu stuff for connecting to hosts on the local network
+     *
+     * \return True if the game should close, false otherwise
+     */
+	bool showHosts();
+
+	/**
+	 * Menu stuff for connecting directly to a host
+	 *
+	 * \return True if the game should close, false otherwise
+	 */
+	void directDonnect();
+
+	/**
+     * Menu stuff for waiting for a client to connect
+     *
+     * \return True if the game should close, false otherwise
+     */
+	void waitClient();
 
 	/**
 	 * Runs the state

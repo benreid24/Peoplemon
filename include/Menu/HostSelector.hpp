@@ -29,11 +29,16 @@ class HostSelector
 
 public:
 	/**
-	 * Creates all UI elements and stores internal reference to the given Network object
+	 * Creates all UI elements
+	 */
+	HostSelector();
+
+	/**
+	 * Sets the internal network reference
 	 *
 	 * \param n The Network object to scan for hosts
 	 */
-	HostSelector(Network* n);
+	void setNetwork(Network* n);
 
 	/**
 	 * Updates the list of hosts and handles player input

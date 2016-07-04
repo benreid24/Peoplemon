@@ -171,6 +171,8 @@ bool PeoplemonInfoState::execute()
 {
     while (!finishFrame())
     {
+    	game->mainWindow.clear();
+
         if (doingMoves)
         {
             if (user.isInputActive(PlayerInput::Up) && curMove>0)

@@ -154,6 +154,7 @@ bool OptionsMenuState::execute()
                 if (finishFrame())
                     return true;
 
+                game->mainWindow.clear();
                 menu.draw(&game->mainWindow);
                 opts.draw(&game->mainWindow);
                 upText.draw(&game->mainWindow);

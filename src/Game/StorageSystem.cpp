@@ -338,6 +338,7 @@ bool StorageSystem::execute()
 		else
 			updateMenu(-1);
 
+        game->mainWindow.clear();
         game->mainWindow.draw(background);
         mainMenu.draw(&game->mainWindow);
         if (curBox!=0)

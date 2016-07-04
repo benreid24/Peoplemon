@@ -74,6 +74,7 @@ bool EvolveState::execute()
         newPpl.setScale(float(100-scale)/100,float(100-scale)/100);
         sparkles.update();
 
+        game->mainWindow.clear();
         game->mainWindow.draw(bgnd);
         evolveText.draw(&game->mainWindow);
         sparkles.draw(&game->mainWindow);
@@ -94,6 +95,7 @@ bool EvolveState::execute()
         if (finishFrame())
             return true;
 
+		game->mainWindow.clear();
         game->mainWindow.draw(bgnd);
         game->mainWindow.draw(newPpl);
         evolveText.draw(&game->mainWindow);

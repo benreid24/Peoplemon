@@ -164,6 +164,7 @@ bool MapState::execute()
 		}
 
         crossHair.setPosition(ScreenWidth/32*navPos.x+16,ScreenHeight/32*navPos.y+16);
+        game->mainWindow.clear();
         game->mainWindow.draw(background);
         game->mainWindow.draw(sideBox);
         townName.draw(&game->mainWindow);

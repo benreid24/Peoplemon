@@ -366,6 +366,7 @@ bool PeoplemonState::execute()
 										if (finishFrame())
 											return true;
 
+										game->mainWindow.clear();
 										background.draw(&game->mainWindow);
 										menu.draw(&game->mainWindow);
 										game->hud.draw(&game->mainWindow);
@@ -383,6 +384,7 @@ bool PeoplemonState::execute()
                             if (finishFrame())
                                 return true;
 
+                            game->mainWindow.clear();
                             background.draw(&game->mainWindow);
                             menu.draw(&game->mainWindow);
                             game->hud.draw(&game->mainWindow);
@@ -471,6 +473,7 @@ bool PeoplemonState::execute()
                                             if (finishFrame())
                                                 return true;
 
+                                            game->mainWindow.clear();
                                             background.draw(&game->mainWindow);
                                             menu.draw(&game->mainWindow);
                                             game->hud.draw(&game->mainWindow);
@@ -493,6 +496,7 @@ bool PeoplemonState::execute()
                                     if (finishFrame())
                                         return true;
 
+                                    game->mainWindow.clear();
                                     background.draw(&game->mainWindow);
                                     menu.draw(&game->mainWindow);
                                     gt.draw(&game->mainWindow);
@@ -510,6 +514,7 @@ bool PeoplemonState::execute()
                             if (finishFrame())
                                 return true;
 
+                            game->mainWindow.clear();
                             background.draw(&game->mainWindow);
                             menu.draw(&game->mainWindow);
                             prompt.draw(&game->mainWindow);
@@ -526,6 +531,7 @@ bool PeoplemonState::execute()
         if (user.isInputActive(PlayerInput::Run))
 			return false;
 
+        game->mainWindow.clear();
         background.draw(&game->mainWindow);
         menu.draw(&game->mainWindow);
         game->mainWindow.display();

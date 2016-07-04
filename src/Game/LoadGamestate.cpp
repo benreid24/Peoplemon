@@ -76,6 +76,7 @@ bool LoadGamestate::execute()
 						if (a>255)
 							a = 255;
 
+						game->mainWindow.clear();
 						game->mainWindow.draw(cover);
 						game->mainWindow.display();
 						sleep(milliseconds(15));
@@ -100,6 +101,7 @@ bool LoadGamestate::execute()
 				else if (action.getChoice()=="Back" || user.isInputActive(PlayerInput::Run))
 					break;
 
+				game->mainWindow.clear();
 				background.draw(&game->mainWindow);
 				choices.draw(&game->mainWindow);
 				action.draw(&game->mainWindow);
@@ -111,6 +113,7 @@ bool LoadGamestate::execute()
 			choices.reset();
         }
 
+		game->mainWindow.clear();
         background.draw(&game->mainWindow);
         choices.draw(&game->mainWindow);
         game->mainWindow.display();
