@@ -187,7 +187,6 @@ VideoMode getBestVideoMode()
 		}
 	}
 
-    cout << "Selected resolution: " << modes[hI].width << ", " << modes[hI].height << endl;
 	return modes[hI];
 }
 
@@ -214,7 +213,6 @@ View getView(float w, float h)
 		yBase = (1-yView)/2;
 	}
 
-    cout << "Set Viewport: (" << xBase << ", " << yBase << ", " << xView << ", " << yView << ")\n";
 	view.setViewport(FloatRect(xBase,yBase,xView,yView));
 	return view;
 }

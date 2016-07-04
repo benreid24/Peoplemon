@@ -5,7 +5,7 @@
 using namespace std;
 using namespace sf;
 
-NetworkConnectingState::NetworkConnectingState(Game* g) : Gamestate(g)
+NetworkConnectingState::NetworkConnectingState(Game* g) : Gamestate(g), hostSelector(NULL)
 {
 	//
 }

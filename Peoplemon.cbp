@@ -204,6 +204,7 @@
 		<Unit filename="include/Menu/BattleBox.hpp" />
 		<Unit filename="include/Menu/ChoiceBox.hpp" />
 		<Unit filename="include/Menu/HUD.hpp" />
+		<Unit filename="include/Menu/HostSelector.hpp" />
 		<Unit filename="include/Menu/IpEnter.hpp" />
 		<Unit filename="include/Menu/Menu.hpp" />
 		<Unit filename="include/Menu/MenuImage.hpp" />
@@ -307,6 +308,7 @@
 		<Unit filename="src/Menu/BattleBox.cpp" />
 		<Unit filename="src/Menu/ChoiceBox.cpp" />
 		<Unit filename="src/Menu/HUD.cpp" />
+		<Unit filename="src/Menu/HostSelector.cpp" />
 		<Unit filename="src/Menu/IpEnter.cpp" />
 		<Unit filename="src/Menu/Menu.cpp" />
 		<Unit filename="src/Menu/MenuImage.cpp" />

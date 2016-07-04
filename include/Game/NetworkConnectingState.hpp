@@ -3,6 +3,8 @@
 
 #include "Gamestate.hpp"
 #include "Menu/Menu.hpp"
+#include "Menu/IpEnter.hpp"
+#include "Menu/HostSelector.hpp"
 
 /**
  * Gamestate for connecting to a peer. This provides the UI for connecting, creates the Network object and then invokes NetworkState
@@ -14,6 +16,8 @@ class NetworkConnectingState : public Gamestate
 {
 	MenuImage background;
     ChoiceBox conType;
+    IpEnter ipEnter;
+    HostSelector hostSelector;
 
 	/**
 	 * Runs the state
