@@ -14,13 +14,13 @@ class IpEnter
 {
 	MenuImage background, numberHighlight, buttonHighlight;
 	MenuText instructions;
-	MenuText digits[14]; //3x4 for ip + 5 for port
-	int address[14]; //ip and port
+	MenuText digits[17]; //3x4 for ip + 5 for port
+	int address[17]; //ip and port
 	int curSpot, lastTime;
 	bool finished;
 
-	const std::string numLookup[10] = {" ", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-	const int boxWidth = 57;
+	const std::string numLookup[10] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+	const int boxWidth = 45;
 
 public:
 	/**
