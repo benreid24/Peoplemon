@@ -83,7 +83,7 @@ Network::Network(Mode m, string nm) : runner(&Network::update, this)
 	mode = m;
 	name = nm;
 	eType = None;
-	connection.setBlocking(true);
+	connection.setBlocking(false);
 	udp.setBlocking(false);
 	if (m==Host)
 	{
