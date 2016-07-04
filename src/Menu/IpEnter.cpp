@@ -1,6 +1,7 @@
 #include "Menu/IpEnter.hpp"
 #include "Globals.hpp"
 #include "World/People/PlayerInput.hpp"
+#include <cmath>
 using namespace sf;
 using namespace std;
 
