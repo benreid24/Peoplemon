@@ -380,17 +380,21 @@ RemotePlayer NetworkConnectingState::receiveData(Network& n)
         switch (dp.getType())
         {
 		case DataPacket::Empty:
+			//cout << "Empty packet\n";
 			break;
 
 		case DataPacket::Peoplemon:
+			cout << "Peoplemon packet\n";
 			Packing::unpack(dp,ref);
 			peer.peoplemon.push_back(ref);
 			break;
 
 		case DataPacket::PlayerInfo:
+			cout << "info packet\n";
 			Packing::unpack(dp,peer.info);
 
 		case DataPacket::TransmissionComplete:
+			cout << "Done!\n";
 			goto done;
 
 		default:

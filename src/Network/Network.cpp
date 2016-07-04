@@ -17,35 +17,43 @@ void Network::update()
 		if (state==Connected)
 		{
 			Packet data;
-			Socket::Status s = connection.receive(data);
 
-			if (s==Socket::Error)
+			if (tcpWaiter.wait(milliseconds(100)))
 			{
-				state = Error;
-				eType = Other;
-				break;
-			}
-			if (s==Socket::Disconnected)
-			{
-                state = Error;
-                eType = UnexpectedDisconnect;
-                break;
-			}
+				Socket::Status s = connection.receive(data);
 
-			DataPacket dp(data);
-			data >> type;
+				if (s==Socket::Error)
+				{
+					cout << "Socket error\n";
+					state = Error;
+					eType = Other;
+					break;
+				}
+				if (s==Socket::Disconnected)
+				{
+					cout << "Disconnected\n";
+					state = Error;
+					eType = UnexpectedDisconnect;
+					break;
+				}
 
-			switch (type)
-			{
-			case 2: //disconnect
-				state = Disconnected;
-				connection.disconnect();
-				break;
+				DataPacket dp(data);
+				data >> type;
 
-			default: //application data
-				lock.lock();
-				gamePackets.push(dp);
-				lock.unlock();
+				switch (type)
+				{
+				case 2: //disconnect
+					state = Disconnected;
+					connection.disconnect();
+					cout << "Disconnect signal\n";
+					break;
+
+				default: //application data
+					lock.lock();
+					cout << "Game data packet received\n";
+					gamePackets.push(dp);
+					lock.unlock();
+				}
 			}
 
 			lock.lock();
@@ -96,7 +104,8 @@ Network::Network(Mode m, string nm) : runner(&Network::update, this)
 		udp.bind(32768);
 	}
 
-	waiter.add(udp);
+	udpWaiter.add(udp);
+	tcpWaiter.add(connection);
 	runner.launch();
 }
 
@@ -246,7 +255,7 @@ vector<HostSettings> Network::pollLocalHosts()
 {
 	vector<HostSettings> ret;
 
-	if (!waiter.wait(milliseconds(200)))
+	if (!udpWaiter.wait(milliseconds(200)))
 		return ret;
 
 	Packet p;

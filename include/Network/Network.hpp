@@ -86,7 +86,7 @@ private:
 	sf::UdpSocket udp;
     sf::TcpListener listener;
     sf::TcpSocket connection;
-    sf::SocketSelector waiter;
+    sf::SocketSelector udpWaiter, tcpWaiter;
     std::stack<DataPacket> gamePackets;
     std::queue<sf::Packet> outgoingPackets;
 
