@@ -5,6 +5,10 @@
 #include "DataPacket.hpp"
 #include <iostream>
 
+class Player;
+class Turn;
+class PeoplemonRef;
+
 /**
  * Namespace for Network helpers to try and keep the global namespace cleaner
  *
@@ -42,6 +46,15 @@ namespace Packing
 		return p;
 	}
 
+	template<>
+	sf::Packet pack(PeoplemonRef& obj);
+
+	template<>
+	sf::Packet pack(Turn& obj);
+
+	template<>
+	sf::Packet pack(Player& obj);
+
 	/**
 	 * This function unpacks objects received over the network. Any object that is unpacked must have a specialization
 	 * of this function defined for it. If it is called on an object with no specialization then this function returns
@@ -56,6 +69,15 @@ namespace Packing
 		std::cout << "WARNING: unpack() called on object with no specialization defined!\n";
 		return false;
 	}
+
+	template<>
+	bool unpack(DataPacket& dp, PlayerInfo& obj);
+
+	template<>
+	bool unpack(DataPacket& dp, PeoplemonRef& obj);
+
+	template<>
+	bool unpack(DataPacket& dp, Turn& obj);
 }
 
 #endif // PACKING_HPP
