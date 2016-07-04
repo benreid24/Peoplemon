@@ -30,53 +30,51 @@ namespace Packing
 	};
 
 	/**
-	 * This function packs objects to be sent over the network. Any object that is sent must have a specialization
-	 * of this function defined for it. If it is called on an object with no specialization then a disconnect signal
-	 * is returned instead
+	 * This function packs a PeoplemonRef to be sent over the network
 	 *
-	 * \param obj The object to pack
+	 * \param obj The PeoplemonRef to pack
 	 * \return A packet containing the packed object to send
 	 */
-	template<typename T>
-	sf::Packet pack(T obj)
-	{
-		std::cout << "WARNING: pack() called on object with no specialization defined!\n";
-		sf::Packet p;
-		p << sf::Uint16(2);
-		return p;
-	}
-
-	template<>
 	sf::Packet pack(PeoplemonRef& obj);
 
-	template<>
+	/**
+	 * This function packs a Turn to be sent over the network
+	 *
+	 * \param obj The Turn to pack
+	 * \return A packet containing the packed object to send
+	 */
 	sf::Packet pack(Turn& obj);
 
-	template<>
+	/**
+	 * This function packs the Player's information to be sent over the network
+	 *
+	 * \param obj The Player to pack
+	 * \return A packet containing the packed object to send
+	 */
 	sf::Packet pack(Player& obj);
 
 	/**
-	 * This function unpacks objects received over the network. Any object that is unpacked must have a specialization
-	 * of this function defined for it. If it is called on an object with no specialization then this function returns
-	 * false
+	 * This function unpacks a PlayerInfo received over the network
 	 *
-	 * \param obj A reference to the object to unpack
+	 * \param obj A reference to the PlayerInfo to unpack
 	 * \return True if the object was successfully unpacked, false otherwise
 	 */
-	template<typename T>
-	bool unpack(DataPacket& dp, T& obj)
-	{
-		std::cout << "WARNING: unpack() called on object with no specialization defined!\n";
-		return false;
-	}
-
-	template<>
 	bool unpack(DataPacket& dp, PlayerInfo& obj);
 
-	template<>
+	/**
+	 * This function unpacks a PeoplemonRef received over the network
+	 *
+	 * \param obj A reference to the PeoplemonRef to unpack
+	 * \return True if the object was successfully unpacked, false otherwise
+	 */
 	bool unpack(DataPacket& dp, PeoplemonRef& obj);
 
-	template<>
+	/**
+	 * This function unpacks a Turn received over the network
+	 *
+	 * \param obj A reference to the Turn to unpack
+	 * \return True if the object was successfully unpacked, false otherwise
+	 */
 	bool unpack(DataPacket& dp, Turn& obj);
 }
 

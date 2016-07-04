@@ -8,8 +8,7 @@ using namespace std;
 
 namespace Packing
 {
-	template<>
-	Packet pack(PeoplemonRef obj)
+	Packet pack(PeoplemonRef& obj)
 	{
 		Packet ret;
 		ret << Uint16(7);
@@ -38,7 +37,6 @@ namespace Packing
 			p << Int32(obj[i]);
 	}
 
-	template<>
 	Packet pack(Turn& obj)
 	{
 		Packet ret;
@@ -48,7 +46,6 @@ namespace Packing
 		return ret;
 	}
 
-	template<>
 	Packet pack(Player& obj)
 	{
 		Packet ret;
@@ -60,7 +57,6 @@ namespace Packing
         return ret;
 	}
 
-	template<>
 	bool unpack(DataPacket& dp, PeoplemonRef& obj)
 	{
 		if (dp.getType()!=DataPacket::Peoplemon)
@@ -110,7 +106,6 @@ namespace Packing
 		}
 	}
 
-	template<>
 	bool unpack(DataPacket& dp, Turn& obj)
 	{
 		if (dp.getType()!=DataPacket::Turn)
@@ -128,7 +123,6 @@ namespace Packing
 		return true;
 	}
 
-	template<>
 	bool unpack(DataPacket& dp, PlayerInfo& obj)
 	{
 		if (dp.getType()!=DataPacket::PlayerInfo)
