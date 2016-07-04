@@ -76,7 +76,6 @@ bool LoadGamestate::execute()
 						if (a>255)
 							a = 255;
 
-						game->mainWindow.clear();
 						game->mainWindow.draw(cover);
 						game->mainWindow.display();
 						sleep(milliseconds(15));

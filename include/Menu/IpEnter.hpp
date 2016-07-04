@@ -16,7 +16,7 @@ class IpEnter
 	MenuText instructions;
 	MenuText digits[14]; //3x4 for ip + 5 for port
 	int address[14]; //ip and port
-	int curSpot;
+	int curSpot, lastTime;
 	bool finished;
 
 	const std::string numLookup[10] = {" ", "1", "2", "3", "4", "5", "6", "7", "8", "9"};

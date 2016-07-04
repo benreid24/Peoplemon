@@ -10,6 +10,7 @@
 #include "Properties.hpp"
 #include "Globals.hpp"
 #include "Game/NicknameState.hpp"
+#include "Game/NetworkConnectingState.hpp"
 using namespace sf;
 using namespace std;
 
@@ -117,6 +118,9 @@ bool MainGameState::handleFlags()
 		game->data.nextBattlePplmon = "";
 		return game->runState(new BattleState(game,createBattler(game->data.nextBattleAi,&pplmon,vector<int>()),"WILD "+ppl.name,"",0,true,game->data.nextBattleMusic,game->data.nextBattleBgnd));
 	}
+
+	if (Keyboard::isKeyPressed(Keyboard::N))
+		return game->runState(new NetworkConnectingState(game),true);
 
     return false;
 }

@@ -8,16 +8,17 @@ using namespace std;
 IpEnter::IpEnter() : address{0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 {
 	curSpot = 0;
+	lastTime = 0;
 	finished = false;
 	background.setImage("ipEnter.png");
 	buttonHighlight.setImage("ipEnterButtonHighlight.png");
 	numberHighlight.setImage("ipEnterNumberHighlight.png");
 
-	instructions.setText("Enter the IP address and port of the person you want to connect to\nUse the left and right controls to switch digits, and use the up and down controls to modify them\nGo to 22ndcg.com if you need help setting up your game");
+	instructions.setText("Enter the IP address and port of the person you want to connect to\nUse the left and right controls to switch digits,\n        and use the up and down controls to modify them\nGo to 22ndcg.com if you need help setting up your game");
 	instructions.setProps(Color::White, 26);
 
 	background.setPosition(Vector2f(0,400));
-	instructions.setPosition(Vector2f(20,100));
+	instructions.setPosition(Vector2f(20,30));
 	buttonHighlight.setPosition(Vector2f(332,513));
     for (int i = 0; i<14; ++i)
 		digits[i].setPosition(Vector2f(14+i*boxWidth,410));
@@ -25,6 +26,9 @@ IpEnter::IpEnter() : address{0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
 void IpEnter::update()
 {
+	if (gameClock.getTimeStamp()-lastTime<150)
+		return;
+
 	bool changed = false;
 	if (user.isInputActive(PlayerInput::Up) && curSpot<14)
 	{
@@ -33,6 +37,7 @@ void IpEnter::update()
 			address[curSpot] = 0;
 		digits[curSpot].setText(numLookup[address[curSpot]]);
 		changed = true;
+		lastTime = gameClock.getTimeStamp();
 	}
 	else if (user.isInputActive(PlayerInput::Down) && curSpot<14)
 	{
@@ -41,6 +46,7 @@ void IpEnter::update()
 			address[curSpot] = 9;
 		digits[curSpot].setText(numLookup[address[curSpot]]);
 		changed = true;
+		lastTime = gameClock.getTimeStamp();
 	}
 	else if (user.isInputActive(PlayerInput::Right))
 	{
@@ -49,6 +55,7 @@ void IpEnter::update()
 		else
 			curSpot++;
 		changed = true;
+		lastTime = gameClock.getTimeStamp();
 	}
 	else if (user.isInputActive(PlayerInput::Left))
 	{
@@ -59,6 +66,7 @@ void IpEnter::update()
 		else
 			curSpot--;
 		changed = true;
+		lastTime = gameClock.getTimeStamp();
 	}
 
 	if (user.isInputActive(PlayerInput::Interact) && curSpot==14)
@@ -71,6 +79,7 @@ void IpEnter::update()
 		}
 		if (good)
 			finished = true;
+		lastTime = gameClock.getTimeStamp();
 	}
 
 	if (changed)
@@ -89,27 +98,26 @@ void IpEnter::reset()
 
 IpAddress IpEnter::getIp()
 {
-	int sections[4] = {0,0,0,0};
+	string ip;
 
 	for (int i = 0; i<4; ++i)
 	{
 		for (int j = 0; j<3; ++j)
-		{
-			sections[i] += address[i*3+j]*pow(10,2-j);
-		}
+			ip.push_back(address[i*3+j]+48);
+		ip.push_back('.');
 	}
 
-	return IpAddress(sections[0],sections[1],sections[2],sections[3]);
+	return IpAddress(ip);
 }
 
 int IpEnter::getPort()
 {
-	int port = 0;
+	string port;
 
 	for (int i = 0; i<5; ++i)
-		port += address[9+i]*pow(10,4-i);
+		port.push_back(address[12+i]+48);
 
-	return port;
+	return stringToInt(port);
 }
 
 void IpEnter::draw(sf::RenderWindow* window)
