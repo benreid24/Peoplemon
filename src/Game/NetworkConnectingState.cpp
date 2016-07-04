@@ -43,7 +43,6 @@ bool NetworkConnectingState::execute()
 
 			conType.reset();
 			sleep(milliseconds(250));
-			break;
 		}
 		if (conType.getChoice()=="Client")
 		{
@@ -138,10 +137,56 @@ bool NetworkConnectingState::directConnect()
 
 bool NetworkConnectingState::showHosts()
 {
-	return false;
+	Network network(Network::Client);
+	hostSelector.setNetwork(&network);
+	hostSelector.reset();
+
+	while (!finishFrame())
+	{
+		hostSelector.update();
+
+		if (hostSelector.done())
+		{
+			cout << "Selected host: " << hostSelector.getSelectedHost().name << endl;
+			return false;
+		}
+
+		game->mainWindow.clear();
+		background.draw(&game->mainWindow);
+		hostSelector.draw(&game->mainWindow);
+		game->mainWindow.display();
+		sleep(milliseconds(30));
+	}
+
+	return true;
 }
 
 bool NetworkConnectingState::waitClient()
 {
-	return false;
+	Network network(Network::Host, "TESTING");
+	MenuText text;
+	text.setText("Started server on port: " +intToString(network.getServerPort())+"\n\n    Press the run key to cancel");
+	text.setPosition(Vector2f(20,20));
+
+	while (!finishFrame())
+	{
+		if (network.checkClientConnected())
+		{
+			cout << "Client connected!\n";
+			return false;
+		}
+		if (user.isInputActive(PlayerInput::Run))
+		{
+			sleep(milliseconds(250));
+			return false;
+		}
+
+		game->mainWindow.clear();
+		background.draw(&game->mainWindow);
+		text.draw(&game->mainWindow);
+		game->mainWindow.display();
+		sleep(milliseconds(30));
+	}
+
+	return true;
 }

@@ -112,6 +112,13 @@ Network::~Network()
 	runner.wait();
 }
 
+int Network::getServerPort()
+{
+	if (mode==Client)
+		return 0;
+	return listener.getLocalPort();
+}
+
 bool Network::connect(IpAddress addr, int port)
 {
 	Socket::Status s = connection.connect(addr, port, seconds(15));

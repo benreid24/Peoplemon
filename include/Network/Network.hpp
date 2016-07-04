@@ -119,6 +119,13 @@ public:
     ~Network();
 
     /**
+     * In host mode this returns the port that the host is listening to
+     *
+     * \return The port that is being listened to, or 0 if the Network is in Client mode
+     */
+	int getServerPort();
+
+    /**
      * Attempts to connect to the remote peer at the given address
      *
      * \param addr The address of the remote peer
