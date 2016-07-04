@@ -2,6 +2,13 @@
 using namespace sf;
 using namespace std;
 
+HostSettings::HostSettings(sf::IpAddress addr, int p, std::string nm)
+{
+	ip = addr;
+	port = p;
+	name = nm;
+}
+
 void Network::update()
 {
 	Uint16 type;
@@ -40,23 +47,33 @@ void Network::update()
 				gamePackets.push(dp);
 				lock.unlock();
 			}
+
+			lock.lock();
+			while (outgoingPackets.size()>0)
+			{
+				connection.send(outgoingPackets.front());
+				outgoingPackets.pop();
+			}
+			lock.unlock();
 		}
-		lock.lock();
-		while (outgoingPackets.size()>0)
+		else if (state==Listening && mode==Host)
 		{
-			connection.send(outgoingPackets.front());
-			outgoingPackets.pop();
+			Packet p;
+			p << name;
+			p << IpAddress::getLocalAddress().toString();
+			p << listener.getLocalPort();
+			udp.send(p, IpAddress::Broadcast, 32768);
 		}
-		lock.unlock();
 
 		sleep(milliseconds(80));
 	}
 }
 
-Network::Network(Mode m) : runner(&Network::update, this)
+Network::Network(Mode m, string nm) : runner(&Network::update, this)
 {
 	running = true;
 	mode = m;
+	name = nm;
 	eType = None;
 	connection.setBlocking(true);
 	if (m==Host)
@@ -72,7 +89,11 @@ Network::Network(Mode m) : runner(&Network::update, this)
 			state = Listening;
 	}
 	else
+	{
 		state = NotConnected;
+		udp.bind(32768);
+		waiter.add(udp);
+	}
 
 	runner.launch();
 }
@@ -205,4 +226,34 @@ void Network::sendSignal(DataPacket::Confirmation c)
 	p << Uint16(5);
 	p << Uint8(c);
 	sendPacket(p);
+}
+
+vector<HostSettings> Network::pollLocalHosts()
+{
+	vector<HostSettings> ret;
+
+	if (!waiter.wait(milliseconds(200)))
+		return ret;
+
+	Packet p;
+	IpAddress remoteAddr;
+	unsigned short remotePort;
+	string name, ip;
+	Uint16 port;
+
+    while (udp.receive(p, remoteAddr, remotePort)==Socket::Done)
+	{
+		p >> name;
+		p >> ip;
+		p >> port;
+		for (unsigned int i = 0; i<ret.size(); ++i)
+		{
+			if (ret[i].name==name)
+				goto noAdd;
+		}
+		ret.push_back(HostSettings(ip,port,name));
+		noAdd:;
+	}
+
+	return ret;
 }

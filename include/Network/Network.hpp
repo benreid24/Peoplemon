@@ -14,6 +14,27 @@
  */
 
 /**
+ * This is a helper class for Network that stores remote host settings received from the network
+ *
+ * \ingroup Network
+ */
+struct HostSettings
+{
+	sf::IpAddress ip;
+	int port;
+	std::string name;
+
+	/**
+	 * Default constructor. Initializes all the public members with the given arguments
+	 *
+	 * \param addr The host address
+	 * \param p The host port
+	 * \param nm The host name
+	 */
+	HostSettings(sf::IpAddress addr, int p, std::string nm);
+};
+
+/**
  * Defines an interface for model classes to easily interact with the network
  *
  * \ingroup Network
@@ -58,11 +79,14 @@ public:
 
 private:
 	Mode mode;
+	std::string name;
 	State state;
 	ErrorType eType;
 
+	sf::UdpSocket udp;
     sf::TcpListener listener;
     sf::TcpSocket connection;
+    sf::SocketSelector waiter;
     std::stack<DataPacket> gamePackets;
     std::queue<sf::Packet> outgoingPackets;
 
@@ -75,11 +99,19 @@ private:
      */
 	void update();
 
+	/**
+	 * If the Network is both in Host mode and still awaiting a connection this function will broadcast the ip, port and name to the local network
+	 */
+	void boradcastSettings(sf::IpAddress ip, std::string name);
+
 public:
 	/**
      * Initializes the internal state, but does not open any connections. Opens a listener if the specified mode is Host
+     *
+     * \param m The mode to create the Network in
+     * \param name The name to use when broadcasting
      */
-    Network(Mode m = Host);
+    Network(Mode m = Host, std::string name = "Client");
 
     /**
      * Terminates any open connections
@@ -150,6 +182,13 @@ public:
      * \param c The ActionConfirmation to send
      */
 	void sendSignal(DataPacket::Confirmation c);
+
+	/**
+	 * Polls the network for host information broadcasts and returns all received hosts
+	 *
+	 * \return A vector containing all valid hosts found
+	 */
+	std::vector<HostSettings> pollLocalHosts();
 };
 
 #endif // NETWORK_HPP

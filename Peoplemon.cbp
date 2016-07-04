@@ -204,6 +204,7 @@
 		<Unit filename="include/Menu/BattleBox.hpp" />
 		<Unit filename="include/Menu/ChoiceBox.hpp" />
 		<Unit filename="include/Menu/HUD.hpp" />
+		<Unit filename="include/Menu/IpEnter.hpp" />
 		<Unit filename="include/Menu/Menu.hpp" />
 		<Unit filename="include/Menu/MenuImage.hpp" />
 		<Unit filename="include/Menu/MenuText.hpp" />
