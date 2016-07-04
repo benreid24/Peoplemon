@@ -22,29 +22,13 @@ bool NetworkClientState::execute()
 		{
 			if (p.choice==DataPacket::Battle)
 			{
-				game->hud.getChoice(peer.info.name+" wants to battle! Is this OK?", vector<string>({"Yes","No"}),false);
-				while (game->hud.getChoice().size()==0)
-				{
-					game->hud.update();
-					if (finishFrame())
-						return true;
-
-					game->mainWindow.clear();
-					background.draw(&game->mainWindow);
-					prompt.draw(&game->mainWindow);
-					game->hud.draw(&game->mainWindow);
-					game->mainWindow.display();
-					sleep(milliseconds(30));
-				}
-
-				if (game->hud.getChoice()=="Yes")
-				{
-					network.sendSignal(DataPacket::Yes);
-					cout << "Battle!\n";
-					return false;
-				}
-				else
-					network.sendSignal(DataPacket::No);
+				if (confirmChoice(Battle))
+					return true;
+			}
+			if (p.choice==DataPacket::Trade)
+			{
+				if (confirmChoice(Trade))
+					return true;
 			}
 		}
 		else if (p.getType()!=DataPacket::Empty)
@@ -58,4 +42,34 @@ bool NetworkClientState::execute()
 	}
 
 	return true;
+}
+
+bool NetworkClientState::confirmChoice(int mode)
+{
+	string tm = (mode==Battle)?("Battle"):("Trade");
+	game->hud.getChoice(peer.info.name+" wants to "+tm+"! Is this OK?", vector<string>({"Yes","No"}),false);
+	while (game->hud.getChoice().size()==0)
+	{
+		game->hud.update();
+		if (finishFrame())
+			return true;
+
+		game->mainWindow.clear();
+		background.draw(&game->mainWindow);
+		prompt.draw(&game->mainWindow);
+		game->hud.draw(&game->mainWindow);
+		game->mainWindow.display();
+		sleep(milliseconds(30));
+	}
+
+	if (game->hud.getChoice()=="Yes")
+	{
+		network.sendSignal(DataPacket::Yes);
+		//enter mode
+		return false;
+	}
+	else
+		network.sendSignal(DataPacket::No);
+
+	return false;
 }

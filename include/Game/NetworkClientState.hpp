@@ -20,6 +20,16 @@ class NetworkClientState : public Gamestate
 	MenuImage background;
 	MenuText prompt;
 
+	const int Trade = 0, Battle = 1;
+
+	/**
+	 * UI for the client to confirm a choice by the host
+	 *
+	 * \param mode the Choice to confirm and the mode to enter if the user says yes
+	 * \return True if the game should close, false otherwise
+	 */
+	bool confirmChoice(int mode);
+
 	/**
 	 * Runs the state
 	 */
