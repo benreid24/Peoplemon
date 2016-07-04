@@ -125,6 +125,13 @@ public:
      */
 	int getServerPort();
 
+	/**
+	 * Returns the local IP address
+	 *
+	 * \return The local IP
+	 */
+	sf::IpAddress getLocalIp();
+
     /**
      * Attempts to connect to the remote peer at the given address
      *

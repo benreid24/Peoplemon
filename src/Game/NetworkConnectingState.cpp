@@ -124,6 +124,33 @@ bool NetworkConnectingState::directConnect()
         if (ipEnter.done())
 		{
 			cout << "Entered address: " << ipEnter.getIp().toString() << ":" << ipEnter.getPort() << endl;
+			Network network(Network::Client);
+
+			if (network.connect(ipEnter.getIp(),ipEnter.getPort()))
+			{
+				end = true;
+				return game->runState(new NetworkClientState(game,network));
+			}
+			else
+			{
+				game->hud.displayMessage("Failed to connect!");
+				while (!game->hud.messageFinished())
+				{
+					game->hud.update();
+					if (finishFrame())
+						return true;
+
+					game->mainWindow.clear();
+					background.draw(&game->mainWindow);
+					ipEnter.draw(&game->mainWindow);
+					game->hud.draw(&game->mainWindow);
+					game->mainWindow.display();
+					sleep(milliseconds(30));
+				}
+				ipEnter.reset();
+				sleep(milliseconds(250));
+			}
+
 			return false;
 		}
 
@@ -213,7 +240,7 @@ bool NetworkConnectingState::waitClient()
 {
 	Network network(Network::Host, game->player.getName());
 	MenuText text;
-	text.setText("Started server on port: " +intToString(network.getServerPort())+"\n\n    Press the run key to cancel");
+	text.setText("Started server on port: " +intToString(network.getServerPort())+"\nThe local ip address is: "+network.getLocalIp().toString()+"\n\n    Press the run key to cancel");
 	text.setPosition(Vector2f(20,20));
 
 	while (!finishFrame())

@@ -121,6 +121,11 @@ int Network::getServerPort()
 	return listener.getLocalPort();
 }
 
+IpAddress Network::getLocalIp()
+{
+	return IpAddress::getLocalAddress();
+}
+
 bool Network::connect(IpAddress addr, int port)
 {
 	Socket::Status s = connection.connect(addr, port, seconds(15));
