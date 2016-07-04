@@ -123,12 +123,12 @@ bool NetworkConnectingState::directConnect()
 
         if (ipEnter.done())
 		{
-			cout << "Entered address: " << ipEnter.getIp().toString() << ":" << ipEnter.getPort() << endl;
 			Network network(Network::Client);
 
 			if (network.connect(ipEnter.getIp(),ipEnter.getPort()))
 			{
 				end = true;
+				game->hud.setAlwaysShow(true);
 				game->hud.displayMessage("Connected! Sending data...");
 				while (!game->hud.messageFinished())
 				{
@@ -159,6 +159,7 @@ bool NetworkConnectingState::directConnect()
 					sleep(milliseconds(30));
 				}
 				RemotePlayer peer = receiveData(network);
+				game->hud.setAlwaysShow(false);
 				return game->runState(new NetworkClientState(game,network, peer));
 			}
 			else
@@ -227,6 +228,7 @@ bool NetworkConnectingState::showHosts()
 				if (network.connect(hostSelector.getSelectedHost().ip,hostSelector.getSelectedHost().port))
 				{
 					end = true;
+					game->hud.setAlwaysShow(true);
 					game->hud.displayMessage("Connected! Sending data...");
 					while (!game->hud.messageFinished())
 					{
@@ -256,6 +258,7 @@ bool NetworkConnectingState::showHosts()
 						game->mainWindow.display();
 						sleep(milliseconds(30));
 					}
+					game->hud.setAlwaysShow(false);
 					RemotePlayer peer = receiveData(network);
 					return game->runState(new NetworkClientState(game,network,peer),true);
 				}
@@ -285,12 +288,14 @@ bool NetworkConnectingState::showHosts()
 				sleep(milliseconds(250));
 			}
 		}
+		if (user.isInputActive(PlayerInput::Run))
+			return false;
 
 		game->mainWindow.clear();
 		background.draw(&game->mainWindow);
 		hostSelector.draw(&game->mainWindow);
 		game->mainWindow.display();
-		sleep(milliseconds(130));
+		sleep(milliseconds(30));
 	}
 
 	return true;
@@ -307,6 +312,7 @@ bool NetworkConnectingState::waitClient()
 	{
 		if (network.checkClientConnected())
 		{
+			game->hud.setAlwaysShow(true);
 			game->hud.displayMessage("Connected! Sending data...");
 			while (!game->hud.messageFinished())
 			{
@@ -348,6 +354,7 @@ bool NetworkConnectingState::waitClient()
 				game->mainWindow.display();
 				sleep(milliseconds(30));
 			}
+			game->hud.setAlwaysShow(false);
 
 			end = true;
 			return game->runState(new NetworkHostState(game,network,peer),true);
@@ -384,17 +391,14 @@ RemotePlayer NetworkConnectingState::receiveData(Network& n)
 			break;
 
 		case DataPacket::Peoplemon:
-			cout << "Peoplemon packet\n";
 			Packing::unpack(dp,ref);
 			peer.peoplemon.push_back(ref);
 			break;
 
 		case DataPacket::PlayerInfo:
-			cout << "info packet\n";
 			Packing::unpack(dp,peer.info);
 
 		case DataPacket::TransmissionComplete:
-			cout << "Done!\n";
 			goto done;
 
 		default:

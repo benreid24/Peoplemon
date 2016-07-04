@@ -19,25 +19,22 @@ void Network::update()
 			connection.setBlocking(false);
 			Packet data;
 
-			if (tcpWaiter.wait(milliseconds(100)))
+			Socket::Status s = connection.receive(data);
+
+			if (s==Socket::Error)
 			{
-				Socket::Status s = connection.receive(data);
-
-				if (s==Socket::Error)
-				{
-					cout << "Socket error\n";
-					state = Error;
-					eType = Other;
-					break;
-				}
-				if (s==Socket::Disconnected)
-				{
-					cout << "Disconnected\n";
-					state = Error;
-					eType = UnexpectedDisconnect;
-					break;
-				}
-
+				state = Error;
+				eType = Other;
+				break;
+			}
+			if (s==Socket::Disconnected)
+			{
+				state = Error;
+				eType = UnexpectedDisconnect;
+				break;
+			}
+			if (s==Socket::Done)
+			{
 				DataPacket dp(data);
 				data >> type;
 
@@ -46,12 +43,10 @@ void Network::update()
 				case 2: //disconnect
 					state = Disconnected;
 					connection.disconnect();
-					cout << "Disconnect signal\n";
 					break;
 
 				default: //application data
 					lock.lock();
-					cout << "Game data packet received\n";
 					gamePackets.push(dp);
 					lock.unlock();
 				}

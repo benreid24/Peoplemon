@@ -7,6 +7,7 @@ using namespace sf;
 HostSelector::HostSelector()
 {
 	curHost = 0;
+	lastTime = 0;
 	finished = false;
 	box.setImage("hostBut.png");
 	selBox.setImage("hostButLight.png");
@@ -49,7 +50,7 @@ void HostSelector::updateHosts()
 	//remove hosts with too many misses
     for (unsigned int i = 0; i<hosts.size(); ++i)
 	{
-		if (hosts[i].first>=100)
+		if (hosts[i].first>=300)
 		{
 			if (curHost>i)
 				curHost--;
@@ -65,13 +66,25 @@ void HostSelector::update()
 {
 	updateHosts();
 
-	if (user.isInputActive(PlayerInput::Up) && curHost>0)
-		curHost--;
-	else if (user.isInputActive(PlayerInput::Down) && curHost<hosts.size()-1)
-		curHost++;
+	if (gameClock.getTimeStamp()-lastTime>150)
+	{
+		if (user.isInputActive(PlayerInput::Up) && curHost>0)
+		{
+			curHost--;
+			lastTime = gameClock.getTimeStamp();
+		}
+		else if (user.isInputActive(PlayerInput::Down) && curHost<hosts.size()-1)
+		{
+			curHost++;
+			lastTime = gameClock.getTimeStamp();
+		}
 
-	if (user.isInputActive(PlayerInput::Interact))
-		finished = true;
+		if (user.isInputActive(PlayerInput::Interact))
+		{
+			finished = true;
+			lastTime = gameClock.getTimeStamp();
+		}
+	}
 
 	if (curHost>=hosts.size())
 		curHost = hosts.size()-1;

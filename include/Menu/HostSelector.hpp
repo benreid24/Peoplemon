@@ -20,6 +20,7 @@ class HostSelector
 	MenuImage box, selBox;
 	MenuText name, ip, port, title, tip;
 	unsigned int curHost;
+	int lastTime;
 	bool finished;
 
 	/**
