@@ -1,4 +1,6 @@
 #include "Game/NetworkConnectingState.hpp"
+#include "Game/NetworkClientState.hpp"
+#include "Game/NetworkHostState.hpp"
 #include "Game/Game.hpp"
 #include "Properties.hpp"
 #include "Globals.hpp"
@@ -147,8 +149,54 @@ bool NetworkConnectingState::showHosts()
 
 		if (hostSelector.done())
 		{
-			cout << "Selected host: " << hostSelector.getSelectedHost().name << endl;
-			return false;
+			game->hud.getChoice("Are you sure you want to connect to "+hostSelector.getSelectedHost().name+"?", vector<string>({"Yes","No"}),false);
+
+			while (game->hud.getChoice().size()==0)
+			{
+				game->hud.update();
+				if (finishFrame())
+					return true;
+
+				game->mainWindow.clear();
+				background.draw(&game->mainWindow);
+				hostSelector.draw(&game->mainWindow);
+				game->hud.draw(&game->mainWindow);
+				game->mainWindow.display();
+				sleep(milliseconds(30));
+			}
+
+			if (game->hud.getChoice()=="Yes")
+			{
+				if (network.connect(hostSelector.getSelectedHost().ip,hostSelector.getSelectedHost().port))
+				{
+					end = true;
+					return game->runState(new NetworkClientState(game,network),true);
+				}
+				else
+				{
+					game->hud.displayMessage("Failed to connect!");
+					while (!game->hud.messageFinished())
+					{
+						game->hud.update();
+						if (finishFrame())
+							return true;
+
+						game->mainWindow.clear();
+						background.draw(&game->mainWindow);
+						hostSelector.draw(&game->mainWindow);
+						game->hud.draw(&game->mainWindow);
+						game->mainWindow.display();
+						sleep(milliseconds(30));
+					}
+					hostSelector.reset();
+					sleep(milliseconds(250));
+				}
+			}
+			else
+			{
+				hostSelector.reset();
+				sleep(milliseconds(250));
+			}
 		}
 
 		game->mainWindow.clear();
@@ -163,7 +211,7 @@ bool NetworkConnectingState::showHosts()
 
 bool NetworkConnectingState::waitClient()
 {
-	Network network(Network::Host, "TESTING");
+	Network network(Network::Host, game->player.getName());
 	MenuText text;
 	text.setText("Started server on port: " +intToString(network.getServerPort())+"\n\n    Press the run key to cancel");
 	text.setPosition(Vector2f(20,20));
@@ -172,8 +220,22 @@ bool NetworkConnectingState::waitClient()
 	{
 		if (network.checkClientConnected())
 		{
-			cout << "Client connected!\n";
-			return false;
+			game->hud.displayMessage("Client connected! TODO: Change this to their name");
+			while (!game->hud.messageFinished())
+			{
+				game->hud.update();
+				if (finishFrame())
+					return true;
+
+				game->mainWindow.clear();
+				background.draw(&game->mainWindow);
+				game->hud.draw(&game->mainWindow);
+				game->mainWindow.display();
+				sleep(milliseconds(30));
+			}
+
+			end = true;
+			return game->runState(new NetworkHostState(game,network),true);
 		}
 		if (user.isInputActive(PlayerInput::Run))
 		{
