@@ -277,6 +277,7 @@
 		B557AA741D03B34D002900BC /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		B557AA751D03B34D002900BC /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../../version.h; sourceTree = "<group>"; };
 		B557D0081D0528C100F1F133 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		B569F82B1D2ACAF400E9D1DF /* RemotePlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RemotePlayer.hpp; sourceTree = "<group>"; };
 		B587F31D1D29747700F35AA4 /* NetworkClientState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetworkClientState.hpp; sourceTree = "<group>"; };
 		B587F31E1D29747700F35AA4 /* NetworkConnectingState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetworkConnectingState.hpp; sourceTree = "<group>"; };
 		B587F31F1D29747700F35AA4 /* NetworkHostState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetworkHostState.hpp; sourceTree = "<group>"; };
@@ -481,6 +482,7 @@
 				B587F3271D2974EA00F35AA4 /* DataPacket.hpp */,
 				B587F3281D2974EA00F35AA4 /* Packing.hpp */,
 				B557A9F41D03B34D002900BC /* Network.hpp */,
+				B569F82B1D2ACAF400E9D1DF /* RemotePlayer.hpp */,
 			);
 			path = Network;
 			sourceTree = "<group>";
