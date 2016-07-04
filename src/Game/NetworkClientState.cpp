@@ -8,9 +8,9 @@ using namespace sf;
 NetworkClientState::NetworkClientState(Game* g, Network& n, RemotePlayer p) : Gamestate(g), network(n), peer(p)
 {
 	background.setImage("clientBgnd.png");
-	prompt.setText("Waiting for host to decide what to do");
-	prompt.setProps(Color(160,10,10),56);
-	prompt.setPosition(Vector2f(200,250));
+	prompt.setText("Waiting for host to decide what to do\nPress the run button to disconnect if things\nget weird");
+	prompt.setProps(Color(160,10,10),36);
+	prompt.setPosition(Vector2f(100,220));
 }
 
 bool NetworkClientState::execute()
