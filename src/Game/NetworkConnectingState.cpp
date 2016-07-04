@@ -307,6 +307,7 @@ bool NetworkConnectingState::waitClient()
 	MenuText text;
 	text.setText("Started server on port: " +intToString(network.getServerPort())+"\nThe local ip address is: "+network.getLocalIp().toString()+"\n\n    Press the run key to cancel");
 	text.setPosition(Vector2f(20,20));
+	text.setProps(Color::Cyan);
 
 	while (!finishFrame())
 	{
