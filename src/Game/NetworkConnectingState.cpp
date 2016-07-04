@@ -397,7 +397,6 @@ RemotePlayer NetworkConnectingState::receiveData(Network& n)
 
 		case DataPacket::PlayerInfo:
 			Packing::unpack(dp,peer.info);
-			cout << "got player info\n";
 			break;
 
 		case DataPacket::TransmissionComplete:
