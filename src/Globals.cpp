@@ -180,13 +180,14 @@ VideoMode getBestVideoMode()
 
 	for (unsigned int i = 0; i<modes.size(); ++i)
 	{
-		if (modes[i].width*3==modes[i].height*4 && modes[i].width>hX)
+		if (modes[i].width>hX)
 		{
             hX = modes[i].width;
             hI = i;
 		}
 	}
 
+    cout << "Selected resolution: " << modes[hI].width << ", " << modes[hI].height << endl;
 	return modes[hI];
 }
 
@@ -213,6 +214,7 @@ View getView(float w, float h)
 		yBase = (1-yView)/2;
 	}
 
+    cout << "Set Viewport: (" << xBase << ", " << yBase << ", " << xView << ", " << yView << ")\n";
 	view.setViewport(FloatRect(xBase,yBase,xView,yView));
 	return view;
 }

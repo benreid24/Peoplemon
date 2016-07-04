@@ -258,7 +258,7 @@ bool OptionsMenuState::execute()
 				{
 					game->mainWindow.close();
 					game->mainWindow.create(VideoMode(Properties::ScreenWidth,Properties::ScreenHeight,32), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Titlebar|Style::Close|Style::Resize);
-					game->mainWindow.setMouseCursorVisible(false);
+					game->mainWindow.setMouseCursorVisible(true);
 					game->mainWindow.setVerticalSyncEnabled(true);
 					game->mainWindow.setView(View(FloatRect(0,0,Properties::ScreenWidth,Properties::ScreenHeight)));
 				}

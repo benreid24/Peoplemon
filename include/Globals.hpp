@@ -69,7 +69,7 @@ std::string intToString(int i);
 int stringToInt(std::string s);
 
 /**
- * Selects the highest resolution available in 4:3 for use in fullscreen windows
+ * Selects the highest resolution available for use in fullscreen windows
  *
  * \return A VideoMode object that can be used to create the fullscreen window
  */

@@ -95,6 +95,7 @@
 		B587F32D1D29751200F35AA4 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F32A1D29751200F35AA4 /* Network.cpp */; };
 		B587F32E1D29751200F35AA4 /* Packing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F32B1D29751200F35AA4 /* Packing.cpp */; };
 		B59793681D241BEF00F124B4 /* NicknameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59793671D241BEF00F124B4 /* NicknameState.cpp */; };
+		B5B3B8701D29EF08000CA3EF /* IpEnter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5B3B86F1D29EF08000CA3EF /* IpEnter.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -226,7 +227,7 @@
 		B557AA3B1D03B34D002900BC /* MainMenuState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenuState.cpp; sourceTree = "<group>"; };
 		B557AA3C1D03B34D002900BC /* MapState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapState.cpp; sourceTree = "<group>"; };
 		B557AA3D1D03B34D002900BC /* NewGamestate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NewGamestate.cpp; sourceTree = "<group>"; };
-		B557AA3E1D03B34D002900BC /* OptionsMenuState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OptionsMenuState.cpp; sourceTree = "<group>"; };
+		B557AA3E1D03B34D002900BC /* OptionsMenuState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OptionsMenuState.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		B557AA3F1D03B34D002900BC /* PausedState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PausedState.cpp; sourceTree = "<group>"; };
 		B557AA401D03B34D002900BC /* PeopledexState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeopledexState.cpp; sourceTree = "<group>"; };
 		B557AA411D03B34D002900BC /* PeoplemonInfoState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeoplemonInfoState.cpp; sourceTree = "<group>"; };
@@ -235,7 +236,7 @@
 		B557AA441D03B34D002900BC /* StorageSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StorageSystem.cpp; sourceTree = "<group>"; };
 		B557AA451D03B34D002900BC /* StoreState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StoreState.cpp; sourceTree = "<group>"; };
 		B557AA461D03B34D002900BC /* TrainerSpottedPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TrainerSpottedPlayer.cpp; sourceTree = "<group>"; };
-		B557AA471D03B34D002900BC /* Globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Globals.cpp; sourceTree = "<group>"; };
+		B557AA471D03B34D002900BC /* Globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Globals.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		B557AA481D03B34D002900BC /* Main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Main.cpp; sourceTree = "<group>"; };
 		B557AA4A1D03B34D002900BC /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
 		B557AA4B1D03B34D002900BC /* Playlist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Playlist.cpp; sourceTree = "<group>"; };
@@ -288,6 +289,8 @@
 		B587F32A1D29751200F35AA4 /* Network.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Network.cpp; path = Network/Network.cpp; sourceTree = "<group>"; };
 		B587F32B1D29751200F35AA4 /* Packing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Packing.cpp; path = Network/Packing.cpp; sourceTree = "<group>"; };
 		B59793671D241BEF00F124B4 /* NicknameState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NicknameState.cpp; sourceTree = "<group>"; };
+		B5B3B86F1D29EF08000CA3EF /* IpEnter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IpEnter.cpp; sourceTree = "<group>"; };
+		B5B3B8711D29EF38000CA3EF /* IpEnter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IpEnter.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -456,6 +459,7 @@
 				B557A9E91D03B34D002900BC /* BattleBox.hpp */,
 				B557A9EA1D03B34D002900BC /* ChoiceBox.hpp */,
 				B557A9EB1D03B34D002900BC /* HUD.hpp */,
+				B5B3B8711D29EF38000CA3EF /* IpEnter.hpp */,
 				B557A9EC1D03B34D002900BC /* Menu.hpp */,
 				B557A9ED1D03B34D002900BC /* MenuImage.hpp */,
 				B557A9EE1D03B34D002900BC /* MenuText.hpp */,
@@ -654,6 +658,7 @@
 				B557AA501D03B34D002900BC /* BattleBox.cpp */,
 				B557AA511D03B34D002900BC /* ChoiceBox.cpp */,
 				B557AA521D03B34D002900BC /* HUD.cpp */,
+				B5B3B86F1D29EF08000CA3EF /* IpEnter.cpp */,
 				B557AA531D03B34D002900BC /* Menu.cpp */,
 				B557AA541D03B34D002900BC /* MenuImage.cpp */,
 				B557AA551D03B34D002900BC /* MenuText.cpp */,
@@ -892,6 +897,7 @@
 				B557AA991D03B34D002900BC /* StoreState.cpp in Sources */,
 				B557AA801D03B34D002900BC /* SuicidalBattler.cpp in Sources */,
 				B557AAA71D03B34D002900BC /* MenuText.cpp in Sources */,
+				B5B3B8701D29EF08000CA3EF /* IpEnter.cpp in Sources */,
 				B557AA881D03B34D002900BC /* CreditsState.cpp in Sources */,
 				B557AA811D03B34D002900BC /* Battler.cpp in Sources */,
 				B557AABC1D03B34D002900BC /* Trainer.cpp in Sources */,
