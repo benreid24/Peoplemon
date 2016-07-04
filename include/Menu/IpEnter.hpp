@@ -12,17 +12,21 @@
  */
 class IpEnter
 {
-	MenuImage background, goButton, numberHighlight, buttonHighlight;
+	MenuImage background, numberHighlight, buttonHighlight;
 	MenuText instructions;
 	MenuText digits[14]; //3x4 for ip + 5 for port
+	int address[14]; //ip and port
+	int curSpot;
+	bool finished;
+
+	const std::string numLookup[10] = {" ", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+	const int boxWidth = 57;
 
 public:
 	/**
-	 * Creates the IpEnter object at the given position
-	 *
-	 * \param pos The position to render to
+	 * Creates the IpEnter menu object
 	 */
-	IpEnter(sf::Vector2f pos);
+	IpEnter();
 
 	/**
 	 * Updates the object
@@ -37,11 +41,30 @@ public:
 	bool done();
 
 	/**
+	 * Resets the internal state so that the user may enter another address
+	 */
+	void reset();
+
+	/**
 	 * Returns a formatted ip address that can be put into the Network object
 	 *
 	 * \return An IpAddress object that can be connected to
 	 */
 	sf::IpAddress getIp();
+
+	/**
+	 * Returns the port that the user entered
+	 *
+	 * \return The port to connect to
+	 */
+	int getPort();
+
+	/**
+	 * Renders the IpEnter to the screen
+	 *
+	 * \param window A pointer to the window to render to
+	 */
+	void draw(sf::RenderWindow* window);
 };
 
 #endif // IPENTER_HPP

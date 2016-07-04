@@ -109,6 +109,9 @@ vector<string> Conversation::update(Game* game, Player* player, Character* perso
 
     if (lines[cLine].code=='t')
     {
+    	size_t pos = lines[cLine].say.find("$PLAYERNAME");
+		if (pos!=string::npos)
+			lines[cLine].say.replace(pos, 11, player->getName());
         ret.push_back(lines[cLine].say);
         return ret;
     }
