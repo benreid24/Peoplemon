@@ -62,7 +62,8 @@ void Network::update()
 			p << name;
 			p << IpAddress::getLocalAddress().toString();
 			p << listener.getLocalPort();
-			udp.send(p, IpAddress::Broadcast, 32768);
+			if (udp.send(p, IpAddress::Broadcast, 32768)==Socket::Done)
+			cout << "sent broadcast\n";
 		}
 
 		sleep(milliseconds(80));
@@ -78,6 +79,7 @@ Network::Network(Mode m, string nm) : runner(&Network::update, this)
 	connection.setBlocking(true);
 	if (m==Host)
 	{
+		udp.bind(Socket::AnyPort);
 		listener.setBlocking(false);
 		Socket::Status s = listener.listen(TcpListener::AnyPort);
 		if (s!=Socket::Done)
@@ -91,7 +93,8 @@ Network::Network(Mode m, string nm) : runner(&Network::update, this)
 	else
 	{
 		state = NotConnected;
-		udp.bind(32768);
+		if (udp.bind(32768)!=Socket::Done)
+			cout << "Couldn't bind broadcasting socket!\n";
 		waiter.add(udp);
 	}
 
@@ -241,6 +244,8 @@ vector<HostSettings> Network::pollLocalHosts()
 
 	if (!waiter.wait(milliseconds(200)))
 		return ret;
+
+	cout << "Got traffic!\n";
 
 	Packet p;
 	IpAddress remoteAddr;
