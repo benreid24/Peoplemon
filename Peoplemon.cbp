@@ -307,6 +307,7 @@
 		<Unit filename="src/Menu/BattleBox.cpp" />
 		<Unit filename="src/Menu/ChoiceBox.cpp" />
 		<Unit filename="src/Menu/HUD.cpp" />
+		<Unit filename="src/Menu/IpEnter.cpp" />
 		<Unit filename="src/Menu/Menu.cpp" />
 		<Unit filename="src/Menu/MenuImage.cpp" />
 		<Unit filename="src/Menu/MenuText.cpp" />
