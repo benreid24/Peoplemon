@@ -4,6 +4,7 @@
 #include "Gamestate.hpp"
 #include "Network/Network.hpp"
 #include "Network/RemotePlayer.hpp"
+#include "Menu/Menu.hpp"
 
 /**
  * This state provides the UI and functionality for the client peer
@@ -15,6 +16,9 @@ class NetworkClientState : public Gamestate
 {
 	Network& network;
 	RemotePlayer peer;
+
+	MenuImage background;
+	MenuText prompt;
 
 	/**
 	 * Runs the state

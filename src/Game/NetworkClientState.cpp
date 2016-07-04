@@ -7,10 +7,31 @@ using namespace sf;
 
 NetworkClientState::NetworkClientState(Game* g, Network& n, RemotePlayer p) : Gamestate(g), network(n), peer(p)
 {
-	//
+	background.setImage("clientBgnd.png");
+	prompt.setText("Waiting for host to decide what to do");
+	prompt.setProps(Color(160,10,10),56);
+	prompt.setPosition(Vector2f(200,250));
 }
 
 bool NetworkClientState::execute()
 {
-	return false;
+	while (!finishFrame())
+	{
+		DataPacket p = network.pollPacket();
+		if (p.getType()==DataPacket::ActionChoice)
+		{
+			//confirm
+			cout << "Received choice!\n";
+		}
+		else if (p.getType()!=DataPacket::Empty)
+			cout << "WARNING: Received errant packet when waiting for ActionChoice\n";
+
+		game->mainWindow.clear();
+		background.draw(&game->mainWindow);
+		prompt.draw(&game->mainWindow);
+		game->mainWindow.display();
+		sleep(milliseconds(100));
+	}
+
+	return true;
 }
