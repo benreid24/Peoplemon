@@ -18,7 +18,7 @@ class HostSelector
 	Network* network;
 	std::vector<std::pair<int,HostSettings> > hosts; //int is miss count. Miss gets reset if the host appears again in broadcast, host is removed from menu if misses exceeds 10
 	MenuImage box, selBox;
-	MenuText name, ip, port, title;
+	MenuText name, ip, port, title, tip;
 	unsigned int curHost;
 	bool finished;
 

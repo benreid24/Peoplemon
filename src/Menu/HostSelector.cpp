@@ -11,8 +11,11 @@ HostSelector::HostSelector()
 	box.setImage("hostBut.png");
 	selBox.setImage("hostButLight.png");
 	title.setText("Games on the local network:");
+	tip.setText("Press the run button to go back");
 	title.setPosition(Vector2f(200,25));
 	title.setProps(Color::Cyan, 36);
+	tip.setPosition(Vector2f(240,70));
+	tip.setProps(Color::Cyan, 26);
 }
 
 void HostSelector::setNetwork(Network* n)
@@ -46,7 +49,7 @@ void HostSelector::updateHosts()
 	//remove hosts with too many misses
     for (unsigned int i = 0; i<hosts.size(); ++i)
 	{
-		if (hosts[i].first>=10)
+		if (hosts[i].first>=100)
 		{
 			if (curHost>i)
 				curHost--;
@@ -92,20 +95,20 @@ HostSettings HostSelector::getSelectedHost()
 void HostSelector::draw(RenderWindow* window)
 {
 	title.draw(window);
+	tip.draw(window);
 	for (unsigned int i = 0; i<hosts.size(); ++i)
 	{
-		box.setPosition(Vector2f(0,100+i*120));
-		selBox.setPosition(Vector2f(0,100+i*120));
-		name.setPosition(Vector2f(50,120+i*120));
-		ip.setPosition(Vector2f(200,120+i*120));
-		port.setPosition(Vector2f(400,120+i*120));
+		box.setPosition(Vector2f(0,100+i*80));
+		selBox.setPosition(Vector2f(0,100+i*80));
+		name.setPosition(Vector2f(80,135+i*80));
+		ip.setPosition(Vector2f(230,135+i*80));
+		port.setPosition(Vector2f(430,135+i*80));
 		name.setText(hosts[i].second.name);
         ip.setText(hosts[i].second.ip.toString());
         port.setText(intToString(hosts[i].second.port));
         if (i==curHost)
 			selBox.draw(window);
-		else
-			box.draw(window);
+		box.draw(window);
 		name.draw(window);
 		ip.draw(window);
 		port.draw(window);
