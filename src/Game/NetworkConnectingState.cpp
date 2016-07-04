@@ -129,7 +129,37 @@ bool NetworkConnectingState::directConnect()
 			if (network.connect(ipEnter.getIp(),ipEnter.getPort()))
 			{
 				end = true;
-				return game->runState(new NetworkClientState(game,network));
+				game->hud.displayMessage("Connected! Sending data...");
+				while (!game->hud.messageFinished())
+				{
+					game->hud.update();
+					if (finishFrame())
+						return true;
+
+					game->mainWindow.clear();
+					background.draw(&game->mainWindow);
+					ipEnter.draw(&game->mainWindow);
+					game->hud.draw(&game->mainWindow);
+					game->mainWindow.display();
+					sleep(milliseconds(30));
+				}
+				transferData(network);
+				game->hud.displayMessage("Done! Receiving data...");
+				while (!game->hud.messageFinished())
+				{
+					game->hud.update();
+					if (finishFrame())
+						return true;
+
+					game->mainWindow.clear();
+					background.draw(&game->mainWindow);
+					ipEnter.draw(&game->mainWindow);
+					game->hud.draw(&game->mainWindow);
+					game->mainWindow.display();
+					sleep(milliseconds(30));
+				}
+				RemotePlayer peer = receiveData(network);
+				return game->runState(new NetworkClientState(game,network, peer));
 			}
 			else
 			{
@@ -197,7 +227,37 @@ bool NetworkConnectingState::showHosts()
 				if (network.connect(hostSelector.getSelectedHost().ip,hostSelector.getSelectedHost().port))
 				{
 					end = true;
-					return game->runState(new NetworkClientState(game,network),true);
+					game->hud.displayMessage("Connected! Sending data...");
+					while (!game->hud.messageFinished())
+					{
+						game->hud.update();
+						if (finishFrame())
+							return true;
+
+						game->mainWindow.clear();
+						background.draw(&game->mainWindow);
+						hostSelector.draw(&game->mainWindow);
+						game->hud.draw(&game->mainWindow);
+						game->mainWindow.display();
+						sleep(milliseconds(30));
+					}
+					transferData(network);
+					game->hud.displayMessage("Done! Receiving data...");
+					while (!game->hud.messageFinished())
+					{
+						game->hud.update();
+						if (finishFrame())
+							return true;
+
+						game->mainWindow.clear();
+						background.draw(&game->mainWindow);
+						hostSelector.draw(&game->mainWindow);
+						game->hud.draw(&game->mainWindow);
+						game->mainWindow.display();
+						sleep(milliseconds(30));
+					}
+					RemotePlayer peer = receiveData(network);
+					return game->runState(new NetworkClientState(game,network,peer),true);
 				}
 				else
 				{
@@ -247,7 +307,35 @@ bool NetworkConnectingState::waitClient()
 	{
 		if (network.checkClientConnected())
 		{
-			game->hud.displayMessage("Client connected! TODO: Change this to their name");
+			game->hud.displayMessage("Connected! Sending data...");
+			while (!game->hud.messageFinished())
+			{
+				game->hud.update();
+				if (finishFrame())
+					return true;
+
+				game->mainWindow.clear();
+				background.draw(&game->mainWindow);
+				game->hud.draw(&game->mainWindow);
+				game->mainWindow.display();
+				sleep(milliseconds(30));
+			}
+			transferData(network);
+			game->hud.displayMessage("Done! Receiving data...");
+			while (!game->hud.messageFinished())
+			{
+				game->hud.update();
+				if (finishFrame())
+					return true;
+
+				game->mainWindow.clear();
+				background.draw(&game->mainWindow);
+				game->hud.draw(&game->mainWindow);
+				game->mainWindow.display();
+				sleep(milliseconds(30));
+			}
+			RemotePlayer peer = receiveData(network);
+			game->hud.displayMessage("Entering game with "+peer.info.name);
 			while (!game->hud.messageFinished())
 			{
 				game->hud.update();
@@ -262,7 +350,7 @@ bool NetworkConnectingState::waitClient()
 			}
 
 			end = true;
-			return game->runState(new NetworkHostState(game,network),true);
+			return game->runState(new NetworkHostState(game,network,peer),true);
 		}
 		if (user.isInputActive(PlayerInput::Run))
 		{
@@ -278,4 +366,49 @@ bool NetworkConnectingState::waitClient()
 	}
 
 	return true;
+}
+
+RemotePlayer NetworkConnectingState::receiveData(Network& n)
+{
+	RemotePlayer peer;
+	PeoplemonRef ref;
+
+	while (true)
+	{
+        DataPacket dp = n.pollPacket();
+
+        switch (dp.getType())
+        {
+		case DataPacket::Empty:
+			break;
+
+		case DataPacket::Peoplemon:
+			Packing::unpack(dp,ref);
+			peer.peoplemon.push_back(ref);
+			break;
+
+		case DataPacket::PlayerInfo:
+			Packing::unpack(dp,peer.info);
+
+		case DataPacket::TransmissionComplete:
+			goto done;
+
+		default:
+			cout << "WARNING: Network received unexpected packet type when receiving peer data\n";
+			break;
+        }
+
+        sleep(milliseconds(30));
+	}
+
+	done:
+	return peer;
+}
+
+void NetworkConnectingState::transferData(Network& n)
+{
+    n.sendPacket(Packing::pack(game->player));
+    for (unsigned int i = 0; i<game->player.getCurrentPeoplemon()->size(); ++i)
+		n.sendPacket(Packing::pack(game->player.getCurrentPeoplemon()->at(i)));
+    n.sendSignal(DataPacket::TransmissionComplete);
 }

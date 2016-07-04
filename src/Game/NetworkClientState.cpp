@@ -5,7 +5,7 @@
 using namespace std;
 using namespace sf;
 
-NetworkClientState::NetworkClientState(Game* g, Network& n) : Gamestate(g), network(n)
+NetworkClientState::NetworkClientState(Game* g, Network& n, RemotePlayer p) : Gamestate(g), network(n), peer(p)
 {
 	//
 }

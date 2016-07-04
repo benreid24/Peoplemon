@@ -14,6 +14,9 @@ namespace Packing
 {
 	/**
 	 * Helper struct to contain player information that gets sent over the network
+	 *
+	 * \ingroup Network
+	 * \ingroup Entities
 	 */
 	struct PlayerInfo
 	{

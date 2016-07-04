@@ -216,6 +216,7 @@
 		<Unit filename="include/Network/DataPacket.hpp" />
 		<Unit filename="include/Network/Network.hpp" />
 		<Unit filename="include/Network/Packing.hpp" />
+		<Unit filename="include/Network/RemotePlayer.hpp" />
 		<Unit filename="include/Peoplemon/Move.hpp" />
 		<Unit filename="include/Peoplemon/Peoplemon.hpp" />
 		<Unit filename="include/Peoplemon/Stats.hpp" />

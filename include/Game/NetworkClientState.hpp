@@ -3,6 +3,7 @@
 
 #include "Gamestate.hpp"
 #include "Network/Network.hpp"
+#include "Network/RemotePlayer.hpp"
 
 /**
  * This state provides the UI and functionality for the client peer
@@ -13,6 +14,7 @@
 class NetworkClientState : public Gamestate
 {
 	Network& network;
+	RemotePlayer peer;
 
 	/**
 	 * Runs the state
@@ -25,8 +27,9 @@ public:
 	 *
 	 * \param g A pointer to the main Game object
 	 * \param n A reference to the connected Network object
+	 * \param p Information of the remote peer
 	 */
-	NetworkClientState(Game* g, Network& n);
+	NetworkClientState(Game* g, Network& n, RemotePlayer p);
 };
 
 #endif // NETWORKCONNECTINGSTATE_HPP
