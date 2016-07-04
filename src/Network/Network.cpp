@@ -16,6 +16,7 @@ void Network::update()
 	{
 		if (state==Connected)
 		{
+			connection.setBlocking(false);
 			Packet data;
 
 			if (tcpWaiter.wait(milliseconds(100)))
@@ -83,7 +84,7 @@ Network::Network(Mode m, string nm) : runner(&Network::update, this)
 	mode = m;
 	name = nm;
 	eType = None;
-	connection.setBlocking(false);
+	connection.setBlocking(true);
 	udp.setBlocking(false);
 	if (m==Host)
 	{
