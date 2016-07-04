@@ -209,7 +209,7 @@ DataPacket Network::pollPacket()
 	if (gamePackets.size()>0)
 	{
 		lock.lock();
-		DataPacket ret = gamePackets.top();
+		DataPacket ret = gamePackets.front();
 		gamePackets.pop();
 		lock.unlock();
 		return ret;
