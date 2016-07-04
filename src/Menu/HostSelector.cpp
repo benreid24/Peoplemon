@@ -11,7 +11,7 @@ HostSelector::HostSelector()
 	box.setImage("hostBut.png");
 	selBox.setImage("hostButLight.png");
 	title.setText("Games on the local network:");
-	title.setPosition(Vector2f(300,25));
+	title.setPosition(Vector2f(200,25));
 	title.setProps(Color::Cyan, 36);
 }
 
@@ -60,6 +60,8 @@ void HostSelector::updateHosts()
 
 void HostSelector::update()
 {
+	updateHosts();
+
 	if (user.isInputActive(PlayerInput::Up) && curHost>0)
 		curHost--;
 	else if (user.isInputActive(PlayerInput::Down) && curHost<hosts.size()-1)
@@ -67,6 +69,9 @@ void HostSelector::update()
 
 	if (user.isInputActive(PlayerInput::Interact))
 		finished = true;
+
+	if (curHost>=hosts.size())
+		curHost = hosts.size()-1;
 }
 
 void HostSelector::reset()

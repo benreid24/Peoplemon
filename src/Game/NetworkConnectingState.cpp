@@ -155,7 +155,7 @@ bool NetworkConnectingState::showHosts()
 		background.draw(&game->mainWindow);
 		hostSelector.draw(&game->mainWindow);
 		game->mainWindow.display();
-		sleep(milliseconds(30));
+		sleep(milliseconds(130));
 	}
 
 	return true;
