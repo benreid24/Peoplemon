@@ -125,12 +125,29 @@ bool NetworkConnectingState::directConnect()
 		{
 			Network network(Network::Client);
 
+			game->hud.setAlwaysShow(true);
+			game->hud.displayMessage("Connecting...");
+			while (!game->hud.allTextShown())
+			{
+				game->hud.update();
+				if (finishFrame())
+					return true;
+
+				game->mainWindow.clear();
+				background.draw(&game->mainWindow);
+				ipEnter.draw(&game->mainWindow);
+				game->hud.draw(&game->mainWindow);
+				game->mainWindow.display();
+				sleep(milliseconds(30));
+			}
+			game->hud.setAlwaysShow(false);
+
 			if (network.connect(ipEnter.getIp(),ipEnter.getPort()))
 			{
 				end = true;
 				game->hud.setAlwaysShow(true);
 				game->hud.displayMessage("Connected! Sending data...");
-				while (!game->hud.messageFinished())
+				while (!game->hud.allTextShown())
 				{
 					game->hud.update();
 					if (finishFrame())
@@ -145,7 +162,7 @@ bool NetworkConnectingState::directConnect()
 				}
 				transferData(network);
 				game->hud.displayMessage("Done! Receiving data...");
-				while (!game->hud.messageFinished())
+				while (!game->hud.allTextShown())
 				{
 					game->hud.update();
 					if (finishFrame())
@@ -230,7 +247,7 @@ bool NetworkConnectingState::showHosts()
 					end = true;
 					game->hud.setAlwaysShow(true);
 					game->hud.displayMessage("Connected! Sending data...");
-					while (!game->hud.messageFinished())
+					while (!game->hud.allTextShown())
 					{
 						game->hud.update();
 						if (finishFrame())
@@ -245,7 +262,7 @@ bool NetworkConnectingState::showHosts()
 					}
 					transferData(network);
 					game->hud.displayMessage("Done! Receiving data...");
-					while (!game->hud.messageFinished())
+					while (!game->hud.allTextShown())
 					{
 						game->hud.update();
 						if (finishFrame())
@@ -315,7 +332,7 @@ bool NetworkConnectingState::waitClient()
 		{
 			game->hud.setAlwaysShow(true);
 			game->hud.displayMessage("Connected! Sending data...");
-			while (!game->hud.messageFinished())
+			while (!game->hud.allTextShown())
 			{
 				game->hud.update();
 				if (finishFrame())
@@ -329,7 +346,7 @@ bool NetworkConnectingState::waitClient()
 			}
 			transferData(network);
 			game->hud.displayMessage("Done! Receiving data...");
-			while (!game->hud.messageFinished())
+			while (!game->hud.allTextShown())
 			{
 				game->hud.update();
 				if (finishFrame())

@@ -92,6 +92,11 @@ bool HUD::messageFinished()
     return !displayingMessage;
 }
 
+bool HUD::allTextShown()
+{
+	return message==messageShown;
+}
+
 void HUD::setAlwaysShow(bool as)
 {
     alwaysShow = as;
@@ -140,7 +145,6 @@ void HUD::update()
 {
     if (displayingMessage)
     {
-    	//Properties::PrimaryMenuFont.loadFromFile(Properties::FontPath+"Dream.ttf");
         if (user.isInputActive(PlayerInput::Interact) && gameClock.getTimeStamp()>minDelay)
         {
             if (messageShown!=message)
