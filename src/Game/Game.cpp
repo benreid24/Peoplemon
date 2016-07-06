@@ -305,8 +305,9 @@ void Game::load(string name)
     if (data.fullscreen)
 	{
 		mainWindow.close();
-		mainWindow.create(getBestVideoMode(), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Fullscreen);
-		View view(FloatRect(0,0,Properties::ScreenWidth,Properties::ScreenHeight));
+        VideoMode mode = getBestVideoMode();
+		mainWindow.create(mode, "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Fullscreen);
+        View view = getView(mode.width,mode.height);
 		mainWindow.setView(view);
 		mainWindow.setMouseCursorVisible(false);
 		mainWindow.setVerticalSyncEnabled(true);

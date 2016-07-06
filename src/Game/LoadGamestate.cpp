@@ -69,7 +69,7 @@ bool LoadGamestate::execute()
 					int a = 0;
 					RectangleShape cover(Vector2f(Properties::ScreenWidth,Properties::ScreenHeight));
 					cover.setFillColor(Color::Transparent);
-					while (a!=255)
+					while (a<255)
 					{
 						cover.setFillColor(Color(0,0,0,a));
 						a += 2;

@@ -45,12 +45,10 @@ void World::load(string file, int spId, bool trans)
 		cover.setSize(Vector2f(800,600));
 		double a = 0;
 		int lTime = gameClock.getTimeStamp();
-		while (a!=255)
+		while (a<255)
 		{
 			a += double(gameClock.getTimeStamp()-lTime)*0.181818;
 			lTime = gameClock.getTimeStamp();
-			if (a>255)
-				a = 255;
             cover.setFillColor(Color(0,0,0,a));
             draw(&game->mainWindow);
             game->mainWindow.draw(cover);
@@ -329,13 +327,13 @@ void World::load(string file, int spId, bool trans)
 	double a = 255;
 	int lTime = gameClock.getTimeStamp();
 	game->player.forceStop();
-	while (a!=0)
+	while (a>1)
 	{
 		calculateLighting();
 		a -= double(gameClock.getTimeStamp()-lTime)*0.181818;
 		lTime = gameClock.getTimeStamp();
-		if (a<0)
-			a = 0;
+        if (a<0)
+            a = 0;
 		cover.setFillColor(Color(0,0,0,a));
 		draw(&game->mainWindow);
 		game->mainWindow.draw(cover);
