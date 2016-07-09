@@ -49,6 +49,8 @@ void World::load(string file, int spId, bool trans)
 		{
 			a += double(gameClock.getTimeStamp()-lTime)*0.181818;
 			lTime = gameClock.getTimeStamp();
+            if (a>255)
+                a = 255;
             cover.setFillColor(Color(0,0,0,a));
             draw(&game->mainWindow);
             game->mainWindow.draw(cover);
