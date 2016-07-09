@@ -64,6 +64,11 @@ int HUD::getWrapWidth()
 	return wrapW;
 }
 
+bool HUD::isAlwaysShowing()
+{
+	return alwaysShow;
+}
+
 void HUD::displayMessage(string m, string sound, bool block)
 {
     minDelay = gameClock.getTimeStamp()+500;
@@ -85,6 +90,11 @@ void HUD::displayMessage(string m, string sound, bool block)
 bool HUD::messageFinished()
 {
     return !displayingMessage;
+}
+
+bool HUD::allTextShown()
+{
+	return message==messageShown;
 }
 
 void HUD::setAlwaysShow(bool as)
@@ -135,7 +145,6 @@ void HUD::update()
 {
     if (displayingMessage)
     {
-    	//Properties::PrimaryMenuFont.loadFromFile(Properties::FontPath+"Dream.ttf");
         if (user.isInputActive(PlayerInput::Interact) && gameClock.getTimeStamp()>minDelay)
         {
             if (messageShown!=message)

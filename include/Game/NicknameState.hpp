@@ -20,6 +20,7 @@ class NicknameState : public Gamestate
 
 	sf::Vector2f oldHudPos;
 	int oldWrapWidth;
+	bool wasAS;
 
 	/**
 	 * Runs the state

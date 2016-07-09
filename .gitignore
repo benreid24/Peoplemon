@@ -6,4 +6,6 @@
 *.depend
 *.layout
 *.cscope_file_list
+*.save-failed
 PeoplemonBin
+*.xcuserstate

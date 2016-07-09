@@ -51,9 +51,13 @@ void ScreenKeyboard::update()
 			{
 				if (typedText.size()>0)
 					typedText.erase(typedText.size()-1);
+				text.setText(typedText);
 			}
 			else if (t=="~")
-				finished = true;
+			{
+				if (typedText.size()>0)
+					finished = true;
+			}
 			else if (typedText.size()+1<=unsigned(charLim))
 			{
 				typedText += t;

@@ -1650,6 +1650,7 @@ void BattleState::transitionScreen()
 				circle.setFillColor(Color(Random(0,255),Random(0,255),Random(0,255)));
 				circle.setOutlineColor(Color(Random(0,255),Random(0,255),Random(0,255)));
 			}
+			game->mainWindow.clear();
 			game->mainWindow.draw(bgnd);
 			game->mainWindow.draw(circle);
 			game->mainWindow.display();
@@ -1694,6 +1695,7 @@ void BattleState::transitionScreen()
 
 		for (int a = 0; a<220; a += 5)
 		{
+			game->mainWindow.clear();
 			cover.setFillColor(Color(255,255,255,a));
 			game->mainWindow.draw(cover);
 			game->mainWindow.display();
@@ -1780,7 +1782,7 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
         temp.sendOut.update();
 
         game->mainWindow.clear();
-game->mainWindow.draw(background);
+		game->mainWindow.draw(background);
         temp.sendOut.draw(&game->mainWindow);
         anims[j]->still.draw(&game->mainWindow);
         game->hud.draw(&game->mainWindow);
@@ -1841,7 +1843,6 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
         anims[i]->moves[m].foreground.update();
 
 		game->mainWindow.clear();
-        game->mainWindow.clear();
 		game->mainWindow.draw(background);
         opBox.draw(&game->mainWindow);
         playerBox.draw(&game->mainWindow);
@@ -1871,7 +1872,6 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
 		opBox.update();
 		playerBox.update();
 
-		game->mainWindow.clear();
 		game->mainWindow.clear();
 		game->mainWindow.draw(background);
         opBox.draw(&game->mainWindow);

@@ -338,8 +338,12 @@ PeoplemonRef WildPeoplemon::getPeoplemon(Game* g)
     ret.curXp = 0;
     ret.nextLvlXp = ret.level*ret.level*ret.level-(ret.level-1)*(ret.level-1)*(ret.level-1);
     ret.holdItem = 0;
-    if (Random(0,100)<10)
-        ret.holdItem = Random(1,14);
+    if (Random(0,100)<5)
+	{
+		ret.holdItem = Random(1,7);
+		if (ret.holdItem==7)
+			ret.holdItem = 57;
+	}
 
     ret.ivs.acc = Random(0,31);
     ret.ivs.atk = Random(0,31);

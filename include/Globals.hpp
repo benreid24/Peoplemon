@@ -69,10 +69,19 @@ std::string intToString(int i);
 int stringToInt(std::string s);
 
 /**
- * Selects the highest resolution available in 4:3 for use in fullscreen windows
+ * Selects the highest resolution available for use in fullscreen windows
  *
  * \return A VideoMode object that can be used to create the fullscreen window
  */
 sf::VideoMode getBestVideoMode();
+
+/**
+ * Creates a sf::View object to be applied to the main window to properly letterbox to maintain aspect ratio
+ *
+ * \param w The width of the window
+ * \param h The height of the window
+ * \return A View object that can be applied to the main window
+ */
+sf::View getView(float w, float h);
 
 #endif // GLOBALS_HPP

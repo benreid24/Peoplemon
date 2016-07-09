@@ -2,6 +2,7 @@
 #define STATS_HPP
 
 #include <iostream>
+#include "SFML.hpp"
 
 /**
  * Strcuture for storing all of the stats associated with a peoplemon
@@ -108,6 +109,52 @@ struct Stats
 		default:
 			return 100;
 		}
+	}
+
+	/**
+	 * Packs all of the stats into a Packet. Helper function for Network
+	 *
+	 * \param p A reference to the Packet to pack into
+	 */
+	void pack(sf::Packet& p)
+	{
+		p << sf::Uint16(hp);
+		p << sf::Uint16(atk);
+		p << sf::Uint16(def);
+		p << sf::Uint16(spAtk);
+		p << sf::Uint16(spDef);
+		p << sf::Uint16(acc);
+		p << sf::Uint16(evade);
+		p << sf::Uint16(spd);
+		p << sf::Uint16(crit);
+	}
+
+	/**
+	 * Unpacks the stats from the Packet. Helper function for Network
+	 *
+	 * \param p A reference to the Packet to load from
+	 */
+	void unpack(sf::Packet& p)
+	{
+		sf::Uint16 temp;
+		p >> temp;
+		hp = temp;
+		p >> temp;
+		atk = temp;
+		p >> temp;
+		def = temp;
+		p >> temp;
+		spAtk = temp;
+		p >> temp;
+		spDef = temp;
+		p >> temp;
+		acc = temp;
+		p >> temp;
+		evade = temp;
+		p >> temp;
+		spd = temp;
+		p >> temp;
+		crit = temp;
 	}
 
     /**

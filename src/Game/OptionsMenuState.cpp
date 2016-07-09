@@ -154,6 +154,7 @@ bool OptionsMenuState::execute()
                 if (finishFrame())
                     return true;
 
+                game->mainWindow.clear();
                 menu.draw(&game->mainWindow);
                 opts.draw(&game->mainWindow);
                 upText.draw(&game->mainWindow);
@@ -247,8 +248,9 @@ bool OptionsMenuState::execute()
 				if (game->data.fullscreen)
 				{
 					game->mainWindow.close();
-					game->mainWindow.create(getBestVideoMode(), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Fullscreen);
-					View view(FloatRect(0,0,Properties::ScreenWidth,Properties::ScreenHeight));
+					VideoMode mode = getBestVideoMode();
+					View view = getView(mode.width,mode.height);
+					game->mainWindow.create(mode, "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Fullscreen);
 					game->mainWindow.setView(view);
 					game->mainWindow.setMouseCursorVisible(false);
 					game->mainWindow.setVerticalSyncEnabled(true);
@@ -257,8 +259,9 @@ bool OptionsMenuState::execute()
 				{
 					game->mainWindow.close();
 					game->mainWindow.create(VideoMode(Properties::ScreenWidth,Properties::ScreenHeight,32), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Titlebar|Style::Close|Style::Resize);
-					game->mainWindow.setMouseCursorVisible(false);
+					game->mainWindow.setMouseCursorVisible(true);
 					game->mainWindow.setVerticalSyncEnabled(true);
+					game->mainWindow.setView(View(FloatRect(0,0,Properties::ScreenWidth,Properties::ScreenHeight)));
 				}
 			}
 			noChangeScreen:
@@ -268,7 +271,7 @@ bool OptionsMenuState::execute()
         if (optBox.getChoice()=="Back" || user.isInputActive(PlayerInput::Run))
             return false;
 
-
+		game->mainWindow.clear();
         menu.draw(&game->mainWindow);
         game->mainWindow.display();
         sleep(milliseconds(30));

@@ -69,7 +69,7 @@ bool LoadGamestate::execute()
 					int a = 0;
 					RectangleShape cover(Vector2f(Properties::ScreenWidth,Properties::ScreenHeight));
 					cover.setFillColor(Color::Transparent);
-					while (a!=255)
+					while (a<255)
 					{
 						cover.setFillColor(Color(0,0,0,a));
 						a += 2;
@@ -100,6 +100,7 @@ bool LoadGamestate::execute()
 				else if (action.getChoice()=="Back" || user.isInputActive(PlayerInput::Run))
 					break;
 
+				game->mainWindow.clear();
 				background.draw(&game->mainWindow);
 				choices.draw(&game->mainWindow);
 				action.draw(&game->mainWindow);
@@ -111,6 +112,7 @@ bool LoadGamestate::execute()
 			choices.reset();
         }
 
+		game->mainWindow.clear();
         background.draw(&game->mainWindow);
         choices.draw(&game->mainWindow);
         game->mainWindow.display();

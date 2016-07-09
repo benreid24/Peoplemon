@@ -60,6 +60,7 @@ bool BagState::displayMessage(string m)
 			return true;
 		game->hud.update();
 
+		game->mainWindow.clear();
 		game->hud.draw(&game->mainWindow);
 		game->mainWindow.display();
 		sleep(milliseconds(30));
@@ -258,6 +259,7 @@ bool BagState::execute()
                 if (cBox.getChoice()=="Cancel" || user.isInputActive(PlayerInput::Run))
                     break;
 
+				game->mainWindow.clear();
                 background.draw(&game->mainWindow);
                 itemList.draw(&game->mainWindow);
                 sectionSelector.draw(&game->mainWindow);

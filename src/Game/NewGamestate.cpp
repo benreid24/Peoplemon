@@ -78,6 +78,7 @@ bool NewGamestate::execute()
                     if (finishFrame())
                         return true;
 
+                    game->mainWindow.clear();
                     background.draw(&game->mainWindow);
                     professor.draw(&game->mainWindow);
                     game->hud.draw(&game->mainWindow);
@@ -101,6 +102,7 @@ bool NewGamestate::execute()
                     if (finishFrame())
                         return true;
 
+                    game->mainWindow.clear();
                     background.draw(&game->mainWindow);
                     professor.draw(&game->mainWindow);
                     game->hud.draw(&game->mainWindow);
@@ -123,6 +125,7 @@ bool NewGamestate::execute()
             }
         }
 
+        game->mainWindow.clear();
         background.draw(&game->mainWindow);
         professor.draw(&game->mainWindow);
         game->hud.draw(&game->mainWindow);

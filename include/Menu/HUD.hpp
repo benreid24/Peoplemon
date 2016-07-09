@@ -57,6 +57,13 @@ public:
     void setAlwaysShow(bool as);
 
     /**
+     * This tells whether or not the HUD is always showing
+     *
+     * \return True if the HUD is always showing, false otherwise
+     */
+	bool isAlwaysShowing();
+
+    /**
      * Updates the on screen dialogue box and any other elements that need updating
      */
     void update();
@@ -78,11 +85,18 @@ public:
     void displayMessage(std::string message, std::string sound = "", bool block = false); //used by scripts and talking
 
     /**
-     * Tells whether or not the last message displayed has been "finished", meaning that the player viewed the entire message
+     * Tells whether or not the last message displayed has been "finished", meaning that the player viewed the entire message and pressed the interact key
      *
      * \return Whether or not the player finished viewing the last message passed
      */
     bool messageFinished();
+
+    /**
+     * Tells whether or not all text to be displayed has made it to the screen, regardless of whether or not the player hit the interact key
+     *
+     * \return Whether or not all of the message is on screen
+     */
+	bool allTextShown();
 
     /**
      * Prompts the user for a choice. Can block while waiting for input or run concurrently

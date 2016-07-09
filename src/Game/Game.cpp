@@ -142,7 +142,8 @@ Game::Game() : scriptEnvironment(this), soundEngine(this), player(this), world(t
     Peoplemon::typeMultipliers[1][16] = 0;
     Peoplemon::typeMultipliers[1][18] = 0;
     Peoplemon::typeMultipliers[2][2] = 0.5;
-    Peoplemon::typeMultipliers[2][3] = 0.5;    Peoplemon::typeMultipliers[2][4] = 2;
+    Peoplemon::typeMultipliers[2][3] = 0.5;
+    Peoplemon::typeMultipliers[2][4] = 2;
     Peoplemon::typeMultipliers[2][8] = 0.5;
     Peoplemon::typeMultipliers[2][10] = 0.5;
     Peoplemon::typeMultipliers[2][12] = 0.5;
@@ -220,7 +221,6 @@ void Game::start()
 	Image icon;
 	icon.loadFromFile(Properties::ResourcesPath+"icon.png");
     mainWindow.create(VideoMode(Properties::ScreenWidth,Properties::ScreenHeight,32), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Titlebar|Style::Close|Style::Resize);
-	mainWindow.setMouseCursorVisible(false);
 	mainWindow.setVerticalSyncEnabled(true);
 	mainWindow.setIcon(icon.getSize().x,icon.getSize().y,icon.getPixelsPtr());
 
@@ -305,8 +305,9 @@ void Game::load(string name)
     if (data.fullscreen)
 	{
 		mainWindow.close();
-		mainWindow.create(getBestVideoMode(), "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Fullscreen);
-		View view(FloatRect(0,0,Properties::ScreenWidth,Properties::ScreenHeight));
+        VideoMode mode = getBestVideoMode();
+		mainWindow.create(mode, "Peoplemon v"+string(AutoVersion::FULLVERSION_STRING), Style::Fullscreen);
+        View view = getView(mode.width,mode.height);
 		mainWindow.setView(view);
 		mainWindow.setMouseCursorVisible(false);
 		mainWindow.setVerticalSyncEnabled(true);

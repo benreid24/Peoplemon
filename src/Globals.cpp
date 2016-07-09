@@ -180,7 +180,7 @@ VideoMode getBestVideoMode()
 
 	for (unsigned int i = 0; i<modes.size(); ++i)
 	{
-		if (modes[i].width*3==modes[i].height*4 && modes[i].width>hX)
+		if (modes[i].width>hX)
 		{
             hX = modes[i].width;
             hI = i;
@@ -188,6 +188,33 @@ VideoMode getBestVideoMode()
 	}
 
 	return modes[hI];
+}
+
+View getView(float w, float h)
+{
+	View view(FloatRect(0,0,Properties::ScreenWidth,Properties::ScreenHeight));
+	float newWidth = w;
+	float newHeight = h;
+	float xScale = newWidth/float(Properties::ScreenWidth);
+	float yScale = newHeight/float(Properties::ScreenHeight);
+	float xView = 1;
+	float yView = 1;
+	float xBase = 0;
+	float yBase = 0;
+
+	if (xScale>yScale) //keep y scale
+	{
+		xView = Properties::ScreenWidth*yScale/newWidth;
+		xBase = (1-xView)/2;
+	}
+	else
+	{
+		yView = Properties::ScreenHeight*xScale/newHeight;
+		yBase = (1-yView)/2;
+	}
+
+	view.setViewport(FloatRect(xBase,yBase,xView,yView));
+	return view;
 }
 
 vector<pair<Keyboard::Key,string> > keymap({make_pair(Keyboard::A,"A"),

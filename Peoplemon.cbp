@@ -181,6 +181,9 @@
 		<Unit filename="include/Game/MainGameState.hpp" />
 		<Unit filename="include/Game/MainMenuState.hpp" />
 		<Unit filename="include/Game/MapState.hpp" />
+		<Unit filename="include/Game/NetworkClientState.hpp" />
+		<Unit filename="include/Game/NetworkConnectingState.hpp" />
+		<Unit filename="include/Game/NetworkHostState.hpp" />
 		<Unit filename="include/Game/NewGamestate.hpp" />
 		<Unit filename="include/Game/NicknameState.hpp" />
 		<Unit filename="include/Game/OptionsMenuState.hpp" />
@@ -201,6 +204,8 @@
 		<Unit filename="include/Menu/BattleBox.hpp" />
 		<Unit filename="include/Menu/ChoiceBox.hpp" />
 		<Unit filename="include/Menu/HUD.hpp" />
+		<Unit filename="include/Menu/HostSelector.hpp" />
+		<Unit filename="include/Menu/IpEnter.hpp" />
 		<Unit filename="include/Menu/Menu.hpp" />
 		<Unit filename="include/Menu/MenuImage.hpp" />
 		<Unit filename="include/Menu/MenuText.hpp" />
@@ -208,7 +213,10 @@
 		<Unit filename="include/Menu/PeoplemonSelector.hpp" />
 		<Unit filename="include/Menu/ScreenKeyboard.hpp" />
 		<Unit filename="include/Menu/ScrollChoiceBox.hpp" />
+		<Unit filename="include/Network/DataPacket.hpp" />
 		<Unit filename="include/Network/Network.hpp" />
+		<Unit filename="include/Network/Packing.hpp" />
+		<Unit filename="include/Network/RemotePlayer.hpp" />
 		<Unit filename="include/Peoplemon/Move.hpp" />
 		<Unit filename="include/Peoplemon/Peoplemon.hpp" />
 		<Unit filename="include/Peoplemon/Stats.hpp" />
@@ -277,6 +285,9 @@
 		<Unit filename="src/Game/MainGameState.cpp" />
 		<Unit filename="src/Game/MainMenuState.cpp" />
 		<Unit filename="src/Game/MapState.cpp" />
+		<Unit filename="src/Game/NetworkClientState.cpp" />
+		<Unit filename="src/Game/NetworkConnectingState.cpp" />
+		<Unit filename="src/Game/NetworkHostState.cpp" />
 		<Unit filename="src/Game/NewGamestate.cpp" />
 		<Unit filename="src/Game/NicknameState.cpp" />
 		<Unit filename="src/Game/OptionsMenuState.cpp" />
@@ -298,6 +309,8 @@
 		<Unit filename="src/Menu/BattleBox.cpp" />
 		<Unit filename="src/Menu/ChoiceBox.cpp" />
 		<Unit filename="src/Menu/HUD.cpp" />
+		<Unit filename="src/Menu/HostSelector.cpp" />
+		<Unit filename="src/Menu/IpEnter.cpp" />
 		<Unit filename="src/Menu/Menu.cpp" />
 		<Unit filename="src/Menu/MenuImage.cpp" />
 		<Unit filename="src/Menu/MenuText.cpp" />
@@ -305,6 +318,9 @@
 		<Unit filename="src/Menu/PeoplemonSelector.cpp" />
 		<Unit filename="src/Menu/ScreenKeyboard.cpp" />
 		<Unit filename="src/Menu/ScrollChoiceBox.cpp" />
+		<Unit filename="src/Network/DataPacket.cpp" />
+		<Unit filename="src/Network/Network.cpp" />
+		<Unit filename="src/Network/Packing.cpp" />
 		<Unit filename="src/Peoplemon/Peoplemon.cpp" />
 		<Unit filename="src/Resources/ResourcePool.cpp" />
 		<Unit filename="src/Scripts/Parser.cpp" />

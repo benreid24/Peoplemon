@@ -89,6 +89,7 @@ bool DeleteMoveState::execute()
 
                 game->hud.update();
 
+                game->mainWindow.clear();
                 menu.draw(&game->mainWindow);
                 game->hud.draw(&game->mainWindow);
                 game->mainWindow.display();
@@ -113,6 +114,7 @@ bool DeleteMoveState::execute()
                         return true;
                     game->hud.update();
 
+                    game->mainWindow.clear();
                     menu.draw(&game->mainWindow);
                     game->hud.draw(&game->mainWindow);
                     sleep(milliseconds(30));
