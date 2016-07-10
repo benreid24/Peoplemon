@@ -121,7 +121,7 @@ bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool qu
     {
     	if (dir==d)
         {
-        	if (dir==0 && (game->world.spaceFree(mapPos+Vector2i(0,-1)) || ignoreCols))
+        	if (dir==0 && (game->world.spaceFree(mapPos+Vector2i(0,-1),mapPos) || ignoreCols))
 			{
 				lastPos = mapPos;
 				isMoving = playAnims;
@@ -130,7 +130,7 @@ bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool qu
 				game->world.moveOntoTile(mapPos);
 				game->world.updateObjectRenderLocation(this,lastPos.y,mapPos.y);
 			}
-			else if (dir==1 && (game->world.spaceFree(mapPos+Vector2i(1,0)) || ignoreCols))
+			else if (dir==1 && (game->world.spaceFree(mapPos+Vector2i(1,0),mapPos) || ignoreCols))
 			{
 				lastPos = mapPos;
 				isMoving = playAnims;
@@ -138,7 +138,7 @@ bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool qu
 				game->world.setSpaceOccupied(mapPos,true);
 				game->world.moveOntoTile(mapPos);
 			}
-			else if (dir==2 && (game->world.spaceFree(mapPos+Vector2i(0,1)) || ignoreCols))
+			else if (dir==2 && (game->world.spaceFree(mapPos+Vector2i(0,1),mapPos) || ignoreCols))
 			{
 				lastPos = mapPos;
 				isMoving = playAnims;
@@ -147,7 +147,7 @@ bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool qu
 				game->world.moveOntoTile(mapPos);
 				game->world.updateObjectRenderLocation(this,lastPos.y,mapPos.y);
 			}
-			else if (dir==3 && (game->world.spaceFree(mapPos+Vector2i(-1,0)) || ignoreCols))
+			else if (dir==3 && (game->world.spaceFree(mapPos+Vector2i(-1,0),mapPos) || ignoreCols))
 			{
 				lastPos = mapPos;
 				isMoving = playAnims;

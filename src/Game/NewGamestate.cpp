@@ -119,7 +119,7 @@ bool NewGamestate::execute()
             else
             {
                 game->hud.setAlwaysShow(false);
-                game->world.load("WorldMap",84);
+                game->world.load("Hometown/HometownYourHouseYourRoom",5);
                 gameClock.newGame();
                 return game->runState(new MainGameState(game));
             }

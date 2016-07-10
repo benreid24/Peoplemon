@@ -45,7 +45,7 @@ vector<int> WanderingController::generatePath(Game* g)
         for (int j = 0; j<numPaces; ++j)
         {
             Vector2i t = tPos+d;
-            if ((magnitudeSquared(Vector2i(tPos.x-startPos.x,tPos.y-startPos.y))<radius*radius || radius==0) && g->world.spaceFree(t))
+            if ((magnitudeSquared(Vector2i(tPos.x-startPos.x,tPos.y-startPos.y))<radius*radius || radius==0) && g->world.spaceFree(t,tPos))
             {
                 path.push_back(dir);
                 tPos = t;

@@ -90,7 +90,7 @@ class World
     std::vector<Animation> anims;
     std::vector<Vector2D<Tile> > layers;
     std::vector<Vector2D<std::pair<int,Tile*> > > ySortedTiles;
-    Vector2D<int> collisions, catchables; //using int b/c stupid specialization of vector<bool> conflicting with 2d vector
+    Vector2D<int> collisions, catchables, charCols; //using int b/c stupid specialization of vector<bool> conflicting with 2d vector
     std::vector<Object*> objects, objDelQueue, objAddQueue;
     std::vector<std::vector<Object*> > ySortedObjects;
     std::vector<Light> lights;
@@ -259,6 +259,15 @@ public:
 
     /**
      * Returns whether or not the given space can be moved into
+     *
+     * \param position The space to check
+     * \param oldPos The old (current) position of the entity trying to move
+     * \return Whether or not the space can be moved into
+     */
+    bool spaceFree(sf::Vector2i position, sf::Vector2i oldPos);
+
+    /**
+     * Special version of spaceFree for PathFinder. Only returns true for spaces that can be moved onto from all edges
      *
      * \param position The space to check
      * \return Whether or not the space can be moved into

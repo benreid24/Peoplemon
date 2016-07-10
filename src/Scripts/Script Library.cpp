@@ -173,6 +173,11 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			vector<int> moves = finder.getPath();
 			for (unsigned int i = 0; i<moves.size(); ++i)
 				environment->getGame()->player.move(environment->getGame(),moves[i],false,true,true);
+			if (args.at(2).iValue==1)
+				{
+					while (environment->getGame()->player.getMapPos()!=Vector2i(args.at(0).iValue,args.at(1).iValue))
+						sleep(milliseconds(50));
+				}
 		}
 		else if (name=="shiftPlayer")
 			environment->getGame()->player.shift(args.at(0).iValue,args.at(1).iValue);
@@ -259,6 +264,11 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				vector<int> moves = finder.getPath();
 				for (unsigned int i = 0; i<moves.size(); ++i)
 					t->move(environment->getGame(),moves[i],false,true,true);
+				if (args.at(3).iValue==1)
+				{
+					while (t->getMapPos()!=Vector2i(args.at(1).iValue,args.at(2).iValue))
+						sleep(milliseconds(50));
+				}
 			}
 		}
 		else if (name=="shiftTrainer")
@@ -310,6 +320,11 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				vector<int> moves = finder.getPath();
 				for (unsigned int i = 0; i<moves.size(); ++i)
 					n->move(environment->getGame(),moves[i],false,true,true);
+				if (args.at(3).iValue==1)
+				{
+					while (n->getMapPos()!=Vector2i(args.at(1).iValue,args.at(2).iValue))
+						sleep(milliseconds(50));
+				}
 			}
 		}
 		else if (name=="shiftNPC")

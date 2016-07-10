@@ -17,8 +17,8 @@ World::World(Game* g) : light(TrianglesFan, 362), weather(g)
     game = g;
     lightTxtr.create(800,600);
     lightSpr.setTexture(lightTxtr.getTexture());
-    pcMap = "Worldmap";
-    pcSpawn = 84;
+    pcMap = "Hometown/HometownYourHouseYourRoom";
+    pcSpawn = 5;
 }
 
 World::~World()
@@ -106,6 +106,7 @@ void World::load(string file, int spId, bool trans)
     layers.resize(tInt);
     collisions.setSize(size.x,size.y);
     catchables.setSize(size.x,size.y);
+    charCols.setSize(size.x,size.y);
     for (int i = 0; i<tInt; ++i)
     {
         layers[i].setSize(size.x,size.y);
@@ -155,6 +156,13 @@ void World::load(string file, int spId, bool trans)
         for (int y = 0; y<size.y; ++y)
         {
             catchables(x,y) = input.get<uint8_t>();
+        }
+    }
+    for (int x = 0; x<size.x; ++x)
+    {
+        for (int y = 0; y<size.y; ++y)
+        {
+            charCols(x,y) = 1;
         }
     }
 
@@ -364,6 +372,7 @@ void World::clear()
 	anims.clear();
     collisions.clear();
     catchables.clear();
+    charCols.clear();
     for (unsigned int i = 0; i<objects.size(); ++i)
     {
         if (objects[i]!=&game->player)
@@ -536,7 +545,6 @@ void World::draw(sf::RenderWindow* window)
                 light[0].position = lights[i].position - camPos + Vector2f(32,32);
                 light[0].position.y = 600-light[0].position.y;
                 light[0].color = Color::Transparent;
-                //cout << "Drawing light: (" << light[0].position.x << ", " << light[0].position.y << ")\n";
                 for (unsigned int j = 1; j<362; ++j)
                 {
                     light[j].position = lights[i].position + Vector2f(lights[i].radius*cos(double(j)/180*3.1415926)-camPos.x+32,lights[i].radius*sin(double(j)/180*3.1415926)-camPos.y+32);
@@ -658,16 +666,75 @@ Vector2f World::getCamera()
     return camPos;
 }
 
+bool World::spaceFree(Vector2i pos, Vector2i oldPos)
+{
+	if (pos.x<=0 || pos.x>size.x || pos.y<=0 || pos.y>size.y)
+		return false;
+
+	if (charCols(pos.x-1,pos.y-1)==0)
+		return false;
+
+	int dir = 0;
+	if (oldPos.x>pos.x)
+		dir = 3;
+	else if (oldPos.x<pos.x)
+		dir = 1;
+	else if (oldPos.y<pos.y)
+		dir = 2;
+
+    switch (collisions(pos.x-1,pos.y-1))
+    {
+	case 0: //none
+		return false;
+	case 1: //all
+		return true;
+	case 2: //top
+		return dir==2;
+	case 3: //right
+		return dir==3;
+	case 4: //bottom
+		return dir==0;
+	case 5: //left
+		return dir==1;
+	case 6: //topRight
+		return dir==2 || dir==3;
+	case 7: //bottomRight
+		return dir==0 || dir==3;
+	case 8: //bottomLeft
+		return dir==0 || dir==1;
+	case 9: //topLeft
+		return dir==1 || dir==2;
+	case 10: //topBottom
+		return dir==0 || dir==2;
+	case 11: //leftRight
+		return dir==1 || dir==3;
+	case 12: //noTop
+		return dir!=2;
+	case 13: //noRight
+		return dir!=3;
+	case 14: //noBottom
+		return dir!=0;
+	case 15: //noLeft
+		return dir!=1;
+	default:
+		return false;
+    }
+}
+
 bool World::spaceFree(Vector2i pos)
 {
 	if (pos.x<=0 || pos.x>size.x || pos.y<=0 || pos.y>size.y)
 		return false;
+
+	if (charCols(pos.x-1,pos.y-1)==0)
+		return false;
+
     return collisions(pos.x-1,pos.y-1)==1;
 }
 
 void World::setSpaceOccupied(Vector2i pos, bool o)
 {
-    collisions(pos.x-1,pos.y-1) = int(!o);
+    charCols(pos.x-1,pos.y-1) = int(!o);
 }
 
 void World::removeObject(Object* o)
