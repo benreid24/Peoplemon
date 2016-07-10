@@ -88,6 +88,7 @@
 		B557AABF1D03B34D002900BC /* Weather.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B557AA731D03B34D002900BC /* Weather.cpp */; };
 		B557AAC01D03B34D002900BC /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B557AA741D03B34D002900BC /* World.cpp */; };
 		B557D0091D0528C100F1F133 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B557D0081D0528C100F1F133 /* Images.xcassets */; };
+		B563CD2C1D3309E900D07894 /* NetworkTradingstate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B563CD2B1D3309E900D07894 /* NetworkTradingstate.cpp */; };
 		B587F3241D2974A600F35AA4 /* NetworkClientState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F3211D2974A600F35AA4 /* NetworkClientState.cpp */; };
 		B587F3251D2974A600F35AA4 /* NetworkConnectingState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F3221D2974A600F35AA4 /* NetworkConnectingState.cpp */; };
 		B587F3261D2974A600F35AA4 /* NetworkHostState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B587F3231D2974A600F35AA4 /* NetworkHostState.cpp */; };
@@ -277,6 +278,8 @@
 		B557AA741D03B34D002900BC /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		B557AA751D03B34D002900BC /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../../version.h; sourceTree = "<group>"; };
 		B557D0081D0528C100F1F133 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		B563CD2A1D3309C300D07894 /* NetworkTradestate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetworkTradestate.hpp; sourceTree = "<group>"; };
+		B563CD2B1D3309E900D07894 /* NetworkTradingstate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkTradingstate.cpp; sourceTree = "<group>"; };
 		B569F82B1D2ACAF400E9D1DF /* RemotePlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RemotePlayer.hpp; sourceTree = "<group>"; };
 		B587F31D1D29747700F35AA4 /* NetworkClientState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetworkClientState.hpp; sourceTree = "<group>"; };
 		B587F31E1D29747700F35AA4 /* NetworkConnectingState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetworkConnectingState.hpp; sourceTree = "<group>"; };
@@ -426,10 +429,11 @@
 				B557A9D31D03B34D002900BC /* LoadGamestate.hpp */,
 				B557A9D41D03B34D002900BC /* MainGameState.hpp */,
 				B557A9D51D03B34D002900BC /* MainMenuState.hpp */,
-				B557A9D61D03B34D002900BC /* MapState.hpp */,
+				B563CD2A1D3309C300D07894 /* NetworkTradestate.hpp */,
 				B587F31D1D29747700F35AA4 /* NetworkClientState.hpp */,
 				B587F31E1D29747700F35AA4 /* NetworkConnectingState.hpp */,
 				B587F31F1D29747700F35AA4 /* NetworkHostState.hpp */,
+				B557A9D61D03B34D002900BC /* MapState.hpp */,
 				B587F3201D29747700F35AA4 /* NicknameState.hpp */,
 				B557A9D71D03B34D002900BC /* NewGamestate.hpp */,
 				B557A9D81D03B34D002900BC /* OptionsMenuState.hpp */,
@@ -632,6 +636,7 @@
 				B587F3211D2974A600F35AA4 /* NetworkClientState.cpp */,
 				B587F3221D2974A600F35AA4 /* NetworkConnectingState.cpp */,
 				B587F3231D2974A600F35AA4 /* NetworkHostState.cpp */,
+				B563CD2B1D3309E900D07894 /* NetworkTradingstate.cpp */,
 				B557AA3D1D03B34D002900BC /* NewGamestate.cpp */,
 				B557AA3E1D03B34D002900BC /* OptionsMenuState.cpp */,
 				B557AA3F1D03B34D002900BC /* PausedState.cpp */,
@@ -877,6 +882,7 @@
 				B587F32C1D29751200F35AA4 /* DataPacket.cpp in Sources */,
 				B557AA921D03B34D002900BC /* OptionsMenuState.cpp in Sources */,
 				B557AA851D03B34D002900BC /* BagState.cpp in Sources */,
+				B563CD2C1D3309E900D07894 /* NetworkTradingstate.cpp in Sources */,
 				B557AABF1D03B34D002900BC /* Weather.cpp in Sources */,
 				B557AAB31D03B34D002900BC /* File.cpp in Sources */,
 				B557AAB71D03B34D002900BC /* PathController.cpp in Sources */,
