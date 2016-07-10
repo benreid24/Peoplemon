@@ -1,4 +1,5 @@
 #include "Game/NetworkClientState.hpp"
+#include "Game/NetworkTradestate.hpp"
 #include "Game/Game.hpp"
 #include "Properties.hpp"
 #include "Globals.hpp"
@@ -65,8 +66,14 @@ bool NetworkClientState::confirmChoice(int mode)
 	if (game->hud.getChoice()=="Yes")
 	{
 		network.sendSignal(DataPacket::Yes);
-		//enter mode
-		return false;
+
+		if (mode==Battle)
+		{
+			cout << "Battle here\n";
+			return false;
+		}
+		else
+			return game->runState(new NetworkTradestate(game,network,peer,Network::Client));
 	}
 	else
 		network.sendSignal(DataPacket::No);

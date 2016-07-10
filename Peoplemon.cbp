@@ -184,6 +184,7 @@
 		<Unit filename="include/Game/NetworkClientState.hpp" />
 		<Unit filename="include/Game/NetworkConnectingState.hpp" />
 		<Unit filename="include/Game/NetworkHostState.hpp" />
+		<Unit filename="include/Game/NetworkTradestate.hpp" />
 		<Unit filename="include/Game/NewGamestate.hpp" />
 		<Unit filename="include/Game/NicknameState.hpp" />
 		<Unit filename="include/Game/OptionsMenuState.hpp" />
@@ -288,6 +289,7 @@
 		<Unit filename="src/Game/NetworkClientState.cpp" />
 		<Unit filename="src/Game/NetworkConnectingState.cpp" />
 		<Unit filename="src/Game/NetworkHostState.cpp" />
+		<Unit filename="src/Game/NetworkTradingstate.cpp" />
 		<Unit filename="src/Game/NewGamestate.cpp" />
 		<Unit filename="src/Game/NicknameState.cpp" />
 		<Unit filename="src/Game/OptionsMenuState.cpp" />
