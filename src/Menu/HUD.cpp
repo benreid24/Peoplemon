@@ -106,6 +106,7 @@ std::string HUD::getChoice(string message, vector<string> opts, bool block)
 {
 	minDelay = gameClock.getTimeStamp()+500;
     message = wordWrap(message);
+    displayingMessage = false;
     messageText.setText(message);
     choiceBox.clear();
     for (unsigned int i = 0; i<opts.size(); ++i)
