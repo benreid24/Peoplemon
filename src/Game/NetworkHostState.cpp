@@ -1,4 +1,5 @@
 #include "Game/NetworkHostState.hpp"
+#include "Game/NetworkTradestate.hpp"
 #include "Game/Game.hpp"
 #include "Properties.hpp"
 #include "Globals.hpp"
@@ -40,6 +41,8 @@ bool NetworkHostState::execute()
 				return true;
 			sleep(milliseconds(250));
 		}
+		if (gameType.getChoice()=="Disconnect")
+			return false;
 
 		game->mainWindow.clear();
 		background.draw(&game->mainWindow);
@@ -69,7 +72,13 @@ bool NetworkHostState::waitConfirmation(int mode)
 				{
 					game->hud.setAlwaysShow(false);
 					cout << "YES!\n";
-					return false;
+					if (mode==Battle)
+					{
+						cout << "Battle here\n";
+						return false;
+					}
+					else
+						return game->runState(new NetworkTradestate(game,network,peer,Network::Host),true);
 				}
 				else
 				{
