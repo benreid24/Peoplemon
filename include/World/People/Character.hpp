@@ -30,6 +30,7 @@ protected:
     bool isMoving;
     unsigned long long int lastTime;
     std::queue<int> queuedInput;
+    bool updatedOnce;
 
     /**
      * Loads the appropriate directional animations from the given path

@@ -73,7 +73,10 @@ bool NetworkClientState::confirmChoice(int mode)
 			return false;
 		}
 		else
+		{
+			sleep(milliseconds(250));
 			return game->runState(new NetworkTradestate(game,network,peer,Network::Client),true);
+		}
 	}
 	else
 		network.sendSignal(DataPacket::No);

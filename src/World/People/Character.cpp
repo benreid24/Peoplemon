@@ -11,6 +11,7 @@ Character::Character()
     behavior = NULL;
     isMoving = false;
     isLocked = false;
+    updatedOnce = false;
     dir = 0;
     lastTime = 0;
 }
@@ -72,12 +73,13 @@ void Character::update(Game* game)
     if (abs(position.y-mapPos.y*32)<0.5)
         position.y = mapPos.y*32;
 
-    if (lastPos!=mapPos && mapPos.x*32==position.x && mapPos.y*32==position.y)
+    if ((lastPos!=mapPos && mapPos.x*32==position.x && mapPos.y*32==position.y) || !updatedOnce)
     {
         game->world.setSpaceOccupied(lastPos,false);
         game->world.setSpaceOccupied(mapPos,true);
         lastPos = mapPos;
         isMoving = false;
+        updatedOnce = true;
     }
 
     if (mapPos.x*32==position.x && mapPos.y*32==position.y && !isLocked && queuedInput.size()==0)

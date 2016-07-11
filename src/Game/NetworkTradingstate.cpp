@@ -29,7 +29,7 @@ bool NetworkTradestate::execute()
 	while (!finishFrame())
 	{
 		choice.update();
-		//updateNetwork();
+		updateNetwork();
 
 		if (choice.getChoice()=="Pick Peoplemon")
 		{
