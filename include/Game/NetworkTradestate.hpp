@@ -21,9 +21,10 @@ class NetworkTradestate : public Gamestate
 	bool selMade, peerSelMade;
 
 	MenuImage background, window;
-	MenuImage localPeoplemon, peerPeoplemon;
+	MenuImage localPic, peerPic;
 	MenuText localName, localLevel, localHp, localAtk, localDef, localSpAtk, localSpDef, localSpd, localAbility, localItem, localMoves[4];
 	MenuText peerName, peerLevel, peerHp, peerAtk, peerDef, peerSpAtk, peerSpDef, peerSpd, peerAbility, peerItem, peerMoves[4];
+	Menu menu;
 	ChoiceBox choice;
 
 	/**
