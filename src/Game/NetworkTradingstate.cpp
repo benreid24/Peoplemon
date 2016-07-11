@@ -40,6 +40,7 @@ bool NetworkTradestate::execute()
 				return true;
             updateLocal(game->player.getCurrentPeoplemon()->at(state->getChosenIndex()));
             localSelection = state->getChosenIndex();
+            sleep(milliseconds(250));
 		}
 		if (choice.getChoice()=="Trade" && selMade)
 		{
@@ -63,7 +64,7 @@ bool NetworkTradestate::execute()
 			}
 			cout << "Show trade anim and swap peoplemon. Save game\n";
 		}
-		else
+		else if (choice.getChoice()=="Trade")
 		{
             choice.reset();
             sleep(milliseconds(250));
