@@ -93,6 +93,7 @@ class World
     Vector2D<int> collisions, catchables, charCols; //using int b/c stupid specialization of vector<bool> conflicting with 2d vector
     std::vector<Object*> objects, objDelQueue, objAddQueue;
     std::vector<std::vector<Object*> > ySortedObjects;
+    sf::Mutex objLock;
     std::vector<Light> lights;
     std::vector<MapEvent> events;
     sf::Vector2f camPos;

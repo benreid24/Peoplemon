@@ -4,6 +4,7 @@
 #include "Gamestate.hpp"
 #include "Network/Network.hpp"
 #include "Network/RemotePlayer.hpp"
+#include "Menu/Menu.hpp"
 
 /**
  * Gamestate for trading Peoplemon over the network. Used by both clients and hosts
@@ -16,6 +17,13 @@ class NetworkTradestate : public Gamestate
 	Network& network;
 	RemotePlayer peer;
 	Network::Mode mode;
+	PeoplemonRef localSelection, peerSelection;
+
+	MenuImage background, window;
+	MenuImage localPeoplemon, peerPeoplemon;
+	MenuText localName, localLevel, localHp, localAtk, localDef, localSpAtk, localSpDef, localSpd, localAbility, localItem, localMoves[4];
+	MenuText peerName, peerLevel, peerHp, peerAtk, peerDef, peerSpAtk, peerSpDef, peerSpd, peerAbility, peerItem, peerMoves[4];
+	ChoiceBox choice;
 
 	/**
 	 * Runs the state

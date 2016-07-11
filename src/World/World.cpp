@@ -422,6 +422,7 @@ void World::update()
 	}
     weather.update();
 
+	objLock.lock();
     for (unsigned int i = 0; i<objDelQueue.size(); ++i)
     {
         for (unsigned int j = 0; j<ySortedObjects.size(); ++j)
@@ -443,6 +444,7 @@ void World::update()
         ySortedObjects[objAddQueue[i]->getPosition().y/32].push_back(objAddQueue[i]);
     }
     objAddQueue.clear();
+    objLock.unlock();
 
     calculateLighting();
 
@@ -740,12 +742,18 @@ void World::setSpaceOccupied(Vector2i pos, bool o)
 void World::removeObject(Object* o)
 {
     if (o!=&game->player)
-        objDelQueue.push_back(o);
+	{
+		objLock.lock();
+		objDelQueue.push_back(o);
+		objLock.unlock();
+	}
 }
 
 void World::addObject(Object* o)
 {
+	objLock.lock();
     objAddQueue.push_back(o);
+    objLock.unlock();
 }
 
 void World::setItemPickedUp(int id)
