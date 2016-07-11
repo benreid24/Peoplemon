@@ -177,6 +177,7 @@ bool NetworkConnectingState::directConnect()
 				}
 				RemotePlayer peer = receiveData(network);
 				game->hud.setAlwaysShow(false);
+				sleep(milliseconds(250));
 				return game->runState(new NetworkClientState(game,network, peer));
 			}
 			else
@@ -277,6 +278,7 @@ bool NetworkConnectingState::showHosts()
 					}
 					game->hud.setAlwaysShow(false);
 					RemotePlayer peer = receiveData(network);
+					sleep(milliseconds(250));
 					return game->runState(new NetworkClientState(game,network,peer),true);
 				}
 				else
@@ -374,6 +376,7 @@ bool NetworkConnectingState::waitClient()
 			}
 			game->hud.setAlwaysShow(false);
 
+			sleep(milliseconds(250));
 			end = true;
 			return game->runState(new NetworkHostState(game,network,peer),true);
 		}

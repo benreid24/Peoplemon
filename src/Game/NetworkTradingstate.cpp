@@ -29,10 +29,11 @@ bool NetworkTradestate::execute()
 	while (!finishFrame())
 	{
 		choice.update();
-		updateNetwork();
+		//updateNetwork();
 
 		if (choice.getChoice()=="Pick Peoplemon")
 		{
+			sleep(milliseconds(250));
 			choice.reset();
 			PeoplemonState* state = new PeoplemonState(game, true, game->player.getCurrentPeoplemon(), "Trade this one?");
 			if (game->runState(state,false))
@@ -42,6 +43,7 @@ bool NetworkTradestate::execute()
 		}
 		if (choice.getChoice()=="Trade" && selMade)
 		{
+			sleep(milliseconds(250));
 			choice.reset();
 			game->hud.displayMessage("Waiting for "+peer.info.name+" to choose who to trade... Press the Run button to cancel");
 			game->hud.setAlwaysShow(true);
