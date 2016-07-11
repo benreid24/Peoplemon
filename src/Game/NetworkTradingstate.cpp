@@ -17,7 +17,7 @@ NetworkTradestate::NetworkTradestate(Game* g, Network& n, RemotePlayer rp, Netwo
 
 	localLevel.setPosition(Vector2f(60,29));
 	localPic.setPosition(Vector2f(70,41));
-	localName.setPosition(Vector2f(69,193));
+	localName.setPosition(Vector2f(72,193));
 	localHp.setPosition(Vector2f(240,127));
 	localAtk.setPosition(Vector2f(240,152));
 	localDef.setPosition(Vector2f(315,127));
@@ -62,21 +62,21 @@ NetworkTradestate::NetworkTradestate(Game* g, Network& n, RemotePlayer rp, Netwo
 	menu.add(&localMoves[2]);
 	menu.add(&localMoves[3]);
 
-	peerLevel.setPosition(Vector2f(591,264));
-	peerPic.setPosition(Vector2f(600,275));
-	peerName.setPosition(Vector2f(598,429));
-	peerHp.setPosition(Vector2f(440,336));
-	peerAtk.setPosition(Vector2f(440,366));
-	peerDef.setPosition(Vector2f(515,366));
-	peerSpAtk.setPosition(Vector2f(440,416));
-	peerSpDef.setPosition(Vector2f(515,392));
-	peerSpd.setPosition(Vector2f(515,416));
-	peerAbility.setPosition(Vector2f(426,300));
-	peerItem.setPosition(Vector2f(426,270));
-	peerMoves[0].setPosition(Vector2f(240,285));
-	peerMoves[1].setPosition(Vector2f(240,325));
-	peerMoves[2].setPosition(Vector2f(240,365));
-	peerMoves[3].setPosition(Vector2f(240,405));
+	peerLevel.setPosition(Vector2f(591,257));
+	peerPic.setPosition(Vector2f(600,271));
+	peerName.setPosition(Vector2f(601,422));
+	peerHp.setPosition(Vector2f(440,359));
+	peerAtk.setPosition(Vector2f(440,385));
+	peerDef.setPosition(Vector2f(515,359));
+	peerSpAtk.setPosition(Vector2f(440,409));
+	peerSpDef.setPosition(Vector2f(515,385));
+	peerSpd.setPosition(Vector2f(515,409));
+	peerAbility.setPosition(Vector2f(426,296));
+	peerItem.setPosition(Vector2f(426,263));
+	peerMoves[0].setPosition(Vector2f(240,281));
+	peerMoves[1].setPosition(Vector2f(240,321));
+	peerMoves[2].setPosition(Vector2f(240,361));
+	peerMoves[3].setPosition(Vector2f(240,401));
 
 	peerLevel.setProps(Color::Black,20);
 	peerName.setProps(Color::Black,20);
@@ -191,7 +191,7 @@ void NetworkTradestate::updateLocal(PeoplemonRef p)
 {
 	map<int,Peoplemon>& m = game->peoplemonList;
 	localLevel.setText(intToString(p.level));
-	localPic.setImage(Properties::PeoplemonImagePath+intToString(p.id)+".png",false,Vector2f(120,120));
+	localPic.setImage(Properties::PeoplemonImagePath+intToString(p.id)+".png",false,Vector2f(130,130));
 	localName.setText(p.name+"/"+m[p.id].name);
 	localAbility.setText(Peoplemon::abilityTexts[m[p.id].specialAbilityId].first);
 	if (p.holdItem!=0)
@@ -204,10 +204,14 @@ void NetworkTradestate::updateLocal(PeoplemonRef p)
 	localSpAtk.setText(intToString(p.stats.spAtk));
 	localSpDef.setText(intToString(p.stats.spDef));
 	localSpd.setText(intToString(p.stats.spd));
+	int j = 0;
 	for (int i = 0; i<4; ++i)
 	{
 		if (p.moves[i].id!=0)
-			localMoves[i].setText(game->moveList[p.moves[i].id].name);
+		{
+			localMoves[j].setText(game->moveList[p.moves[i].id].name);
+			++j;
+		}
 	}
 }
 
@@ -215,7 +219,7 @@ void NetworkTradestate::updatePeer(PeoplemonRef p)
 {
 	map<int,Peoplemon>& m = game->peoplemonList;
 	peerLevel.setText(intToString(p.level));
-	peerPic.setImage(Properties::PeoplemonImagePath+intToString(p.id)+".png",false,Vector2f(120,120));
+	peerPic.setImage(Properties::PeoplemonImagePath+intToString(p.id)+".png",false,Vector2f(130,130));
 	peerName.setText(p.name+"/"+m[p.id].name);
 	peerAbility.setText(Peoplemon::abilityTexts[m[p.id].specialAbilityId].first);
 	if (p.holdItem!=0)
@@ -228,10 +232,14 @@ void NetworkTradestate::updatePeer(PeoplemonRef p)
 	peerSpAtk.setText(intToString(p.stats.spAtk));
 	peerSpDef.setText(intToString(p.stats.spDef));
 	peerSpd.setText(intToString(p.stats.spd));
+	int j = 0;
 	for (int i = 0; i<4; ++i)
 	{
 		if (p.moves[i].id!=0)
-			peerMoves[i].setText(game->moveList[p.moves[i].id].name);
+		{
+			peerMoves[j].setText(game->moveList[p.moves[i].id].name);
+			++j;
+		}
 	}
 }
 
