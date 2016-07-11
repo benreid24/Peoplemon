@@ -15,21 +15,21 @@ NetworkTradestate::NetworkTradestate(Game* g, Network& n, RemotePlayer rp, Netwo
 		background.setImage("clientBgnd.png");
 	window.setImage("networkTradeBgnd.png");
 
-	localLevel.setPosition(Vector2f(60,35));
-	localPic.setPosition(Vector2f(70,45));
-	localName.setPosition(Vector2f(226,38));
-	localHp.setPosition(Vector2f(240,133));
-	localAtk.setPosition(Vector2f(240,158));
-	localDef.setPosition(Vector2f(315,133));
-	localSpAtk.setPosition(Vector2f(240,183));
-	localSpDef.setPosition(Vector2f(315,158));
-	localSpd.setPosition(Vector2f(315,183));
-	localAbility.setPosition(Vector2f(226,70));
-	localItem.setPosition(Vector2f(226,38));
-	localMoves[0].setPosition(Vector2f(404,54));
-	localMoves[1].setPosition(Vector2f(404,94));
-	localMoves[2].setPosition(Vector2f(404,134));
-	localMoves[3].setPosition(Vector2f(404,174));
+	localLevel.setPosition(Vector2f(60,29));
+	localPic.setPosition(Vector2f(70,41));
+	localName.setPosition(Vector2f(69,193));
+	localHp.setPosition(Vector2f(240,127));
+	localAtk.setPosition(Vector2f(240,152));
+	localDef.setPosition(Vector2f(315,127));
+	localSpAtk.setPosition(Vector2f(240,177));
+	localSpDef.setPosition(Vector2f(315,152));
+	localSpd.setPosition(Vector2f(315,176));
+	localAbility.setPosition(Vector2f(226,66));
+	localItem.setPosition(Vector2f(226,32));
+	localMoves[0].setPosition(Vector2f(404,50));
+	localMoves[1].setPosition(Vector2f(404,90));
+	localMoves[2].setPosition(Vector2f(404,130));
+	localMoves[3].setPosition(Vector2f(404,170));
 
 	localLevel.setProps(Color::Black,20);
 	localName.setProps(Color::Black,20);
@@ -133,6 +133,8 @@ bool NetworkTradestate::execute()
 				return true;
             updateLocal(game->player.getCurrentPeoplemon()->at(state->getChosenIndex()));
             localSelection = state->getChosenIndex();
+            selMade = true;
+            network.sendTradeIndex(localSelection);
             sleep(milliseconds(250));
 		}
 		if (choice.getChoice()=="Trade" && selMade)
@@ -189,7 +191,7 @@ void NetworkTradestate::updateLocal(PeoplemonRef p)
 {
 	map<int,Peoplemon>& m = game->peoplemonList;
 	localLevel.setText(intToString(p.level));
-	localPic.setImage(Properties::PeoplemonImagePath+intToString(p.id)+".png",false);
+	localPic.setImage(Properties::PeoplemonImagePath+intToString(p.id)+".png",false,Vector2f(120,120));
 	localName.setText(p.name+"/"+m[p.id].name);
 	localAbility.setText(Peoplemon::abilityTexts[m[p.id].specialAbilityId].first);
 	if (p.holdItem!=0)
@@ -213,7 +215,7 @@ void NetworkTradestate::updatePeer(PeoplemonRef p)
 {
 	map<int,Peoplemon>& m = game->peoplemonList;
 	peerLevel.setText(intToString(p.level));
-	peerPic.setImage(Properties::PeoplemonImagePath+intToString(p.id)+".png",false);
+	peerPic.setImage(Properties::PeoplemonImagePath+intToString(p.id)+".png",false,Vector2f(120,120));
 	peerName.setText(p.name+"/"+m[p.id].name);
 	peerAbility.setText(Peoplemon::abilityTexts[m[p.id].specialAbilityId].first);
 	if (p.holdItem!=0)
@@ -240,6 +242,7 @@ void NetworkTradestate::updateNetwork()
 	{
 	case DataPacket::TradeChoice:
 		peerSelection = dp.read<Uint8>();
+		updatePeer(peer.peoplemon[peerSelection]);
 		break;
 	case DataPacket::TradeReady:
 		peerSelMade = dp.read<Uint8>()==1;
