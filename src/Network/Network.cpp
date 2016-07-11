@@ -276,3 +276,20 @@ vector<HostSettings> Network::pollLocalHosts()
 
 	return ret;
 }
+
+void Network::sendTradeIndex(int i)
+{
+	Packet p;
+	p << Uint16(9);
+	p << Uint8(i);
+	sendPacket(p);
+}
+
+void Network::sendTurn(Turn t)
+{
+	Packet p;
+	p << Uint16(8);
+	p << Uint8(t.type);
+	p << Uint16(t.id);
+	sendPacket(p);
+}

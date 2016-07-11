@@ -5,6 +5,7 @@
 #include "Peoplemon/Peoplemon.hpp"
 #include "DataPacket.hpp"
 #include "Packing.hpp"
+#include "Battle/Turn.hpp"
 #include <stack>
 #include <queue>
 
@@ -203,6 +204,20 @@ public:
 	 * \return A vector containing all valid hosts found
 	 */
 	std::vector<HostSettings> pollLocalHosts();
+
+	/**
+	 * Sends a packet containing the chosen Peoplemon index to trade
+	 *
+	 * \param i The index of the chosen Peoplemon
+	 */
+	void sendTradeIndex(int i);
+
+	/**
+	 * Sends the given Turn over the network
+	 *
+	 * \param t The Turn to send
+	 */
+	void sendTurn(Turn t);
 };
 
 #endif // NETWORK_HPP

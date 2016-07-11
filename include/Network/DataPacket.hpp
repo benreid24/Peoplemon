@@ -23,7 +23,9 @@ public:
 		ActionConfirmation = 5,
         PlayerInfo = 6,
         Peoplemon = 7,
-        Turn = 8
+        Turn = 8,
+        TradeChoice = 9,
+        TradeReady = 10
 	};
 
 	/**
@@ -70,6 +72,17 @@ public:
 	 * Returns a reference to the data itself
 	 */
 	sf::Packet& getData();
+
+	/**
+	 * Template function to easily read out specific data type from the packet
+	 */
+	template<typename T>
+	T read()
+	{
+		T tmp;
+		data >> tmp;
+		return tmp;
+	}
 };
 
 #endif // DATAPACKET_HPP

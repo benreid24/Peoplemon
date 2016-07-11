@@ -17,13 +17,33 @@ class NetworkTradestate : public Gamestate
 	Network& network;
 	RemotePlayer peer;
 	Network::Mode mode;
-	PeoplemonRef localSelection, peerSelection;
+	int localSelection, peerSelection;
+	bool selMade, peerSelMade;
 
 	MenuImage background, window;
 	MenuImage localPeoplemon, peerPeoplemon;
 	MenuText localName, localLevel, localHp, localAtk, localDef, localSpAtk, localSpDef, localSpd, localAbility, localItem, localMoves[4];
 	MenuText peerName, peerLevel, peerHp, peerAtk, peerDef, peerSpAtk, peerSpDef, peerSpd, peerAbility, peerItem, peerMoves[4];
 	ChoiceBox choice;
+
+	/**
+	  * Updates all of the UI elements for the local peoplemon
+	  *
+	  * \param p The Peoplemon to update for
+	  */
+	void updateLocal(PeoplemonRef p);
+
+	/**
+	  * Updates all of the UI elements for the peer peoplemon
+	  *
+	  * \param p The Peoplemon to update for
+	  */
+	void updatePeer(PeoplemonRef p);
+
+	/**
+	 * Receives packets from the Network and handles them
+	 */
+	void updateNetwork();
 
 	/**
 	 * Runs the state
