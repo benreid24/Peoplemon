@@ -172,7 +172,7 @@ void Player::update(Game* game)
 
     if (lastPos!=mapPos && mapPos.x*32==position.x && mapPos.y*32==position.y)
     {
-        game->world.moveOntoTile(mapPos,lastPos); //for all events
+    	game->world.moveOntoTile(mapPos,lastPos); //for all events
         game->world.setSpaceOccupied(lastPos,false);
         lastPos = mapPos;
     }
@@ -190,13 +190,13 @@ void Player::update(Game* game)
     else if (mapPos.x*32==position.x && mapPos.y*32==position.y)
     {
         if (user.isInputActive(PlayerInput::Up))
-            move(game,0);
+			move(game,0);
         else if (user.isInputActive(PlayerInput::Right))
-            move(game,1);
+			move(game,1);
         else if (user.isInputActive(PlayerInput::Down))
-             move(game,2);
+			move(game,2);
         else if (user.isInputActive(PlayerInput::Left))
-            move(game,3);
+			move(game,3);
         else
         {
             isMoving = false;

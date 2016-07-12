@@ -47,6 +47,8 @@ namespace {
 					"npcExists",
 					"npcTalkedTo",
 					"npcToLocation",
+					"npcXPos",
+					"npcYPos",
 					"openStorageSystem",
 					"openStore",
 					"playerDir",
@@ -89,6 +91,8 @@ namespace {
 					"trainerDefeated",
 					"trainerExists",
 					"trainerToLocation",
+					"trainerXPos",
+					"trainerYPos",
 					"whiteOut"});
 
 	int checkString(string target, string s)
@@ -264,6 +268,20 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			if (t)
 				ret.iValue = t->move(environment->getGame(),args.at(1).iValue,ignoreCols,playAnims,true);
 		}
+		else if (name=="trainerXPos")
+		{
+			Trainer* t = environment->getGame()->world.getTrainer(args.at(0).sValue);
+			ret.iValue = 0;
+			if (t)
+				ret.iValue = t->getMapPos().x;
+		}
+		else if (name=="trainerYPos")
+		{
+			Trainer* t = environment->getGame()->world.getTrainer(args.at(0).sValue);
+			ret.iValue = 0;
+			if (t)
+				ret.iValue = t->getMapPos().y;
+		}
 		else if (name=="trainerToLocation")
 		{
 			Trainer* t = environment->getGame()->world.getTrainer(args.at(0).sValue);
@@ -328,6 +346,20 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			ret.iValue = 0;
 			if (n)
 				ret.iValue = n->move(environment->getGame(),args.at(1).iValue,ignoreCols,playAnims,true);
+		}
+		else if (name=="npcXPos")
+		{
+			Npc* n = environment->getGame()->world.getNPC(args.at(0).sValue);
+			ret.iValue = 0;
+			if (n)
+				ret.iValue = n->getMapPos().x;
+		}
+		else if (name=="npcYPos")
+		{
+			Npc* n = environment->getGame()->world.getNPC(args.at(0).sValue);
+			ret.iValue = 0;
+			if (n)
+				ret.iValue = n->getMapPos().y;
 		}
 		else if (name=="npcToLocation")
 		{
