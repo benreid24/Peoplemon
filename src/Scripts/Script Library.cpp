@@ -34,6 +34,7 @@ namespace {
 					"getSaveEntry",
 					"getSaveEntry",
 					"giveItem",
+					"givePeoplemon",
 					"hasItem",
 					"healPeoplemon",
 					"interact",
@@ -242,6 +243,21 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		{
 			bool r = environment->getGame()->player.alterMoney(args.at(0).iValue);
 			ret.iValue = r?(1):(0);
+		}
+		else if (name=="givePeoplemon")
+		{
+            PeoplemonRef ppl;
+            ppl.load(environment->getGame(),Properties::OwnedPeoplemonPath+args.at(0).sValue);
+            if (environment->getGame()->player.getCurrentPeoplemon()->size()>=6)
+			{
+				environment->getGame()->hud.displayMessage(ppl.name+" was transferred to the PC");
+				environment->getGame()->player.addStoredPeoplemon(ppl);
+			}
+			else
+			{
+				environment->getGame()->hud.displayMessage("Received the "+ppl.name+"!");
+				environment->getGame()->player.getCurrentPeoplemon()->push_back(ppl);
+			}
 		}
 		else if (name=="healPeoplemon")
             environment->getGame()->player.whiteout();
