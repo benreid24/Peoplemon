@@ -739,6 +739,11 @@ void World::setSpaceOccupied(Vector2i pos, bool o)
     charCols(pos.x-1,pos.y-1) = int(!o);
 }
 
+void World::setCollision(int x, int y, int c)
+{
+	collisions(x-1,y-1) = c;
+}
+
 void World::removeObject(Object* o)
 {
     if (o!=&game->player)

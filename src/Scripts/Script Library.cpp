@@ -468,12 +468,11 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			environment->getGame()->world.editTile(args.at(0).iValue,args.at(1).iValue,args.at(2).iValue,args.at(3).iValue);
 		else if (name=="setCollisions")
 		{
-			bool s = args.at(4).iValue>0.99;
 			for (int x = 0; x<args.at(2).iValue; ++x)
 			{
 				for (int y = 0; y<args.at(3).iValue; ++y)
 				{
-					environment->getGame()->world.setSpaceOccupied(Vector2i(args.at(0).iValue+x,args.at(1).iValue+y),s);
+					environment->getGame()->world.setCollision(args.at(0).iValue+x,args.at(1).iValue+y,args.at(4).iValue);
 				}
 			}
 		}

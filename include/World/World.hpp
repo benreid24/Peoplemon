@@ -251,12 +251,21 @@ public:
     sf::Vector2f getCamera();
 
     /**
-     * Modifies the collision map to set the given space to be open or not
+     * Modifies the entity collision map to set the given space to be open or not
      *
      * \param position The space to modify
      * \param occupied Whether or not the given space is being used
      */
-    void setSpaceOccupied(sf::Vector2i position, bool occupied); //used by trainers/npcs to modify collision layer
+    void setSpaceOccupied(sf::Vector2i position, bool occupied);
+
+    /**
+     * Modifies the world collision map
+     *
+     * \param x The x coordinate of the collision to change
+     * \param y The y coordinate of the collision to change
+     * \param c The type of collision to set there (0 = none, 1 = all, 2 = top, 3 = right, 4 = bottom, 5 = left, 6 = topRight, 7 = bottomRight, 8 = bottomLeft, 9 = topLeft, 10 = topBottom, 11 = rightLeft, 12 = noTop, 13 = noRight, 14 = noBottom, 15 = noLeft)
+     */
+	void setCollision(int x, int y, int c);
 
     /**
      * Returns whether or not the given space can be moved into
