@@ -26,19 +26,24 @@ ScriptEnvironment::~ScriptEnvironment()
     stop();
 }
 
-void ScriptEnvironment::runScript(shared_ptr<Script> scr)
+void ScriptEnvironment::runScript(shared_ptr<Script> scr, bool concurrent)
 {
 	if (scr->isRunning())
 		return;
 
-    shared_ptr<ScriptData> temp(new ScriptData());
-    temp->owner = this;
-    temp->script = scr;
-    temp->thread.reset(new Thread(&scriptRunner,temp));
-    temp->thread->launch();
-    lock.lock();
-    runningScripts.push_back(temp);
-    lock.unlock();
+	if (concurrent)
+    {
+    	shared_ptr<ScriptData> temp(new ScriptData());
+		temp->owner = this;
+		temp->script = scr;
+		temp->thread.reset(new Thread(&scriptRunner,temp));
+		temp->thread->launch();
+		lock.lock();
+		runningScripts.push_back(temp);
+		lock.unlock();
+    }
+    else
+		scr->run(this);
 }
 
 void ScriptEnvironment::stopAll()

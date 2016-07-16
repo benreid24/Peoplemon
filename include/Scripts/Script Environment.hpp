@@ -62,11 +62,12 @@ public:
     ~ScriptEnvironment();
 
     /**
-     * Runs a script from the map. Will not run the script if it is already running
+     * Runs a script from the map. Will not run the script if it is already running in parallel
      *
      * \param scr A pointer to the Script to run
+     * \param concurrent Whether or not the run the script concurrently. Default is false
      */
-    void runScript(std::shared_ptr<Script> scr);
+    void runScript(std::shared_ptr<Script> scr, bool concurrent = false);
 
     /**
      * Stops all of the currently running threads
