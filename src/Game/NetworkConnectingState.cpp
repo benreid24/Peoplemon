@@ -413,6 +413,7 @@ RemotePlayer NetworkConnectingState::receiveData(Network& n)
 
 		case DataPacket::Peoplemon:
 			Packing::unpack(dp,ref);
+			ref.stages.zero();
 			ref.recalcStats(game);
 			peer.peoplemon.push_back(ref);
 			break;
