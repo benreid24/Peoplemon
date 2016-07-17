@@ -453,10 +453,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		else if (name=="runScript")
 		{
 			shared_ptr<Script> scr(new Script(args.at(0).sValue));
-			if (args.at(1).iValue)
-				environment->runScript(scr);
-			else
-				scr->run(environment);
+			environment->runScript(scr,args.at(1).iValue!=0);
 		}
 		else if (name=="setMusic")
 		{
