@@ -400,6 +400,7 @@ void World::addVisitedMap(string m)
 void World::update()
 {
 	FloatRect bounds(game->player.getPosition()-Vector2f(2400, 1800), Vector2f(4800, 3600));
+	objLock.lock();
 	for (int i = signed(objects.size())-1; i>=0 && objects.size()>0; i--)
 	{
 		if (bounds.contains(objects[i]->getPosition()))
@@ -422,7 +423,6 @@ void World::update()
 	}
     weather.update();
 
-	objLock.lock();
     for (unsigned int i = 0; i<objDelQueue.size(); ++i)
     {
         for (unsigned int j = 0; j<ySortedObjects.size(); ++j)

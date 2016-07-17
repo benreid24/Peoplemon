@@ -107,6 +107,8 @@ void PeoplemonRef::load(Game* g, File* file)
     {
         moves[i].id = file->get<uint16_t>();
         moves[i].curPp = file->get<uint16_t>();
+        if (moves[i].curPp>g->moveList[moves[i].id].pp)
+			moves[i].curPp = g->moveList[moves[i].id].pp;
     }
     ivs.hp = file->get<uint16_t>();
     ivs.atk = file->get<uint16_t>();
