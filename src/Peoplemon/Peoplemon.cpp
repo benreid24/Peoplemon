@@ -53,6 +53,7 @@ PeoplemonRef::PeoplemonRef()
 	turnsWithAil = 0;
 	turnsConfused = 0;
 	curAbility = Peoplemon::NoAbility;
+	stages.zero();
 }
 
 void PeoplemonRef::save(File* file)
