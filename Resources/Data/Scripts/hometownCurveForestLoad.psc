@@ -12,7 +12,7 @@ else
 if (getSaveEntry("professorDead")==1)
 	spawnNPC("Hometown/officer2.npc",344,261,3);
 
-elif (getSaveEntry("Delivered")==1)
+elif (getSaveEntry("ReturntoProf")==1)
 	spawnNPC("Hometown/officerHometown.npc",343,281,1);
 
 else
@@ -34,13 +34,13 @@ if (getSaveEntry("professorDead")==1)
 	spawnTrainer("curveForestThug1.tnr",369,239,2);
 }
 
-elif (getSaveEntry("defeatedAster1")==1 && getSaveEntry("professorDead")!=0)
+elif (getSaveEntry("professorDead")!=1 && getSaveEntry("aster1Done")==1)
 {
-	spawnNPC("Hometown/hometownThug1.npc",369,239,0);
-	spawnNPC("Hometown/hometownThug2.npc",370,239,0);
+spawnNPC("Hometown/hometownThug1.npc",370,239,0);
+spawnNPC("Hometown/hometownThug2.npc",369,239,0);
 }
 
 //--------------Spawning Aster-------------------------
 
-if (getSaveEntry("defeatedAster1")!=1)
+if (getSaveEntry("aster1Done")!=1)
 	spawnTrainer("Hometown/aster1.tnr",335,269,3);

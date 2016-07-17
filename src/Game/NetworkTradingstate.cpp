@@ -15,7 +15,7 @@ NetworkTradestate::NetworkTradestate(Game* g, Network& n, RemotePlayer rp, Netwo
 		background.setImage("clientBgnd.png");
 	window.setImage("networkTradeBgnd.png");
 
-	localLevel.setPosition(Vector2f(60,29));
+	localLevel.setPosition(Vector2f(60,26));
 	localPic.setPosition(Vector2f(70,41));
 	localName.setPosition(Vector2f(72,193));
 	localHp.setPosition(Vector2f(240,127));
