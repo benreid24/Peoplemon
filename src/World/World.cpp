@@ -1025,15 +1025,15 @@ vector<PeoplemonRef> World::getWildPeoplemon()
 
 void World::editTile(int x, int y, int layer, int nId)
 {
-	layers[layer](x,y).isAnim = false;
+	layers[layer](x-1,y-1).isAnim = false;
 	if (tileset.getTile(nId))
-		layers[layer](x,y).spr.setTexture(*tileset.getTile(nId));
-	layers[layer](x,y).nonZero = nId!=0;
-	if (layers[layer](x,y).delA)
+		layers[layer](x-1,y-1).spr.setTexture(*tileset.getTile(nId));
+	layers[layer](x-1,y-1).nonZero = nId!=0;
+	if (layers[layer](x-1,y-1).delA)
 	{
-		delete layers[layer](x,y).anim;
-		layers[layer](x,y).delA = false;
-		layers[layer](x,y).anim = NULL;
+		delete layers[layer](x-1,y-1).anim;
+		layers[layer](x-1,y-1).delA = false;
+		layers[layer](x-1,y-1).anim = NULL;
 	}
 }
 
