@@ -708,7 +708,7 @@ void Script::run(ScriptEnvironment* env)
 	if (tokens.size()==0)
 		return;
 
-	stopped = stopping = false;
+	reset();
 	environment = env;
 	try
 	{
