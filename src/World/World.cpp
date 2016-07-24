@@ -339,6 +339,7 @@ void World::load(string file, int spId, bool trans)
 	if (File::getExtension(loadScript)=="psc")
 		loadScript = Properties::ScriptPath+loadScript;
     game->scriptEnvironment.runScript(scriptPool.loadResource(loadScript),false);
+    update();
 	while (a>1)
 	{
 		calculateLighting();
