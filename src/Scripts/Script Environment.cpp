@@ -26,7 +26,7 @@ ScriptEnvironment::~ScriptEnvironment()
     stop();
 }
 
-void ScriptEnvironment::runScript(shared_ptr<Script> scr, bool concurrent)
+void ScriptEnvironment::runScript(ScriptReference scr, bool concurrent)
 {
 	if (scr->isRunning())
 		return;

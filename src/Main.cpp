@@ -42,7 +42,7 @@ void scriptInserter(Game* g)
 			cin.clear();
 			cin.sync();
 			getline(cin,f);
-			g->scriptEnvironment.runScript(shared_ptr<Script>(new Script(f)));
+			g->scriptEnvironment.runScript(scriptPool.loadResource(f));
         }
         sleep(milliseconds(100));
     }

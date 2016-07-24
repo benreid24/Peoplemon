@@ -351,7 +351,7 @@ void World::load(string file, int spId, bool trans)
 	}
 	if (File::getExtension(loadScript)=="psc")
 		loadScript = Properties::ScriptPath+loadScript;
-    game->scriptEnvironment.runScript(shared_ptr<Script>(new Script(loadScript)));
+    game->scriptEnvironment.runScript(scriptPool.loadResource(loadScript));
 }
 
 void World::clear()

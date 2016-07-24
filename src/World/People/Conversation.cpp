@@ -110,8 +110,11 @@ vector<string> Conversation::update(Game* game, Player* player, Character* perso
     if (lines[cLine].code=='t')
     {
     	size_t pos = lines[cLine].say.find("$PLAYERNAME");
-		if (pos!=string::npos)
+		while (pos!=string::npos)
+		{
 			lines[cLine].say.replace(pos, 11, player->getName());
+			pos = lines[cLine].say.find("$PLAYERNAME");
+		}
         ret.push_back(lines[cLine].say);
         return ret;
     }
@@ -204,7 +207,7 @@ vector<string> Conversation::update(Game* game, Player* player, Character* perso
 	}
 	else if (lines[cLine].code=='z')
 	{
-		env->runScript(shared_ptr<Script>(new Script(lines[cLine].line)));
+		env->runScript(scriptPool.loadResource(lines[cLine].line));
 		cLine++;
 		goto start;
 	}

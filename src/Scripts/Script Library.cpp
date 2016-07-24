@@ -452,7 +452,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			environment->getGame()->data.saveGameFlag = true;
 		else if (name=="runScript")
 		{
-			shared_ptr<Script> scr(new Script(args.at(0).sValue));
+			ScriptReference scr = scriptPool.loadResource(args.at(0).sValue);
 			environment->runScript(scr,args.at(1).iValue!=0);
 		}
 		else if (name=="setMusic")

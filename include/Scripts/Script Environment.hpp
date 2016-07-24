@@ -3,6 +3,7 @@
 
 #include "SFML.hpp"
 #include "Script Interpreter.hpp"
+#include "Resources/ResourceTypes.hpp"
 #include <list>
 #include <map>
 #include <memory>
@@ -20,7 +21,7 @@ struct ScriptData
 {
     ScriptEnvironment* owner;
     std::shared_ptr<sf::Thread> thread;
-    std::shared_ptr<Script> script;
+    ScriptReference script;
     bool finished;
 };
 
@@ -67,7 +68,7 @@ public:
      * \param scr A pointer to the Script to run
      * \param concurrent Whether or not the run the script concurrently. Default is false
      */
-    void runScript(std::shared_ptr<Script> scr, bool concurrent = false);
+    void runScript(ScriptReference scr, bool concurrent = false);
 
     /**
      * Stops all of the currently running threads

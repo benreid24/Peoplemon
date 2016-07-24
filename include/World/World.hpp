@@ -60,7 +60,7 @@ struct Light
  */
 struct MapEvent
 {
-    std::shared_ptr<Script> script;
+    ScriptReference script;
     sf::Vector2i position;
     sf::Vector2i size;
     int maxRuns, trigger; //0 = on load, 1 = step in range, 2 = step out of range, 3 = step in or out of range, 4 = in range
@@ -110,7 +110,7 @@ class World
     sf::VertexArray light;
 
     Weather weather;
-    std::shared_ptr<Script> unloadScript;
+    ScriptReference unloadScript;
 
     std::vector<PeoplemonZone> zones;
 
