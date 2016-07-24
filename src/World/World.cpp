@@ -336,6 +336,9 @@ void World::load(string file, int spId, bool trans)
 	double a = 255;
 	int lTime = gameClock.getTimeStamp();
 	game->player.forceStop();
+	if (File::getExtension(loadScript)=="psc")
+		loadScript = Properties::ScriptPath+loadScript;
+    game->scriptEnvironment.runScript(scriptPool.loadResource(loadScript),false);
 	while (a>1)
 	{
 		calculateLighting();
@@ -349,9 +352,6 @@ void World::load(string file, int spId, bool trans)
 		game->mainWindow.display();
 		sleep(milliseconds(2));
 	}
-	if (File::getExtension(loadScript)=="psc")
-		loadScript = Properties::ScriptPath+loadScript;
-    game->scriptEnvironment.runScript(scriptPool.loadResource(loadScript));
 }
 
 void World::clear()
