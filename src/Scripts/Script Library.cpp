@@ -274,8 +274,11 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			Trainer* t = new Trainer(environment->getGame(),Properties::TrainerPath+args.at(0).sValue,false);
 			t->spawn(Vector2f(args.at(1).iValue*32,args.at(2).iValue*32),args.at(3).iValue);
 			environment->getGame()->world.addObject(t);
-			while (environment->getGame()->world.getTrainer(t->getName())==NULL && args.at(4).iValue==1)
-				sleep(milliseconds(1));
+			if (args.size()==5)
+			{
+				while (environment->getGame()->world.getTrainer(t->getName())==NULL && args.at(4).iValue==1)
+					sleep(milliseconds(1));
+			}
 		}
 		else if (name=="moveTrainer")
 		{
@@ -355,8 +358,11 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			Npc* n = new Npc(Properties::NpcPath+args.at(0).sValue,false);
 			n->spawn(Vector2f(args.at(1).iValue*32,args.at(2).iValue*32),args.at(3).iValue);
 			environment->getGame()->world.addObject(n);
-			while (environment->getGame()->world.getNPC(n->getName())==NULL && args.at(4).iValue==1)
-				sleep(milliseconds(1));
+			if (args.size()==5)
+			{
+				while (environment->getGame()->world.getNPC(n->getName())==NULL && args.at(4).iValue==1)
+					sleep(milliseconds(1));
+			}
 		}
 		else if (name=="moveNPC")
 		{
