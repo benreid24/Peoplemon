@@ -408,12 +408,12 @@ void World::update()
 {
 	FloatRect bounds(game->player.getPosition()-Vector2f(2400, 1800), Vector2f(4800, 3600));
 	objLock.lock();
-	for (int i = signed(objects.size())-1; i>=0 && objects.size()>0; i--)
+	for (unsigned int i = 0; i<objects.size(); ++i)
 	{
 		if (bounds.contains(objects[i]->getPosition()))
 			objects[i]->update(game);
 
-		for (unsigned int t = 0; t<objDelQueue.size(); t++)
+		for (unsigned int t = 0; t<objDelQueue.size(); ++t)
 		{
 			if (objects[i]==objDelQueue[t])
 			{
@@ -439,7 +439,7 @@ void World::update()
                 if (ySortedObjects[j][k]==objDelQueue[i])
 				{
                     ySortedObjects[j].erase(ySortedObjects[j].begin()+k);
-                    break;
+                    k--;
 				}
 			}
         }
