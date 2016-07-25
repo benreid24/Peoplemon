@@ -38,6 +38,12 @@ Vector2i World::getSize()
 
 void World::load(string file, int spId, bool trans)
 {
+	if (file.size()==0)
+	{
+		load(name, -1);
+		return;
+	}
+
 	stopAnimations();
 	if (trans)
 	{
@@ -960,7 +966,6 @@ void World::loadGame(File* file)
             pickedUpItems[nm].push_back(file->get<uint16_t>());
     }
 
-    load(name, -1);
     lastMap = lMap;
 }
 

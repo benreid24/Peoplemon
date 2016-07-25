@@ -312,4 +312,5 @@ void Game::load(string name)
 		mainWindow.setMouseCursorVisible(false);
 		mainWindow.setVerticalSyncEnabled(true);
 	}
+	world.load();
 }

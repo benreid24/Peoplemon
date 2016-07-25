@@ -180,7 +180,7 @@ public:
      * \param spId The id of the spawn to put the player at. Use 0 to put the player where they were in the previous map
      * \param trans Whether or not to do a smooth transition
      */
-    void load(std::string file, int spId = 0, bool trans = true);
+    void load(std::string file = "", int spId = 0, bool trans = true);
 
     /**
      * Sets the current weather. See Weather::Type for legal values to pass
