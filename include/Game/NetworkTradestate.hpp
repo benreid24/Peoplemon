@@ -5,7 +5,7 @@
 #include "Network/Network.hpp"
 #include "Network/RemotePlayer.hpp"
 #include "Menu/Menu.hpp"
-
+ 
 /**
  * Gamestate for trading Peoplemon over the network. Used by both clients and hosts
  *
