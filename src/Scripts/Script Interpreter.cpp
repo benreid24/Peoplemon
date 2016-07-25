@@ -710,6 +710,8 @@ void Script::run(ScriptEnvironment* env)
 
 	reset();
 	environment = env;
+	stopped = false;
+	stopping = false;
 	try
 	{
 		runTokens(0);
