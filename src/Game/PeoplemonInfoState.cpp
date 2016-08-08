@@ -6,7 +6,7 @@
 using namespace std;
 using namespace sf;
 
-PeoplemonInfoState::PeoplemonInfoState(Game* g, PeoplemonRef ppl) : Gamestate(g,NULL)
+PeoplemonInfoState::PeoplemonInfoState(Game* g, PeoplemonRef ppl) : Gamestate(g,nullptr)
 {
     doingMoves = false;
     curMove = 0;

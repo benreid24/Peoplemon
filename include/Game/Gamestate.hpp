@@ -28,7 +28,7 @@ public:
      * \param g A pointer to the main Game object
      * \param n The next state to run
      */
-    Gamestate(Game* g, Gamestate* n = NULL);
+    Gamestate(Game* g, Gamestate* n = nullptr);
 
     /**
      * This is only here for polymorphism to be happy

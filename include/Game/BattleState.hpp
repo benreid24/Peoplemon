@@ -196,7 +196,7 @@ public:
      * \param bgnd The filename of the image to make the background
      * \param n The next state to execute
      */
-    BattleState(Game* g, Battler* op, std::string opName, std::string ll, int pm, bool cr, std::string music = "battle.plst", std::string bgnd = "battleBgnd.png", Gamestate* n = NULL); //creating method above this knows if it is network or AI
+    BattleState(Game* g, Battler* op, std::string opName, std::string ll, int pm, bool cr, std::string music = "battle.plst", std::string bgnd = "battleBgnd.png", Gamestate* n = nullptr); //creating method above this knows if it is network or AI
 
     /**
      * Destructor, does nothing

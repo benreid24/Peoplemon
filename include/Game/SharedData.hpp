@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+class Gamestate;
+
 /**
  * Structure to store flags for inter-thread and inter-routine communication
  *
@@ -15,11 +17,7 @@ struct SharedData
     bool gameMuted;
     bool loadMapFlag;
     bool whiteoutFlag;
-    bool openStoreFlag;
-    bool chooseStarterFlag;
-    bool playCreditsFlag;
     bool interactFlag;
-    bool openStorageSystemFlag;
     bool saveGameFlag;
     bool pauseGameFlag;
     bool gameClosedFlag; //used by Npc/Trainer interact functions so they can create/run states then indicate to main state if should close
@@ -28,11 +26,7 @@ struct SharedData
     int nextSpawnId;
     int nextWeather;
 
-    std::string nextBattlePplmon, nextBattleMusic, nextBattleBgnd;
-    int nextBattleAi;
-
-    std::string storePrompt, storeError;
-    std::vector<std::pair<int,int> > storeItems;
+    Gamestate* nextState;
 
     int repelStepsLeft;
 

@@ -8,7 +8,7 @@ using namespace std;
 
 Character::Character()
 {
-    behavior = NULL;
+    behavior = nullptr;
     isMoving = false;
     isLocked = false;
     updatedOnce = false;

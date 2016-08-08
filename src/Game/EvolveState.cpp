@@ -5,7 +5,7 @@
 using namespace sf;
 using namespace std;
 
-EvolveState::EvolveState(Game* g, PeoplemonRef* p) : Gamestate(g,NULL)
+EvolveState::EvolveState(Game* g, PeoplemonRef* p) : Gamestate(g,nullptr)
 {
     ppl = p;
     evolved = false;

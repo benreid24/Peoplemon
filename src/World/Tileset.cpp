@@ -52,7 +52,7 @@ void Tileset::load(string file)
         if (t.first>tMax)
             tMax = t.first;
     }
-    animations.resize(tMax+1,AnimationReference(NULL));
+    animations.resize(tMax+1,AnimationReference(nullptr));
     for (unsigned int i = 0; i<files.size(); ++i)
     {
         animations[files[i].first] = animPool.loadResource(Properties::AnimationPath+files[i].second);

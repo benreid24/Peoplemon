@@ -290,7 +290,7 @@ public:
      * \param pos The position of the "looking" entity
      * \param dir The direction the entity is facing
      * \param range How many tiles to check
-     * \return The first entity that is "seen" or NULL if none in range
+     * \return The first entity that is "seen" or nullptr if none in range
      */
     Object* getFirstObject(sf::Vector2i pos, int dir, int range);
 
@@ -341,7 +341,7 @@ public:
      * Returns a pointer to the trainer with the given name
      *
      * \param nm The name of the trainer to search for
-     * \return A pointer to the trainer, or NULL if not found
+     * \return A pointer to the trainer, or nullptr if not found
      */
     Trainer* getTrainer(std::string nm);
 
@@ -349,7 +349,7 @@ public:
      * Returns a pointer to the npc with the given name
      *
      * \param nm The name of the npc to search for
-     * \return A pointer to the npc, or NULL if not found
+     * \return A pointer to the npc, or nullptr if not found
      */
     Npc* getNPC(std::string nm);
 

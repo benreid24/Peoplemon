@@ -1890,7 +1890,7 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
 
 void BattleState::playPeopleballAnimations(int r, int p)
 {
-	Animation* playing[2] = {&ballThrow,NULL};
+	Animation* playing[2] = {&ballThrow,nullptr};
 	int rocks = 0;
 	enum
 	{
@@ -1907,7 +1907,7 @@ void BattleState::playPeopleballAnimations(int r, int p)
 	{
 		for (int i = 0; i<2; ++i)
 		{
-			if (playing[i]!=NULL)
+			if (playing[i]!=nullptr)
 				playing[i]->update();
 		}
 		if (finishFrame())
@@ -1935,7 +1935,7 @@ void BattleState::playPeopleballAnimations(int r, int p)
 				state = Shaking;
 				ballRock.play();
 				playing[0] = &ballRock;
-				playing[1] = NULL;
+				playing[1] = nullptr;
 			}
 			break;
 
@@ -1968,7 +1968,7 @@ void BattleState::playPeopleballAnimations(int r, int p)
 			if (playing[0]->finished())
 			{
 				bool done = true;
-                if (playing[1]!=NULL)
+                if (playing[1]!=nullptr)
 				{
 					if (!playing[1]->finished())
 						done = false;
@@ -1988,7 +1988,7 @@ void BattleState::playPeopleballAnimations(int r, int p)
 		opBox.draw(&game->mainWindow);
 		for (int i = 0; i<2; ++i)
 		{
-			if (playing[i]!=NULL)
+			if (playing[i]!=nullptr)
 				playing[i]->draw(&game->mainWindow);
 		}
 		game->hud.draw(&game->mainWindow);

@@ -5,7 +5,7 @@
 using namespace std;
 using namespace sf;
 
-DeleteMoveState::DeleteMoveState(Game* g, PeoplemonRef* p, int m) : Gamestate(g,NULL)
+DeleteMoveState::DeleteMoveState(Game* g, PeoplemonRef* p, int m) : Gamestate(g,nullptr)
 {
     ppl = p;
     taught = false;

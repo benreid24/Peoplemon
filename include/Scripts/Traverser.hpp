@@ -43,14 +43,14 @@ public:
 	/**
 	 * Peek the next character without moving past it
 	 *
-	 * \return The next non-whitespace character in the string. NULL if the end has been reached
+	 * \return The next non-whitespace character in the string. nullptr if the end has been reached
 	 */
 	char peek();
 
 	/**
 	 * Read the next character and move past it
 	 *
-	 * \return The next non-whitespace character in the string. NULL if the end has been reached
+	 * \return The next non-whitespace character in the string. nullptr if the end has been reached
 	 */
 	char read();
 

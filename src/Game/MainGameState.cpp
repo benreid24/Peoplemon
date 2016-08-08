@@ -60,7 +60,7 @@ bool MainGameState::handleFlags()
         return true;
     if (game->data.pauseGameFlag && gameClock.getTimeStamp()>pTime)
     {
-        bool ret = game->runState(new PausedState(game,NULL));
+        bool ret = game->runState(new PausedState(game,nullptr));
         game->data.pauseGameFlag = false;
         pTime = gameClock.getTimeStamp()+500;
         return ret;
@@ -71,28 +71,6 @@ bool MainGameState::handleFlags()
     {
         game->data.loadMapFlag = false;
         game->world.load(game->data.nextMapName, game->data.nextSpawnId);
-    }
-    if (game->data.chooseStarterFlag)
-    {
-        //this might be done with scripting
-    }
-    if (game->data.openStorageSystemFlag)
-    {
-        game->data.openStorageSystemFlag = false;
-        StorageSystem ss(game,game->player.getStoredPeoplemon());
-        if (ss.run())
-            return true;
-		sleep(milliseconds(225));
-    }
-    if (game->data.openStoreFlag)
-    {
-        game->data.openStoreFlag = false;
-        return game->runState(new StoreState(game,game->data.storePrompt, game->data.storeError, game->data.storeItems));
-    }
-    if (game->data.playCreditsFlag)
-    {
-        game->data.playCreditsFlag = false;
-        return game->runState(new CreditsState(game));
     }
     if (game->data.whiteoutFlag)
     {
@@ -109,15 +87,13 @@ bool MainGameState::handleFlags()
 		game->data.interactFlag = false;
 		game->player.interact(game);
 	}
-	if (game->data.nextBattlePplmon.size()>0)
-	{
-		vector<PeoplemonRef> pplmon;
-		PeoplemonRef ppl;
-		ppl.load(game,Properties::WildPeoplemonPath+game->data.nextBattlePplmon);
-		pplmon.push_back(ppl);
-		game->data.nextBattlePplmon = "";
-		return game->runState(new BattleState(game,createBattler(game->data.nextBattleAi,&pplmon,vector<int>()),"WILD "+ppl.name,"",0,true,game->data.nextBattleMusic,game->data.nextBattleBgnd));
-	}
+	if (game->data.nextState!=nullptr)
+    {
+    	bool ret = game->runState(game->data.nextState,true);
+    	game->data.nextState = nullptr;
+    	sleep(milliseconds(250));
+    	return ret;
+    }
 
 	if (Keyboard::isKeyPressed(Keyboard::N))
 		return game->runState(new NetworkConnectingState(game),true);

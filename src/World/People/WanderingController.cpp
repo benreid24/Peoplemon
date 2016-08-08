@@ -13,7 +13,7 @@ WanderingController::WanderingController(Character* c, File* file) : Controller(
     radius = file->get<uint8_t>();
     initialized = false;
     state = Wander;
-    subBehavior = NULL;
+    subBehavior = nullptr;
     timeOfNextState = 0;
     timeOfNextStep = 0;
 }
@@ -175,7 +175,7 @@ void WanderingController::act(Game* g)
         }
         if (state==Wander)
         {
-            subBehavior = NULL;
+            subBehavior = nullptr;
             timeOfNextState = gameClock.getTimeStamp()+Random(5000,15000);
         }
     }

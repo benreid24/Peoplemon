@@ -625,7 +625,7 @@ void SandstormWeather::draw(RenderWindow* window)
 Weather::Weather(Game* g)
 {
     game = g;
-    weather = NULL;
+    weather = nullptr;
     nextChange = 0;
     type = None;
     isStopping = false;
@@ -640,7 +640,7 @@ void Weather::init(Type tp)
     	if (tp!=None)
         {
         	weather.reset();
-			weather = NULL;
+			weather = nullptr;
         }
         else
 			weather->stop();
@@ -698,7 +698,7 @@ void Weather::update()
             {
                 isStopping = false;
                 weather.reset();
-                weather = NULL;
+                weather = nullptr;
                 nextChange = gameClock.getTimeStamp()+Random(180000,420000);
             }
         }

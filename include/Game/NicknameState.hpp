@@ -35,7 +35,7 @@ public:
 	 * \param ppl A pointer to the Peoplemon to be named
 	 * \param n A pointer to the next Gamestate to execute
 	 */
-	NicknameState(Game* g, PeoplemonRef* ppl, Gamestate* n = NULL);
+	NicknameState(Game* g, PeoplemonRef* ppl, Gamestate* n = nullptr);
 
 	/**
 	 * Cleans up resources and resets the HUD

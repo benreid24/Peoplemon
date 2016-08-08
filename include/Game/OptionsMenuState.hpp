@@ -22,7 +22,7 @@ public:
      * \param g A pointer to the main Game object
      * \param n The next state to run
      */
-    OptionsMenuState(Game* g, Gamestate* n = NULL);
+    OptionsMenuState(Game* g, Gamestate* n = nullptr);
 };
 
 #endif // OPTIONSMENUSTATE_HPP

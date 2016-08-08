@@ -183,7 +183,7 @@ void World::load(string file, int spId, bool trans)
                 layers[i](x,y).isAnim = bool(input.get<uint8_t>());
                 int id = input.get<uint16_t>();
                 layers[i](x,y).nonZero = id!=0;
-                layers[i](x,y).anim = NULL;
+                layers[i](x,y).anim = nullptr;
                 if (layers[i](x,y).isAnim)
 				{
 					if (tileset.getAnim(id))
@@ -803,7 +803,7 @@ Trainer* World::getTrainer(string nm)
                 return t;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 Npc* World::getNPC(string nm)
@@ -816,7 +816,7 @@ Npc* World::getNPC(string nm)
                 return t;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void World::addLight(int x, int y, int r)
@@ -858,7 +858,7 @@ void World::setWeather(int t)
 Object* World::getFirstObject(Vector2i pos, int dir, int range)
 {
 	if (range==0)
-		return NULL;
+		return nullptr;
 
     Vector2i cur = pos, chg;
     if (dir==0)
@@ -879,11 +879,11 @@ Object* World::getFirstObject(Vector2i pos, int dir, int range)
                 return objects[j];
         }
         if (collisions(cur.x,cur.y)==1)
-            return NULL;
+            return nullptr;
         cur += chg;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 void World::updateObjectRenderLocation(Object* o, int oldY, int newY)
@@ -1039,7 +1039,7 @@ void World::editTile(int x, int y, int layer, int nId)
 	{
 		delete layers[layer](x-1,y-1).anim;
 		layers[layer](x-1,y-1).delA = false;
-		layers[layer](x-1,y-1).anim = NULL;
+		layers[layer](x-1,y-1).anim = nullptr;
 	}
 }
 

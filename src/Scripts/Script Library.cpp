@@ -1,6 +1,10 @@
 #include "Scripts/Script Interpreter.hpp"
 #include "Scripts/Script Environment.hpp"
 #include "Game/Game.hpp"
+#include "Game/BattleState.hpp"
+#include "Game/StorageSystem.hpp"
+#include "Game/StoreState.hpp"
+#include "Game/CreditsState.hpp"
 #include "World/People/Trainer.hpp"
 #include "World/People/Npc.hpp"
 #include "World/Item.hpp"
@@ -26,7 +30,6 @@ namespace {
 					"cameraXPos",
 					"cameraYPos",
 					"choiceBox",
-					"chooseStarter",
 					"clearLights",
 					"controlPressed",
 					"drawAnim",
@@ -95,38 +98,11 @@ namespace {
 					"trainerXPos",
 					"trainerYPos",
 					"whiteOut"});
-
-	int checkString(string target, string s)
-	{
-		for (unsigned int i = 0; i<target.size() && i<s.size(); ++i)
-		{
-			if (toupper(target[i])<toupper(s[i]))
-				return -1;
-			if (toupper(target[i])>toupper(s[i]))
-				return 1;
-		}
-		return 0;
-	}
 }
 
 bool Script::isLibraryFunction(string name)
 {
 	return find(functionNames.begin(),functionNames.end(),name)!=functionNames.end();
-	int center, width;
-	center = width = functionNames.size()/2;
-
-	while (width>=1)
-	{
-		if (functionNames[center]==name)
-			return true;
-		else
-		{
-			center += (width/2)*checkString(name,functionNames[center]);
-			width /= 2;
-		}
-	}
-
-	return false;
 }
 
 Value Script::executeLibraryFunction(string name, vector<Value> args)
@@ -276,7 +252,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			environment->getGame()->world.addObject(t);
 			if (args.size()==5)
 			{
-				while (environment->getGame()->world.getTrainer(t->getName())==NULL && args.at(4).iValue==1)
+				while (environment->getGame()->world.getTrainer(t->getName())==nullptr && args.at(4).iValue==1)
 					sleep(milliseconds(1));
 			}
 		}
@@ -349,7 +325,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		else if (name=="trainerExists")
 		{
 			Trainer* t = environment->getGame()->world.getTrainer(args.at(0).sValue);
-			ret.iValue = t!=NULL;
+			ret.iValue = t!=nullptr;
 		}
 		else if (name=="trainerDefeated")
 			ret.iValue = environment->getGame()->world.checkTalkedTo(args.at(0).sValue);
@@ -360,7 +336,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			environment->getGame()->world.addObject(n);
 			if (args.size()==5)
 			{
-				while (environment->getGame()->world.getNPC(n->getName())==NULL && args.at(4).iValue==1)
+				while (environment->getGame()->world.getNPC(n->getName())==nullptr && args.at(4).iValue==1)
 					sleep(milliseconds(1));
 			}
 		}
@@ -433,7 +409,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		else if (name=="npcExists")
 		{
 			Npc* n = environment->getGame()->world.getNPC(args.at(0).sValue);
-			ret.iValue = n!=NULL;
+			ret.iValue = n!=nullptr;
 		}
 		else if (name=="npcTalkedTo")
 			ret.iValue = environment->getGame()->world.checkTalkedTo(args.at(0).sValue);
@@ -454,9 +430,14 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			ret.iValue = environment->getGame()->world.mapVisited(args.at(0).sValue);
 		else if (name=="startBattle")
 		{
-			environment->getGame()->data.nextBattleBgnd = args.at(2).sValue;
-			environment->getGame()->data.nextBattleMusic = args.at(1).sValue;
-			environment->getGame()->data.nextBattlePplmon = args.at(0).sValue;
+			string nextBattleBgnd = args.at(2).sValue;
+			string nextBattleMusic = args.at(1).sValue;
+			string nextBattlePplmon = args.at(0).sValue;
+			vector<PeoplemonRef> pplmon;
+			PeoplemonRef ppl;
+			ppl.load(environment->getGame(),Properties::WildPeoplemonPath+nextBattlePplmon);
+			pplmon.push_back(ppl);
+			environment->getGame()->data.nextState = new BattleState(environment->getGame(),createBattler(0,&pplmon,vector<int>()),ppl.name,"",0,true,nextBattleMusic,nextBattleBgnd);
 		}
 		else if (name=="saveGame")
 			environment->getGame()->data.saveGameFlag = true;
@@ -515,22 +496,18 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			ret.sValue = environment->getGame()->hud.getChoice(args.at(0).sValue,cs);
 		}
 		else if (name=="openStorageSystem")
-			environment->getGame()->data.openStorageSystemFlag = true;
+			environment->getGame()->data.nextState = new StorageSystem(environment->getGame(),environment->getGame()->player.getStoredPeoplemon());
 		else if (name=="openStore")
 		{
-			environment->getGame()->data.storeItems.clear();
-			environment->getGame()->data.storePrompt = args.at(0).sValue;
-			environment->getGame()->data.storeError = args.at(1).sValue;
+			vector<pair<int,int> > storeItems;
+			string storePrompt = args.at(0).sValue;
+			string storeError = args.at(1).sValue;
 			for (unsigned int i = 2; i<args.size(); i+=2)
-			{
-				environment->getGame()->data.storeItems.push_back(make_pair(args.at(i).iValue,args[i+1].iValue));
-			}
-			environment->getGame()->data.openStoreFlag = true;
+				storeItems.push_back(make_pair(args.at(i).iValue,args[i+1].iValue));
+			environment->getGame()->data.nextState = new StoreState(environment->getGame(),storePrompt, storeError, storeItems);
 		}
 		else if (name=="showCredits")
-			environment->getGame()->data.playCreditsFlag = true;
-		else if (name=="chooseStarter")
-			environment->getGame()->data.chooseStarterFlag = true;
+			environment->getGame()->data.nextState = new CreditsState(environment->getGame());
 		else if (name=="stringToInt")
 		{
 			stringstream conv(args.at(0).sValue);

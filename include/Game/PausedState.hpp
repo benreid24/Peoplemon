@@ -22,7 +22,7 @@ public:
      * \param g A pointer to the main Game object
      * \param n The next state to run
      */
-    PausedState(Game* g, Gamestate* n = NULL);
+    PausedState(Game* g, Gamestate* n = nullptr);
 
     /**
      * Destructor, does nothing

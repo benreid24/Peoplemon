@@ -9,7 +9,7 @@
 using namespace std;
 using namespace sf;
 
-TrainerSpottedPlayerState::TrainerSpottedPlayerState(Game* g, Trainer* t) : Gamestate(g,NULL)
+TrainerSpottedPlayerState::TrainerSpottedPlayerState(Game* g, Trainer* t) : Gamestate(g,nullptr)
 {
     trainer = t;
     g->player.setLock(true,true);

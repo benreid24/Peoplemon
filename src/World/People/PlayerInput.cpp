@@ -6,7 +6,7 @@ using namespace sf;
 
 PlayerInput::PlayerInput()
 {
-	game = NULL;
+	game = nullptr;
 	type = None;
 	Joystick::update();
 	for (int i = 0; i<Joystick::Count; ++i)

@@ -6,7 +6,7 @@
 using namespace sf;
 using namespace std;
 
-NetworkTradestate::NetworkTradestate(Game* g, Network& n, RemotePlayer rp, Network::Mode m) : Gamestate(g,NULL), network(n), peer(rp), mode(m)
+NetworkTradestate::NetworkTradestate(Game* g, Network& n, RemotePlayer rp, Network::Mode m) : Gamestate(g,nullptr), network(n), peer(rp), mode(m)
 {
 	selMade = false;
 	if (mode==Network::Host)

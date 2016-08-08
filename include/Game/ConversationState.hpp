@@ -48,7 +48,7 @@ public:
      * \param cv A pointer to the Conversation object to use
      * \param n The next state to run
      */
-    ConversationState(Game* g, Character* c, Conversation* cv, Gamestate* n = NULL); //lock player and character
+    ConversationState(Game* g, Character* c, Conversation* cv, Gamestate* n = nullptr); //lock player and character
 
     /**
      * Destructor, unlocks the player and their conversation partner

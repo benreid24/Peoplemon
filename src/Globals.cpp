@@ -143,7 +143,7 @@ vector<string> getDirectory(string dir, std::string ext)
     vector<string> total;
 
     cDir = opendir(dir.c_str());
-    if (cDir!=NULL)
+    if (cDir!=nullptr)
     {
         while ((cFile = readdir(cDir)))
         {

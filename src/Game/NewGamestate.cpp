@@ -8,7 +8,7 @@
 using namespace std;
 using namespace sf;
 
-NewGamestate::NewGamestate(Game* g) : Gamestate(g,NULL)
+NewGamestate::NewGamestate(Game* g) : Gamestate(g,nullptr)
 {
 	//
 }

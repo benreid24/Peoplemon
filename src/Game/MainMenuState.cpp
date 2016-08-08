@@ -42,7 +42,7 @@ bool MainMenuState::execute()
         else if (choices.getChoice()=="Load Game")
         {
             cout << "Load Game\n";
-            if (game->runState(new LoadGamestate(game,NULL)))
+            if (game->runState(new LoadGamestate(game,nullptr)))
                 return true;
             sleep(milliseconds(200));
             choices.reset();
