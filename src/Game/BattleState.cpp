@@ -1129,6 +1129,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
     bool isSuper = effectiveness>1 && power>0.1;
     bool isBad = effectiveness<1 && power>0.1;
     multiplier *= stab*effectiveness;
+    multiplier *= double(Random(85,100)/100);
 
     if (critical && defender.curAbility==Peoplemon::Lax)
 	{
