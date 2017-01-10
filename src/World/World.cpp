@@ -40,7 +40,9 @@ void World::load(string file, int spId, bool trans)
 {
 	if (file.size()==0)
 	{
+		string t = lastMap;
 		load(name, -1);
+		lastMap = t;
 		return;
 	}
 
@@ -903,6 +905,8 @@ void World::saveGame(File* file)
 {
     file->writeString(curMap);
     file->writeString(lastMap);
+    cout << "Saved curmap: " << curMap << endl;
+    cout << "saved lastmap: " << lastMap << endl;
     file->write<uint32_t>(lastPos.x);
     file->write<uint32_t>(lastPos.y);
     file->write<uint8_t>(lastDir);
@@ -937,12 +941,13 @@ void World::loadGame(File* file)
     talkedToNpcs.clear();
     beatenTrainers.clear();
     visitedMaps.clear();
-    string nm, lMap;
+    string nm;
     int sz,t;
 
     name = file->getString();
     lastMap = file->getString();
-    lMap = lastMap;
+    cout << "loaded curmap: " << name << endl;
+    cout << "loaded lastmap: " << lastMap << endl;
     lastPos.x = file->get<uint32_t>();
     lastPos.y = file->get<uint32_t>();
     lastDir = file->get<uint8_t>();
@@ -965,8 +970,6 @@ void World::loadGame(File* file)
         for (int j = 0; j<t; ++j)
             pickedUpItems[nm].push_back(file->get<uint16_t>());
     }
-
-    lastMap = lMap;
 }
 
 void World::lockAllPeople()
