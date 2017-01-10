@@ -123,7 +123,8 @@ void World::load(string file, int spId, bool trans)
     firstYSortLayer = input.get<uint16_t>();
     firstTopLayer = input.get<uint16_t>();
     tInt = input.get<uint8_t>();
-    weather.init(Weather::Type(tInt));
+    weather.enterMap(name);
+    weather.init(Weather::Type(tInt),true);
     ambientLightOverride = input.get<uint16_t>();
 
     ySortedObjects.resize(size.y+1);

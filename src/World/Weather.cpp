@@ -629,15 +629,16 @@ Weather::Weather(Game* g)
     nextChange = 0;
     type = None;
     isStopping = false;
+    keepRemembered = false;
     curLight = 0;
     desiredLight = 0;
 }
 
-void Weather::init(Type tp)
+void Weather::init(Type tp, bool force)
 {
-    if (weather)
+    if (weather && !keepRemembered)
     {
-    	if (tp!=None)
+    	if (tp!=None || force)
         {
         	weather.reset();
 			weather = nullptr;
@@ -672,7 +673,39 @@ void Weather::init(Type tp)
     else if (type==SandStorm)
         weather.reset(new SandstormWeather(game));
 
+	if (type!=AllRandom && type!=WaterRandom && type!=SnowRandom && type!=DesertRandom && type!=None)
+		logWeather(type);
+
 	nextChange = gameClock.getTimeStamp()+Random(180000,420000);
+}
+
+bool Weather::enterMap(string name)
+{
+	curMap = name;
+	bool ret = false;
+
+	if (pastWeather.find(name)!=pastWeather.end())
+	{
+		long age = gameClock.getTimeStamp()-pastWeather[name].timeRecorded;
+		if (age<300000) //5 minutes
+		{
+			init(pastWeather[name].type);
+			ret = true;
+			keepRemembered = true;
+		}
+		pastWeather.erase(name);
+	}
+
+	return ret;
+}
+
+void Weather::logWeather(Type tp)
+{
+	PastWeather t;
+	t.mapName = curMap;
+	t.timeRecorded = gameClock.getTimeStamp();
+	t.type = tp;
+	pastWeather[curMap] = t;
 }
 
 void Weather::update()
@@ -718,11 +751,21 @@ void Weather::update()
             else if (w<200)
                 createSnow();
             else if (w<300)
-                weather.reset(new SunnyWeather());
+			{
+				weather.reset(new SunnyWeather());
+				logWeather(Sunny);
+			}
             else if (w<400)
-                weather.reset(new FogWeather(game,Random(0,1000)<500));
+			{
+				bool isThick = Random(0,1000)<500;
+				weather.reset(new FogWeather(game,isThick));
+				logWeather(isThick?(ThickFog):(ThinFog));
+			}
             else
-                weather.reset(new SandstormWeather(game));
+			{
+				weather.reset(new SandstormWeather(game));
+				logWeather(SandStorm);
+			}
         }
         nextChange = gameClock.getTimeStamp()+Random(120000,600000);
     }
@@ -732,6 +775,14 @@ void Weather::createRain()
 {
     bool isHard = Random(0,1000)<500;
     bool canThunder = Random(0,1000)<500;
+    if (isHard && canThunder)
+		logWeather(HardRainThunder);
+	else if (isHard && !canThunder)
+		logWeather(HardRain);
+	if (!isHard && canThunder)
+		logWeather(LightRainThunder);
+	else if (!isHard && !canThunder)
+		logWeather(LightRain);
     weather.reset(new RainWeather(game,isHard,canThunder));
 }
 
@@ -739,6 +790,14 @@ void Weather::createSnow()
 {
     bool isHard = Random(0,1000)<500;
     bool canThunder = Random(0,1000)<500;
+	if (isHard && canThunder)
+		logWeather(HardSnowThunder);
+	else if (isHard && !canThunder)
+		logWeather(HardSnow);
+	if (!isHard && canThunder)
+		logWeather(LightSnowThunder);
+	else if (!isHard && !canThunder)
+		logWeather(LightSnow);
     weather.reset(new SnowWeather(game,isHard,canThunder));
 }
 

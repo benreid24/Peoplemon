@@ -499,11 +499,31 @@ public:
     };
 
     /**
+	 * Storage structure for remembering what weather was in which maps and when. This is to recreate the right weather when the player
+	 * comes back outside
+	 */
+	struct PastWeather
+	{
+		std::string mapName;
+		Weather::Type type;
+		int timeRecorded;
+	};
+
+    /**
      * Sets the current weather to the given type
      *
      * \param type The type of weather to switch to
+     * \param force Whether or not to force the weather to transition instantly
      */
-    void init(Type type);
+    void init(Type type, bool force = false);
+
+    /**
+     * Checks the past weather to see if we need to recreate a certain type for this map
+     *
+     * \param name The name of the map we are entering
+     * \return True if weather was restored, false otherwise
+     */
+	bool enterMap(std::string name);
 
     /**
      * Updates the internal weather, if any, or chooses a new weather type if a random type was set and the timing is right
@@ -524,11 +544,13 @@ public:
 
 private:
     Game* game;
+    std::string curMap;
+    std::map<std::string,PastWeather> pastWeather;
     std::shared_ptr<BaseWeatherType> weather;
     Type type;
     int nextChange;
     int curLight, desiredLight;
-    bool isStopping;
+    bool isStopping, keepRemembered;
 
     /**
      * Creates a random type of rain by varying intensity and thunder
@@ -539,6 +561,13 @@ private:
      * Creates a random type of snow by varying intensity and thunder
      */
     void createSnow();
+
+    /**
+     * Creates a PastWeather entry
+     *
+     * \param tp The type of weather to log
+     */
+	void logWeather(Type tp);
 };
 
 #endif // WEATHER_HPP
