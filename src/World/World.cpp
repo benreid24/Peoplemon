@@ -906,8 +906,6 @@ void World::saveGame(File* file)
 {
     file->writeString(curMap);
     file->writeString(lastMap);
-    cout << "Saved curmap: " << curMap << endl;
-    cout << "saved lastmap: " << lastMap << endl;
     file->write<uint32_t>(lastPos.x);
     file->write<uint32_t>(lastPos.y);
     file->write<uint8_t>(lastDir);
@@ -947,8 +945,6 @@ void World::loadGame(File* file)
 
     name = file->getString();
     lastMap = file->getString();
-    cout << "loaded curmap: " << name << endl;
-    cout << "loaded lastmap: " << lastMap << endl;
     lastPos.x = file->get<uint32_t>();
     lastPos.y = file->get<uint32_t>();
     lastDir = file->get<uint8_t>();

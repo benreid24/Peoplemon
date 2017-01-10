@@ -410,7 +410,7 @@ FogWeather::FogWeather(Game* g, bool isThick)
 	a = 0;
     _g = g;
     isStopping = false;
-    lastTime = 0;
+    lastTime = gameClock.getTimeStamp();
     spr.setColor(Color(255,255,255,0)); //gradually increase
     fogTxtr = imagePool.loadResource(Properties::MiscImagePath+"fog.png");
     spr.setTexture(*fogTxtr);
@@ -418,11 +418,11 @@ FogWeather::FogWeather(Game* g, bool isThick)
 
     int baseX = g->world.getCamera().x-128;
     int baseY = g->world.getCamera().y-128;
-    for (int x = 0; x<70; x++)
+    for (int x = -7; x<Properties::ScreenWidth*3/20; x++)
     {
-        for (int y = 0; y<60; y++)
+        for (int y = -7; y<Properties::ScreenHeight*3/20; y++)
         {
-            particles.push_back(Particle(baseX+x*26,baseY+y*26,Random(0,360),double(Random(-5,5))/33));
+            particles.push_back(Particle(baseX+x*20,baseY+y*20,Random(0,360),double(Random(-5,5))/33));
         }
     }
 
@@ -461,6 +461,7 @@ int FogWeather::getLightChange()
 void FogWeather::update()
 {
 	double dt = gameClock.getTimeStamp()-lastTime;
+	lastTime = gameClock.getTimeStamp();
 	double difY = dt*0.030303;
 	double difX = difY*2;
 
@@ -470,10 +471,10 @@ void FogWeather::update()
         particles[i].y += difY;
         particles[i].rotation += particles[i].angularVel*dt;
 
-        if (particles[i].x>_g->world.getCamera().x+1680)
-            particles[i] = Particle(_g->world.getCamera().x-96,particles[i].y,Random(0,360),double(Random(-5,5))/33);
-        if (particles[i].y>_g->world.getCamera().y+1440)
-            particles[i] = Particle(particles[i].x,_g->world.getCamera().y-96,Random(0,360),double(Random(-5,5))/33);
+        if (particles[i].x>_g->world.getCamera().x+Properties::ScreenWidth*3)
+			particles[i] = Particle(_g->world.getCamera().x-96,particles[i].y,Random(0,360),double(Random(-5,5))/33);
+        if (particles[i].y>_g->world.getCamera().y+Properties::ScreenHeight*3)
+			particles[i] = Particle(particles[i].x,_g->world.getCamera().y-96,Random(0,360),double(Random(-5,5))/33);
     }
 
     if (a<targetA && !isStopping)
@@ -636,6 +637,8 @@ Weather::Weather(Game* g)
 
 void Weather::init(Type tp, bool force)
 {
+	cout << "Set weather: " << tp << endl;
+
     if (weather && !keepRemembered)
     {
     	if (tp!=None || force)
