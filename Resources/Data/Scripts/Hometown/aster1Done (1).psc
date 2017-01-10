@@ -1,6 +1,5 @@
-setPlayerLock(1);
-npcToLocation("Aster",345,257,1);
-removeNPC("Aster");
+trainerToLocation("Aster",343,262,1);
+removeTrainer("Aster");
 setPlayerLock(0);
 addSaveEntry("aster1Done",1);
 spawnNPC("Hometown/hometownThug1.npc",370,239,0);

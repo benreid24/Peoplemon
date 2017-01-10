@@ -1,4 +1,3 @@
-print("Value of entry gameStarted: ",getSaveEntry("gameStarted"));
 if (getSaveEntry("gameStarted")!=1)
 {
 	setPlayerLock(1);

@@ -72,6 +72,7 @@ namespace {
 					"removeNPC",
 					"removeTrainer",
 					"runScript",
+					"resetPlayer",
 					"saveGame",
 					"setCollisions",
 					"setLightingOverride",
@@ -85,6 +86,7 @@ namespace {
 					"shiftTrainer",
 					"showCredits",
 					"sleep",
+					"spaceFree",
 					"spawnItem",
 					"spawnNPC",
 					"spawnTrainer",
@@ -244,6 +246,12 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			if (args.size()>1)
 				environment->getGame()->player.alterMoney(-args.at(1).iValue);
 			environment->getGame()->data.whiteoutFlag = true;
+		}
+		else if (name=="resetPlayer")
+		{
+			environment->getGame()->player.forceStop();
+			environment->getGame()->player.setLock(false,false);
+			environment->getGame()->player.clearQueue();
 		}
 		else if (name=="spawnTrainer")
 		{
@@ -470,6 +478,23 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			environment->getGame()->world.setLightingOverride(args.at(0).iValue);
 		else if (name=="editTile")
 			environment->getGame()->world.editTile(args.at(0).iValue,args.at(1).iValue,args.at(2).iValue,args.at(3).iValue);
+		else if (name=="spaceFree")
+		{
+            int x = args.at(0).iValue;
+            int y = args.at(1).iValue;
+            int d = args.at(2).iValue;
+            int dist = args.at(3).iValue;
+            if (d==0)
+				y -= dist;
+			if (d==1)
+				x += dist;
+			if (d==2)
+				y += dist;
+			if (d==3)
+				x -= dist;
+			ret.iValue = double(!environment->getGame()->world.spaceFree(Vector2i(x,y)));
+			cout << "space free (" << x << "," << y << ") = " << ret.iValue << endl;
+		}
 		else if (name=="setCollisions")
 		{
 			for (int x = 0; x<args.at(2).iValue; ++x)

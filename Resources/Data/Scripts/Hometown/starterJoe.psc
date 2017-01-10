@@ -10,7 +10,8 @@ if (getSaveEntry("gotStarter")!=1 && playerDir()==3 && controlPressed(5)==1)
 	{
 		givePeoplemon("starterJoe.ppl");
 		addSaveEntry("gotStarter",1);
-		editTile()
+		addSaveEntry("Joe",1);
+		editTile(1,4,3,0);
 	}
 	setPlayerLock(0);
 	sleep(250);

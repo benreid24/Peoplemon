@@ -228,6 +228,12 @@ void Character::forceStop()
 		walking[i].setFrame(0);
 }
 
+void Character::clearQueue()
+{
+	while (!queuedInput.empty())
+		queuedInput.pop();
+}
+
 string Character::getIdentifier()
 {
     return "Character Base!!";

@@ -10,18 +10,23 @@ else
 
 
 if (getSaveEntry("professorDead")==1)
-	spawnNPC("Hometown/officer2.npc",344,261,3);
+	spawnNPC("Hometown/officer2.npc",334,240,3);
 
 elif (getSaveEntry("ReturntoProf")==1)
-	spawnNPC("Hometown/officerHometown.npc",343,281,1);
-
+	{
+	 spawnNPC("Hometown/officerHometown.npc",343,281,1);
+	 if (getSaveEntry("Delivered")==1)
+	 setCollisions(343,261,3,1,1);
+	}
+	
 else
 	spawnNPC("Hometown/officer1.npc",344,261,0);
-
+	
+	
 //--------------Spawning Sketchy Character---------------------------
 
 if (getSaveEntry("professorDead")==1)
-	spawnNPC("Hometown/sketchyCharacter2.npc",343,261,3);
+	spawnNPC("Hometown/sketchyCharacter2.npc",333,240,3);
 
 else
 	spawnNPC("Hometown/sketchyCharacter1.npc",338,229,2);

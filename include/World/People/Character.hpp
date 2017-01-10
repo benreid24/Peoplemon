@@ -141,6 +141,11 @@ public:
      */
 	virtual void forceStop();
 
+	/**
+	 * Clears all queued movement
+	 */
+	void clearQueue();
+
     /**
      * Returns a string to identify the object for debug purposes
      */
