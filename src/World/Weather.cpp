@@ -506,7 +506,7 @@ SandstormWeather::SandstormWeather(Game* g) : cover(Vector2f(800,600))
 {
     _g = g;
     isStopping = false;
-    lastTime = 0;
+    lastTime = gameClock.getTimeStamp();
     a = 0;
     lChng = 30;
     mainTxtr = imagePool.loadResource(Properties::MiscImagePath+"sandMain.png");
@@ -560,6 +560,7 @@ void SandstormWeather::update()
     int sX = _g->world.getCamera().x + 1468;
     int sY = _g->world.getCamera().y + 660;
     double dt = gameClock.getTimeStamp()-lastTime;
+    lastTime = gameClock.getTimeStamp();
     double dx1 = dt*0.363636, dy1 = dt*0.090909;
     double dx2 = dt*0.545454, dy2 = dt*0.121212, dz = dt*0.454545;
 
