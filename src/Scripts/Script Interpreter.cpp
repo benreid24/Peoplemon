@@ -673,7 +673,7 @@ Value Script::runTokens(int pos)
 			if (tokens.at(i+1).type==Token::Assignment)
 			{
 				name = tokens.at(i).data;
-				if (tokens.at(i).type!=Token::Identifier || (globalFrame.locals.find(name)==globalFrame.locals.end() && stackFrames.top().locals.find(name)==stackFrames.top().locals.end()))
+				if (tokens.at(i).type!=Token::Identifier || (globalFrame.locals.find(name)==globalFrame.locals.end() || stackFrames.top().locals.find(name)==stackFrames.top().locals.end()))
 					throw runtime_error("Assignment to non-variable on line "+intToString(tokens.at(i).line)+" in file "+tokens.at(i).file);
 				i = i+2;
 			}
