@@ -202,7 +202,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			}
 		}
 		else if (name=="setPlayerLock")
-			environment->getGame()->player.setLock(bool(args.at(0).iValue));
+			environment->getGame()->player.setLock(bool(args.at(0).iValue), bool(args.at(0).iValue)); //pass the lock in to the save arg as well to handle issue with convo state reseting
 		else if (name=="giveItem")
 		{
 			environment->getGame()->player.giveItem(args.at(0).iValue);
