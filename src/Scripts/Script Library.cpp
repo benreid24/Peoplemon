@@ -272,6 +272,8 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			ret.iValue = 0;
 			if (t)
 				ret.iValue = t->move(environment->getGame(),args.at(1).iValue,ignoreCols,playAnims,true);
+			else
+				cout << "Failed to find Trainer \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="trainerXPos")
 		{
@@ -279,6 +281,8 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			ret.iValue = 0;
 			if (t)
 				ret.iValue = t->getMapPos().x;
+			else
+				cout << "Failed to find Trainer \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="trainerYPos")
 		{
@@ -286,6 +290,8 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			ret.iValue = 0;
 			if (t)
 				ret.iValue = t->getMapPos().y;
+			else
+				cout << "Failed to find Trainer \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="trainerToLocation")
 		{
@@ -311,24 +317,32 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 					}
 				}
 			}
+			else
+				cout << "Failed to find Trainer \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="shiftTrainer")
 		{
 			Trainer* t = environment->getGame()->world.getTrainer(args.at(0).sValue);
 			if (t)
 				t->shift(args.at(1).iValue,args.at(2).iValue);
+			else
+				cout << "Failed to find Trainer \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="setTrainerLock")
 		{
 			Trainer* t = environment->getGame()->world.getTrainer(args.at(0).sValue);
 			if (t)
 				t->setLock(args.at(1).iValue);
+			else
+				cout << "Failed to find Trainer \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="removeTrainer")
 		{
 			Trainer* t = environment->getGame()->world.getTrainer(args.at(0).sValue);
 			if (t)
 				environment->getGame()->world.removeObject(t);
+			else
+				cout << "Failed to find Trainer \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="trainerExists")
 		{
@@ -356,6 +370,8 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			ret.iValue = 0;
 			if (n)
 				ret.iValue = n->move(environment->getGame(),args.at(1).iValue,ignoreCols,playAnims,true);
+			else
+				cout << "Failed to find NPC \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="npcXPos")
 		{
@@ -363,6 +379,8 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			ret.iValue = 0;
 			if (n)
 				ret.iValue = n->getMapPos().x;
+			else
+				cout << "Failed to find NPC \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="npcYPos")
 		{
@@ -370,6 +388,8 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			ret.iValue = 0;
 			if (n)
 				ret.iValue = n->getMapPos().y;
+			else
+				cout << "Failed to find NPC \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="npcToLocation")
 		{
@@ -395,24 +415,32 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 					}
 				}
 			}
+			else
+				cout << "Failed to find NPC \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="shiftNPC")
 		{
 			Npc* n = environment->getGame()->world.getNPC(args.at(0).sValue);
 			if (n)
 				n->shift(args.at(1).iValue,args.at(2).iValue);
+			else
+				cout << "Failed to find NPC \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="setNPCLock")
 		{
 			Npc* n = environment->getGame()->world.getNPC(args.at(0).sValue);
 			if (n)
 				n->setLock(args.at(1).iValue);
+			else
+				cout << "Failed to find NPC \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="removeNPC")
 		{
 			Npc* n = environment->getGame()->world.getNPC(args.at(0).sValue);
 			if (n)
 				environment->getGame()->world.removeObject(n);
+			else
+				cout << "Failed to find NPC \"" << args.at(0).sValue << "\"!\n";
 		}
 		else if (name=="npcExists")
 		{
