@@ -202,6 +202,8 @@ void Character::setLock(bool l, bool r)
 			prevLockStates.pop();
 	}
     isLocked = l;
+    if (l)
+		forceStop();
 }
 
 void Character::resetLock()
