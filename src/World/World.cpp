@@ -778,22 +778,19 @@ void World::setItemPickedUp(int id)
 
 void World::setTrainerBeaten(string nm)
 {
-	for (unsigned int i = 0; i<beatenTrainers.size(); ++i)
-	{
-		if (beatenTrainers[i]==nm)
-			return;
-	}
-    beatenTrainers.push_back(nm);
+	if (find(beatenTrainers.begin(), beatenTrainers.end(), nm)==beatenTrainers.end())
+		beatenTrainers.push_back(nm);
+}
+
+bool World::trainerBeaten(string nm)
+{
+	return (find(beatenTrainers.begin(), beatenTrainers.end(), nm)!=beatenTrainers.end());
 }
 
 void World::setNpcTalkedTo(string nm)
 {
-	for (unsigned int i = 0; i<talkedToNpcs.size(); ++i)
-	{
-		if (talkedToNpcs[i]==nm)
-			return;
-	}
-	talkedToNpcs.push_back(nm);
+	if (find(talkedToNpcs.begin(), talkedToNpcs.end(), nm)==talkedToNpcs.end())
+		talkedToNpcs.push_back(nm);
 }
 
 Trainer* World::getTrainer(string nm)

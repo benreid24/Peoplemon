@@ -65,6 +65,8 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
 					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-audio-s.a" />
 					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-graphics-s.a" />
 					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-network-s.a" />

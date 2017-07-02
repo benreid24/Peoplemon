@@ -256,6 +256,8 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		else if (name=="spawnTrainer")
 		{
 			Trainer* t = new Trainer(environment->getGame(),Properties::TrainerPath+args.at(0).sValue,false);
+			if (environment->getGame()->world.trainerBeaten(t->getName()))
+				t->setBeaten();
 			t->spawn(Vector2f(args.at(1).iValue*32,args.at(2).iValue*32),args.at(3).iValue);
 			environment->getGame()->world.addObject(t);
 			if (args.size()==5)

@@ -323,6 +323,14 @@ public:
     void setTrainerBeaten(std::string name);
 
     /**
+     * Given a trainer name, returns whether or now they were beaten
+     *
+     * \param name The name of the trainer
+     * \return True if the trainer has been beaten, false otherwise
+     */
+	bool trainerBeaten(std::string name);
+
+    /**
      * Sets the NPC with the given name to a state where they won't give the player duplicate items unless explicitly allowed to do so
      *
      * \param name Th name of the NPC
