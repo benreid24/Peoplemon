@@ -15,7 +15,7 @@ using namespace std;
 World::World(Game* g) : light(TrianglesFan, 362), weather(g)
 {
     game = g;
-    lightTxtr.create(800,600);
+    lightTxtr.create(Properties::ScreenWidth,Properties::ScreenHeight);
     lightSpr.setTexture(lightTxtr.getTexture());
     pcMap = "Hometown/HometownYourHouseYourRoom";
     pcSpawn = 5;
@@ -1032,8 +1032,7 @@ void World::editTile(int x, int y, int layer, int nId)
 	if (tileset.getTile(nId))
 		layers[layer](x-1,y-1).spr.setTexture(*tileset.getTile(nId));
 	layers[layer](x-1,y-1).nonZero = nId!=0;
-	if (layers[layer](x-1,y-1).delA)
-	{
+	if (layers[layer](x-1,y-1).delA) {
 		delete layers[layer](x-1,y-1).anim;
 		layers[layer](x-1,y-1).delA = false;
 		layers[layer](x-1,y-1).anim = nullptr;
@@ -1056,8 +1055,7 @@ bool World::checkTalkedTo(string nm)
 
 void World::stopAnimations()
 {
-	for (unsigned int i = 0; i<objects.size(); ++i)
-	{
+	for (unsigned int i = 0; i<objects.size(); ++i) {
 		Character* c = dynamic_cast<Character*>(objects[i]);
         if (c)
 			c->forceStop();

@@ -22,24 +22,25 @@
 					<Add directory="include" />
 					<Add directory="../Game" />
 					<Add directory="../Peoplemon" />
+					<Add directory="C:/Users/Ben/SFML-2.4.2/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-audio-s.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-graphics-s.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-network-s.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-window-s.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-system-s.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-main.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libfreetype.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libjpeg.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libopenal32.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libFLAC.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libvorbisenc.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libvorbisfile.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libvorbis.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libogg.a" />
+					<Add option="-static-libgcc" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/lib/libsfml-audio-s.a" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/lib/libsfml-network-s.a" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/lib/libsfml-graphics-s.a" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/lib/libsfml-window-s.a" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/lib/libsfml-system-s.a" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/lib/libsfml-main.a" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/extlibs/libs-mingw/x64/libFLAC.a" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/extlibs/libs-mingw/x64/libfreetype.a" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/extlibs/libs-mingw/x64/libjpeg.a" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/extlibs/libs-mingw/x64/libopenal32.a" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/extlibs/libs-mingw/x64/libvorbisfile.a" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/extlibs/libs-mingw/x64/libvorbisenc.a" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/extlibs/libs-mingw/x64/libvorbis.a" />
+					<Add library="C:/Users/Ben/SFML-2.4.2/extlibs/libs-mingw/x64/libogg.a" />
 					<Add library="gdi32" />
 					<Add library="opengl32" />
 					<Add library="winmm" />
@@ -62,16 +63,17 @@
 					<Add directory="include" />
 					<Add directory="../Game" />
 					<Add directory="../Peoplemon" />
+					<Add directory="C:/Users/Ben/SFML-2.4.2/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-audio-s.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-graphics-s.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-network-s.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-window-s.a" />
-					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-system-s.a" />
+					<Add option="-static-libgcc" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-audio.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-graphics.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-network.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-window.a" />
+					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-system.a" />
 					<Add library="C:/Users/Ben/SFML-2.3.2/lib/libsfml-main.a" />
 					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libfreetype.a" />
 					<Add library="C:/Users/Ben/SFML-2.3.2/extlibs/libs-mingw/x86/libjpeg.a" />

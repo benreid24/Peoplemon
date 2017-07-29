@@ -163,6 +163,7 @@ void Animation::setFrame(int frm)
 {
     curFrm = frm;
     lastFrmChangeTime = gameClock.getTimeStamp();
+    playing = false;
 }
 
 bool Animation::finished()
