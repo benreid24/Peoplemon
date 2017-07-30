@@ -77,7 +77,7 @@ void ChoiceBox::setBorder(Color col, int t)
 
 void ChoiceBox::setTextProps(Color col, int size)
 {
-    renderText.setColor(col);
+    renderText.setFillColor(col);
     renderText.setCharacterSize(size);
     rowHeight = 0;
     pointer.setPoint(0, Vector2f(0,0));

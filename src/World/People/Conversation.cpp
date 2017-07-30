@@ -94,122 +94,90 @@ vector<string> Conversation::update(Game* game, Player* player, Character* perso
 {
     vector<string> ret;
 
-    if (choice!=-1)
-    {
+    if (choice!=-1) {
         string str = choices.at(lines.at(cLine).d1+choice).first;
         setLine(str);
     }
     else
         cLine++;
 
-   start:
-
-    if (unsigned(cLine)>=lines.size())
-        return ret;
-
-    if (lines[cLine].code=='t')
-    {
-    	size_t pos = lines[cLine].say.find("$PLAYERNAME");
-		while (pos!=string::npos)
-		{
-			lines[cLine].say.replace(pos, 11, player->getName());
-			pos = lines[cLine].say.find("$PLAYERNAME");
-		}
-        ret.push_back(lines[cLine].say);
-        return ret;
-    }
-    else if (lines[cLine].code=='o')
-    {
-        ret.push_back(lines[cLine].say);
-        for (int i = lines[cLine].d1; i<lines[cLine].d2; ++i)
-        {
-            ret.push_back(choices.at(i).second);
-        }
-        return ret;
-    }
-    else if (lines[cLine].code=='g')
-    {
-        if (lines[cLine].d1==1)
-		{
-			player->giveItem(lines[cLine].d2);
-			ret.push_back(player->getName()+" got the "+game->itemList[lines[cLine].d2].name+"!");
-		}
-        else
-		{
-			player->alterMoney(lines[cLine].d2);
-			ret.push_back(player->getName()+" got "+intToString(lines[cLine].d2)+" money!");
-		}
-        return ret;
-    }
-    else if (lines[cLine].code=='r')
-    {
-    	if (lines[cLine].d1==0)
-        {
-        	if (!player->alterMoney(-lines[cLine].d2))
-			{
-				ret.push_back("You don't have enough money!");
-				setLine(lines[cLine].line);
-				return ret;
+    while (unsigned(cLine)<lines.size()) {
+		if (lines[cLine].code=='t') {
+			size_t pos = lines[cLine].say.find("$PLAYERNAME");
+			while (pos!=string::npos) {
+				lines[cLine].say.replace(pos, 11, player->getName());
+				pos = lines[cLine].say.find("$PLAYERNAME");
 			}
-			else
-			{
-				ret.push_back("Gave "+intToString(lines[cLine].d2)+" money!");
-				return ret;
+			ret.push_back(lines[cLine].say);
+			break;
+		}
+		else if (lines[cLine].code=='o') {
+			ret.push_back(lines[cLine].say);
+			for (int i = lines[cLine].d1; i<lines[cLine].d2; ++i) {
+				ret.push_back(choices.at(i).second);
 			}
-        }
-        else
-		{
-			if (!player->hasItem(lines[cLine].d2))
-			{
-				ret.push_back("You don't have the "+game->itemList[lines[cLine].d2].name+"!");
-				setLine(lines[cLine].line);
-				return ret;
+			break;
+		}
+		else if (lines[cLine].code=='g') {
+			if (lines[cLine].d1==1) {
+				player->giveItem(lines[cLine].d2);
+				ret.push_back(player->getName()+" got the "+game->itemList[lines[cLine].d2].name+"!");
 			}
-			else
-			{
-				player->takeItem(lines[cLine].d2,1);
-				ret.push_back("Gave the "+game->itemList[lines[cLine].d2].name+"!");
-				return ret;
+			else {
+				player->alterMoney(lines[cLine].d2);
+				ret.push_back(player->getName()+" got "+intToString(lines[cLine].d2)+" money!");
+			}
+			break;
+		}
+		else if (lines[cLine].code=='r') {
+			if (lines[cLine].d1==0) {
+				if (!player->alterMoney(-lines[cLine].d2)) {
+					ret.push_back("You don't have enough money!");
+					setLine(lines[cLine].line);
+					break;
+				}
+				else {
+					ret.push_back("Gave "+intToString(lines[cLine].d2)+" money!");
+					break;
+				}
+			}
+			else {
+				if (!player->hasItem(lines[cLine].d2)) {
+					setLine(lines[cLine].line);
+				}
+				else {
+					player->takeItem(lines[cLine].d2,1);
+					ret.push_back("Gave the "+game->itemList[lines[cLine].d2].name+"!");
+					break;
+				}
 			}
 		}
-    }
-    else if (lines[cLine].code=='j')
-    {
-        setLine(lines[cLine].line);
-        goto start;
-    }
-    else if (lines[cLine].code=='s')
-    {
-        env->intSaveEntries.insert(make_pair(lines[cLine].say,1));
-        cLine++;
-        goto start;
-    }
-    else if (lines[cLine].code=='c')
-    {
-        if (env->intSaveEntries.find(lines[cLine].say)==env->intSaveEntries.end())
-            setLine(lines[cLine].line);
-		else
-			cLine++;
-		goto start;
-    }
-    else if (lines[cLine].code=='l')
-    {
-        cLine++;
-        goto start;
-    }
-    else if (lines[cLine].code=='w')
-	{
-        if (!env->getGame()->world.checkTalkedTo(person->getName()))
+		else if (lines[cLine].code=='j') {
 			setLine(lines[cLine].line);
-		else
+		}
+		else if (lines[cLine].code=='s') {
+			env->intSaveEntries.insert(make_pair(lines[cLine].say,1));
 			cLine++;
-		goto start;
-	}
-	else if (lines[cLine].code=='z')
-	{
-		env->runScript(scriptPool.loadResource(lines[cLine].line));
-		cLine++;
-		goto start;
-	}
+		}
+		else if (lines[cLine].code=='c') {
+			if (env->intSaveEntries.find(lines[cLine].say)==env->intSaveEntries.end())
+				setLine(lines[cLine].line);
+			else
+				cLine++;
+		}
+		else if (lines[cLine].code=='l') {
+			cLine++;
+		}
+		else if (lines[cLine].code=='w') {
+			if (!env->getGame()->world.checkTalkedTo(person->getName()))
+				setLine(lines[cLine].line);
+			else
+				cLine++;
+		}
+		else if (lines[cLine].code=='z') {
+			env->runScript(scriptPool.loadResource(lines[cLine].line));
+			cLine++;
+		}
+    }
     return ret;
 }

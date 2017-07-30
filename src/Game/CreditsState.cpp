@@ -25,7 +25,7 @@ CreditsObject::CreditsObject(File* file, int lastPos)
         int s = file->get<uint16_t>();
         text.setFont(Properties::PrimaryMenuFont);
         text.setString(t);
-        text.setColor(Color(r,g,b));
+        text.setFillColor(Color(r,g,b));
         text.setCharacterSize(s);
         text.setPosition(x,0);
     }

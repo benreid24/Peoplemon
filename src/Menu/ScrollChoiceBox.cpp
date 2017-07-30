@@ -15,7 +15,7 @@ ScrollChoiceBox::ScrollChoiceBox() : pointer(3)
     choicesVisible = 5;
     renderText.setFont(Properties::PrimaryMenuFont);
     renderText.setCharacterSize(18);
-    renderText.setColor(Color::Black);
+    renderText.setFillColor(Color::Black);
     pointer.setPoint(0, Vector2f(0,0));
     pointer.setPoint(1, Vector2f(-5, -3));
     pointer.setPoint(2, Vector2f(-5,3));
@@ -58,7 +58,7 @@ void ScrollChoiceBox::setVisibleChoices(int v)
 void ScrollChoiceBox::setTextProps(Color col, int size)
 {
     textSize.x = 0;
-    renderText.setColor(col);
+    renderText.setFillColor(col);
     pointer.setFillColor(col);
     renderText.setCharacterSize(size);
     pointer.setPoint(0, Vector2f(0,0));

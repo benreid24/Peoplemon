@@ -1623,11 +1623,11 @@ void BattleState::transitionScreen()
 {
 	int trans = Random(0,1);
 	trans = 1;
-	Image bgndData = game->mainWindow.capture();
 	Texture bgndTxtr;
 	Sprite bgnd;
 
-	bgndTxtr.loadFromImage(bgndData);
+	bgndTxtr.create(game->mainWindow.getSize().x,game->mainWindow.getSize().y);
+	bgndTxtr.update(game->mainWindow);
 	bgnd.setTexture(bgndTxtr);
 
 

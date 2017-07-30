@@ -32,7 +32,7 @@ void MenuText::setText(string t)
 
 void MenuText::setProps(Color col, int size)
 {
-    text.setColor(col);
+    text.setFillColor(col);
     text.setCharacterSize(size);
 }
 

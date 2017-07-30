@@ -89,7 +89,7 @@ Network::Network(Mode m, string nm) : runner(&Network::update, this)
 		if (s!=Socket::Done)
 		{
             state = Error;
-            eType = FailedToListen;
+             eType = FailedToListen;
 		}
 		else
 			state = Listening;
