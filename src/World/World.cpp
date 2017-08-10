@@ -525,7 +525,7 @@ void World::draw(sf::RenderWindow* window)
                 {
                     if (x>=0 && x<size.x && ySortedTiles[i](x,y).second)
                     {
-                        if (ySortedTiles[i](x,y).second->isAnim && layers[i](x,y).nonZero)
+                        if (ySortedTiles[i](x,y).second->isAnim && ySortedTiles[i](x,y).second->nonZero)
                         {
                             ySortedTiles[i](x,y).second->anim->setPosition(Vector2f(x*32-camPos.x,ySortedTiles[i](x,y).first*32-camPos.y));
                             ySortedTiles[i](x,y).second->anim->draw(window);

@@ -59,7 +59,7 @@
 					<Add option="-std=c++11" />
 					<Add option="-fno-aggressive-loop-optimizations" />
 					<Add option="-Wno-misleading-indentation" />
-					<Add option="-mthreads" />
+					<Add option="-Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic" />
 					<Add option="-DSFML_STATIC" />
 					<Add option="-DRELEASE" />
 					<Add option="-DWindows" />
