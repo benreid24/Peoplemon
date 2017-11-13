@@ -1,0 +1,1 @@
+removeNPC("Marsala2");

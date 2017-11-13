@@ -6,6 +6,8 @@ if (getSaveEntry("gameStarted")!=1)
 	sleep(200);
 	npcToLocation("mom1",4,4,1);
 	movePlayer(1,0,0);
+	sleep(500);
 	interact();
+	sleep(500);
 	//Player conversation will run a script to unlock player & add save entry above
 }

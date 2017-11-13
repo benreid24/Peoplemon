@@ -1,6 +1,4 @@
-if (getSaveEntry("professorDead")!=1 && getSaveEntry("Delivered")!=1)
-{
-	npcToLocation("officer1",344,261,1);
-	moveNPC("officer1",0);
-}
+npcToLocation("officer1",playerXWorldPos()/32,playerYWorldPos()/32+1,1);
+moveNPC("officer1",0);
+sleep(500);
 setPlayerLock(0);
