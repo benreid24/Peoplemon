@@ -156,6 +156,8 @@ void HUD::update()
             else if (gameClock.getTimeStamp()>=timeTillDone)
             {
                 displayingMessage = false;
+                user.pause(250); //to prevent player input from "carrying over"
+                game->world.resetMotionTimers();
                 timeTillDone = 0;
             }
         }

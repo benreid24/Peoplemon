@@ -11,7 +11,7 @@ class Game;
 class PlayerInput
 {
 	Game* game;
-	int js;
+	int js, pTime;
 	enum Type
 	{
 		Xbox,
@@ -55,6 +55,11 @@ public:
 	 * \return True if the input is active, false otherwise
 	 */
 	bool isInputActive(Input i);
+
+	/**
+	 * Pauses the input for the specified number of milliseconds
+	 */
+	void pause(int ms = 250);
 };
 
 #endif // PLAYERINPUT_HPP

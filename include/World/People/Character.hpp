@@ -142,6 +142,11 @@ public:
 	virtual void forceStop();
 
 	/**
+	 * Resets the internal timer used for motion interpolation. Call this to avoid the character "skipping" after conversations
+	 */
+	void resetMotionTimer();
+
+	/**
 	 * Clears all queued movement
 	 */
 	void clearQueue();

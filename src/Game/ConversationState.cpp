@@ -21,6 +21,8 @@ ConversationState::~ConversationState()
     person->resetLock();
     game->player.resetLock();
     game->hud.setAlwaysShow(false);
+    game->world.resetMotionTimers();
+    user.pause(250); //to prevent player input from "carrying over"
 }
 
 void ConversationState::handleData(vector<string> d)

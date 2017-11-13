@@ -376,6 +376,11 @@ public:
      */
 	void stopAnimations();
 
+	/**
+	 * Resets the internal motion timers in all Character's to avoid jerky motion after conversations
+	 */
+	void resetMotionTimers();
+
     /**
      * Adds a light to the world
      *

@@ -230,6 +230,11 @@ void Character::forceStop()
 		walking[i].setFrame(0);
 }
 
+void Character::resetMotionTimer()
+{
+	lastTime = gameClock.getMicros();
+}
+
 void Character::clearQueue()
 {
 	while (!queuedInput.empty())

@@ -86,6 +86,7 @@ bool MainGameState::handleFlags()
 	{
 		game->data.interactFlag = false;
 		game->player.interact(game);
+		game->world.resetMotionTimers();
 	}
 	if (game->data.nextState!=nullptr)
     {

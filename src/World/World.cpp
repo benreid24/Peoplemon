@@ -984,6 +984,16 @@ void World::unlockAllPeople()
     }
 }
 
+void World::resetMotionTimers()
+{
+	for (unsigned int i = 0; i<objects.size(); ++i)
+	{
+        Character* c = dynamic_cast<Character*>(objects[i]);
+        if (c != nullptr)
+			c->resetMotionTimer();
+	}
+}
+
 vector<PeoplemonRef> World::getWildPeoplemon()
 {
     vector<int> ranges;

@@ -2,11 +2,13 @@
 #include "Game/Game.hpp"
 #include "SFML.hpp"
 #include "Properties.hpp"
+#include "Globals.hpp"
 using namespace sf;
 
 PlayerInput::PlayerInput()
 {
 	game = nullptr;
+	pTime = 0;
 	type = None;
 	Joystick::update();
 	for (int i = 0; i<Joystick::Count; ++i)
@@ -50,6 +52,11 @@ void PlayerInput::setGame(Game* g)
 	game = g;
 }
 
+void PlayerInput::pause(int ms)
+{
+	pTime = gameClock.getTimeStamp()+ms;
+}
+
 bool PlayerInput::isInputActive(Input i)
 {
 	update();
@@ -59,6 +66,8 @@ bool PlayerInput::isInputActive(Input i)
 		if (!game->inFocus)
 			return false;
 	}
+	if (gameClock.getTimeStamp()<=pTime)
+		return false;
 
 	switch (i)
 	{
