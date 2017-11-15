@@ -7,6 +7,7 @@
 #include "Conversation.hpp"
 
 class Game;
+class Script;
 
 /**
  * Class to represent trainers in the over world and store their peoplemon
@@ -23,12 +24,15 @@ class Trainer : public Character
     bool beaten, confrontingPlayer;
     int range;
     int aiType;
+    int prizeMoney;
     int lastTime;
 
     /**
      * Starts a battle with the player by invoking the TrainerSpottedPlayer state
      */
     void startFight(Game* game);
+
+    friend class Script;
 
 public:
     /**

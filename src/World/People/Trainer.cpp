@@ -58,6 +58,14 @@ Trainer::Trainer(Game* g, string file, bool lost)
         behavior = new PathController(this, &input);
     else
         behavior = new WanderingController(this, &input);
+
+	int maxLevel = -1;
+	for (unsigned int i = 0; i<peoplemon.size(); ++i)
+	{
+		if (peoplemon[i].level>maxLevel)
+			maxLevel = peoplemon[i].level;
+	}
+	prizeMoney = maxLevel*70;
 }
 
 void Trainer::update(Game* game)
@@ -66,7 +74,7 @@ void Trainer::update(Game* game)
 
     if (!beaten && !confrontingPlayer)
     {
-        Object* o =game->world.getFirstObject(mapPos,dir,range);
+        Object* o = game->world.getFirstObject(mapPos,dir,range);
         if (Player* p = dynamic_cast<Player*>(o))
         {
             if (!p->isOccupied())
@@ -119,14 +127,9 @@ void Trainer::startFight(Game* game)
     if (game->data.gameClosedFlag)
 		return;
 
-	int maxLevel = -1;
-	for (unsigned int i = 0; i<peoplemon.size(); ++i)
-	{
-		if (peoplemon[i].level>maxLevel)
-			maxLevel = peoplemon[i].level;
-	}
 
-	BattleState* b = new BattleState(game,createBattler(aiType,&peoplemon,items),name,loserSay,maxLevel*70,false,bMusic,bBgnd);
+
+	BattleState* b = new BattleState(game,createBattler(aiType,&peoplemon,items),name,loserSay,prizeMoney,false,bMusic,bBgnd);
 	game->runStateUnderPriveldged(b,false);
 	if (game->data.gameClosedFlag)
 	{

@@ -13,6 +13,7 @@
 #include "Globals.hpp"
 #include "SFML.hpp"
 #include <iostream>
+#include <exception>
 #include <vector>
 #include <sstream>
 #include <memory>
@@ -92,6 +93,7 @@ namespace {
 					"spawnTrainer",
 					"sqrt",
 					"startBattle",
+					"startTrainerBattle",
 					"stringToInt",
 					"takeItem",
 					"trainerDefeated",
@@ -471,11 +473,31 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			string nextBattleBgnd = args.at(2).sValue;
 			string nextBattleMusic = args.at(1).sValue;
 			string nextBattlePplmon = args.at(0).sValue;
+			bool block = (args.size()>3)?(args.at(3).iValue==1):(true);
 			vector<PeoplemonRef> pplmon;
 			PeoplemonRef ppl;
 			ppl.load(environment->getGame(),Properties::WildPeoplemonPath+nextBattlePplmon);
 			pplmon.push_back(ppl);
-			environment->getGame()->data.nextState = new BattleState(environment->getGame(),createBattler(0,&pplmon,vector<int>()),ppl.name,"",0,true,nextBattleMusic,nextBattleBgnd);
+			environment->getGame()->data.nextState = new BattleState(environment->getGame(),createBattler(0,&pplmon,vector<int>()),ppl.name,"",0,false,nextBattleMusic,nextBattleBgnd);
+			if (block)
+			{
+				while (environment->getGame()->data.nextState != nullptr)
+					sleep(milliseconds(200));
+			}
+			ret.iValue = environment->getGame()->data.lastBattleWon;
+		}
+		else if (name=="startTrainerBattle")
+		{
+			string tnrFile = args.at(0).sValue;
+			bool block = (args.size()>1)?(args.at(1).iValue==1):(true);
+			Trainer tnr(environment->getGame(),Properties::TrainerPath+tnrFile,false);
+			environment->getGame()->data.nextState = new BattleState(environment->getGame(),createBattler(tnr.aiType,&tnr.peoplemon,tnr.items),tnr.getName(),tnr.loserSay,tnr.prizeMoney,false,tnr.bMusic,tnr.bBgnd);
+			if (block)
+			{
+				while (environment->getGame()->data.nextState != nullptr)
+					sleep(milliseconds(200));
+			}
+			ret.iValue = environment->getGame()->data.lastBattleWon;
 		}
 		else if (name=="saveGame")
 			environment->getGame()->data.saveGameFlag = true;

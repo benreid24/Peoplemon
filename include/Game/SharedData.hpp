@@ -26,6 +26,8 @@ struct SharedData
     int nextSpawnId;
     int nextWeather;
 
+    bool lastBattleWon;
+
     Gamestate* nextState;
 
     int repelStepsLeft;

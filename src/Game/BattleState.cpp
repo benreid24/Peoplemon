@@ -53,6 +53,7 @@ BattleState::~BattleState()
     game->hud.rePosition();
     delete player;
     delete opponent;
+    game->data.lastBattleWon = playerWinned;
 }
 
 bool BattleState::shouldClose()

@@ -14,4 +14,5 @@ SharedData::SharedData()
     interactFlag = false;
     repelStepsLeft = 0;
     nextState = nullptr;
+    lastBattleWon = false;
 }
