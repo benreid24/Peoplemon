@@ -19,7 +19,7 @@ struct SharedData
     bool whiteoutFlag;
     bool interactFlag;
     bool saveGameFlag;
-    bool pauseGameFlag;
+    bool pauseGameFlag, canSaveWhilePaused;
     bool gameClosedFlag; //used by Npc/Trainer interact functions so they can create/run states then indicate to main state if should close
 
     std::string nextMapName;

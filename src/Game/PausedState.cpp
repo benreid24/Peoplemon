@@ -34,7 +34,8 @@ bool PausedState::execute()
     choices.addChoice("Peoplemon");
     choices.addChoice("Bag");
     choices.addChoice("Map");
-    choices.addChoice("Save");
+    if (game->data.canSaveWhilePaused)
+		choices.addChoice("Save");
     choices.addChoice("Settings");
     choices.addChoice("Quit");
     choices.setBackgroundColor(Color::White);

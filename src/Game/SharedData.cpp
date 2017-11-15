@@ -9,6 +9,7 @@ SharedData::SharedData()
     loadMapFlag = false;
     whiteoutFlag = false;
     pauseGameFlag = false;
+    canSaveWhilePaused = true;
     gameClosedFlag = false;
     saveGameFlag = false;
     interactFlag = false;

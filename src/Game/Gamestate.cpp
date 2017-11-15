@@ -29,11 +29,15 @@ bool Gamestate::finishFrame()
             return true;
         }
         if (event.type==Event::GainedFocus)
+		{
 			game->inFocus = true;
+			game->data.canSaveWhilePaused = true;
+		}
 		if (event.type==Event::LostFocus)
 		{
 			game->inFocus = false;
 			game->data.pauseGameFlag = true;
+			game->data.canSaveWhilePaused = false;
 		}
 
 		if (event.type==Event::Resized)
