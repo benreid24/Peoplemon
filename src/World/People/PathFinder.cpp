@@ -69,33 +69,42 @@ vector<int> PathFinder::getPath()
     while (true)
 	{
 		Vector3i adjNodes[4];
+		int adjIndexes[4];
 		int adjCount = 0;
         for (unsigned int i = 0; i<nodes.size(); ++i)
 		{
 			if ((abs(nodes[i].x-curPos.x)==1 && nodes[i].y==curPos.y) || (abs(nodes[i].y-curPos.y)==1 && nodes[i].x==curPos.x))
 			{
 				adjNodes[adjCount] = nodes[i];
+				adjIndexes[adjCount] = i;
 				adjCount++;
 				if (adjCount==4)
 					break;
 			}
 		}
 
-        int lowI = -1, lowC = 10000;
+		if (adjCount==0)
+            return vector<int>();
+
+        int lowI = -1, lowC = 10000, delI = 0;
         for (int i = 0; i<adjCount; ++i)
 		{
 			if (adjNodes[i].z<lowC)
 			{
 				lowC = adjNodes[i].z;
 				lowI = i;
+				delI = adjIndexes[i];
 			}
 		}
 
 		path.push_back(Vector2i(adjNodes[lowI].x,adjNodes[lowI].y));
+		nodes.erase(nodes.begin()+delI);
 		curPos = Vector2i(adjNodes[lowI].x,adjNodes[lowI].y);
 
 		if (curPos==dest)
 			break;
+        else if (nodes.size()==0)
+            return vector<int>();
 	}
 
 	vector<int> ret;
