@@ -104,9 +104,10 @@ public:
      * \param ignoreCols Whether or not to ignore collisions
      * \param playAnims Whether or not to play the animations
      * \param queueInput Whether or not the input should be queued
+     * \param ignoreLock True to ignore lock state
      * \return Whether or not the Character was able to move
      */
-    bool move(Game* game, int d, bool ignoreCols = false, bool playAnims = true, bool queueInput = false);
+    bool move(Game* game, int d, bool ignoreCols = false, bool playAnims = true, bool queueInput = false, bool ignoreLock = false);
 
     /**
      * Shifts the position of the character the given number of tiles, ignoring other entities and walls

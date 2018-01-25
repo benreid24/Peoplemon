@@ -151,7 +151,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		else if (name=="playerDir")
 			ret.iValue = environment->getGame()->player.getDir();
 		else if (name=="movePlayer")
-			environment->getGame()->player.move(environment->getGame(),args.at(0).iValue,bool(args.at(1).iValue),bool(args.at(2).iValue),true);
+			environment->getGame()->player.move(environment->getGame(),args.at(0).iValue,bool(args.at(1).iValue),bool(args.at(2).iValue),true,true);
 		else if (name=="playerToLocation")
 		{
 			if (args.at(2).iValue==0)
@@ -159,7 +159,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(0).iValue,args.at(1).iValue), environment->getGame()->player.getDir());
 				vector<int> moves = finder.getPath();
 				for (unsigned int i = 0; i<moves.size(); ++i)
-					environment->getGame()->player.move(environment->getGame(),moves[i],false,true,true);
+					environment->getGame()->player.move(environment->getGame(),moves[i],false,true,true,true);
 			}
 			else
 			{
@@ -184,7 +184,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 						}
 					}
 					else {
-						if (!environment->getGame()->player.move(environment->getGame(),moves[0])) {
+						if (!environment->getGame()->player.move(environment->getGame(),moves[0],false,true,false,true)) {
 							PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(0).iValue,args.at(1).iValue), environment->getGame()->player.getDir());
 							moves = finder.getPath();
 						}
@@ -329,7 +329,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 					PathFinder finder(environment->getGame(), t->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), t->getDir());
 					vector<int> moves = finder.getPath();
 					for (unsigned int i = 0; i<moves.size(); ++i)
-						t->move(environment->getGame(),moves[i],false,true,true);
+						t->move(environment->getGame(),moves[i],false,true,true,true);
 				}
 				else
 				{
@@ -354,7 +354,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 							}
 						}
 						else {
-							if (!t->move(environment->getGame(),moves[0])) {
+							if (!t->move(environment->getGame(),moves[0],false,true,false,true)) {
 								PathFinder finder(environment->getGame(), t->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), t->getDir());
 								moves = finder.getPath();
 							}
@@ -449,7 +449,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 					PathFinder finder(environment->getGame(), n->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), n->getDir());
 					vector<int> moves = finder.getPath();
 					for (unsigned int i = 0; i<moves.size(); ++i)
-						n->move(environment->getGame(),moves[i],false,true,true);
+						n->move(environment->getGame(),moves[i],false,true,true,true);
 				}
 				else
 				{
@@ -474,7 +474,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 							}
 						}
 						else {
-							if (!n->move(environment->getGame(),moves[0])) {
+							if (!n->move(environment->getGame(),moves[0],false,true,false,true)) {
 								PathFinder finder(environment->getGame(), n->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), n->getDir());
 								moves = finder.getPath();
 							}
@@ -555,15 +555,12 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		else if (name=="startTrainerBattle")
 		{
 			string tnrFile = args.at(0).sValue;
-			bool block = (args.size()>1)?(args.at(1).iValue==1):(true);
-			Trainer tnr(environment->getGame(),Properties::TrainerPath+tnrFile,false);
-			environment->getGame()->data.nextState = new BattleState(environment->getGame(),createBattler(tnr.aiType,&tnr.peoplemon,tnr.items),tnr.getName(),tnr.loserSay,tnr.prizeMoney,false,tnr.bMusic,tnr.bBgnd);
-			if (block)
-			{
-				while (environment->getGame()->data.nextState != nullptr)
-					sleep(milliseconds(200));
-			}
+			Trainer* tnr = new Trainer(environment->getGame(),Properties::TrainerPath+tnrFile,false);
+			environment->getGame()->data.nextState = new BattleState(environment->getGame(),createBattler(tnr->aiType,&tnr->peoplemon,tnr->items),tnr->getName(),tnr->loserSay,tnr->prizeMoney,false,tnr->bMusic,tnr->bBgnd);
+			while (environment->getGame()->data.nextState != nullptr)
+				sleep(milliseconds(200));
 			ret.iValue = environment->getGame()->data.lastBattleWon;
+			delete tnr;
 		}
 		else if (name=="saveGame")
 			environment->getGame()->data.saveGameFlag = true;
