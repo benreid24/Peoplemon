@@ -53,5 +53,18 @@ runScript("npcToLocation(\"ThugJojo\",400,180,1);moveNPC(\"ThugJojo\",0);",1);
 sleep(1000);
 runScript("npcToLocation(\"Thug Jimmy\",401,179,1);moveNPC(\"Thug Jimmy\",0);",1);
 
-runScript("sleep(3000); moveNPC(\"Marsala2\",2); sleep(2000); moveNPC(\"Marsala2\",1); sleep(2000); moveNPC(\"Marsala2\",0); sleep(1000); messageBox(\"I can take these chumps kid.\",\"Just go in there and show their boss who's boss.\") ;setPlayerLock(0); playerToLocation(401,171,1);",0);
+sleep(3000);
+moveNPC("Marsala2",2);
+sleep(2000);
+moveNPC("Marsala2",1);
+sleep(2000);
+moveNPC("Marsala2",0);
+sleep(1000);
+messageBox("I can take these chumps kid","Just go in there and show their boss who's boss");
+sleep(1500);
+moveNPC("Marsala2", 2);
+print("moving you");
+playerToLocation(401,171,0);
+print("done?");
+
 addSaveEntry("ReadyForBoss1",1);

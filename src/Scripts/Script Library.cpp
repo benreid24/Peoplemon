@@ -170,12 +170,12 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				while (true)
 				{
 					if (moves.size()==0) {
-						if (environment->getGame()->player.getMapPos()==Vector2i(args.at(1).iValue,args.at(2).iValue))
+						if (environment->getGame()->player.getMapPos()==Vector2i(args.at(0).iValue,args.at(1).iValue))
 							break;
 						else if (retries<3) {
 							retries++;
 							sleep(milliseconds(2000));
-							PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), environment->getGame()->player.getDir());
+							PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(0).iValue,args.at(1).iValue), environment->getGame()->player.getDir());
 							moves = finder.getPath();
 						}
 						else {
@@ -185,7 +185,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 					}
 					else {
 						if (!environment->getGame()->player.move(environment->getGame(),moves[0])) {
-							PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), environment->getGame()->player.getDir());
+							PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(0).iValue,args.at(1).iValue), environment->getGame()->player.getDir());
 							moves = finder.getPath();
 						}
 						else if (moves.size()>0)
