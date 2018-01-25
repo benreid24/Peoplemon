@@ -48,17 +48,23 @@ char Traverser::read()
 	char r = data[cChar];
 	cChar++;
 	if (r!='"')
-	ignoreWhitespace();
+		ignoreWhitespace();
 	return r;
 }
 
 string Traverser::readTo(char delim)
 {
 	string r;
+	bool escaped = false;
+
     r.reserve(64);
-	while (data[cChar]!=delim && cChar<data.size())
+	while ((data[cChar]!=delim || escaped) && cChar<data.size())
 	{
-		r.push_back(data[cChar]);
+		escaped = false;
+		if (data[cChar]=='\\' && !escaped)
+			escaped = true;
+		else
+			r.push_back(data[cChar]);
 		cChar++;
 	}
 	read(); //to ignore the deliminator and move on to the next non-whitespace

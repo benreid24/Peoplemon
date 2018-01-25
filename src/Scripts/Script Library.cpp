@@ -163,13 +163,35 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			}
 			else
 			{
-				vector<int> moves = {1};
-				while (moves.size()>0)
+				PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), environment->getGame()->player.getDir());
+				vector<int> moves = finder.getPath();
+
+				int retries = 0;
+				while (true)
 				{
-					PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(0).iValue,args.at(1).iValue), environment->getGame()->player.getDir());
-					moves = finder.getPath();
-					if (moves.size()>0)
-						environment->getGame()->player.move(environment->getGame(),moves[0]);
+					if (moves.size()==0) {
+						if (environment->getGame()->player.getMapPos()==Vector2i(args.at(1).iValue,args.at(2).iValue))
+							break;
+						else if (retries<3) {
+							retries++;
+							sleep(milliseconds(2000));
+							PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), environment->getGame()->player.getDir());
+							moves = finder.getPath();
+						}
+						else {
+							cout << "Warning: Player failed to find path after 3 tries\n";
+							break;
+						}
+					}
+					else {
+						if (!environment->getGame()->player.move(environment->getGame(),moves[0])) {
+							PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), environment->getGame()->player.getDir());
+							moves = finder.getPath();
+						}
+						else if (moves.size()>0)
+							moves.erase(moves.begin());
+					}
+					sleep(milliseconds(10));
 				}
 			}
 		}
@@ -311,13 +333,35 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				}
 				else
 				{
-					vector<int> moves = {1};
-					while (moves.size()>0)
+					PathFinder finder(environment->getGame(), t->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), t->getDir());
+					vector<int> moves = finder.getPath();
+
+					int retries = 0;
+					while (true)
 					{
-						PathFinder finder(environment->getGame(), t->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), t->getDir());
-						moves = finder.getPath();
-						if (moves.size()>0)
-							t->move(environment->getGame(),moves[0]);
+						if (moves.size()==0) {
+							if (t->getMapPos()==Vector2i(args.at(1).iValue,args.at(2).iValue))
+								break;
+							else if (retries<3) {
+								retries++;
+								sleep(milliseconds(2000));
+								PathFinder finder(environment->getGame(), t->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), t->getDir());
+								moves = finder.getPath();
+							}
+							else {
+								cout << "Warning: Trainer " << t->getName() << " failed to find path after 3 tries\n";
+								break;
+							}
+						}
+						else {
+							if (!t->move(environment->getGame(),moves[0])) {
+								PathFinder finder(environment->getGame(), t->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), t->getDir());
+								moves = finder.getPath();
+							}
+							else if (moves.size()>0)
+								moves.erase(moves.begin());
+						}
+						sleep(milliseconds(10));
 					}
 				}
 			}
@@ -409,13 +453,35 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				}
 				else
 				{
-					vector<int> moves = {1};
-					while (moves.size()>0)
+					PathFinder finder(environment->getGame(), n->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), n->getDir());
+					vector<int> moves = finder.getPath();
+
+					int retries = 0;
+					while (true)
 					{
-						PathFinder finder(environment->getGame(), n->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), n->getDir());
-						moves = finder.getPath();
-						if (moves.size()>0)
-							n->move(environment->getGame(),moves[0]);
+						if (moves.size()==0) {
+							if (n->getMapPos()==Vector2i(args.at(1).iValue,args.at(2).iValue))
+								break;
+							else if (retries<3) {
+								retries++;
+								sleep(milliseconds(2000));
+								PathFinder finder(environment->getGame(), n->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), n->getDir());
+								moves = finder.getPath();
+							}
+							else {
+								cout << "Warning: NPC " << n->getName() << " failed to find path after 3 tries\n";
+								break;
+							}
+						}
+						else {
+							if (!n->move(environment->getGame(),moves[0])) {
+								PathFinder finder(environment->getGame(), n->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), n->getDir());
+								moves = finder.getPath();
+							}
+							else if (moves.size()>0)
+								moves.erase(moves.begin());
+						}
+						sleep(milliseconds(10));
 					}
 				}
 			}
