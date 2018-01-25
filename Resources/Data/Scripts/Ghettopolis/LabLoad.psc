@@ -1,2 +1,5 @@
-spawnTrainer("Ghettopolis/ThugBossJordan.tnr",10,7,1,0);
-spawnNPC("Ghettopolis/GProf.npc",11,7,3,0);
+if (getSaveEntry("ReadyForBoss1")==1)
+	{
+	 setPlayerLock(1);
+	 runScript("Ghettopolis/LabLoad2.psc",1);
+	}

@@ -163,7 +163,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			}
 			else
 			{
-				PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), environment->getGame()->player.getDir());
+				PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(0).iValue,args.at(1).iValue), environment->getGame()->player.getDir());
 				vector<int> moves = finder.getPath();
 
 				int retries = 0;
