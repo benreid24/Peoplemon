@@ -299,7 +299,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			bool playAnims = (args.size()>2)?(args.at(2).iValue!=0):(true);
 			ret.iValue = 0;
 			if (t)
-				ret.iValue = t->move(environment->getGame(),args.at(1).iValue,ignoreCols,playAnims,true);
+				ret.iValue = t->move(environment->getGame(),args.at(1).iValue,ignoreCols,playAnims,true,true);
 			else
 				cout << "Failed to find Trainer \"" << args.at(0).sValue << "\"!\n";
 		}
@@ -425,7 +425,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			bool playAnims = (args.size()>2)?(args.at(2).iValue!=0):(true);
 			ret.iValue = 0;
 			if (n)
-				ret.iValue = n->move(environment->getGame(),args.at(1).iValue,ignoreCols,playAnims,true);
+				ret.iValue = n->move(environment->getGame(),args.at(1).iValue,ignoreCols,playAnims,true,true);
 			else
 				cout << "Failed to find NPC \"" << args.at(0).sValue << "\"!\n";
 		}
