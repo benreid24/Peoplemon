@@ -204,6 +204,8 @@ void Animation::draw(sf::RenderWindow* window)
     if (!animSrc)
         return;
 
+	update();
+
     std::vector<Sprite>& t = animSrc->getFrame(curFrm, position);
     for (unsigned int i = 0; i<t.size(); ++i)
 		window->draw(t[i]);

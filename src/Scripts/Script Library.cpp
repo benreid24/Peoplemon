@@ -81,6 +81,7 @@ namespace {
 					"setNPCLock",
 					"setPlayerLock",
 					"setTrainerLock",
+					"setTrainerBeaten",
 					"setWeather",
 					"shiftNPC",
 					"shiftPlayer",
@@ -154,6 +155,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			environment->getGame()->player.move(environment->getGame(),args.at(0).iValue,bool(args.at(1).iValue),bool(args.at(2).iValue),true,true);
 		else if (name=="playerToLocation")
 		{
+			environment->getGame()->player.setLock(true,true);
 			if (args.at(2).iValue==0)
 			{
 				PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(0).iValue,args.at(1).iValue), environment->getGame()->player.getDir());
@@ -324,6 +326,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			Trainer* t = environment->getGame()->world.getTrainer(args.at(0).sValue);
 			if (t)
 			{
+				t->setLock(true,true);
 				if (args.at(3).iValue==0)
 				{
 					PathFinder finder(environment->getGame(), t->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), t->getDir());
@@ -383,6 +386,11 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				t->setLock(args.at(1).iValue);
 			else
 				cout << "Failed to find Trainer \"" << args.at(0).sValue << "\"!\n";
+		}
+		else if (name=="setTrainerBeaten") {
+			string name = args.at(0).sValue;
+			bool beaten = args.at(1).iValue==1;
+			environment->getGame()->world.setTrainerBeaten(name, beaten);
 		}
 		else if (name=="removeTrainer")
 		{
@@ -444,6 +452,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			Npc* n = environment->getGame()->world.getNPC(args.at(0).sValue);
 			if (n)
 			{
+				n->setLock(true,true);
 				if (args.at(3).iValue==0)
 				{
 					PathFinder finder(environment->getGame(), n->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), n->getDir());

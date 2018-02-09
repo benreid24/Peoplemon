@@ -4,7 +4,7 @@ if (getSaveEntry("MarsalatoTown")!=1)
 	 spawnNPC("Ghettopolis/FoodLady.npc",414,164,3,0);
 	}
 
-if (getSaveEntry("MarsalatoTown")==1)//Broken Somewhere here...
+if (getSaveEntry("MarsalatoTown")==1&& getSaveEntry("ThugBossJordanBeat")!=1)
 	{
 	 spawnNPC("Ghettopolis/Marsala2.npc",420,190,0,0);
 	 if (getSaveEntry("MarsalaFend")!=1)
@@ -25,6 +25,7 @@ if (getSaveEntry("MarsalatoTown")==1)//Broken Somewhere here...
 	}
 //-----------------Spawning Boat Guys-------------------
 spawnNPC("Ghettopolis/boatGuy3.npc",413,133,3,0);
+
 if (getSaveEntry("boatGuy1") == 1)
 	{
 	 spawnNPC("Ghettopolis/boatGuy2.npc",445,184,3,0);
@@ -32,6 +33,7 @@ if (getSaveEntry("boatGuy1") == 1)
 
 
 //--------------------------Spawning Thugs---------------------	
+if (getSaveEntry("ThugBossJordanBeat")!=1)	 
 	 spawnNPC("Ghettopolis/ThugJimmy.npc",435,180,2,0);//Boathouse Door
 
 if (getSaveEntry("DockTrigger")!=1)
@@ -71,8 +73,30 @@ if (getSaveEntry("MarsalatoTown")!=1)
 		}
 	}
 	
-if (getSaveEntry("MarsalatoTown")==1)	
+if (getSaveEntry("MarsalatoTown")==1 && getSaveEntry("ThugBossJordanBeat")!=1)	
 	spawnTrainer("Ghettopolis/ThugJerry2.tnr",401,172,2,0);//Lab Door
 	
-//
+if (getSaveEntry("ThugBossJordanBeat")==1)
+	{
+	 spawnNPC("Ghettopolis/BeatThugMa.npc",403,178,0,0);
+	 spawnNPC("Ghettopolis/BeatThugMa.npc",396,188,2,0);
+	 spawnNPC("Ghettopolis/BeatThugMb.npc",400,179,2,0);
+	 spawnNPC("Ghettopolis/BeatThugMb.npc",401,191,2,0);
+	 spawnNPC("Ghettopolis/BeatThugFa.npc",401,181,2,0);
+	 spawnNPC("Ghettopolis/BeatThugFa.npc",407,173,0,0);
+	 spawnNPC("Ghettopolis/BeatThugMi.npc",402,183,0,0);
+	 spawnNPC("Ghettopolis/BeatThugMb.npc",419,174,2,0);
+	 spawnNPC("Ghettopolis/BeatThugFa.npc",421,184,0,0);
+	 spawnNPC("Ghettopolis/Officerg.npc",412,169,0,0);
+	 spawnNPC("Ghettopolis/Officerg.npc",402,180,2,0);
+	 spawnNPC("Ghettopolis/Officeri.npc",399,173,1 ,0);
+	}
 	
+if (getSaveEntry("ThugBossJordanBeat")==1 && trainerDefeated("Gym Leader Marsala")!=1)
+	spawnNPC("Ghettopolis/MarsalaVictory.npc",419,171,1,0);
+	
+	if (getSaveEntry("Jake1Removed")==1)
+	{
+	 setCollisions(420,171,2,1,1);
+	 editTile(420,170,5,0);
+	}

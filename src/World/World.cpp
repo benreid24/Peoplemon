@@ -457,11 +457,6 @@ void World::update()
     objLock.unlock();
 
     calculateLighting();
-
-    for (unsigned int i = 0; i<anims.size(); ++i)
-	{
-		anims[i].update();
-	}
 }
 
 void World::calculateLighting()
@@ -776,10 +771,13 @@ void World::setItemPickedUp(int id)
     pickedUpItems[name].push_back(id);
 }
 
-void World::setTrainerBeaten(string nm)
+void World::setTrainerBeaten(string nm, bool beaten)
 {
-	if (find(beatenTrainers.begin(), beatenTrainers.end(), nm)==beatenTrainers.end())
+	auto i = find(beatenTrainers.begin(), beatenTrainers.end(), nm);
+	if (i==beatenTrainers.end() && beaten)
 		beatenTrainers.push_back(nm);
+	else if (!beaten && i!=beatenTrainers.end())
+		beatenTrainers.erase(i);
 }
 
 bool World::trainerBeaten(string nm)

@@ -2,7 +2,7 @@
 sleep(1000);
 messageBox("..so..");
 removeNPC("Marsala2");
-spawnNPC("Ghettopolis/Marsala2.npc",412,172,0,1);
+spawnNPC("Ghettopolis/Marsala2.npc",414,172,0,1);
 sleep(1000);
 npcToLocation("Marsala2",400,175,1);
 moveNPC("Marsala2",0);
@@ -30,6 +30,7 @@ removeNPC("Thug Jimmy");
 removeNPC("ThugJil");
 removeNPC("ThugJay");
 removeNPC("ThugJojo");
+sleep(20); //wait for removal que to be emptied before spawning and moving npcs
 
 spawnNPC("Ghettopolis/ThugJaq.npc",400,183,1);
 spawnNPC("Ghettopolis/ThugJacob.npc",401,183,1);
@@ -61,10 +62,11 @@ sleep(1000);
 moveNPC("Marsala2",2);
 sleep(1500);
 moveNPC("Marsala2",0);
-sleep(1000);
+sleep(2000);
 messageBox("I can take these chumps kid","Just go in there and show their boss who's boss");
-sleep(1500);
+sleep(2500);
 moveNPC("Marsala2", 2);
+sleep(1000);
 print("moving you");
 addSaveEntry("ReadyForBoss1",1);
 playerToLocation(401,171,1);

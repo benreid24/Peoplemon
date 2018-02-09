@@ -319,8 +319,9 @@ public:
      * Sets the trainer with the given name to a state where they will no longer battle the player, ever
      *
      * \param name The name of the trainer who was beaten
+     * \param beaten Whether or not the trainer is beaten
      */
-    void setTrainerBeaten(std::string name);
+    void setTrainerBeaten(std::string name, bool beaten = true);
 
     /**
      * Given a trainer name, returns whether or now they were beaten
