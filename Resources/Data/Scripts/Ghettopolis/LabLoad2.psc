@@ -18,6 +18,8 @@
 		 sleep(200);
 		 messageBox("Okay kid but it's your funeral");
 		 startTrainerBattle("Ghettopolis/ThugBossJordan.tnr");
+		 int playerx = playerXWorldPos();
+		 int playery = playerYWorldPos();
 		}
 		if (answer == "Okay")
 		{
@@ -27,7 +29,9 @@
 		 int playerx = playerXWorldPos();
 		 int playery = playerYWorldPos();
 		 trainerToLocation("ThugBossJordan",playerx/32,(playery/32)-1,1);
+		 sleep(500);
 		 moveTrainer("ThugBossJordan",2);
+		 sleep(500);
 		 movePlayer(0,0,1);
 		 sleep(500); 
 		 messageBox("I can't have any witnesses","Did you really think I'd let you leave?");
@@ -41,8 +45,6 @@
 		 trainerToLocation("ThugBossJordan",9,14,1);
 		 removeTrainer("ThugBossJordan");
 		 sleep(2000);
-		 int playerx = playerXWorldPos();
-		 int playery = playerYWorldPos();
 		 npcToLocation("GProf",playerx/32,(playery/32)-1,1);
 		 moveNPC("GProf",2);
 		 sleep(200);

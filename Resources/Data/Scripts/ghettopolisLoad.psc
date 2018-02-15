@@ -1,3 +1,5 @@
+spawnNPC("Ghettopolis/trashGuy.npc",419,182,0,0);
+
 if (getSaveEntry("MarsalatoTown")!=1)
 	{
 	 spawnNPC("Ghettopolis/Marsala.npc",391,111,0,0);
@@ -53,8 +55,8 @@ if (getSaveEntry("DockTrigger")==1 && getSaveEntry("MandP")!=1)
 if (getSaveEntry("DockThugsLeave")!=1 && getSaveEntry("MandP")==1)
 	{
 	 spawnTrainer("Ghettopolis/ThugJacky.tnr",443,184,3,0);//Near Boat Guy Island 1 (Leader)
-	 spawnNPC("Ghettopolis/ThugJacob.npc",444,185,2,0);//Near Boat Guy Island 1
-	 spawnNPC("Ghettopolis/ThugJustin.npc",444,186,0,0);//Near Boat Guy Island 1 
+	 spawnNPC("Ghettopolis/ThugJacob.npc",444,185,3,0);//Near Boat Guy Island 1
+	 spawnNPC("Ghettopolis/ThugJustin.npc",444,186,3,0);//Near Boat Guy Island 1 
 	}
 if (getSaveEntry("MarsalatoTown")!=1)	
 	{
@@ -98,5 +100,5 @@ if (getSaveEntry("ThugBossJordanBeat")==1 && trainerDefeated("Gym Leader Marsala
 	if (getSaveEntry("Jake1Removed")==1)
 	{
 	 setCollisions(420,171,2,1,1);
-	 editTile(420,170,5,0);
+	 editTile(421,171,6,0);
 	}

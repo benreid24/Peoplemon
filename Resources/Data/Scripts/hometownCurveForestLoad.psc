@@ -1,3 +1,11 @@
+//-----------Jake Blocker Anim---------------------
+if (getSaveEntry("JakeUnblocked")!=1)
+	{
+	 setCollisions(315,275,1,1,0);
+	 spawnNPC("JakeBlocker.npc",316,275,0,0);
+	}
+if (getSaveEntry("JakeUnblocked")==1)
+	 editTile(316,275,5,0);
 //----------Spawning Curvelinear Forest Blocker-------------- 
 
 if (getSaveEntry("professorDead")!=1)
@@ -11,7 +19,7 @@ if (getSaveEntry("boatGuy1")==1)
 	
 //-----------------Spawning Officer (Hometown) -----------------------------------
 
-if (getSaveEntry("boatGuy1")==1 && getSaveEntry("TalkedBoatGuy")!=1) //Officer next to Thug
+if (getSaveEntry("boatGuy1")==1 && getSaveEntry("MarsalatoTown")!=1 && getSaveEntry("TalkedBoatGuy")!=1) //Officer next to Thug
 	{
 	 spawnNPC("CurveForest/Officer3.npc",317,195,3,0);
 	}
@@ -49,7 +57,7 @@ if (getSaveEntry("professorDead")==1 && getSaveEntry("boatGuy1") != 1)
 if (getSaveEntry("professorDead")==1 && getSaveEntry("thugsRunAway")!=1) 
 	 spawnNPC("Hometown/hometownThug1.npc",369,246,2,0);
 
-if (getSaveEntry("thugsRunAway")==1 && getSaveEntry("TalkedBoatGuy")!=1) //Trainer Thug in Forest
+if (getSaveEntry("thugsRunAway")==1 && getSaveEntry("MarsalatoTown")!=1 && getSaveEntry("TalkedBoatGuy")!=1) //Trainer Thug in Forest
 	{
 	 spawnTrainer("CurveForest/Thug1.tnr",316,195,2,0);
 	}

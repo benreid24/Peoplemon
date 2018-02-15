@@ -868,12 +868,12 @@ Object* World::getFirstObject(Vector2i pos, int dir, int range)
 
     for (int i = 0; i<range; ++i)
     {
-        for (unsigned int j = 0; j<objects.size(); ++j)
+    	for (unsigned int j = 0; j<objects.size(); ++j)
         {
         	if (int(objects[j]->getPosition().x/32+0.01)==cur.x && int(objects[j]->getPosition().y/32+0.01)==cur.y)
                 return objects[j];
         }
-        if (collisions(cur.x,cur.y)==1)
+        if (!spaceFree(cur+chg, cur) && charCols((cur+chg).x, (cur+chg).y)==0)
             return nullptr;
         cur += chg;
     }

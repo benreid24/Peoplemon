@@ -6,6 +6,7 @@ spawnNPC("Ghettopolis/Marsala2.npc",414,172,0,1);
 sleep(1000);
 npcToLocation("Marsala2",400,175,1);
 moveNPC("Marsala2",0);
+sleep(700);
 messageBox("Hey, Thug dude!", "Move!");
 sleep(300);
 messageBox("*gulp*","The..", "the boss.. he..", "..he said..");
