@@ -76,7 +76,7 @@ void World::load(string file, int spId, bool trans)
     curMap = file;
     if (spId!=0 && spId!=-1)
     {
-        lastPos = game->player.getPosition();
+        lastPos = game->player.getLastPosition();
         lastDir = game->player.getDir()+2;
         if (lastDir>3)
             lastDir -= 4;
@@ -244,10 +244,7 @@ void World::load(string file, int spId, bool trans)
             game->player.spawn(pos,d);
     }
     if (spId==0)
-	{
 		game->player.spawn(lastPos,lastDir);
-		game->player.shift(0,1); //to move down past the door. if spawning in walls, check this line
-	}
     setRenderPosition(game->player.getPosition());
 
     tInt = input.get<uint16_t>();

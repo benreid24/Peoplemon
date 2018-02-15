@@ -183,6 +183,11 @@ public:
      * Stops all movement animations. This is to get rid of a weird artifact when maps are loaded
      */
 	void forceStop();
+
+	/**
+	 * Returns the position the player was last at. Use for lastMap functionality
+	 */
+	sf::Vector2f getLastPosition();
 };
 
 #endif // PLAYER_HPP
