@@ -492,5 +492,7 @@ Vector2f Player::getLastPosition() {
 		break;
 	}
 
+	pos.x *= 32;
+	pos.y *= 32;
 	return pos;
 }
