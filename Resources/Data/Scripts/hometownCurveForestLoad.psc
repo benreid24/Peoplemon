@@ -1,3 +1,6 @@
+if (getSaveEntry("JustBeatM")==1 && getSaveEntry("ExchampReveal")!=1)
+	spawnNPC("Hometown/exChamp5.npc",344,270,0,0);
+
 //-----------Jake Blocker Anim---------------------
 if (getSaveEntry("JakeUnblocked")!=1)
 	{

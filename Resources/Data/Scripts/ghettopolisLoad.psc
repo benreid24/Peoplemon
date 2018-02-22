@@ -94,7 +94,7 @@ if (getSaveEntry("ThugBossJordanBeat")==1)
 	 spawnNPC("Ghettopolis/Officeri.npc",399,173,1 ,0);
 	}
 	
-if (getSaveEntry("ThugBossJordanBeat")==1 && trainerDefeated("Gym Leader Marsala")!=1)
+if (getSaveEntry("ThugBossJordanBeat")==1 && getSaveEntry("Jake1Removed")!=1)
 	spawnNPC("Ghettopolis/MarsalaVictory.npc",419,171,1,0);
 	
 	if (getSaveEntry("Jake1Removed")==1)

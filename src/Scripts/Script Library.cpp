@@ -671,6 +671,18 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		}
 		else if (name=="sleep")
 			sleep(milliseconds(args.at(0).iValue));
+		else if (name=="getTimeMinutes") {
+			ClockTime t = gameClock.getClockTime();
+			ret.iValue = t.minute;
+		}
+		else if (name=="getTimeHours") {
+			ClockTime t = gameClock.getClockTime();
+			ret.iValue = t.hour;
+		}
+		else if (name=="getDaytime") {
+			ClockTime t = gameClock.getClockTime();
+			ret.iValue = t.hour*60+t.minute;
+		}
 		else if (name=="addSaveEntry")
 		{
 			if (args.at(1).type==Value::Integer)

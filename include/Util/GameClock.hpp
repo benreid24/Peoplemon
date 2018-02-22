@@ -83,13 +83,13 @@ public:
     /**
      * Returns the simulated in game time
      */
-    ClockTime getClockTime() //present scale: 3 seconds = 1 minute
+    ClockTime getClockTime() //present scale: 1 seconds = 1 minute
     {
         ClockTime t;
         int s = (paused)?(pausedTime):(getTimeStamp()-startTime);
 
-        t.hour = (start.hour+(s/3000+start.minute)/60)%24;
-        t.minute = (start.minute+s/3000)%60;
+        t.hour = (start.hour+(s/1000+start.minute)/60)%24;
+        t.minute = (start.minute+s/1000)%60;
 
         return t;
     }
@@ -102,7 +102,7 @@ public:
     void setClockTime(ClockTime t)
     {
         start = t;
-        startTime = timer.getElapsedTime().asMilliseconds();
+        startTime = getTimeStamp();
     }
 
     /**

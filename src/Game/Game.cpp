@@ -301,7 +301,6 @@ void Game::load(string name)
     world.loadGame(&input);
     scriptEnvironment.load(&input);
     gameClock.setClockTime(t);
-    gameClock.unPause();
     if (data.fullscreen)
 	{
 		mainWindow.close();
