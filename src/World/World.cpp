@@ -1033,6 +1033,16 @@ vector<PeoplemonRef> World::getWildPeoplemon()
 
 void World::editTile(int x, int y, int layer, int nId)
 {
+	if (layer>=firstYSortLayer && layer<firstTopLayer) {
+		if (layers[layer](x-1,y-1).nonZero)
+		{
+			int eY = y+layers[layer](x-1,y-1).spr.getGlobalBounds().height/64+1;
+			if (eY>=size.y)
+				eY = size.y-1;
+			ySortedTiles[layer-firstYSortLayer](x-1,eY-1) = make_pair(y-1,nullptr);
+		}
+	}
+
 	layers[layer](x-1,y-1).isAnim = false;
 	if (tileset.getTile(nId))
 		layers[layer](x-1,y-1).spr.setTexture(*tileset.getTile(nId));
@@ -1041,6 +1051,16 @@ void World::editTile(int x, int y, int layer, int nId)
 		delete layers[layer](x-1,y-1).anim;
 		layers[layer](x-1,y-1).delA = false;
 		layers[layer](x-1,y-1).anim = nullptr;
+	}
+
+	if (layer>=firstYSortLayer && layer<firstTopLayer) {
+		if (layers[layer](x-1,y-1).nonZero)
+		{
+			int eY = y+layers[layer](x-1,y-1).spr.getGlobalBounds().height/64;
+			if (eY>=size.y)
+				eY = size.y-1;
+			ySortedTiles[layer-firstYSortLayer](x-1,eY-1) = make_pair(y-1,&layers[layer](x-1,y-1));
+		}
 	}
 }
 
