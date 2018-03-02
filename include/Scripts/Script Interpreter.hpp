@@ -17,6 +17,7 @@ class ScriptEnvironment;
  */
 class Script
 {
+	std::string original;
 	ScriptEnvironment* environment;
 	bool stopping, stopped;
 	std::stack<Frame> stackFrames;

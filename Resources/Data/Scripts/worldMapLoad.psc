@@ -1,3 +1,3 @@
-runScript("hometownCurveForestLoad.psc",0);
-runScript("ghettopolisLoad.psc",0);
-runScript("churchtonLoad.psc",0);
+runScript("hometownCurveForestLoad.psc",1);
+runScript("ghettopolisLoad.psc",1);
+runScript("churchtonLoad.psc",1);

@@ -35,6 +35,9 @@ namespace {
 					"controlPressed",
 					"drawAnim",
 					"editTile",
+					"getDaytime",
+					"getTimeHours",
+					"getTimeMinutes",
 					"getSaveEntry",
 					"getSaveEntry",
 					"giveItem",
@@ -73,6 +76,7 @@ namespace {
 					"removeNPC",
 					"removeTrainer",
 					"runScript",
+					"runScriptAtTime",
 					"resetPlayer",
 					"saveGame",
 					"setCollisions",
@@ -88,6 +92,7 @@ namespace {
 					"shiftTrainer",
 					"showCredits",
 					"sleep",
+					"sleepToTime",
 					"spaceFree",
 					"spawnItem",
 					"spawnNPC",
@@ -578,6 +583,15 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			ScriptReference scr = scriptPool.loadResource(args.at(0).sValue);
 			environment->runScript(scr,args.at(1).iValue!=0);
 		}
+		else if (name=="runScriptAtTime") {
+			ClockTime t = gameClock.getClockTime();
+            while (t.hour!=args.at(1).iValue && t.minute>args.at(2).iValue) {
+                sleep(milliseconds(250));
+                t = gameClock.getClockTime();
+            }
+            ScriptReference scr = scriptPool.loadResource(args.at(0).sValue);
+			environment->runScript(scr,true);
+		}
 		else if (name=="setMusic")
 		{
 			environment->getGame()->music.stop();
@@ -669,8 +683,25 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			ret.type = Value::String;
 			ret.sValue = conv.str();
 		}
-		else if (name=="sleep")
-			sleep(milliseconds(args.at(0).iValue));
+		else if (name=="sleep") {
+			int blocks = args.at(0).iValue/50;
+			int remainder = int(args.at(0).iValue)%50;
+			for (int i = 0; i<blocks; ++i) {
+				sleep(milliseconds(50));
+				if (stopping)
+					break;
+			}
+			sleep(milliseconds(remainder));
+		}
+		else if (name=="sleepToTime") {
+            ClockTime t = gameClock.getClockTime();
+            while (t.hour!=args.at(0).iValue && t.minute>args.at(1).iValue) {
+                sleep(milliseconds(250));
+                t = gameClock.getClockTime();
+                if (stopping)
+					break;
+            }
+		}
 		else if (name=="getTimeMinutes") {
 			ClockTime t = gameClock.getClockTime();
 			ret.iValue = t.minute;

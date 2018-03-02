@@ -10,6 +10,7 @@ using namespace std;
 Parser::Parser(string source)
 {
 	file = source;
+	script = source;
 
 	if (File::getExtension(source)=="psc")
 	{
@@ -18,15 +19,16 @@ Parser::Parser(string source)
 		if (!FileExists(source))
 			throw runtime_error("Failed to load script: "+source);
 		File input(source);
-		string temp;
+		script.clear();
 		while (input.good())
 		{
-			temp.push_back(input.get<char>());
+			script.push_back(input.get<char>());
 		}
-		data.setString(temp);
+		data.setString(script);
 	}
-	else
-		data.setString(source);
+	else {
+		data.setString(file);
+	}
 }
 
 bool Parser::isCharacter(char c)
@@ -178,4 +180,8 @@ vector<Token> Parser::getTokens()
 	}
 
 	return ret;
+}
+
+string Parser::getScript() {
+	return script;
 }

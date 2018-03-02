@@ -14,7 +14,7 @@
 class Parser
 {
 	Traverser data;
-	std::string file;
+	std::string file, script;
 
 public:
 	/**
@@ -28,6 +28,11 @@ public:
 	 * Parses the script and returns the token string
 	 */
 	std::vector<Token> getTokens();
+
+	/**
+	 * Returns the string of the script. Used for debug stuff
+	 */
+	std::string getScript();
 
 	/**
 	 * Tells whether or not the given character is a letter

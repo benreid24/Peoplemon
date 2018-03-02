@@ -36,7 +36,6 @@ void Script::reset()
 {
 	stopping = false;
 	stopped = true;
-	functions.clear();
 	globalFrame.locals.clear();
 	while (!stackFrames.empty())
 		stackFrames.pop();
@@ -86,7 +85,6 @@ void Script::locateFunctions()
 			break;
 
 		case ScanningArgType:
-			cout << "Checking for paren, found: " << tokens[i].data << endl;
             if (tokens.at(i).type==Token::DataType)
 			{
 				state = ScanningArgName;
@@ -117,9 +115,8 @@ void Script::locateFunctions()
 				addFunc:
 				state = Reading;
 				func.address = i+2; //i+1 is the {, so i+2 is the first token in the function
-				functions[name] = func;
+				functions.insert(make_pair(name,func));
 				func.arguments.clear();
-				cout << "Located function " << name << " at index " << func.address << endl;
 			}
 			else
 				throw runtime_error("Was expecting ',' or ')' on line "+intToString(tokens.at(i).line)+" in file "+tokens.at(i).file);
@@ -131,6 +128,7 @@ void Script::load(string str)
 {
 	Parser parser(str);
 	tokens = parser.getTokens();
+	original = parser.getScript();
 	reset();
 	locateFunctions();
 	for (unsigned int i = 0; i<tokens.size(); ++i)
@@ -723,6 +721,7 @@ void Script::run(ScriptEnvironment* env)
 	catch (const runtime_error& e)
 	{
 		cout << e.what() << endl;
+		cout << original << endl;
 	}
 	stopped = true;
 }
