@@ -37,8 +37,7 @@ void Script::reset()
 	stopping = false;
 	stopped = true;
 	globalFrame.locals.clear();
-	while (!stackFrames.empty())
-		stackFrames.pop();
+	stackFrames.clear();
 }
 
 void Script::locateFunctions()
@@ -337,8 +336,10 @@ Value Script::evaluate(vector<Token> tkns)
 				tkns.at(i) = globalFrame.locals[tkns.at(i).data];
 			else if (!stackFrames.empty())
 			{
-				if (stackFrames.top().locals.find(tkns.at(i).data)!=stackFrames.top().locals.end())
-					tkns.at(i) = stackFrames.top().locals[tkns.at(i).data];
+				for (auto j = stackFrames.rbegin(); j!=stackFrames.rend(); ++j) {
+					if (j->locals.find(tkns.at(i).data)!=j->locals.end())
+						tkns.at(i) = j->locals[tkns.at(i).data];
+				}
 			}
 			else if (!isFunction(tkns.at(i).data))
 				throw  runtime_error("Unknown identifier '"+tkns.at(i).data+"' encountered on line "+intToString(tkns.at(i).line)+" in file "+tkns.at(i).file);
@@ -399,9 +400,9 @@ Value Script::evaluate(vector<Token> tkns)
 								throw runtime_error("Type mismatch in call to '"+name+"' on line "+intToString(tkns[start].line)+" in file "+tkns[start].file);
 							f.locals[functions[name].arguments[j].name] = args[j];
 						}
-						stackFrames.push(f);
+						stackFrames.push_back(f);
 						tkns[start] = runTokens(pc);
-						stackFrames.pop();
+						stackFrames.pop_back();
 					}
 					tkns.erase(tkns.begin()+start+1,tkns.begin()+i+1);
 					state = Searching;
@@ -462,10 +463,12 @@ Value Script::runTokens(int pos)
 				}
 				else
 				{
-					if (stackFrames.top().locals.find(name)!=stackFrames.top().locals.end())
-						throw runtime_error("Identifier on line "+intToString(tokens.at(i).line)+" in file "+tokens.at(i).file+" already exists!");
-					stackFrames.top().locals[name] = Value();
-					stackFrames.top().locals[name].type = Value::Integer;
+					for (auto j = stackFrames.rbegin(); j!=stackFrames.rend(); ++j) {
+						if (j->locals.find(name)!=j->locals.end())
+							throw runtime_error("Identifier on line "+intToString(tokens.at(i).line)+" in file "+tokens.at(i).file+" already exists!");
+					}
+					stackFrames.back().locals[name] = Value();
+					stackFrames.back().locals[name].type = Value::Integer;
 				}
 
 				if (tokens.at(i).type==Token::Assignment)
@@ -480,7 +483,7 @@ Value Script::runTokens(int pos)
 					if (stackFrames.empty())
 						globalFrame.locals[name] = evaluate(tkns);
 					else
-						stackFrames.top().locals[name] = evaluate(tkns);
+						stackFrames.back().locals[name] = evaluate(tkns);
 				}
 			}
 			else //function definition, skip
@@ -671,7 +674,10 @@ Value Script::runTokens(int pos)
 			if (tokens.at(i+1).type==Token::Assignment)
 			{
 				name = tokens.at(i).data;
-				if (tokens.at(i).type!=Token::Identifier || (globalFrame.locals.find(name)==globalFrame.locals.end() || stackFrames.top().locals.find(name)==stackFrames.top().locals.end()))
+				bool exists = tokens.at(i).type!=Token::Identifier || globalFrame.locals.find(name)==globalFrame.locals.end();
+				for (auto j = stackFrames.rbegin(); j!=stackFrames.rend(); ++j)
+					exists = exists || j->locals.find(name)==j->locals.end();
+				if (!exists)
 					throw runtime_error("Assignment to non-variable on line "+intToString(tokens.at(i).line)+" in file "+tokens.at(i).file);
 				i = i+2;
 			}
@@ -687,7 +693,7 @@ Value Script::runTokens(int pos)
 				if (globalFrame.locals.find(name)!=globalFrame.locals.end())
 					globalFrame.locals[name] = test;
 				else
-					stackFrames.top().locals[name] = test;
+					stackFrames.back().locals[name] = test;
 			}
 			conditionalState = NoConditional;
 			break;

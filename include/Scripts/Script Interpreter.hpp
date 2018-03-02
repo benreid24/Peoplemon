@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <map>
-#include <stack>
+#include <deque>
 #include "Frame.hpp"
 #include "Token.hpp"
 #include "Function Entry.hpp"
@@ -20,7 +20,7 @@ class Script
 	std::string original;
 	ScriptEnvironment* environment;
 	bool stopping, stopped;
-	std::stack<Frame> stackFrames;
+	std::deque<Frame> stackFrames;
 	Frame globalFrame;
 	std::map<std::string,FunctionEntry> functions; //index to jump to for functions
 	std::map<std::string,int> branchTable;
