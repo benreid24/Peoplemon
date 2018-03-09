@@ -385,7 +385,8 @@ Value Script::evaluate(vector<Token> tkns)
 				parenCount--;
 				if (parenCount==0)
 				{
-					args.push_back(evaluate(argEq));
+					if (argEq.size()>0)
+						args.push_back(evaluate(argEq));
 					if (isLibraryFunction(name))
 						tkns[start] = executeLibraryFunction(name,args);
 					else
@@ -394,6 +395,7 @@ Value Script::evaluate(vector<Token> tkns)
 						Frame f;
 						for (unsigned int j = 0; j<args.size(); ++j)
 						{
+							cout << args[j].iValue << " | " << args[j].sValue << endl;
 							if (j>=functions[name].arguments.size())
 								throw runtime_error("Too many arguments passed to function '"+name+"' on line "+intToString(tkns[start].line)+" in file "+tkns[start].file);
 							else if (args[j].type!=functions[name].arguments[j].type)

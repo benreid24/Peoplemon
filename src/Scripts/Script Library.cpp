@@ -695,7 +695,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		}
 		else if (name=="sleepToTime") {
             ClockTime t = gameClock.getClockTime();
-            while (t.hour!=args.at(0).iValue && t.minute>args.at(1).iValue) {
+            while (t.hour!=args.at(0).iValue || t.minute!=args.at(1).iValue) {
                 sleep(milliseconds(250));
                 t = gameClock.getClockTime();
                 if (stopping)

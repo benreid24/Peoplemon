@@ -8,5 +8,5 @@ string padZeros(int time) {
 string minutes = padZeros(getTimeMinutes());
 string hours = padZeros(getTimeHours());
 setPlayerLock(1);
-messageBox("The church is closed now. You can't go in until our 8am service starts.", " It's " + hours + ":" + minutes);
+messageBox("The church is closed now. You can't go in until our service at 8:00.", " It's " + hours + ":" + minutes);
 setPlayerLock(0);

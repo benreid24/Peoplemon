@@ -1,0 +1,11 @@
+spawnNPC("Churchton/DoorClergyInside.npc",11,25,0,0);
+spawnNPC("Churchton/Churchguy1.npc",7,19,0,0);
+spawnNPC("Churchton/Churchguy6.npc",3,14,0,0);
+spawnNPC("Churchton/Churchguy5.npc",10,19,0,0);
+spawnNPC("Churchton/Churchguy2.npc",12,11,0,0);
+spawnNPC("Churchton/Churchguy3.npc",8,13,0,0);
+spawnNPC("Churchton/Churchguy4.npc",7,15,0,0);
+spawnNPC("Churchton/Churchguy7.npc",8,11,0,0);
+spawnNPC("Churchton/Churchguy8.npc",11,19,0,0);
+spawnNPC("Churchton/DoorClergyInside2.npc",6,25,0,0);
+//spawnNPC("Churchton/Pastor1.npc",8,5,2,0);

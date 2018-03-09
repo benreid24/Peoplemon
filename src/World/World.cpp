@@ -1039,7 +1039,7 @@ void World::editTile(int x, int y, int layer, int nId)
 			int eY = y+layers[layer](x-1,y-1).spr.getGlobalBounds().height/64+1;
 			if (eY>=size.y)
 				eY = size.y-1;
-			ySortedTiles[layer-firstYSortLayer](x-1,eY-1) = make_pair(y-1,nullptr);
+			ySortedTiles[layer-firstYSortLayer](x-1,eY) = make_pair(y-1,nullptr);
 		}
 	}
 
@@ -1059,7 +1059,7 @@ void World::editTile(int x, int y, int layer, int nId)
 			int eY = y+layers[layer](x-1,y-1).spr.getGlobalBounds().height/64;
 			if (eY>=size.y)
 				eY = size.y-1;
-			ySortedTiles[layer-firstYSortLayer](x-1,eY-1) = make_pair(y-1,&layers[layer](x-1,y-1));
+			ySortedTiles[layer-firstYSortLayer](x-1,eY) = make_pair(y-1,&layers[layer](x-1,y-1));
 		}
 	}
 }
