@@ -31,6 +31,7 @@ struct SharedData
     Gamestate* nextState;
 
     int repelStepsLeft;
+    bool lanternActive;
 
     /**
      * Initializes all flags to false

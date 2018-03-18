@@ -109,6 +109,9 @@ class World
     sf::Sprite lightSpr;
     sf::VertexArray light;
 
+    const int lanternRadius = 300;
+    int lanternTargetRadiusVariance, lanternRadiusVariance; //in range [-20,20]
+
     Weather weather;
     ScriptReference unloadScript;
 

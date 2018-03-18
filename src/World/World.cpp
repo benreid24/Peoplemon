@@ -19,6 +19,7 @@ World::World(Game* g) : light(TrianglesFan, 362), weather(g)
     lightSpr.setTexture(lightTxtr.getTexture());
     pcMap = "Hometown/HometownYourHouseYourRoom";
     pcSpawn = 5;
+    lanternRadiusVariance = lanternTargetRadiusVariance = 0;
 }
 
 World::~World()
@@ -47,6 +48,7 @@ void World::load(string file, int spId, bool trans)
 	}
 
 	stopAnimations();
+	game->data.lanternActive = false;
 	if (trans)
 	{
 		RectangleShape cover;
@@ -557,6 +559,25 @@ void World::draw(sf::RenderWindow* window)
                 }
                 lightTxtr.draw(light, BlendNone);
             }
+        }
+        if (game->data.lanternActive) { //Lantern
+            Vector2f playerScreenPos = game->player.getPosition()-getCamera()+Vector2f(16,21);
+            int radius = lanternRadius + lanternRadiusVariance;
+            if (abs(lanternRadiusVariance-lanternTargetRadiusVariance)<=2)
+				lanternTargetRadiusVariance = Random(-15,15);
+			else
+				lanternRadiusVariance += (lanternRadiusVariance<lanternTargetRadiusVariance)? (3):(-3);
+
+            light[0].position = playerScreenPos;
+			light[0].position.y = 600-light[0].position.y;
+			light[0].color = Color::Transparent;
+			for (unsigned int j = 1; j<362; ++j)
+			{
+				light[j].position = playerScreenPos + Vector2f(radius*cos(double(j)/180*3.1415926),radius*sin(double(j)/180*3.1415926));
+				light[j].color = Color(0,0,0,currentLighting);
+				light[j].position.y = 600-light[j].position.y;
+			}
+			lightTxtr.draw(light, BlendNone);
         }
         window->draw(lightSpr);
     }

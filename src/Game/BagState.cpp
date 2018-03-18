@@ -207,6 +207,13 @@ bool BagState::execute()
 								if (displayMessage("You smell repulsive now!"))
 									return true;
 							}
+							else if (id == 112) { //Lantern
+								string messages[] = {"You feel less lonely, but you know the feeling won't last", "It just got a little less black"};
+								string selected = (Random(0,100)<10) ? (messages[1]) : (messages[0]);
+								if (displayMessage(selected))
+									return true;
+								game->data.lanternActive = true;
+							}
 							else
 							{
 								if (displayMessage("That doesn't make any sense right now, or maybe even ever"))
