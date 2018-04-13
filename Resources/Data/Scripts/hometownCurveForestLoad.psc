@@ -91,13 +91,23 @@ if (getSaveEntry("professorDead")==1 && getSaveEntry("boatGuy1")!=1)
 	 print("Collisions Set");
 	}
 	
-	
 //---------------------Spawning Exchamp---------------
 if (getSaveEntry("thugsRunAway")==1 && getSaveEntry("Exchamp1")!=1)
 	spawnNPC("Hometown/Exchamp1.npc",345,225,1,0);
+
+if (getSaveEntry("DadBeat")==1 && getSaveEntry("Exchamp6Talked")!=1)
+	spawnNPC("Hometown/Exchamp6.npc",361,269,2,0);
 	
+//---------------------Spawning Aster return battle 1-----
+if (getSaveEntry("thugsRunAway")==1 && getSaveEntry("AsterBeat2")!=1)
+	spawnTrainer("Hometown/Aster2.tnr",331,274,2,0);
+
 //----------------------Spawning Dad----------------------
+if (getSaveEntry("AridityLeaderBeaten")!=1)
 	spawnNPC("Hometown/Dad.npc",350,282,2,0);
+
+if (getSaveEntry("DadEnters")!=1 && getSaveEntry("AridityLeaderBeaten")==1)
+	spawnNPC("Hometown/Dad2.npc",350,282,2,0);
 
 //----------------------Spawning JakeGuy.npc--------------------
 	spawnNPC("Hometown/JakeGuy.npc",318,279,0,0);

@@ -1,0 +1,1 @@
+spawnTrainer("Iceburg/GymLeader.tnr",9,4,2,0);

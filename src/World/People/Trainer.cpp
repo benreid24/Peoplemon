@@ -47,7 +47,6 @@ Trainer::Trainer(Game* g, string file, bool lost)
         items.push_back(input.get<uint16_t>());
     }
     aiType = input.get<uint8_t>();
-    t = input.get<uint16_t>();
 
     int bId = input.get<uint8_t>();
     if (bId==0)
