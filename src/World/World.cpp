@@ -876,7 +876,7 @@ Object* World::getFirstObject(Vector2i pos, int dir, int range)
 	if (range==0)
 		return nullptr;
 
-    Vector2i cur = pos, chg;
+    Vector2i cur = pos, chg(0,0);
     if (dir==0)
         chg.y = -1;
     else if (dir==1)
@@ -885,6 +885,10 @@ Object* World::getFirstObject(Vector2i pos, int dir, int range)
         chg.y = 1;
     else
         chg.x = -1;
+
+	if (!spaceFree(cur+chg, cur) && charCols((cur+chg).x-1, (cur+chg).y-1)==0)
+		return nullptr;
+
     cur += chg;
 
     for (int i = 0; i<range; ++i)
@@ -894,7 +898,7 @@ Object* World::getFirstObject(Vector2i pos, int dir, int range)
         	if (int(objects[j]->getPosition().x/32+0.01)==cur.x && int(objects[j]->getPosition().y/32+0.01)==cur.y)
                 return objects[j];
         }
-        if (!spaceFree(cur+chg, cur) && charCols((cur+chg).x, (cur+chg).y)==0)
+        if (!spaceFree(cur+chg, cur) && charCols((cur+chg).x-1, (cur+chg).y-1)==0)
             return nullptr;
         cur += chg;
     }
