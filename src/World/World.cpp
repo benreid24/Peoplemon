@@ -895,11 +895,8 @@ Object* World::getFirstObject(Vector2i pos, int dir, int range)
     {
     	for (unsigned int j = 0; j<objects.size(); ++j)
         {
-        	if (int(objects[j]->getPosition().x/32+0.01)==cur.x && int(objects[j]->getPosition().y/32+0.01)==cur.y) {
-        		cout << "found\n";
-				cout << "found " << objects[j]->getIdentifier() << endl;
+        	if (int(objects[j]->getPosition().x/32+0.01)==cur.x && int(objects[j]->getPosition().y/32+0.01)==cur.y)
                 return objects[j];
-        	}
         }
         if (!spaceFree(cur+chg, cur) && charCols((cur+chg).x-1, (cur+chg).y-1)==1)
             return nullptr;
