@@ -156,14 +156,16 @@ vector<string> Conversation::update(Game* game, Player* player, Character* perso
 			setLine(lines[cLine].line);
 		}
 		else if (lines[cLine].code=='s') {
+            cout << "Inserting save entry: " << lines[cLine].say << endl;
 			env->intSaveEntries.insert(make_pair(lines[cLine].say,1));
+            cout << env->intSaveEntries[lines[cLine].say] << endl;
 			cLine++;
 		}
 		else if (lines[cLine].code=='c') {
 			if (env->intSaveEntries.find(lines[cLine].say)==env->intSaveEntries.end())
 				setLine(lines[cLine].line);
-			else if (env->intSaveEntries[lines[cLine].say]!=1)
-				setLine(lines[cLine].line);
+			/*else if (env->intSaveEntries[lines[cLine].say]!=1)
+				setLine(lines[cLine].line);*/
 			else
 				cLine++;
 		}

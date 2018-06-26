@@ -410,22 +410,24 @@ void World::update()
 {
 	FloatRect bounds(game->player.getPosition()-Vector2f(2400, 1800), Vector2f(4800, 3600));
 	objLock.lock();
-	for (unsigned int i = 0; i<objects.size(); ++i)
+	game->player.update(game);
+	for (unsigned int j = 0; j<objects.size(); ++j)
 	{
-		if (bounds.contains(objects[i]->getPosition()))
-			objects[i]->update(game);
+		if (bounds.contains(objects[j]->getPosition()) && objects[j]!=&game->player) {
+			objects[j]->update(game);
+		}
 
 		for (unsigned int t = 0; t<objDelQueue.size(); ++t)
 		{
-			if (objects[i]==objDelQueue[t])
+			if (objects[j]==objDelQueue[t])
 			{
-				Character* c = dynamic_cast<Character*>(objects[i]);
+				Character* c = dynamic_cast<Character*>(objects[j]);
 				if (c)
 					c->resetCollisions(game);
 
-				delete objects[i];
-				objects.erase(objects.begin()+i);
-				i--;
+				delete objects[j];
+				objects.erase(objects.begin()+j);
+				j--;
 				break;
 			}
 		}
@@ -741,6 +743,10 @@ bool World::spaceFree(Vector2i pos, Vector2i oldPos)
 		return dir!=0;
 	case 15: //noLeft
 		return dir!=1;
+    case 16: //surf required
+        return game->player.hasItem(111);
+    case 17: //waterfall required
+        return game->player.hasItem(124);
 	default:
 		return false;
     }
@@ -895,8 +901,9 @@ Object* World::getFirstObject(Vector2i pos, int dir, int range)
     {
     	for (unsigned int j = 0; j<objects.size(); ++j)
         {
-        	if (int(objects[j]->getPosition().x/32+0.01)==cur.x && int(objects[j]->getPosition().y/32+0.01)==cur.y)
+        	if (int(objects[j]->getPosition().x/32+0.01)==cur.x && int(objects[j]->getPosition().y/32+0.01)==cur.y) {
                 return objects[j];
+        	}
         }
         if (!spaceFree(cur+chg, cur) && charCols((cur+chg).x-1, (cur+chg).y-1)==1)
             return nullptr;
