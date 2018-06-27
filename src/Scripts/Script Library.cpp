@@ -51,6 +51,7 @@ namespace {
 					"messageBox",
 					"moveNPC",
 					"movePlayer",
+					"movePlayerBlocking",
 					"moveTrainer",
 					"npcExists",
 					"npcTalkedTo",
@@ -158,6 +159,25 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			ret.iValue = environment->getGame()->player.getDir();
 		else if (name=="movePlayer")
 			environment->getGame()->player.move(environment->getGame(),args.at(0).iValue,bool(args.at(1).iValue),bool(args.at(2).iValue),true,true);
+        else if (name=="movePlayerBlocking") {
+            int dir = args.at(0).iValue;
+            bool ignoreCols = bool(args.at(1).iValue);
+            bool playAnims = bool(args.at(2).iValue);
+            bool moving = environment->getGame()->player.getDir() == dir;
+            Vector2f targetPos = environment->getGame()->player.getPosition();
+            if (dir==0)
+                targetPos.y -= 32;
+            else if (dir==1)
+                targetPos.x += 32;
+            else if (dir==2)
+                targetPos.y += 32;
+            else
+                targetPos.x -= 32;
+            if (environment->getGame()->player.move(environment->getGame(), dir, ignoreCols, playAnims, false, true) && moving) {
+                while (targetPos != environment->getGame()->player.getPosition())
+                    sleep(milliseconds(5));
+            }
+        }
 		else if (name=="playerToLocation")
 		{
 			environment->getGame()->player.setLock(true,true);
@@ -630,8 +650,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				y += dist;
 			if (d==3)
 				x -= dist;
-			ret.iValue = double(!environment->getGame()->world.spaceFree(Vector2i(x,y)));
-			cout << "space free (" << x << "," << y << ") = " << ret.iValue << endl;
+			ret.iValue = double(environment->getGame()->world.spaceFree(Vector2i(x,y)));
 		}
 		else if (name=="setCollisions")
 		{

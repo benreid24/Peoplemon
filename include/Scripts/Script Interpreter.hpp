@@ -42,6 +42,10 @@ class Script
 
     Value combine(Token left, Token op, Token right);
 
+    Value& getIdentifier(std::string id);
+
+    bool isVariable(std::string id);
+
     bool isFunction(std::string name);
 
     bool isLibraryFunction(std::string name);

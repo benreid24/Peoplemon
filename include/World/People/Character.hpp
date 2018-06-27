@@ -31,6 +31,7 @@ protected:
     unsigned long long int lastTime;
     std::queue<int> queuedInput;
     bool updatedOnce;
+    long controlWaitTime;
 
     /**
      * Loads the appropriate directional animations from the given path

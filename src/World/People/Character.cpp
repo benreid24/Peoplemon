@@ -14,6 +14,7 @@ Character::Character()
     updatedOnce = false;
     dir = 0;
     lastTime = 0;
+    controlWaitTime = 0;
 }
 
 Character::~Character()
@@ -121,7 +122,7 @@ bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool qu
 
     if (mapPos.x*32==position.x && mapPos.y*32==position.y)
     {
-    	if (dir==d)
+    	if (dir==d && gameClock.getTimeStamp() >= controlWaitTime)
         {
         	if (dir==0 && (game->world.spaceFree(mapPos+Vector2i(0,-1),mapPos) || ignoreCols))
 			{
@@ -169,10 +170,12 @@ bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool qu
 					game->data.repelStepsLeft--;
 			}
         }
-        else
+        else if (dir != d)
 		{
 			dir = d;
-			isMoving = false;
+			if (dynamic_cast<Player*>(this) != nullptr && !isMoving)
+                controlWaitTime = gameClock.getTimeStamp() + 120;
+            isMoving = false;
 		}
     }
     else if (queueInput)
