@@ -29,7 +29,7 @@ elif(playerXWorldPos()/32 < npcXPos("Pastor2")/32)
 sleep(500);
 messageBox("You're probably thinking it's suspicious, a Pastor talking to Thugs.","I certainly can't let the word get out.","I'm sorry, but your church membership has just expired.");
 startTrainerBattle("Churchton/Pastor2.tnr");
-messageBox("Okay. I'll confess.","Our town has a mandatory tithe. When people can't pay up, we take parts of their Peoplemon instead.","Then I sell them to the local thugs. They use them for experiments, making Peopleblobs and what not.","I know it seems wrong, but how can we continue God's work if we don't have the money to buy large screen Tv's?","Just..here.","You received 3 Peoplemon Parts");
+messageBox("Okay. I'll confess.","Our town has a mandatory tithe. When people can't pay up, we take parts of their Peoplemon instead.","I sell them to the local thugs so our church can recoup the losses.","They use them for experiments, making Peopleblobs and what not, but the point is, everyone's happy.","I know it seems wrong, but how can we continue God's work if we don't have the money to buy large screen Tv's?","Just..here.","You received 3 Peoplemon Parts");
 giveItem(135);
 giveItem(135);
 giveItem(135);
@@ -46,5 +46,5 @@ else
 {
  messageBox("But I'll never make it in prison!","I guess I better get out of here. Time to make my escape!");
  loadMap("Churchton/church",2);
-}
+ }
 setPlayerLock(0);

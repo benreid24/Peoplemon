@@ -62,14 +62,14 @@ void Tileset::load(string file)
 TextureReference Tileset::getTile(int index)
 {
     if (unsigned(index)>=textures.size())
-        throw runtime_error("Tile index out of range");
+        throw runtime_error("ERROR: A tile is referenced in a map but not present in the tileset. Update the tileset from the Map Editor folder");
     return textures[index];
 }
 
 AnimationReference Tileset::getAnim(int index)
 {
     if (unsigned(index)>=animations.size())
-        throw runtime_error("Animation index out of range");
+        throw runtime_error("ERROR: An animation is referenced in a map but not present in the tileset. Update the tileset from the Map Editor folder");
     return animations[index];
 }
 

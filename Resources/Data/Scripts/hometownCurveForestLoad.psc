@@ -5,8 +5,10 @@ if (getSaveEntry("JustBeatM")==1 && getSaveEntry("ExchampReveal")!=1)
 if (getSaveEntry("JakeUnblocked")!=1)
 	{
 	 setCollisions(315,275,1,1,0);
-	 spawnNPC("JakeBlocker.npc",316,275,0,0);
 	}
+	
+spawnNPC("JakeBlocker.npc",316,275,0,0);
+
 if (getSaveEntry("JakeUnblocked")==1)
 	 editTile(316,275,5,0);
 //----------Spawning Curvelinear Forest Blocker-------------- 
@@ -77,7 +79,7 @@ if (getSaveEntry("aster1Done")!=1)
 	 spawnTrainer("Hometown/aster1.tnr",335,269,3);
 	}
 	
-if (getSaveEntry("boatGuy1")==1 && getSaveEntry("aster3Done")!=1)
+if (getSaveEntry("aster3Done")!=1)
 	{
 	 spawnTrainer("CurveForest/aster3.tnr",319,170,1,0);
 	}
@@ -90,13 +92,16 @@ if (getSaveEntry("professorDead")==1 && getSaveEntry("boatGuy1")!=1)
 	 setCollisions(334,238,5,1,0);
 	 print("Collisions Set");
 	}
-	
+
 //---------------------Spawning Exchamp---------------
 if (getSaveEntry("thugsRunAway")==1 && getSaveEntry("Exchamp1")!=1)
 	spawnNPC("Hometown/Exchamp1.npc",345,225,1,0);
 
 if (getSaveEntry("DadBeat")==1 && getSaveEntry("Exchamp6Talked")!=1)
 	spawnNPC("Hometown/Exchamp6.npc",361,269,2,0);
+	
+if (getSaveEntry("BeatExChamp7")!=1 && getSaveEntry("Crap")==1)
+	spawnTrainer("Hometown/Exchamp7.tnr",361,269,2,0);
 	
 //---------------------Spawning Aster return battle 1-----
 if (getSaveEntry("thugsRunAway")==1 && getSaveEntry("AsterBeat2")!=1)
