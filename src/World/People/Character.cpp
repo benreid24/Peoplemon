@@ -117,7 +117,7 @@ Vector2i Character::getMapPos()
 
 bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool queueInput, bool ignoreLock)
 {
-    if (isLocked && !queueInput && !ignoreLock)
+    if ((isLocked && !queueInput && !ignoreLock) || game->data.pauseGameFlag)
         return false;
 
     if (mapPos.x*32==position.x && mapPos.y*32==position.y)

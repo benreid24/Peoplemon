@@ -703,7 +703,8 @@ bool World::spaceFree(Vector2i pos, Vector2i oldPos)
            and object that was removed but left a pointer in this map
     **/
 	if (charCols(pos.x-1,pos.y-1)!=nullptr) {
-        if (abs(charCols(pos.x-1,pos.y-1)->getPosition().x-pos.x*32) < 32 && abs(charCols(pos.x-1,pos.y-1)->getPosition().y-pos.y*32) < 32)
+        return false;
+        if (int(charCols(pos.x-1,pos.y-1)->getPosition().x/32 + 0.5)==pos.x && int(charCols(pos.x-1,pos.y-1)->getPosition().y/32 + 0.5) == pos.y)
             return false;
         else
             charCols(pos.x-1,pos.y-1) = nullptr;
@@ -765,8 +766,17 @@ bool World::spaceFree(Vector2i pos)
 	if (pos.x<=0 || pos.x>size.x || pos.y<=0 || pos.y>size.y)
 		return false;
 
-	if (charCols(pos.x-1,pos.y-1)==0)
-		return false;
+	/**
+     Note: If crashing it is because the error that prompted this change occurred with
+           and object that was removed but left a pointer in this map
+    **/
+	if (charCols(pos.x-1,pos.y-1)!=nullptr) {
+        return false;
+        if (int(charCols(pos.x-1,pos.y-1)->getPosition().x/32 + 0.5)==pos.x && int(charCols(pos.x-1,pos.y-1)->getPosition().y/32 + 0.5) == pos.y)
+            return false;
+        else
+            charCols(pos.x-1,pos.y-1) = nullptr;
+	}
 
     return collisions(pos.x-1,pos.y-1)==1;
 }

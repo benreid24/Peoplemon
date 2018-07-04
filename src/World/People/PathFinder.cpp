@@ -42,7 +42,7 @@ vector<int> PathFinder::getPath()
 		for (int j = 0; j<4; ++j)
 		{
             if (next[j].x==start.x && next[j].y==start.y)
-				goto found;
+                goto found;
 
 			if (!game->world.spaceFree(Vector2i(next[j].x,next[j].y)))
 				continue;
