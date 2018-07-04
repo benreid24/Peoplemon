@@ -87,10 +87,17 @@ void Trainer::interact(Game* game)
 	if (gameClock.getTimeStamp()-lastTime<500)
 		return;
 
+    int tDir = dir;
+    dir = game->player.getDir()+2;
+    if (dir>3)
+        dir -= 4;
+
     if (beaten)
         game->data.gameClosedFlag = game->runState(new ConversationState(game,this,&postBattle));
     else
         startFight(game);
+
+    dir = tDir;
 }
 
 bool Trainer::isDefeated()
