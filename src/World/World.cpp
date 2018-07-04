@@ -173,7 +173,7 @@ void World::load(string file, int spId, bool trans)
     {
         for (int y = 0; y<size.y; ++y)
         {
-            charCols(x,y) = 1;
+            charCols(x,y) = nullptr;
         }
     }
 
@@ -698,8 +698,16 @@ bool World::spaceFree(Vector2i pos, Vector2i oldPos)
 	if (pos.x<=0 || pos.x>size.x || pos.y<=0 || pos.y>size.y)
 		return false;
 
-	if (charCols(pos.x-1,pos.y-1)==0)
-		return false;
+    /**
+     Note: If crashing it is because the error that prompted this change occurred with
+           and object that was removed but left a pointer in this map
+    **/
+	if (charCols(pos.x-1,pos.y-1)!=nullptr) {
+        if (abs(charCols(pos.x-1,pos.y-1)->getPosition().x-pos.x*32) < 32 && abs(charCols(pos.x-1,pos.y-1)->getPosition().y-pos.y*32) < 32)
+            return false;
+        else
+            charCols(pos.x-1,pos.y-1) = nullptr;
+	}
 
 	int dir = 0;
 	if (oldPos.x>pos.x)
@@ -763,9 +771,9 @@ bool World::spaceFree(Vector2i pos)
     return collisions(pos.x-1,pos.y-1)==1;
 }
 
-void World::setSpaceOccupied(Vector2i pos, bool o)
+void World::setSpaceOccupied(Vector2i pos, Object* c)
 {
-    charCols(pos.x-1,pos.y-1) = int(!o);
+    charCols(pos.x-1,pos.y-1) = c;
 }
 
 void World::setCollision(int x, int y, int c)
@@ -892,7 +900,7 @@ Object* World::getFirstObject(Vector2i pos, int dir, int range)
     else
         chg.x = -1;
 
-	if (!spaceFree(cur+chg, cur) && charCols((cur+chg).x-1, (cur+chg).y-1)==1)
+	if (!spaceFree(cur+chg, cur) && charCols((cur+chg).x-1, (cur+chg).y-1)==nullptr)
 		return nullptr;
 
     cur += chg;
@@ -905,7 +913,7 @@ Object* World::getFirstObject(Vector2i pos, int dir, int range)
                 return objects[j];
         	}
         }
-        if (!spaceFree(cur+chg, cur) && charCols((cur+chg).x-1, (cur+chg).y-1)==1)
+        if (!spaceFree(cur+chg, cur) && charCols((cur+chg).x-1, (cur+chg).y-1)==nullptr)
             return nullptr;
         cur += chg;
     }

@@ -76,8 +76,8 @@ void Character::update(Game* game)
 
     if ((lastPos!=mapPos && mapPos.x*32==position.x && mapPos.y*32==position.y) || !updatedOnce)
     {
-        game->world.setSpaceOccupied(lastPos,false);
-        game->world.setSpaceOccupied(mapPos,true);
+        game->world.setSpaceOccupied(lastPos,nullptr);
+        game->world.setSpaceOccupied(mapPos,this);
         lastPos = mapPos;
         isMoving = false;
         updatedOnce = true;
@@ -129,7 +129,7 @@ bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool qu
 				lastPos = mapPos;
 				isMoving = playAnims;
 				mapPos.y--;
-				game->world.setSpaceOccupied(mapPos,true);
+				game->world.setSpaceOccupied(mapPos,this);
 				game->world.moveOntoTile(mapPos);
 				game->world.updateObjectRenderLocation(this,lastPos.y,mapPos.y);
 			}
@@ -138,7 +138,7 @@ bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool qu
 				lastPos = mapPos;
 				isMoving = playAnims;
 				mapPos.x++;
-				game->world.setSpaceOccupied(mapPos,true);
+				game->world.setSpaceOccupied(mapPos,this);
 				game->world.moveOntoTile(mapPos);
 			}
 			else if (dir==2 && (game->world.spaceFree(mapPos+Vector2i(0,1),mapPos) || ignoreCols))
@@ -146,7 +146,7 @@ bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool qu
 				lastPos = mapPos;
 				isMoving = playAnims;
 				mapPos.y++;
-				game->world.setSpaceOccupied(mapPos,true);
+				game->world.setSpaceOccupied(mapPos,this);
 				game->world.moveOntoTile(mapPos);
 				game->world.updateObjectRenderLocation(this,lastPos.y,mapPos.y);
 			}
@@ -155,7 +155,7 @@ bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool qu
 				lastPos = mapPos;
 				isMoving = playAnims;
 				mapPos.x--;
-				game->world.setSpaceOccupied(mapPos,true);
+				game->world.setSpaceOccupied(mapPos,this);
 				game->world.moveOntoTile(mapPos);
 			}
 			else
@@ -222,8 +222,8 @@ void Character::resetLock()
 
 void Character::resetCollisions(Game* g)
 {
-	g->world.setSpaceOccupied(mapPos,false);
-	g->world.setSpaceOccupied(lastPos,false);
+	g->world.setSpaceOccupied(mapPos,nullptr);
+	g->world.setSpaceOccupied(lastPos,nullptr);
 }
 
 void Character::forceStop()

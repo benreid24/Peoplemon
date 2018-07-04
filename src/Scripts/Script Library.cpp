@@ -158,7 +158,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		else if (name=="playerDir")
 			ret.iValue = environment->getGame()->player.getDir();
 		else if (name=="movePlayer")
-			environment->getGame()->player.move(environment->getGame(),args.at(0).iValue,bool(args.at(1).iValue),bool(args.at(2).iValue),true,true);
+			environment->getGame()->player.move(environment->getGame(),args.at(0).iValue,bool(args.at(1).iValue),bool(args.at(2).iValue),false,true);
         else if (name=="movePlayerBlocking") {
             int dir = args.at(0).iValue;
             bool ignoreCols = bool(args.at(1).iValue);

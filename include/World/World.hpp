@@ -90,7 +90,8 @@ class World
     std::vector<Animation> anims;
     std::vector<Vector2D<Tile> > layers;
     std::vector<Vector2D<std::pair<int,Tile*> > > ySortedTiles;
-    Vector2D<int> collisions, catchables, charCols; //using int b/c stupid specialization of vector<bool> conflicting with 2d vector
+    Vector2D<int> collisions, catchables; //using int b/c stupid specialization of vector<bool> conflicting with 2d vector
+    Vector2D<Object*> charCols;
     std::vector<Object*> objects, objDelQueue, objAddQueue;
     std::vector<std::vector<Object*> > ySortedObjects;
     sf::Mutex objLock;
@@ -257,9 +258,9 @@ public:
      * Modifies the entity collision map to set the given space to be open or not
      *
      * \param position The space to modify
-     * \param occupied Whether or not the given space is being used
+     * \param c A pointer to the object on this space. Set to nullptr if empty (optional)
      */
-    void setSpaceOccupied(sf::Vector2i position, bool occupied);
+    void setSpaceOccupied(sf::Vector2i position, Object* c);
 
     /**
      * Modifies the world collision map

@@ -35,7 +35,7 @@ public:
         ball = imagePool.loadResource(Properties::MiscImagePath+"item.png");
         if (iId<500)
         {
-            w->setSpaceOccupied(sf::Vector2i(position.x/32,position.y/32),true);
+            w->setSpaceOccupied(sf::Vector2i(position.x/32,position.y/32),this);
             sprite.setTexture(*ball);
         }
     }
@@ -53,7 +53,7 @@ public:
     void interact(Game* game)
     {
     	if (itemId<500)
-			game->world.setSpaceOccupied(sf::Vector2i(position.x/32,position.y/32),false);
+			game->world.setSpaceOccupied(sf::Vector2i(position.x/32,position.y/32),nullptr);
 		else
 			itemId -= 500;
         game->player.giveItem(itemId);

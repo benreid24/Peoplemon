@@ -173,7 +173,7 @@ void Player::update(Game* game)
     if (lastPos!=mapPos && mapPos.x*32==position.x && mapPos.y*32==position.y)
     {
     	game->world.moveOntoTile(mapPos,lastPos); //for all events
-        game->world.setSpaceOccupied(lastPos,false);
+        game->world.setSpaceOccupied(lastPos,nullptr);
         lastPos = mapPos;
     }
     if (mapPos==lastPos) //for events that trigger every time you are in range
