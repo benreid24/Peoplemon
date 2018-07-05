@@ -60,6 +60,8 @@ string Traverser::readTo(char delim)
     r.reserve(64);
 	while ((data[cChar]!=delim || escaped) && cChar<data.size())
 	{
+	    if (data[cChar]=='\n')
+			line++;
 		escaped = false;
 		if (data[cChar]=='\\' && !escaped)
 			escaped = true;
@@ -67,7 +69,8 @@ string Traverser::readTo(char delim)
 			r.push_back(data[cChar]);
 		cChar++;
 	}
-	read(); //to ignore the deliminator and move on to the next non-whitespace
+	if (read() == '\n') //to ignore the deliminator and move on to the next non-whitespace
+        line++;
 	return r;
 }
 

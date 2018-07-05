@@ -477,7 +477,6 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			Npc* n = environment->getGame()->world.getNPC(args.at(0).sValue);
 			if (n)
 			{
-			    cout << "Found npc at (" << n->getMapPos().x << ", " << n->getMapPos().y << ")\n";
 				n->setLock(true,true);
 				if (args.at(3).iValue==0)
 				{

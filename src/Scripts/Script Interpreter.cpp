@@ -459,6 +459,7 @@ Value Script::runTokens(int pos)
 	int parenCount = 0;
 	int blockCount = 0; //terminate if blockcount gets to -1 (for loops)
 	ConditionalState conditionalState = NoConditional;
+	int tokensTillResetCond = 0;
 	bool execCond = false, resetCondState = true;
 
 	for (unsigned int i = pos; i<tokens.size(); ++i)
@@ -520,7 +521,8 @@ Value Script::runTokens(int pos)
                         parenCount--;
 				}
 			}
-			conditionalState = NoConditional;
+			if (tokensTillResetCond == 0)
+                conditionalState = NoConditional;
 			break;
 
 		case Token::Branch:
@@ -529,7 +531,9 @@ Value Script::runTokens(int pos)
 			if (branchTable.find(tokens.at(i+1).data)==branchTable.end())
 				throw runtime_error("Branch to unknown identifier encountered on line "+intToString(tokens.at(i).line)+" in file "+tokens.at(i).file);
 			i = branchTable[tokens.at(i+1).data];
-			conditionalState = NoConditional;
+
+			if (tokensTillResetCond == 0)
+                conditionalState = NoConditional;
 			break;
 
 		case Token::Elif:
@@ -589,6 +593,8 @@ Value Script::runTokens(int pos)
 							parenCount--;
 					}
 				}
+				else
+                    tokensTillResetCond = 2;
 			}
 			else
 			{
@@ -608,6 +614,7 @@ Value Script::runTokens(int pos)
 				}
 				else
 				{
+				    tokensTillResetCond = 2;
 					while (tokens.at(i).type!=Token::LineDelim)
 						i++;
 				}
@@ -659,7 +666,8 @@ Value Script::runTokens(int pos)
 				i++;
 			}
 			i--;
-			conditionalState = NoConditional;
+			if (tokensTillResetCond == 0)
+                conditionalState = NoConditional;
 			break;
 
 		case Token::Return:
@@ -671,7 +679,6 @@ Value Script::runTokens(int pos)
                 i++;
 			}
 			return evaluate(tkns);
-			break;
 
 		case Token::BlockOpen:
             blockCount++;
@@ -686,7 +693,8 @@ Value Script::runTokens(int pos)
 			break;
 
 		case Token::LineDelim:
-			conditionalState = NoConditional;
+		    if (tokensTillResetCond == 0)
+                conditionalState = NoConditional;
 			break;
 
 		case Token::Label:
@@ -708,9 +716,13 @@ Value Script::runTokens(int pos)
 			}
 			test = evaluate(tkns);
 			getIdentifier(name) = test;
-			conditionalState = NoConditional;
+			if (tokensTillResetCond == 0)
+                conditionalState = NoConditional;
 			break;
 		}
+
+		if (tokensTillResetCond > 0)
+            tokensTillResetCond -= 1;
 	}
 
 	voidRet:
