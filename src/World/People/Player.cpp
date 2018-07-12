@@ -124,6 +124,29 @@ void Player::load(File* saveFile)
     position.y = mapPos.y*32;
 }
 
+void Player::loadPersistentAnims() {
+    if (isBoy)
+    {
+        string walkAnim = "BoyPlayer/Walk", runAnim = "BoyPlayer/Run";
+        if (game->scriptEnvironment.stringSaveEntries.find("playerWalkAnim")!=game->scriptEnvironment.stringSaveEntries.end()) {
+            walkAnim = game->scriptEnvironment.stringSaveEntries["playerWalkAnim"];
+            runAnim = game->scriptEnvironment.stringSaveEntries["playerRunAnim"] ;
+        }
+        loadAnim(walking, walkAnim);
+        loadAnim(running, runAnim);
+    }
+    else
+    {
+        string walkAnim = "GirlPlayer/Walk", runAnim = "GirlPlayer/Run";
+        if (game->scriptEnvironment.stringSaveEntries.find("playerWalkAnim")!=game->scriptEnvironment.stringSaveEntries.end()) {
+            walkAnim = game->scriptEnvironment.stringSaveEntries["playerWalkAnim"];
+            runAnim = game->scriptEnvironment.stringSaveEntries["playerRunAnim"] ;
+        }
+        loadAnim(walking, walkAnim);
+        loadAnim(running, runAnim);
+    }
+}
+
 void Player::interact(Game* game)
 {
     Object* o = game->world.getFirstObject(mapPos,dir,1);
@@ -429,6 +452,25 @@ void Player::whiteout()
         for (int j = 0; j<4; ++j)
         {
             curPeoplemon[i].curAils[j] = Peoplemon::None;
+        }
+    }
+}
+
+void Player::changeAnims(string walkAnim, string runAnim, bool persist) {
+    loadAnim(walking, walkAnim);
+    loadAnim(running, runAnim);
+    if (persist) {
+        game->scriptEnvironment.stringSaveEntries["playerWalkAnim"] = walkAnim;
+        game->scriptEnvironment.stringSaveEntries["playerRunAnim"] = runAnim;
+    }
+    else {
+        if (isBoy) {
+            game->scriptEnvironment.stringSaveEntries["playerWalkAnim"] = "BoyPlayer/Walk";
+            game->scriptEnvironment.stringSaveEntries["playerRunAnim"] = "BoyPlayer/Run";
+        }
+        else {
+            game->scriptEnvironment.stringSaveEntries["playerWalkAnim"] = "GirlPlayer/Walk";
+            game->scriptEnvironment.stringSaveEntries["playerRunAnim"] = "GirlPlayer/Run";
         }
     }
 }

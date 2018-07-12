@@ -311,5 +311,6 @@ void Game::load(string name)
 		mainWindow.setMouseCursorVisible(false);
 		mainWindow.setVerticalSyncEnabled(true);
 	}
+	player.loadPersistentAnims();
 	world.load();
 }

@@ -30,6 +30,7 @@ namespace {
 					"alterMoney",
 					"cameraXPos",
 					"cameraYPos",
+					"changePlayerAnim",
 					"choiceBox",
 					"clearLights",
 					"controlPressed",
@@ -297,6 +298,12 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			if (args.size()>1)
 				environment->getGame()->player.alterMoney(-args.at(1).iValue);
 			environment->getGame()->data.whiteoutFlag = true;
+		}
+		else if (name=="changePlayerAnim") {
+            string walkAnim = args.at(0).sValue;
+            string runAnim = (args.size()>1)?(args.at(1).sValue):(walkAnim);
+            bool persist = (args.size()>2)?(args.at(2).iValue==1):(false);
+            environment->getGame()->player.changeAnims(walkAnim, runAnim, persist);
 		}
 		else if (name=="resetPlayer")
 		{

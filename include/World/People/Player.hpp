@@ -175,6 +175,16 @@ public:
     void whiteout();
 
     /**
+     * Changes the walking/running anims. Optionally persists across game saves
+     */
+    void changeAnims(std::string walkAnim, std::string runAnim, bool persist);
+
+    /**
+     * Checks for persistent animations and changes to them if they exist. Call after loading game
+     */
+    void loadPersistentAnims();
+
+    /**
      * Returns a string to identify the object for debug purposes
      */
     std::string getIdentifier();
