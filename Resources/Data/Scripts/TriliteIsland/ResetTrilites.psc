@@ -11,6 +11,13 @@ setTrainerBeaten("Trilite3",0);
 addSaveEntry("ChGirlBeat",0);
 setTrainerBeaten("ChampsGirl",0);
 
-addSaveEntry("ChampBeat",0);
+addSaveEntry("ChampBeaten",0);
 setTrainerBeaten("Champ",0);
+
+addSaveEntry("AllChampsBeaten",0);
+setTrainerBeaten("ChampsUncle",0);
+
+addSaveEntry("ChampGirlBeat",0);
+addSaveEntry("BeatGirlTalkedGuard",0);
+addSaveEntry("BeatGirlTalkedGuard",0);
 }

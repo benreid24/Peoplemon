@@ -400,6 +400,7 @@ Value Script::evaluate(vector<Token> tkns)
 					}
 					tkns.erase(tkns.begin()+start+1,tkns.begin()+i+1);
 					state = Searching;
+					i -= 2;
 				}
 				else
 					argEq.push_back(tkns.at(i));
@@ -738,6 +739,7 @@ void Script::run(ScriptEnvironment* env)
 		return;
 
 	reset();
+	srand(time(NULL));
 	environment = env;
 	stopped = false;
 	stopping = false;

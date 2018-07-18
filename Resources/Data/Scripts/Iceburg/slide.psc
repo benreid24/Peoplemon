@@ -1,15 +1,15 @@
-int slide(int dir) {
+/*int slide(int dir) {
 	setPlayerLock(1);
 	int px = playerXWorldPos()/32;
 	int py = playerYWorldPos()/32;
-	int dist = 2;
+	int dist = 1;
 	int traveled = 0;
 	
 	while (spaceFree(px, py, dir, dist)) {
 		dist = dist + 1;
 	}
 	
-	while (traveled < dist -1) {
+	while (traveled < dist - 1) {
 		movePlayerBlocking(dir,0,0);
 		traveled = traveled + 1;
 	}
@@ -32,4 +32,4 @@ while (1) {
 	lastY = playerYWorldPos();
 	
 	sleep(10);
-}
+}*/

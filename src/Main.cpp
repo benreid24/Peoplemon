@@ -78,7 +78,7 @@ int main(int argC, const char* argV[])
     system(string("chmod 777 "+string(homedir+"/.config/Peoplemon")).c_str());
     #endif
 
-	srand(time(0));
+	srand(time(NULL));
     Properties::PrimaryMenuFont.loadFromFile(Properties::FontPath+"Dream.ttf");
     Properties::SecondaryMenuFont.loadFromFile(Properties::FontPath+"Bondani.ttf");
     Properties::ConversationFont.loadFromFile(Properties::FontPath+"Acens.ttf");

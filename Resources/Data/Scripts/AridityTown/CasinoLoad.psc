@@ -6,4 +6,8 @@ spawnNPC("AridityTown/CasinoThug5.npc",13,4,2,0);	//right counter man
 spawnNPC("AridityTown/CasinoThug6.npc",7,11,1,0);	//Door Greeter
 spawnNPC("AridityTown/CasinoStore1.npc",8,5,0,0); //Store Left
 spawnNPC("AridityTown/CasinoStore2.npc",13,5,0,0); //Store Right
-spawnNPC("AridityTown/KeyHolder.npc",3,3,2,0); //Has Leader's Key
+if(getSaveEntry("ShoeRecieved")!=1)
+ spawnNPC("AridityTown/KeyHolder.npc",4,3,2,0); //Has Leader's Key
+ 
+if(getSaveEntry("ShoeRecieved")==1)
+ spawnNPC("AridityTown/KeyHolder2.npc",4,3,2,0);
