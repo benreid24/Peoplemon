@@ -10,11 +10,20 @@
 using namespace std;
 using namespace sf;
 
-string intToString(double i)
-{
-	stringstream ss;
-	ss << i;
-	return ss.str();
+namespace {
+    string intToString(double i)
+    {
+        stringstream ss;
+        ss << i;
+        return ss.str();
+    }
+
+    int stringToInt(string s) {
+        stringstream ss(s);
+        int i;
+        ss >> i;
+        return i;
+    }
 }
 
 Script::Script()
@@ -171,7 +180,7 @@ Value Script::combine(Token left, Token op, Token right)
 		if (right.type==Token::StrVal && left.type==Token::StrVal)
         ret.iValue = int(left.data!=right.data);
         else if (left.type==Token::IntVal && right.type==Token::StrVal)
-            ret.iValue = int(left.value!=atoi(right.data.c_str()));
+            ret.iValue = int(left.value!=stringToInt(right.data));
 		else if (left.type==Token::StrVal && right.type==Token::IntVal)
 			ret.iValue = int(left.data!=intToString(right.value));
 		return ret;

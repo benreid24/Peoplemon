@@ -1,0 +1,1 @@
+//remove desk and education npc

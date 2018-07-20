@@ -1,0 +1,1 @@
+//remove dumbell npc and tile
