@@ -34,7 +34,6 @@ if (abs(x-38)<3 && abs(y-15)<3) {
 }
 
 string xsave = "puzzles:first:x-"+xnum;
-print(xsave,"\n");
 
 if (getSaveEntry(xsave)+"" != "pressed") {
 	addSaveEntry(xsave, "pressed");

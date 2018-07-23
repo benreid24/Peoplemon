@@ -590,7 +590,9 @@ Value Script::runTokens(int pos)
 				if (tokens.at(i+1).type==Token::BlockOpen)
 				{
 				    stackFrames.push_back(Frame());
-					runTokens(i+2);
+					Value ret = runTokens(i+2);
+					if (!(ret.type==Value::Void && ret.iValue==0 && ret.sValue=="noret"))
+                        return ret;
 					stackFrames.pop_back();
 					parenCount = 1;
 					i++;
@@ -661,7 +663,9 @@ Value Script::runTokens(int pos)
 					break;
 
                 stackFrames.push_back(Frame());
-				runTokens(i);
+				Value ret = runTokens(i);
+				if (!(ret.type==Value::Void && ret.iValue==0 && ret.sValue=="noret"))
+                    return ret;
 				stackFrames.pop_back();
 				test = evaluate(tkns);
 			}
@@ -739,6 +743,7 @@ Value Script::runTokens(int pos)
 	Value v;
 	v.type = Value::Void;
 	v.iValue = 0;
+	v.sValue = "noret";
 	return v;
 }
 
