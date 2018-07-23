@@ -649,7 +649,7 @@ void World::moveOntoTile(Vector2i playerPos, Vector2i lastPos)
         if ((events[i].trigger==1 && inNow && !wasIn) || (events[i].trigger==2 && !inNow && wasIn) || (events[i].trigger==3 && inNow!=wasIn) || (events[i].trigger==4 && inNow))
         {
             if (events[i].runs<events[i].maxRuns || events[i].maxRuns==0)
-                game->scriptEnvironment.runScript(events[i].script);
+                game->scriptEnvironment.runScript(events[i].script); //Figure out why multiple events on one tile prevents execution
             events[i].runs++;
         }
     }
@@ -771,7 +771,6 @@ bool World::spaceFree(Vector2i pos)
            and object that was removed but left a pointer in this map
     **/
 	if (charCols(pos.x-1,pos.y-1)!=nullptr) {
-        return false;
         if (int(charCols(pos.x-1,pos.y-1)->getPosition().x/32 + 0.5)==pos.x && int(charCols(pos.x-1,pos.y-1)->getPosition().y/32 + 0.5) == pos.y)
             return false;
         else
