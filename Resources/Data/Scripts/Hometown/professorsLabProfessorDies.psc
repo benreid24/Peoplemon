@@ -76,8 +76,10 @@
 	 messageBox("I'm opening the door now...");
 
 //--------------------------------------Explosion!
+
+	drawAnim("explosion.anim",545,64,0);
+	sleep(500);
 	editTile(16,1,2,0);
-	drawAnim("explosion.anim",480,64,0);
 	removeNPC("professor3");
 	
 //------------------------------Thug Appearance!!

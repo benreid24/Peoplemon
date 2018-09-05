@@ -182,11 +182,12 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		else if (name=="playerToLocation")
 		{
 			environment->getGame()->player.setLock(true,true);
+			int stepsToTake = (args.size()==4)?(args.at(3).iValue):(-1);
 			if (args.at(2).iValue==0)
 			{
 				PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(0).iValue,args.at(1).iValue), environment->getGame()->player.getDir());
 				vector<int> moves = finder.getPath();
-				for (unsigned int i = 0; i<moves.size(); ++i)
+				for (unsigned int i = 0; i<moves.size() && (i<stepsToTake || stepsToTake==-1); ++i)
 					environment->getGame()->player.move(environment->getGame(),moves[i],false,true,true,true);
 			}
 			else
@@ -195,7 +196,8 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				vector<int> moves = finder.getPath();
 
 				int retries = 0;
-				while (true)
+				int stepsTaken = 0;
+				while (stepsTaken<stepsToTake || stepsToTake==-1)
 				{
 					if (moves.size()==0) {
 						if (environment->getGame()->player.getMapPos()==Vector2i(args.at(0).iValue,args.at(1).iValue))
@@ -216,8 +218,12 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 							PathFinder finder(environment->getGame(), environment->getGame()->player.getMapPos(), Vector2i(args.at(0).iValue,args.at(1).iValue), environment->getGame()->player.getDir());
 							moves = finder.getPath();
 						}
-						else if (moves.size()>0)
+						else if (moves.size()>0) {
 							moves.erase(moves.begin());
+							stepsTaken += 1;
+						}
+						else
+                            stepsTaken += 1;
 					}
 					sleep(milliseconds(10));
 				}
@@ -359,11 +365,12 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			if (t)
 			{
 				t->setLock(true,true);
+				int stepsToTake = (args.size()==5)?(args.at(4).iValue):(-1);
 				if (args.at(3).iValue==0)
 				{
 					PathFinder finder(environment->getGame(), t->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), t->getDir());
 					vector<int> moves = finder.getPath();
-					for (unsigned int i = 0; i<moves.size(); ++i)
+					for (unsigned int i = 0; i<moves.size() && (i<stepsToTake || stepsToTake==-1); ++i)
 						t->move(environment->getGame(),moves[i],false,true,true,true);
 				}
 				else
@@ -372,7 +379,8 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 					vector<int> moves = finder.getPath();
 
 					int retries = 0;
-					while (true)
+					int stepsTaken = 0;
+					while (stepsTaken<stepsToTake || stepsToTake==-1)
 					{
 						if (moves.size()==0) {
 							if (t->getMapPos()==Vector2i(args.at(1).iValue,args.at(2).iValue))
@@ -393,8 +401,12 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 								PathFinder finder(environment->getGame(), t->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), t->getDir());
 								moves = finder.getPath();
 							}
-							else if (moves.size()>0)
+							else if (moves.size()>0) {
 								moves.erase(moves.begin());
+								stepsTaken += 1;
+							}
+							else
+                                stepsTaken += 1;
 						}
 						sleep(milliseconds(10));
 					}
@@ -482,6 +494,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		else if (name=="npcToLocation")
 		{
 			Npc* n = environment->getGame()->world.getNPC(args.at(0).sValue);
+			int stepsToTake = (args.size()==5)?(args.at(4).iValue):(-1);
 			if (n)
 			{
 				n->setLock(true,true);
@@ -489,7 +502,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				{
 					PathFinder finder(environment->getGame(), n->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), n->getDir());
 					vector<int> moves = finder.getPath();
-					for (unsigned int i = 0; i<moves.size(); ++i)
+					for (unsigned int i = 0; i<moves.size() && (i<stepsToTake || stepsToTake==-1); ++i)
 						n->move(environment->getGame(),moves[i],false,true,true,true);
 				}
 				else
@@ -498,7 +511,8 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 					vector<int> moves = finder.getPath();
 
 					int retries = 0;
-					while (true)
+					int stepsTaken = 0;
+					while (stepsTaken<stepsToTake || stepsToTake==-1)
 					{
 						if (moves.size()==0) {
 							if (n->getMapPos()==Vector2i(args.at(1).iValue,args.at(2).iValue))
@@ -519,8 +533,12 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 								PathFinder finder(environment->getGame(), n->getMapPos(), Vector2i(args.at(1).iValue,args.at(2).iValue), n->getDir());
 								moves = finder.getPath();
 							}
-							else if (moves.size()>0)
+							else if (moves.size()>0) {
 								moves.erase(moves.begin());
+								stepsTaken += 1;
+							}
+							else
+                                stepsTaken += 1;
 						}
 						sleep(milliseconds(10));
 					}

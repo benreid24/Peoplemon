@@ -1,4 +1,4 @@
-messageBox("Hey! No unauthorized thugs in here.");
+addSaveEntry("ChaseLineCrossed",1);
 setPlayerLock(0);
 
 runScript("AuspiciousIsland/ActivateThug1.psc",1);
