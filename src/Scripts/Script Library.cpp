@@ -783,7 +783,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		else if (name=="sqrt")
 			ret.iValue = sqrt(args.at(0).iValue);
 		else if (name=="random")
-			ret.iValue = rand()%int(args.at(1).iValue-args.at(0).iValue)+args.at(0).iValue;
+			ret.iValue = Random(args.at(0).iValue, args.at(1).iValue);
 	}
 	catch (out_of_range e)
 	{
