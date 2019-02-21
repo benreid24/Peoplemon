@@ -629,13 +629,20 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			environment->runScript(scr,args.at(1).iValue!=0);
 		}
 		else if (name=="runScriptAtTime") {
-			ClockTime t = gameClock.getClockTime();
-            while (t.hour!=args.at(1).iValue && t.minute>args.at(2).iValue) {
-                sleep(milliseconds(250));
-                t = gameClock.getClockTime();
-            }
             ScriptReference scr = scriptPool.loadResource(args.at(0).sValue);
-			environment->runScript(scr,true);
+            bool blocking = (args.size()>3)?(args.at(3).iValue!=0):(true);
+
+			if (blocking)
+            {
+                ClockTime t = gameClock.getClockTime();
+                while (t.hour!=args.at(1).iValue || t.minute!=args.at(2).iValue) {
+                    sleep(milliseconds(250));
+                    t = gameClock.getClockTime();
+                }
+                environment->runScript(scr,true);
+            }
+            else
+                environment->runScriptAtTime(scr,ClockTime(args.at(1).iValue,args.at(2).iValue));
 		}
 		else if (name=="setMusic")
 		{

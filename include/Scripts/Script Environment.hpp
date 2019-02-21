@@ -4,6 +4,7 @@
 #include "SFML.hpp"
 #include "Script Interpreter.hpp"
 #include "Resources/ResourceTypes.hpp"
+#include "Util/GameClock.hpp"
 #include <list>
 #include <map>
 #include <memory>
@@ -69,6 +70,14 @@ public:
      * \param concurrent Whether or not the run the script concurrently. Default is false
      */
     void runScript(ScriptReference scr, bool concurrent = false);
+
+    /**
+     * Schedules a script to run at a certain in game time. Returns immediately
+     *
+     * \param scr A pointer to the Script to run
+     * \param runtime A ClockTime to run the script at
+     */
+    void runScriptAtTime(ScriptReference scr, ClockTime runtime);
 
     /**
      * Stops all of the currently running threads

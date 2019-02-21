@@ -11,6 +11,16 @@ namespace
         d->script->run(d->owner);
         d->finished = true;
     }
+
+    void delayedScript(pair<ClockTime,shared_ptr<ScriptData> > d)
+    {
+        ClockTime ct = gameClock.getClockTime();
+        while (ct.hour!=d.first.hour || ct.minute!=d.first.minute) {
+            sleep(milliseconds(250));
+            ct = gameClock.getClockTime();
+        }
+        scriptRunner(d.second);
+    }
 }
 
 ScriptEnvironment::ScriptEnvironment(Game* g) : thread(&ScriptEnvironment::update,this)
@@ -44,6 +54,21 @@ void ScriptEnvironment::runScript(ScriptReference scr, bool concurrent)
     }
     else
 		scr->run(this);
+}
+
+void ScriptEnvironment::runScriptAtTime(ScriptReference scr, ClockTime rtime)
+{
+	if (scr->isRunning())
+		return;
+
+    shared_ptr<ScriptData> temp(new ScriptData());
+    temp->owner = this;
+    temp->script = scr;
+    temp->thread.reset(new Thread(&delayedScript,make_pair(rtime,temp)));
+    temp->thread->launch();
+    lock.lock();
+    runningScripts.push_back(temp);
+    lock.unlock();
 }
 
 void ScriptEnvironment::stopAll()
