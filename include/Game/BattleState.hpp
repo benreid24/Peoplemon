@@ -161,9 +161,10 @@ class BattleState : public Gamestate
      * \param atk The attacking Battler
      * \param def The Battler being attacked
      * \param id The id of the move being used
+     * \param opponentId The id of the move being used by the opponent
      * \return A vector of string to be outputted
      */
-    std::vector<std::string> applyMove(Battler* atk, Battler* def, int id); //deals damages, applies effects
+    std::vector<std::string> applyMove(Battler* atk, Battler* def, int id, int opponentId = -1);
 
     /**
      * Handles checking end of battle conditions, switching peoplemon, playing animations and doing XP stuff. Really magical

@@ -4,6 +4,7 @@ removeNPC("Exchamp3");
 //---------------Officer enters-------------
 spawnNPC("CurveForest/Officer3.npc",328,205,0,1);
 npcToLocation("Officer3",playerXWorldPos()/32,playerYWorldPos()/32+1,1);
+sleep(600);
 movePlayer(2,0,1);
 interact();
 

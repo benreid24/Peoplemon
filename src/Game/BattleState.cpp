@@ -501,7 +501,7 @@ bool BattleState::execute()
 					goto noMove;
 				}
 
-                lines = applyMove(order[i],order[j],turns[i].id);
+                lines = applyMove(order[i],order[j],turns[i].id,turns[j].id);
                 displayMessage(getMoveLine(order[i],turns[i].id));
                 if (shouldClose())
                     return true;
@@ -1080,7 +1080,7 @@ bool BattleState::doFaint(int alive, int dead)
     return false;
 }
 
-vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
+vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int oppId)
 {
 	cout << "Move " << game->moveList[id].name << " used with power " << game->moveList[id].dmg << endl;
 
@@ -1115,6 +1115,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
         return ret;
     }
 
+    Move::Effect effect = game->moveList[id].effect;
 	double power = game->moveList[id].dmg;
 	double acc = attacker.stats.acc;
 	if (attacker.holdItem==52 && game->moveList[id].acc!=0 && !game->moveList[id].targetIsSelf)
@@ -1131,6 +1132,13 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
     bool isBad = effectiveness<1 && power>0.1;
     multiplier *= stab*effectiveness;
     multiplier *= double(Random(85,100))/100;
+
+    Move::Effect oppEffect = Move::None;
+    if (oppId>=0)
+        oppEffect = game->moveList[oppId].effect;
+    if (atk->state.ballSet && (effect==Move::SpikeBall || effect==Move::SwipeBall))
+        hit = true;
+    atk->state.ballSet = false;
 
     if (critical && defender.curAbility==Peoplemon::Lax)
 	{
@@ -1177,6 +1185,17 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 		def->getPeoplemon()->at(def->getCurrentPeoplemon()).holdItem = 0;
 	}
     double damage = (power>0.1)?((((2*double(attacker.level)+10)/250)*(atkS/defS)*power+2)*multiplier):(0);
+    if (effect==Move::Peanut) {
+        if ((defender.id>=58 && defender.id<=60) || (defender.id>=78 && defender.id<=80) || (defender.id>=84 && defender.id<=86) || (defender.id>=126 && defender.id<=127)) {
+            ret.push_back(defender.name+" is allergic to peanuts!");
+            damage = 9999999999;
+        }
+        else {
+            ret.push_back(defender.name+" ate the peanut and gained 1 hp");
+            defender.curHp += 1;
+            damage = 0;
+        }
+    }
     cout << "Damage was: " << damage << endl;
 
 	atk->setLastDamageDealt(damage); //for ai
@@ -1220,7 +1239,6 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
 			ret.push_back(game->typeList[game->moveList[id].type]+" moves don't affect "+defender.name+"!");
 	}
 
-    Move::Effect effect = game->moveList[id].effect;
     int intensity = game->moveList[id].intensityOfEffect;
     PeoplemonRef* giver = &atk->getPeoplemon()->at(atk->getCurrentPeoplemon());
 	PeoplemonRef* taker = &def->getPeoplemon()->at(def->getCurrentPeoplemon());
@@ -1613,6 +1631,55 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id)
                     taker->curHp = 0;
                 ret.push_back(taker->name+" was hurt by Mirror Coat!");
             }
+        }
+        else if (effect==Move::SetBall)
+        {
+            if (atk->state.ballIsUp) {
+                atk->state.ballSet = true;
+                atk->state.ballHandled = true; //TODO - set this to false somewhere before applyMove is called
+                ret.push_back(attacker.name+" Set the ball!");
+            }
+            else
+                ret.push_back(attacker.name+" tried to Set, but there was no ball in the air!");
+        }
+        else if (effect==Move::BumpBall)
+        {
+            //TODO - handle switching for this and baton pass in the main battle loop before/after? applyMove
+            atk->state.ballIsUp = true;
+            atk->state.ballHandled = true;
+            ret.push_back(attacker.name+" Bumped a ball from out of nowhere!");
+        }
+        else if (effect==Move::SpikeBall)
+        {
+            if (atk->state.ballIsUp) {
+                if (oppEffect==Move::BlockBall)
+                    ret.push_back(attacker.name+" tried to Spike the ball but "+defender.name+" Blocked it!");
+                else {
+                    atk->state.ballIsUp = false;
+                    def->state.ballIsUp = true;
+                    def->state.ballHandled = false;
+                    ret.push_back(attacker.name+" Spiked the ball!");
+                }
+            }
+            else
+                ret.push_back(attacker.name+" tried to Spike but there was no ball above them!");
+        }
+        else if (effect==Move::BlockBall)
+            ret.push_back(attacker.name+" is preparing to Block a ball");
+        else if (effect==Move::SwipeBall)
+        {
+            if (atk->state.ballIsUp) {
+                if (oppEffect==Move::BlockBall) {
+                    def->state.ballIsUp = true;
+                    atk->state.ballIsUp = false;
+                    def->state.ballHandled = false;
+                    ret.push_back(defender.name+" tried to Block the ball but "+attacker.name+" Swiped it!");
+                }
+                else
+                    ret.push_back(attacker.name+" tried to Swipe the ball but "+defender.name+" wasn't Blocking so it failed!");
+            }
+            else
+                ret.push_back(attacker.name+" tried to Swipe but there was no ball above them!");
         }
     }
 

@@ -21,6 +21,9 @@ struct BattlerFlags
 {
     bool isCharging, protectUsedLast;    int subHealth, lastMoveUsed;
 
+    bool ballIsUp, ballHandled;
+    bool ballSet;
+
     /**
      * Initializes all the data to the default values
      */

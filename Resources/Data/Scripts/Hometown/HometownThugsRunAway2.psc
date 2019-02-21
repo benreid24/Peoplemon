@@ -1,6 +1,7 @@
 	//---------Thug Runs Away----------------------
+	sleep(500);
 	npcToLocation("hometownThug1",366,251,1);
-	removeNPC("hoometownThug1");
+	removeNPC("hometownThug1");
 	sleep(200);
 	
 	//---------Aster Runs Home---------------

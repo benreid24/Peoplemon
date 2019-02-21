@@ -82,9 +82,11 @@ bool TrainerSpottedPlayerState::execute()
     while (true)
     {
         ensureFps = gameClock.getTimeStamp();
-        trainer->move(game,nTDir);
+
+        if (trainer->getMapPos()!=destPos)
+            trainer->move(game,nTDir);
         if (game->player.getDir()!=nPDir)
-			game->player.move(game,nPDir,false,true,false);
+			game->player.move(game,nPDir,false,true,false,true);
 
 
 		if (trainer->getMapPos()==destPos && trainer->getPosition().x==trainer->getMapPos().x*32 && trainer->getPosition().y==trainer->getMapPos().y*32)
