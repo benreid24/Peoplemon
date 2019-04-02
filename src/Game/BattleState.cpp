@@ -566,7 +566,9 @@ bool BattleState::execute()
 
                     order[i]->getSwitchPeoplemon(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()), game);
                     int oldPeoplemon = order[i]->getCurrentPeoplemon();
+                    Stats curStats = order[i]->getPeoplemon()->at(oldPeoplemon).stages;
                     applyAfterTurn[i] = false;
+
                     if (order[i]==player)
                     {
                         if (find(sentIn.begin(),sentIn.end(),oldPeoplemon)==sentIn.end())
@@ -579,6 +581,9 @@ bool BattleState::execute()
                     playSwitchAnim(order[i],order[j],oldPeoplemon,order[i]->getCurrentPeoplemon());
                     if (shouldClose())
                         return true;
+
+                    order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stages = curStats;
+                    order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).recalcStats(game);
 
                     game->hud.displayMessage("");
                     renderStatic();
@@ -1348,7 +1353,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 						ret.push_back(taker->name+" Shared its Stickiness with "+giver->name+"!");
 					}
 					else
-						ret.push_back(taker->name+" tried to Share its Stickiness with "+giver->name+" but if failed!");
+						ret.push_back(taker->name+" tried to Share its Stickiness with "+giver->name+" but it failed!");
 				}
             }
             else
@@ -1703,7 +1708,6 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         }
         else if (effect==Move::BumpBall)
         {
-            //TODO - handle switching Peoplemon (transfer stats) for this and baton pass in the main battle loop before/after? applyMove
             atk->state.switchAfterMove = true;
             atk->state.ballIsUp = true;
             atk->state.ballHandled = true;

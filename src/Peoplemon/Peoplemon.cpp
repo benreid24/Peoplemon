@@ -16,10 +16,20 @@ double Move::damageScore(double atkAdv, double spAtkAdv, Type userType, Type opT
 
 double Peoplemon::getSTAB(Type atk, Type mv)
 {
-	double m = 1;
-	if (atk==mv || (atk==FunnyPartyAnimal && (mv==PartyAnimal || mv==Funny)) || (atk==IntelligentAthletic && (mv==Intelligent || mv==Athletic)) || (atk==IntelligentNormal && (mv==Normal || mv==Intelligent)) || (atk==NormalQuiet && (mv==Normal || mv==Quiet)) || (atk==AwkwardFunny && (mv==Awkward || mv==Funny)) || (atk==IntelligentFunny && (mv==Intelligent || mv==Funny)) || (atk==AthleticNormal && (mv==Athletic || mv==Normal)) || (atk==FunnyNormal && (mv==Funny || mv==Normal)) || (atk==NormalAwkward && (mv==Normal || mv==Awkward)) || (atk==QuietAthletic && (mv==Quiet || mv==Athletic)) || (atk==IntelligentAwkward && (mv==Intelligent || mv==Awkward)))
-		m = 1.5;
-    return m;
+	if (atk==mv ||
+       (atk==FunnyPartyAnimal && (mv==PartyAnimal || mv==Funny)) ||
+       (atk==IntelligentAthletic && (mv==Intelligent || mv==Athletic)) ||
+       (atk==IntelligentNormal && (mv==Normal || mv==Intelligent)) ||
+       (atk==NormalQuiet && (mv==Normal || mv==Quiet)) ||
+       (atk==AwkwardFunny && (mv==Awkward || mv==Funny)) ||
+       (atk==IntelligentFunny && (mv==Intelligent || mv==Funny)) ||
+       (atk==AthleticNormal && (mv==Athletic || mv==Normal)) ||
+       (atk==FunnyNormal && (mv==Funny || mv==Normal)) ||
+       (atk==NormalAwkward && (mv==Normal || mv==Awkward)) ||
+       (atk==QuietAthletic && (mv==Quiet || mv==Athletic)) ||
+       (atk==IntelligentAwkward && (mv==Intelligent || mv==Awkward)))
+		return 1.5;
+    return 1;
 }
 
 double Peoplemon::getEffectivenessMultiplier(Type mv, Type def)
