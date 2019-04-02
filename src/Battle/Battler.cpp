@@ -11,10 +11,7 @@ using namespace std;
 
 BattlerFlags::BattlerFlags()
 {
-    protectUsedLast = false;
-    isCharging = false;
-    subHealth = 0;
-    lastMoveUsed = 0;
+    reset();
 }
 
 void BattlerFlags::reset()
@@ -23,6 +20,10 @@ void BattlerFlags::reset()
     isCharging = false;
     subHealth = 0;
     lastMoveUsed = 0;
+    ballHandled = false;
+    ballSet = false;
+    ballIsUp = false;
+    switchAfterMove = false;
 }
 
 Battler::Battler(vector<PeoplemonRef>* ppl)

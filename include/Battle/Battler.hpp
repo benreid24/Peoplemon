@@ -23,6 +23,7 @@ struct BattlerFlags
 
     bool ballIsUp, ballHandled;
     bool ballSet;
+    bool switchAfterMove; //baton pass
 
     /**
      * Initializes all the data to the default values

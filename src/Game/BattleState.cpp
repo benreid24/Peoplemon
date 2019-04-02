@@ -140,6 +140,8 @@ bool BattleState::execute()
 
     int runTries = 0;
     bool applyAfterTurn[2] = {true,true}; //whether or not to apply after turn effects like hold items. Used when peoplemon faint or are switched out
+    int ballUpTurns = 0; //for volleyball moves
+
     //battle loop
     while (true)
     {
@@ -152,11 +154,23 @@ bool BattleState::execute()
         //get player turn from input, opponent turn and determine order
         {
             PeoplemonRef p = getPeoplemon(player,player->getCurrentPeoplemon()), op = getPeoplemon(opponent,opponent->getCurrentPeoplemon());
-            Turn pTurn = player->getTurn(op,game);
+            Turn pTurn;
+            if (!player->state.isCharging)
+                pTurn = player->getTurn(op,game);
+            else {
+                pTurn.id = player->state.lastMoveUsed;
+                pTurn.type = Turn::Move;
+            }
             if (shouldClose())
                 return true;
 
-            Turn oTurn = opponent->getTurn(p,game);
+            Turn oTurn;
+            if (!opponent->state.isCharging)
+                opponent->getTurn(p,game);
+            else {
+                oTurn.id = opponent->state.lastMoveUsed;
+                oTurn.type = Turn::Move;
+            }
             bool pFirst = true;
             if (oTurn.type==Turn::Switch || oTurn.type==Turn::Item)
             {
@@ -208,6 +222,8 @@ bool BattleState::execute()
             }
         } //end input and ordering
         renderStatic();
+        player->state.ballHandled = false;
+        opponent->state.ballHandled = false;
 
         //loop through turns and do them while outputting stuff. declare things here to indicate moves like protect being used
         bool shouldStop = false;
@@ -219,7 +235,7 @@ bool BattleState::execute()
             if (shouldStop)
                 break;
 
-            int j = (i==0)?(1):(0); //to quickly reference the other guy
+            int j = (i+1)%2; //to quickly reference the other guy
             toDraw.clear();
             toDraw.push_back(&playerAnims.still);
             toDraw.push_back(&opponentAnims.still);
@@ -544,6 +560,31 @@ bool BattleState::execute()
                     if (done)
                         return false;
                 }
+
+                if (order[i]->state.switchAfterMove) { //baton pass and bump
+                    order[i]->state.switchAfterMove = false;
+
+                    order[i]->getSwitchPeoplemon(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()), game);
+                    int oldPeoplemon = order[i]->getCurrentPeoplemon();
+                    applyAfterTurn[i] = false;
+                    if (order[i]==player)
+                    {
+                        if (find(sentIn.begin(),sentIn.end(),oldPeoplemon)==sentIn.end())
+                            sentIn.push_back(oldPeoplemon);
+                        displayMessage("That's enough, "+order[i]->getPeoplemon()->at(oldPeoplemon).name+"!");
+                        if (shouldClose())
+                            return true;
+                    }
+
+                    playSwitchAnim(order[i],order[j],oldPeoplemon,order[i]->getCurrentPeoplemon());
+                    if (shouldClose())
+                        return true;
+
+                    game->hud.displayMessage("");
+                    renderStatic();
+                    if (shouldClose())
+                        return true;
+                }
                 noMove:;
             }
             else //run
@@ -574,15 +615,34 @@ bool BattleState::execute()
             }
         } //end turn loop
 
+        if (player->state.ballIsUp || opponent->state.ballIsUp)
+            ballUpTurns += 1;
+        else
+            ballUpTurns = 0;
+
         //apply end turn ailments and other effects here
         order[0] = opponent;
         order[1] = player;
         for (int i = 0; i<2; ++i)
         {
+            if (order[i]->state.ballIsUp && (!order[i]->state.ballHandled || ballUpTurns>=3)) {
+                order[i]->state.ballIsUp = false;
+                ballUpTurns = 0;
+
+                int j = (i+1)%2;
+                order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = 0;
+                bool done = doFaint(j,i);
+                if (shouldClose())
+                    return true;
+                if (done)
+                    return false;
+                continue;
+            }
+
         	if (!applyAfterTurn[i]) //skip if not supposed to do end turn stuff
 				continue;
 
-            int j = (i==0)?(1):(0);
+            int j = (i+1)%2;
             PeoplemonRef ppl = getPeoplemon(order[i],order[i]->getCurrentPeoplemon());
 
 			if (ppl.holdItem==50) //bag of goldfish
@@ -1094,7 +1154,6 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
     }
     else if (game->moveList[id].effect==Move::Charge)
     {
-        //TODO - make sure they don't pick another move while charging
         if (atk->state.isCharging)
         {
             atk->state.isCharging = false;
@@ -1636,7 +1695,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         {
             if (atk->state.ballIsUp) {
                 atk->state.ballSet = true;
-                atk->state.ballHandled = true; //TODO - set this to false somewhere before applyMove is called
+                atk->state.ballHandled = true;
                 ret.push_back(attacker.name+" Set the ball!");
             }
             else
@@ -1644,7 +1703,8 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         }
         else if (effect==Move::BumpBall)
         {
-            //TODO - handle switching for this and baton pass in the main battle loop before/after? applyMove
+            //TODO - handle switching Peoplemon (transfer stats) for this and baton pass in the main battle loop before/after? applyMove
+            atk->state.switchAfterMove = true;
             atk->state.ballIsUp = true;
             atk->state.ballHandled = true;
             ret.push_back(attacker.name+" Bumped a ball from out of nowhere!");
@@ -1814,7 +1874,7 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
 {
     PeoplemonAnimations temp;
     int i = (b==order[0])?(0):(1);
-    int j = (i==0)?(1):(0);
+    int j = (i+1)%2;
     bool isPlayer = b==player;
     temp.load(game,b->getPeoplemon()->at(newPpl),o->getPeoplemon()->at(o->getCurrentPeoplemon()),isPlayer);
 
