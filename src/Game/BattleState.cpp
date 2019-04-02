@@ -1152,6 +1152,18 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
     vector<string> ret;
     PeoplemonRef attacker = getPeoplemon(atk,atk->getCurrentPeoplemon()), defender = getPeoplemon(def,def->getCurrentPeoplemon());
 
+    if (game->moveList[id].effect==Move::RandomMove) {
+        string moveName = game->moveList[id].name;
+        ret.push_back(attacker.name+" used "+moveName+"!");
+
+        while (game->moveList[id].effect==Move::RandomMove) {
+            do {
+                id = Random(0, game->moveList.rbegin()->first);
+            } while (game->moveList.find(id) == game->moveList.end());
+        }
+        ret.push_back(moveName+" turned into "+game->moveList[id].name+"!");
+    }
+
     if (game->moveList[id].effect==Move::OnlySleeping && defender.curAils[0]!=Peoplemon::Sleep)
     {
         ret.push_back(attacker.name+" tried to use "+game->moveList[id].name+" but it failed because "+defender.name+" is not asleep!");
@@ -1744,6 +1756,26 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             }
             else
                 ret.push_back(attacker.name+" tried to Swipe but there was no ball above them!");
+        }
+        else if (effect==Move::WakeBoth)
+        {
+            for (unsigned int i = 0; i<atk->getPeoplemon()->size(); ++i) {
+                if (atk->getPeoplemon()->at(i).curAils[0] == Peoplemon::Sleep)
+                    atk->getPeoplemon()->at(i).curAils[0] = Peoplemon::None;
+            }
+            for (unsigned int i = 0; i<def->getPeoplemon()->size(); ++i) {
+                if (def->getPeoplemon()->at(i).curAils[0] == Peoplemon::Sleep)
+                    def->getPeoplemon()->at(i).curAils[0] = Peoplemon::None;
+            }
+            ret.push_back("It is physically impossible for anyone in a 15 mile radius to still be asleep after that");
+        }
+        else if (effect==Move::HealPercent)
+        {
+            double hpGained = damage * double(intensity) / 100;
+            if (attacker.curHp+hpGained > attacker.stats.hp)
+                hpGained = attacker.stats.hp - attacker.curHp;
+            atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).curHp += hpGained;
+            ret.push_back(attacker.name+" gained "+intToString(hpGained)+" HP!");
         }
     }
 
