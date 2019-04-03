@@ -1193,6 +1193,21 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 
     Move::Effect effect = game->moveList[id].effect;
 	double power = game->moveList[id].dmg;
+	if (effect==Move::Gamble) {
+        int roll = Random(1, 20);
+        if (roll==1) {
+            atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).curHp = 1;
+            ret.push_back(attacker.name+" rolled a 1 and was reduced to 1 HP!");
+        }
+        else if (roll==20) {
+            power = 200;
+            ret.push_back(attacker.name+" rolled a 20, Attack Power was increased to 200!");
+        }
+        else {
+            power = roll * 5;
+            ret.push_back(attacker.name+" rolled a "+intToString(roll)+", Attack Power is "+intToString(power));
+        }
+    }
 	double acc = attacker.stats.acc;
 	if (attacker.holdItem==52 && game->moveList[id].acc!=0 && !game->moveList[id].targetIsSelf)
 	{
@@ -1772,10 +1787,24 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         else if (effect==Move::HealPercent)
         {
             double hpGained = damage * double(intensity) / 100;
-            if (attacker.curHp+hpGained > attacker.stats.hp)
-                hpGained = attacker.stats.hp - attacker.curHp;
-            atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).curHp += hpGained;
-            ret.push_back(attacker.name+" gained "+intToString(hpGained)+" HP!");
+            if (taker->curHp+hpGained > taker->stats.hp)
+                hpGained = taker->stats.hp - taker->curHp;
+            taker->curHp += hpGained;
+            ret.push_back(taker->name+" gained "+intToString(hpGained)+" HP!");
+        }
+        else if (effect==Move::BatonPass) {
+            ret.push_back("Baton Pass allows "+attacker.name+" to switch out!");
+            atk->state.switchAfterMove = true;
+        }
+        else if (effect==Move::CritEvdUp) {
+            taker->stages.evade += intensity;
+            taker->stages.evade = (taker->stages.evade>6)?(6):(taker->stages.evade);
+            taker->recalcStats(game);
+            ret.push_back(taker->name+"'s Evasiveness rose!");
+            taker->stages.crit += intensity;
+            taker->stages.crit = (taker->stages.crit>6)?(6):(taker->stages.crit);
+            taker->recalcStats(game);
+            ret.push_back(taker->name+"'s Criticalness increased!");
         }
     }
 
