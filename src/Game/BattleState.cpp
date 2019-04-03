@@ -1792,7 +1792,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             taker->curHp += hpGained;
             ret.push_back(taker->name+" gained "+intToString(hpGained)+" HP!");
         }
-        else if (effect==Move::BatonPass) {
+        else if (effect==Move::BatonPass || effect==Move::DamageThenSwitch) {
             ret.push_back("Baton Pass allows "+attacker.name+" to switch out!");
             atk->state.switchAfterMove = true;
         }
