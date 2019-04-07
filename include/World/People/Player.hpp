@@ -150,6 +150,21 @@ public:
     void addStoredPeoplemon(PeoplemonRef ppl);
 
     /**
+     * Returns true if the player has the requested Peoplemon
+     *
+     * \param id The id of the Peoplemon to check for
+     * \param minLevel Optional minimum level the Peoplemon must be at
+     * \return True if the player has the requested Peoplemon
+     */
+    bool hasPeoplemon(int id, int minLevel = -1);
+
+    /**
+     * Similar to hasPeoplemon, but removes the Peoplemon from the party and returns it
+     * The returned Peoplemon will have an id of -1 if the player didn't have it
+     */
+    PeoplemonRef takePeoplemon(int id, int minLevel = -1);
+
+    /**
      * Returns whether or not the player can fly yet
      */
     bool canFly();

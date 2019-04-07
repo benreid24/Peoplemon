@@ -370,7 +370,7 @@ Value Script::evaluate(vector<Token> tkns)
 				state = ReadingArgEq;
 				parenCount = 1;
 				start = i;
-				i++;
+				i++; //just assume that next token is '('
 				argEq.clear();
 				args.clear();
 			}
@@ -416,8 +416,12 @@ Value Script::evaluate(vector<Token> tkns)
 			}
 			else if (tkns.at(i).type==Token::ArgDelim)
 			{
-				args.push_back(evaluate(argEq));
-				argEq.clear();
+			    if (parenCount == 1) {
+                    args.push_back(evaluate(argEq));
+                    argEq.clear();
+			    }
+			    else
+                    argEq.push_back(tkns.at(i));
 			}
 			else
 				argEq.push_back(tkns.at(i));

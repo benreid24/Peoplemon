@@ -327,6 +327,34 @@ vector<StoredPeoplemon>* Player::getStoredPeoplemon()
     return &storedPeoplemon;
 }
 
+bool Player::hasPeoplemon(int id, int minLevel) {
+    for (unsigned int i = 0; i<curPeoplemon.size(); ++i) {
+        if (curPeoplemon[i].level >= minLevel && curPeoplemon[i].id == id)
+            return true;
+    }
+    return false;
+}
+
+PeoplemonRef Player::takePeoplemon(int id, int minLevel) {
+    PeoplemonRef ret;
+    int removeIndex = -1;
+    ret.id = -1;
+    ret.level = -1;
+
+    for (unsigned int i = 0; i<curPeoplemon.size(); ++i) {
+        if (curPeoplemon[i].id == id && curPeoplemon[i].level >= minLevel) {
+            if (ret.id == -1 || ret.level > curPeoplemon[i].level) { //take the lower level one if duplicates
+                ret = curPeoplemon[i];
+                removeIndex = i;
+            }
+        }
+    }
+    if (removeIndex != -1)
+        curPeoplemon.erase(curPeoplemon.begin()+removeIndex);
+
+    return ret;
+}
+
 vector<int>* Player::getItems()
 {
     return &items;

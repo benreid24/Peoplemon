@@ -44,6 +44,7 @@ namespace {
 					"giveItem",
 					"givePeoplemon",
 					"hasItem",
+					"hasPeoplemon",
 					"healPeoplemon",
 					"interact",
 					"intToString",
@@ -104,6 +105,7 @@ namespace {
 					"startTrainerBattle",
 					"stringToInt",
 					"takeItem",
+					"takePeoplemon",
 					"trainerDefeated",
 					"trainerExists",
 					"trainerToLocation",
@@ -294,6 +296,17 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				environment->getGame()->hud.displayMessage("Received the "+ppl.name+"!");
 				environment->getGame()->player.getCurrentPeoplemon()->push_back(ppl);
 			}
+		}
+		else if (name=="hasPeoplemon") {
+            int id = args.at(0).iValue;
+            int minLevel = (args.size()>1) ? (args.at(1).iValue) : (-1);
+            ret.iValue = (int)environment->getGame()->player.hasPeoplemon(id, minLevel);
+		}
+		else if (name=="takePeoplemon") {
+            int id = args.at(0).iValue;
+            int minLevel = (args.size()>1) ? (args.at(1).iValue) : (-1);
+            PeoplemonRef takenPeoplemon = environment->getGame()->player.takePeoplemon(id, minLevel); //TODO - store this?
+            ret.iValue = (int)(takenPeoplemon.id != -1);
 		}
 		else if (name=="healPeoplemon")
             environment->getGame()->player.whiteout();
