@@ -26,6 +26,7 @@ void BattlerFlags::reset()
     switchAfterMove = false;
     enduredLastTurn = false;
     endureThisTurn = false;
+    spikesApplied = 0;
 }
 
 Battler::Battler(vector<PeoplemonRef>* ppl)

@@ -24,6 +24,7 @@ struct BattlerFlags
     bool ballIsUp, ballHandled, ballSet; //volleyball
     bool switchAfterMove; //baton pass
     bool endureThisTurn, enduredLastTurn; //ensure
+    int spikesApplied; //spike (damaged when switching)
 
     /**
      * Initializes all the data to the default values

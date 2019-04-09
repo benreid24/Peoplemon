@@ -268,6 +268,30 @@ bool BattleState::execute()
 					if (shouldClose())
 						return true;
 				}
+				if (order[i]->state.spikesApplied>0) {
+                    double fraction = 1.0/8.0;
+                    if (order[i]->state.spikesApplied==2)
+                        fraction = 1.0/6.0;
+                    else if (order[i]->state.spikesApplied==3)
+                        fraction = 1.0/4.0;
+                    double damage = order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp * fraction;
+
+                    order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp -= damage;
+                    displayMessage(order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).name+" was hurt by all the Spikes!");
+                    if (shouldClose())
+                        return true;
+
+                    if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp <= 0) {
+                        applyAfterTurn[i] = false;
+                        shouldStop = true;
+                        bool done = doFaint(j,i);
+                        if (shouldClose())
+                            return true;
+                        if (done)
+                            return false;
+                        goto noSwitchAnim;
+                    }
+				}
 
 				applyAfterTurn[i] = false;
 				if (order[i]==player)
@@ -283,6 +307,7 @@ bool BattleState::execute()
                 if (shouldClose())
                     return true;
 
+                noSwitchAnim:
                 game->hud.displayMessage("");
                 renderStatic();
                 if (shouldClose())
@@ -1863,6 +1888,14 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             }
             else
                 ret.push_back(giver->name+" tried to Frustrate and Confuse "+taker->name+" but it failed!");
+        }
+        else if (effect==Move::Spikes) {
+            if (def->state.spikesApplied<3) {
+                def->state.spikesApplied++;
+                ret.push_back(attacker.name+" put Spikes around "+defender.name+"! They better not move too much");
+            }
+            else
+                ret.push_back(attacker.name+" tried to add more Spikes but they won't fit anywhere. What a mess");
         }
     }
 
