@@ -24,6 +24,8 @@ void BattlerFlags::reset()
     ballSet = false;
     ballIsUp = false;
     switchAfterMove = false;
+    enduredLastTurn = false;
+    endureThisTurn = false;
 }
 
 Battler::Battler(vector<PeoplemonRef>* ppl)

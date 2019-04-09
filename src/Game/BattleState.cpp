@@ -1315,8 +1315,15 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         return ret;
 	}
 
-    if (def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp<0)
+    if (def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp<=0) {
         def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp = 0;
+        if (def->state.endureThisTurn && !def->state.enduredLastTurn) {
+            def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp = 1;
+            ret.push_back(defender.name+" Endured!");
+        }
+    }
+    def->state.enduredLastTurn = def->state.endureThisTurn;
+    def->state.endureThisTurn = false;
 
     if (critical && hit)
         ret.push_back("It was a critical hit!");
@@ -1805,6 +1812,26 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             taker->stages.crit = (taker->stages.crit>6)?(6):(taker->stages.crit);
             taker->recalcStats(game);
             ret.push_back(taker->name+"'s Criticalness increased!");
+        }
+        else if (effect==Move::StayAlive) {
+            if (atk->state.enduredLastTurn) {
+                atk->state.endureThisTurn = true;
+                ret.push_back(attacker.name+" tried to save itself again but it failed!");
+            }
+            else {
+                atk->state.endureThisTurn = true;
+                ret.push_back(attacker.name+" protected itself!");
+            }
+        }
+        else if (effect==Move::MaxAtkMinAcc) {
+            taker->stages.atk += 6;
+            taker->stages.atk = (taker->stages.atk>6)?(6):(taker->stages.atk);
+            taker->recalcStats(game);
+            ret.push_back(taker->name+"'s Attack rose hugely!");
+            taker->stages.acc -= 6;
+            taker->stages.acc = (taker->stages.acc>6)?(6):(taker->stages.acc);
+            taker->recalcStats(game);
+            ret.push_back(taker->name+"'s Accuracy decreased so freakin much!");
         }
     }
 
