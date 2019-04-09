@@ -1463,6 +1463,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
                 if (reciprocateAil)
 				{
 					giver->addPassiveAilment(Peoplemon::Confused);
+					giver->turnsConfused = 1;
 					ret.push_back(taker->name+" Shared its Confusion with "+giver->name+"!");
 				}
             }
@@ -1495,7 +1496,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
                 ret.push_back(giver->name+" tried to Distract "+taker->name+" but it failed!");
         }
 
-        if (effect==Move::Trap)
+        else if (effect==Move::Trap)
         {
             if (canGetAils)
             {
@@ -1832,6 +1833,36 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             taker->stages.acc = (taker->stages.acc>6)?(6):(taker->stages.acc);
             taker->recalcStats(game);
             ret.push_back(taker->name+"'s Accuracy decreased so freakin much!");
+        }
+        else if (effect==Move::FrustConfuse) {
+            if (canGetAils)
+            {
+                taker->addPassiveAilment(Peoplemon::Confused);
+                taker->turnsConfused = 1;
+                ret.push_back(taker->name+" was Confused!");
+
+                if (taker->curAils[0]==Peoplemon::None) {
+                    taker->curAils[0] = Peoplemon::Frustrated;
+                    ret.push_back(taker->name+" was also Frustrated!");
+                    if (reciprocateAil)
+                    {
+                        giver->addPassiveAilment(Peoplemon::Confused);
+                        giver->turnsConfused = 1;
+                        ret.push_back(taker->name+" Shared its Confusion with "+giver->name+"!");
+
+                        if (giver->curAils[0]==Peoplemon::None)
+                        {
+                            giver->curAils[0] = Peoplemon::Frustrated;
+                            ret.push_back(taker->name+" Shared its Frustration with "+giver->name+"!");
+                        }
+                        else
+                            ret.push_back(taker->name+" tried to Share its Frustration with "+giver->name+" but it failed!");
+                    }
+                }
+
+            }
+            else
+                ret.push_back(giver->name+" tried to Frustrate and Confuse "+taker->name+" but it failed!");
         }
     }
 
