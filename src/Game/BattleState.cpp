@@ -268,7 +268,22 @@ bool BattleState::execute()
 					if (shouldClose())
 						return true;
 				}
-				if (order[i]->state.spikesApplied>0) {
+
+				applyAfterTurn[i] = false;
+				if (order[i]==player)
+				{
+					if (find(sentIn.begin(),sentIn.end(),turns[i].id)==sentIn.end())
+						sentIn.push_back(turns[i].id);
+					displayMessage("That's enough, "+order[i]->getPeoplemon()->at(turns[i].id).name+"!");
+					if (shouldClose())
+						return true;
+				}
+
+                playSwitchAnim(order[i],order[j],turns[i].id,order[i]->getCurrentPeoplemon());
+                if (shouldClose())
+                    return true;
+
+                if (order[i]->state.spikesApplied>0) {
                     double fraction = 1.0/8.0;
                     if (order[i]->state.spikesApplied==2)
                         fraction = 1.0/6.0;
@@ -289,25 +304,9 @@ bool BattleState::execute()
                             return true;
                         if (done)
                             return false;
-                        goto noSwitchAnim;
                     }
 				}
 
-				applyAfterTurn[i] = false;
-				if (order[i]==player)
-				{
-					if (find(sentIn.begin(),sentIn.end(),turns[i].id)==sentIn.end())
-						sentIn.push_back(turns[i].id);
-					displayMessage("That's enough, "+order[i]->getPeoplemon()->at(turns[i].id).name+"!");
-					if (shouldClose())
-						return true;
-				}
-
-                playSwitchAnim(order[i],order[j],turns[i].id,order[i]->getCurrentPeoplemon());
-                if (shouldClose())
-                    return true;
-
-                noSwitchAnim:
                 game->hud.displayMessage("");
                 renderStatic();
                 if (shouldClose())
