@@ -109,6 +109,7 @@ const pair<string,string> Peoplemon::abilityTexts[18] = {make_pair("None",""),
                                                         make_pair("Share", "Gives all received ailments to the attacker as well"),
                                                         make_pair("Negotiator", "All purchases are 10% cheaper"),
                                                         make_pair("Easy Going", "Cannot be killed by One Hit KO's")};
+                                                        //TODO - add other abilities here
 
 GameClock gameClock;
 PlayerInput user;

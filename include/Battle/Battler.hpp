@@ -54,6 +54,7 @@ public:
     /**
      * Construct the Battler from a pointer to its peoplemon
      *
+     * \param game A pointer to the main Game object
      * \param peoplemon Pointer to a vector containing the peoplemon the battler should use
      */
     Battler(std::vector<PeoplemonRef>* peoplemon);
@@ -114,8 +115,9 @@ public:
      * Recalculates all of the stats of the peoplemon this Battler owns
      *
      * \param g A pointer to the main Game object
+     * \param resetAbilities Whether or not to reset the current ability of each Peoplemon. Do at battle start
      */
-    void recalcStats(Game* g);
+    void recalcStats(Game* g, bool resetAbilities = false);
 
     /**
      * Heals all the ailments of the Battler's party
@@ -149,6 +151,12 @@ public:
      * \param wild Whether or not the Battler is wild
      */
 	void setIsWild(bool wild);
+
+	/**
+	 * Returns the power mutliplier for FamilyPower:
+	 * Damage *1.5 for each other unique Peoplemon with a move with this effect and *1.5 if the user has the ability Total Bro
+	 */
+    double getBroPower();
 
     BattlerFlags state;
 };

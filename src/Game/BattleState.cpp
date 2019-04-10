@@ -1232,6 +1232,10 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             ret.push_back(attacker.name+" rolled a "+intToString(roll)+", Attack Power is "+intToString(power));
         }
     }
+    else if (effect==Move::DoubleFamily) {
+        power *= atk->getBroPower();
+        ret.push_back(attacker.name+"'s Bro Power multiplied its attack!");
+    }
 	double acc = attacker.stats.acc;
 	if (attacker.holdItem==52 && game->moveList[id].acc!=0 && !game->moveList[id].targetIsSelf)
 	{

@@ -153,7 +153,7 @@ void PeoplemonRef::load(Game* g, string file)
     load(g, &t);
 }
 
-void PeoplemonRef::recalcStats(Game* g)
+void PeoplemonRef::recalcStats(Game* g, bool resetAbility)
 {
     stats.hp = (g->peoplemonList[id].baseStats.hp*2+ivs.hp+evs.hp/4)*level/100+10+level;
     stats.atk = (g->peoplemonList[id].baseStats.atk*2+ivs.atk+evs.atk/4)*level/100+5;
@@ -179,6 +179,9 @@ void PeoplemonRef::recalcStats(Game* g)
         nextLvlXp = pow(level,3);
     else
         nextLvlXp = 4*pow(level,3)/5;
+
+    if (resetAbility)
+        curAbility = g->peoplemonList[id].specialAbilityId;
 }
 
 void PeoplemonRef::awardEVs(Game* g, Stats evAward)

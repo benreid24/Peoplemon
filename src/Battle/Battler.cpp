@@ -92,11 +92,11 @@ vector<PeoplemonRef>* Battler::getPeoplemon()
     return peoplemon;
 }
 
-void Battler::recalcStats(Game* g)
+void Battler::recalcStats(Game* g, bool resetAbilities)
 {
     for (unsigned int i = 0; i<peoplemon->size(); ++i)
     {
-        peoplemon->at(i).recalcStats(g);
+        peoplemon->at(i).recalcStats(g, resetAbilities);
     }
 }
 
@@ -155,4 +155,20 @@ Battler* createBattler(int aiType, vector<PeoplemonRef>* pplmon, vector<int> ite
 void Battler::setIsWild(bool wild)
 {
 	isWild = wild;
+}
+
+double Battler::getBroPower() {
+    vector<int> seenIds;
+    double power = 1;
+
+    for (unsigned int i = 0; i<peoplemon->size(); ++i) {
+        if (peoplemon->at(i).curAbility==Peoplemon::TotalBro) {
+            if (find(seenIds.begin(), seenIds.end(), peoplemon->at(i).id) != seenIds.end()) {
+                power *= 1.5;
+                seenIds.push_back(peoplemon->at(i).id);
+            }
+        }
+    }
+
+    return power;
 }
