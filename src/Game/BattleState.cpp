@@ -240,6 +240,16 @@ bool BattleState::execute()
             toDraw.push_back(&playerAnims.still);
             toDraw.push_back(&opponentAnims.still);
 
+            if (order[i]->state.healNextPeoplemon) {
+                order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp += order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp * 0.5;
+                if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp > order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp)
+                    order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp;
+                displayMessage("The weird healing powder fell down and healed "+getPeoplemonName(order[i], order[i]->getCurrentPeoplemon())+"!");
+                if (shouldClose())
+                    return true;
+            }
+            order[i]->state.healNextPeoplemon = false;
+
             if (turns[i].type==Turn::Switch)
             {
                 if (doSwitch(order[i], order[j], turns[i].id, &applyAfterTurn[i]))
@@ -1896,6 +1906,10 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             }
             else
                 ret.push_back(attacker.name+" tried to lower "+defender.name+"'s PP but it failed!");
+        }
+        else if (effect==Move::HealNext) {
+            atk->state.healNextPeoplemon = true;
+            ret.push_back(attacker.name+" threw some weird healing powder into the air. It went so high it looks like it will take exactly one turn to fall back down");
         }
     }
 

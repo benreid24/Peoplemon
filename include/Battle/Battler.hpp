@@ -25,6 +25,7 @@ struct BattlerFlags
     bool switchAfterMove; //baton pass
     bool endureThisTurn, enduredLastTurn; //ensure
     int spikesApplied; //spike (damaged when switching)
+    bool healNextPeoplemon; //flag to heal next peoplemon at turn beginning 50%
 
     /**
      * Initializes all the data to the default values
