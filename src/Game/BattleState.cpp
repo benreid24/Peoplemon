@@ -32,7 +32,7 @@ BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm,
     playerAnims.load(game, player->getPeoplemon()->at(player->getCurrentPeoplemon()),opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()),true);
     opponentAnims.load(game, opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()), player->getPeoplemon()->at(player->getCurrentPeoplemon()),false);
 	game->hud.rePosition(Vector2f(15,480),480);
-    ballT = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Throw.anim");
+    ballT = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Throw.anim"); //TODO - different balls?
     ballB = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Break.anim");
     ballR = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Rock.anim");
     ballF = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Fall.anim");
@@ -242,78 +242,14 @@ bool BattleState::execute()
 
             if (turns[i].type==Turn::Switch)
             {
-            	if (order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curAbility==Peoplemon::Engage)
-				{
-					displayMessage(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).name+"'s Engage prevents switching!");
-					order[i]->setCurrentPeoplemon(turns[i].id); //reset
-					if (shouldClose())
-						return true;
-					continue;
-				}
-				if (order[i]->getPeoplemon()->at(turns[i].id).hasAilment(Peoplemon::Trapped))
-				{
-					displayMessage(order[i]->getPeoplemon()->at(turns[i].id).name+" was Trapped and could not switch out!");
-					order[i]->setCurrentPeoplemon(turns[i].id);
-					if (shouldClose())
-						return true;
-					continue;
-				}
-				if (order[i]->getPeoplemon()->at(turns[i].id).curAbility==Peoplemon::Forgiving && order[i]->getPeoplemon()->at(turns[i].id).hasAtLeastOneAilment())
-				{
-					for (int z = 0; z<4; ++z)
-					{
-						order[i]->getPeoplemon()->at(turns[i].id).curAils[z] = Peoplemon::None;
-					}
-					displayMessage(order[i]->getPeoplemon()->at(turns[i].id).name+"'s Forgiving ability cured it of all ailments!");
-					if (shouldClose())
-						return true;
-				}
-
-				applyAfterTurn[i] = false;
-				if (order[i]==player)
-				{
-					if (find(sentIn.begin(),sentIn.end(),turns[i].id)==sentIn.end())
-						sentIn.push_back(turns[i].id);
-					displayMessage("That's enough, "+order[i]->getPeoplemon()->at(turns[i].id).name+"!");
-					if (shouldClose())
-						return true;
-				}
-
-                playSwitchAnim(order[i],order[j],turns[i].id,order[i]->getCurrentPeoplemon());
-                if (shouldClose())
-                    return true;
-
-                if (order[i]->state.spikesApplied>0) {
-                    double fraction = 1.0/8.0;
-                    if (order[i]->state.spikesApplied==2)
-                        fraction = 1.0/6.0;
-                    else if (order[i]->state.spikesApplied==3)
-                        fraction = 1.0/4.0;
-                    double damage = order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stats.hp * fraction;
-
-                    order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp -= damage;
-                    displayMessage(order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).name+" was hurt by all the Spikes!");
-                    if (shouldClose())
-                        return true;
-
-                    if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp <= 0) {
-                        applyAfterTurn[i] = false;
-                        shouldStop = true;
-                        bool done = doFaint(j,i);
-                        if (shouldClose())
-                            return true;
-                        if (done)
-                            return false;
-                    }
-				}
-
-                game->hud.displayMessage("");
-                renderStatic();
+                if (doSwitch(order[i], order[j], turns[i].id, &applyAfterTurn[i]))
+                    return false;
                 if (shouldClose())
                     return true;
             }
             else if (turns[i].type==Turn::Item)
             {
+                order[i]->state.protectUsedLast = false;
                 if (order[i]!=player)
 				{
 					displayMessage(getItemLine(turns[i].id));
@@ -373,11 +309,10 @@ bool BattleState::execute()
 							if (order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp<=0)
 							{
 								order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp = 0;
-								bool done = doFaint(i,j);
+								if (doFaint(i,j))
+                                    return false;
 								if (shouldClose())
 									return true;
-								if (done)
-									return false;
 								skip = true;
 							}
 						}
@@ -474,11 +409,10 @@ bool BattleState::execute()
                         renderStatic();
                         if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<=0)
 						{
-							bool done = doFaint(j,i);
+							if (doFaint(j,i))
+                                return false;
 							if (shouldClose())
 								return true;
-							if (done)
-								return false;
 						}
                         goto noMove;
                     }
@@ -568,43 +502,30 @@ bool BattleState::execute()
                 {
                 	applyAfterTurn[j] = false;
                     shouldStop = true;
-                    bool done = doFaint(i,j);
+                    if (doFaint(i,j))
+                        return false;
                     if (shouldClose())
                         return true;
-                    if (done)
-                        return false;
                 }
                 if (getPeoplemon(order[i],order[i]->getCurrentPeoplemon()).curHp<=0) //attacker fainted
                 {
                 	applyAfterTurn[i] = false;
                     shouldStop = true;
-                    bool done = doFaint(j,i);
+                    if (doFaint(i,j))
+                        return false;
                     if (shouldClose())
                         return true;
-                    if (done)
-                        return false;
                 }
 
                 if (order[i]->state.switchAfterMove) { //baton pass and bump
                     order[i]->state.switchAfterMove = false;
 
-                    order[i]->getSwitchPeoplemon(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()), game);
                     int oldPeoplemon = order[i]->getCurrentPeoplemon();
+                    order[i]->getSwitchPeoplemon(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()), game);
                     Stats curStats = order[i]->getPeoplemon()->at(oldPeoplemon).stages;
-                    applyAfterTurn[i] = false;
 
-                    if (order[i]==player)
-                    {
-                        if (find(sentIn.begin(),sentIn.end(),oldPeoplemon)==sentIn.end())
-                            sentIn.push_back(oldPeoplemon);
-                        displayMessage("That's enough, "+order[i]->getPeoplemon()->at(oldPeoplemon).name+"!");
-                        if (shouldClose())
-                            return true;
-                    }
-
-                    playSwitchAnim(order[i],order[j],oldPeoplemon,order[i]->getCurrentPeoplemon());
-                    if (shouldClose())
-                        return true;
+                    if (doSwitch(order[i], order[j], oldPeoplemon, &applyAfterTurn[i]))
+                        return false;
 
                     order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).stages = curStats;
                     order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).recalcStats(game);
@@ -660,11 +581,10 @@ bool BattleState::execute()
 
                 int j = (i+1)%2;
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = 0;
-                bool done = doFaint(j,i);
+                if (doFaint(i,j))
+                    return false;
                 if (shouldClose())
                     return true;
-                if (done)
-                    return false;
                 continue;
             }
 
@@ -694,11 +614,10 @@ bool BattleState::execute()
 					if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<=0)
 					{
 						order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = 0;
-						bool done = doFaint(j,i);
-						if (shouldClose())
-							return true;
-						if (done)
-							return false;
+						if (doFaint(i,j))
+                            return false;
+                        if (shouldClose())
+                            return true;
 						continue;
 					}
 				}
@@ -732,11 +651,10 @@ bool BattleState::execute()
                 if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<=0)
                 {
                     order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = 0;
-                    bool done = doFaint(j,i);
+                    if (doFaint(i,j))
+                        return false;
                     if (shouldClose())
                         return true;
-                    if (done)
-                        return false;
 					continue;
                 }
             }
@@ -757,11 +675,10 @@ bool BattleState::execute()
 
                 if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<=0)
                 {
-                    bool done = doFaint(j,i);
+                    if (doFaint(i,j))
+                        return false;
                     if (shouldClose())
                         return true;
-                    if (done)
-                        return false;
 					continue;
                 }
             }
@@ -776,11 +693,10 @@ bool BattleState::execute()
                 if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp<0)
                 {
                     order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = 0;
-                    bool done = doFaint(i,j);
+                    if (doFaint(i,j))
+                        return false;
                     if (shouldClose())
                         return true;
-                    if (done)
-                        return false;
                     continue;
                 }
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).turnsWithAil++;
@@ -796,11 +712,10 @@ bool BattleState::execute()
 					return true;
 				if (getPeoplemon(order[j],order[j]->getCurrentPeoplemon()).curHp<=0) //they fainted
                 {
-                    bool done = doFaint(i,j);
+                    if (doFaint(i,j))
+                        return false;
                     if (shouldClose())
                         return true;
-                    if (done)
-                        return false;
 					applyAfterTurn[j] = false;
                 }
                 if (done)
@@ -944,6 +859,73 @@ string BattleState::getMoveLine(Battler* b, int id)
     return b->getPeoplemon()->at(b->getCurrentPeoplemon()).name+" used "+game->moveList[id].name+"!";
 }
 
+bool BattleState::doSwitch(Battler* switcher, Battler* opp, int oldIndex, bool* fxAfterTurnFlag)
+{
+    switcher->state.protectUsedLast = false;
+    if (opp->getPeoplemon()->at(opp->getCurrentPeoplemon()).curAbility==Peoplemon::Engage)
+    {
+        displayMessage(opp->getPeoplemon()->at(opp->getCurrentPeoplemon()).name+"'s Engage prevents switching!");
+        switcher->setCurrentPeoplemon(oldIndex); //reset
+        return false;
+    }
+    if (switcher->getPeoplemon()->at(oldIndex).hasAilment(Peoplemon::Trapped))
+    {
+        displayMessage(switcher->getPeoplemon()->at(oldIndex).name+" was Trapped and could not switch out!");
+        switcher->setCurrentPeoplemon(oldIndex);
+        return false;
+    }
+    if (switcher->getPeoplemon()->at(oldIndex).curAbility==Peoplemon::Forgiving && switcher->getPeoplemon()->at(oldIndex).hasAtLeastOneAilment())
+    {
+        for (int z = 0; z<4; ++z)
+        {
+            switcher->getPeoplemon()->at(oldIndex).curAils[z] = Peoplemon::None;
+        }
+        displayMessage(switcher->getPeoplemon()->at(oldIndex).name+"'s Forgiving ability cured it of all ailments!");
+        if (shouldClose())
+            return false; //unique here b/c retVal is whether all fainted. Calling code still has to check shouldClose()
+    }
+
+    *fxAfterTurnFlag = false;
+    if (switcher==player)
+    {
+        if (find(sentIn.begin(),sentIn.end(),oldIndex)==sentIn.end())
+            sentIn.push_back(oldIndex);
+        displayMessage("That's enough, "+switcher->getPeoplemon()->at(oldIndex).name+"!");
+        if (shouldClose())
+            return false;
+    }
+
+    playSwitchAnim(switcher,opp,oldIndex,switcher->getCurrentPeoplemon());
+    if (shouldClose())
+        return false;
+
+    if (switcher->state.spikesApplied>0) {
+        double fraction = 1.0/8.0;
+        if (switcher->state.spikesApplied==2)
+            fraction = 1.0/6.0;
+        else if (switcher->state.spikesApplied==3)
+            fraction = 1.0/4.0;
+        double damage = switcher->getPeoplemon()->at(switcher->getCurrentPeoplemon()).stats.hp * fraction;
+
+        switcher->getPeoplemon()->at(switcher->getCurrentPeoplemon()).curHp -= damage;
+        displayMessage(switcher->getPeoplemon()->at(switcher->getCurrentPeoplemon()).name+" was hurt by all the Spikes!");
+        if (shouldClose())
+            return false;
+
+        if (switcher->getPeoplemon()->at(switcher->getCurrentPeoplemon()).curHp <= 0) {
+            *fxAfterTurnFlag = false;
+            int i = (switcher==order[0]) ? (0):(1);
+            int j = (i+1)%2;
+            if (doFaint(j,i))
+                return true;
+        }
+    }
+
+    game->hud.displayMessage("");
+    renderStatic();
+    return false;
+}
+
 bool BattleState::doFaint(int alive, int dead)
 {
 	int i = alive;
@@ -963,7 +945,7 @@ bool BattleState::doFaint(int alive, int dead)
         if (finishFrame())
         {
             game->data.gameClosedFlag = true;
-            return true;
+            return false; //same scenario as doSwitch
         }
         anims[j]->faint.update();
 
@@ -979,11 +961,11 @@ bool BattleState::doFaint(int alive, int dead)
 
     displayMessage(getPeoplemonName(order[j],order[j]->getCurrentPeoplemon())+" fainted!");
     if (shouldClose())
-        return true;
+        return false;
 
     int id = o->getSwitchPeoplemon(b->getPeoplemon()->at(b->getCurrentPeoplemon()), game);
     if (shouldClose())
-		return true;
+		return false;
 
     if (id==-1)
         done = true;
@@ -1014,10 +996,10 @@ bool BattleState::doFaint(int alive, int dead)
             order[i]->getPeoplemon()->at(sentIn[k]).curXp += xp;
             displayMessage(getPeoplemonName(order[i],sentIn[k])+" earned "+intToString(xp)+" XP!");
             if (shouldClose())
-                return true;
+                return false;
 			renderStatic(false,true,false);
 			if (shouldClose())
-				return true;
+				return false;
 
             while (getPeoplemon(order[i],sentIn[k]).curXp>=getPeoplemon(order[i],sentIn[k]).nextLvlXp)
             {
@@ -1029,7 +1011,7 @@ bool BattleState::doFaint(int alive, int dead)
                     playerBox.update(getPeoplemon(order[i],sentIn[k]),false);
                 displayMessage(getPeoplemon(order[i],sentIn[k]).name+" grew to level "+intToString(level)+"!");
                 if (shouldClose())
-                    return true;
+                    return false;
 
                 vector<pair<int,int> > learnSet = game->peoplemonList[order[i]->getPeoplemon()->at(sentIn[k]).id].learnSet;
                 for (unsigned int m = 0; m<learnSet.size(); ++m)
@@ -1047,11 +1029,11 @@ bool BattleState::doFaint(int alive, int dead)
 							{
 								displayMessage(getPeoplemon(order[i],sentIn[k]).name+" is trying to learn "+moveName+"!");
 								if (shouldClose())
-									return true;
+									return false;
 
 								DeleteMoveState* state = new DeleteMoveState(game,&order[i]->getPeoplemon()->at(sentIn[k]),learnSet[m].second);
 								if (game->runState(state))
-									return true;
+									return false;
 								if (sentIn[k]==order[i]->getCurrentPeoplemon())
 									anims[i]->load(game,getPeoplemon(order[i],sentIn[k]),getPeoplemon(order[j],order[j]->getCurrentPeoplemon()),true);
 							}
@@ -1059,7 +1041,7 @@ bool BattleState::doFaint(int alive, int dead)
 							{
 								displayMessage(getPeoplemon(order[i],sentIn[k]).name+" learned "+moveName+"!");
 								if (shouldClose())
-									return true;
+									return false;
 							}
 						}
                     }
@@ -1069,7 +1051,7 @@ bool BattleState::doFaint(int alive, int dead)
                 {
                     EvolveState* s = new EvolveState(game,&order[i]->getPeoplemon()->at(sentIn[k]));
                     if (game->runState(s,false))
-                        return true;
+                        return false;
                     if (s->evolutionSuccessful() && order[i]->getCurrentPeoplemon()==sentIn[k])
                         anims[i]->load(game,getPeoplemon(order[i],sentIn[k]),getPeoplemon(order[j],order[j]->getCurrentPeoplemon()),order[i]==player);
                     delete s;
@@ -1085,7 +1067,7 @@ bool BattleState::doFaint(int alive, int dead)
     	string line = (isPlayer)?(opponentName+" sent out "+opponent->getPeoplemon()->at(id).name+"!"):("Go "+player->getPeoplemon()->at(id).name+"!");
     	displayMessage(line);
     	if (shouldClose())
-			return true;
+			return false;
 
     	toDraw.clear();
     	temp.sendOut.play();
@@ -1099,7 +1081,7 @@ bool BattleState::doFaint(int alive, int dead)
 			if (finishFrame())
 			{
 				game->data.gameClosedFlag = true;
-				return true;
+				return false;
 			}
 			temp.sendOut.update();
 			opBox.update();
@@ -1137,10 +1119,10 @@ bool BattleState::doFaint(int alive, int dead)
             playerWinned = false;
             displayMessage(game->player.getName()+" is all out of usable Peoplemon!");
             if (shouldClose())
-                return true;
+                return false;
             displayMessage(game->player.getName()+" oranged out!");
             if (shouldClose())
-                return true;
+                return false;
             game->data.whiteoutFlag = true;
             return true;
         }
@@ -1151,14 +1133,14 @@ bool BattleState::doFaint(int alive, int dead)
             {
                 displayMessage(loseLine);
                 if (shouldClose())
-                    return true;
+                    return false;
             }
             if (prizeMoney>0)
             {
             	game->player.alterMoney(prizeMoney);
                 displayMessage(game->player.getName()+" won "+intToString(prizeMoney)+" monies!");
                 if (shouldClose())
-                    return true;
+                    return false;
             }
             for (unsigned int i = 0; i<opponent->getPeoplemon()->size(); ++i)
 				game->peoplemonList[opponent->getPeoplemon()->at(i).id].numSeen++;
@@ -1560,7 +1542,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             else
                 ret.push_back(giver->name+" tried to make "+taker->name+" fall asleep but it failed!");
         }
-        else if (effect==Move::Protection)
+        if (effect==Move::Protection)
         {
             if (atk==order[1] || atk->state.lastMoveUsed==id)
             {
@@ -1575,7 +1557,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             }
         }
         else
-            atk->state.protectUsedLast = false; //catch all to make sure reset occurs
+            atk->state.protectUsedLast = false;
 
         if (effect==Move::Substitute)
         {
@@ -1899,6 +1881,9 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             }
             else
                 ret.push_back(attacker.name+" tried to add more Spikes but they won't fit anywhere. What a mess");
+        }
+        else if (effect==Move::EnemyPPDown) {
+            //TODO - leverage lastMovedUsed to lower PP but only if same pplmon is in (or not idc)
         }
     }
 

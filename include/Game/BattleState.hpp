@@ -47,18 +47,22 @@ class BattleState : public Gamestate
     bool shouldClose();
 
     /**
-     * Adds the given index to the list of peoplemon that should receive xp when an enemy peoplemon is defeated
-     *
-     * \param i The index of the peoplemon that was sent in
-     */
-    void sendIn(int i);
-
-    /**
      * Returns a string introducing the players opponent. Changes based on the type of opponent
      *
      * \return A string to output
      */
     std::string getIntroLine();
+
+    /**
+     * Performs the a switch of Peoplemon
+     *
+     * \param switcher The Battler who is switching
+     * \param opp The opponent
+     * \param oldIndex The index of the Peoplemon being switched from
+     * \param fxAfterTurnFlag Pointer to the flag on whether or not to apply effects at end of turn
+     * \return True if the battle has ended, false otherwise
+     */
+    bool doSwitch(Battler* switcher, Battler* opp, int oldIndex, bool* fxAfterTurnFlag);
 
     /**
      * Returns the string to print when the given battler switches peoplemon
