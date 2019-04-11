@@ -1883,7 +1883,19 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
                 ret.push_back(attacker.name+" tried to add more Spikes but they won't fit anywhere. What a mess");
         }
         else if (effect==Move::EnemyPPDown) {
-            //TODO - leverage lastMovedUsed to lower PP but only if same pplmon is in (or not idc)
+            if (defender.knowsMove(def->state.lastMoveUsed)) {
+                int i = 0;
+                for (; i<4; ++i) {
+                    if (defender.moves[i].id==def->state.lastMoveUsed)
+                        break;
+                }
+                def->getPeoplemon()->at(def->getCurrentPeoplemon()).moves[i].curPp -= 5;
+                if (def->getPeoplemon()->at(def->getCurrentPeoplemon()).moves[i].curPp<0)
+                    def->getPeoplemon()->at(def->getCurrentPeoplemon()).moves[i].curPp = 0;
+                ret.push_back(defender.name+" had its PP for "+game->moveList[def->state.lastMoveUsed].name+" lowered!");
+            }
+            else
+                ret.push_back(attacker.name+" tried to lower "+defender.name+"'s PP but it failed!");
         }
     }
 
