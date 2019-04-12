@@ -1869,7 +1869,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             taker->recalcStats(game);
             ret.push_back(taker->name+"'s Attack rose hugely!");
             taker->stages.acc -= 6;
-            taker->stages.acc = (taker->stages.acc>6)?(6):(taker->stages.acc);
+            taker->stages.acc = (taker->stages.acc<-6)?(-6):(taker->stages.acc);
             taker->recalcStats(game);
             ret.push_back(taker->name+"'s Accuracy decreased so freakin much!");
         }
@@ -1933,6 +1933,16 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         else if (effect==Move::Roar) {
             atk->state.roarUsed = true;
             ret.push_back(attacker.name+"'s Roar scared "+defender.name+" so much that they went back in their Peopleball!");
+        }
+        else if (effect==Move::SpdAtkUp) {
+            taker->stages.atk += 1;
+            taker->stages.atk = (taker->stages.atk>6)?(6):(taker->stages.atk);
+            taker->recalcStats(game);
+            ret.push_back(taker->name+"'s Attack rose!");
+            taker->stages.spd += 1;
+            taker->stages.spd = (taker->stages.spd>6)?(6):(taker->stages.spd);
+            taker->recalcStats(game);
+            ret.push_back(taker->name+"'s Speed rose!");
         }
     }
 
