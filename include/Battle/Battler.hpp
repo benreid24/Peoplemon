@@ -27,6 +27,7 @@ struct BattlerFlags
     int spikesApplied; //spike (damaged when switching)
     bool healNextPeoplemon; //flag to heal next peoplemon at turn beginning 50%
     bool roarUsed; //roar. makes enemy switch
+    bool move64Hit; //Move::FailOnMove64
 
     /**
      * Initializes all the data to the default values

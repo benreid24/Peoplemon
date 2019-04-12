@@ -1179,6 +1179,12 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
     vector<string> ret;
     PeoplemonRef attacker = getPeoplemon(atk,atk->getCurrentPeoplemon()), defender = getPeoplemon(def,def->getCurrentPeoplemon());
 
+    if (game->moveList[id].effect==Move::FailOnMove64 && atk->state.move64Hit) {
+        lastMoveHit = false;
+        ret.push_back("Because of its traumatic past "+attacker.name+" was unable to use "+game->moveList[id].name+"!");
+        return ret;
+    }
+
     if (game->moveList[id].effect==Move::RandomMove) {
         string moveName = game->moveList[id].name;
         ret.push_back(attacker.name+" used "+moveName+"!");
@@ -1325,6 +1331,8 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 
     if (hit)
 	{
+	    if (id==64)
+            def->state.move64Hit = true;
 		if (defender.holdItem==51 && Random(0,100)<25 && !attacker.hasAilment(Peoplemon::Confused) && damage>0.1)
 		{
 			ret.push_back(defender.name+"'s Backwards Hoodie Confused "+attacker.name+"!");
