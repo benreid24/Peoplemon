@@ -1951,6 +1951,12 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             def->recalcStats(game, false);
             ret.push_back(attacker.name+" stole all of "+defender.name+"'s stat changes!");
         }
+        else if (effect==Move::RoarCancelBallSpikes) {
+            atk->state.roarUsed = true;
+            atk->state.spikesApplied = 0;
+            atk->state.ballIsUp = atk->state.ballSet = false;
+            ret.push_back(attacker.name+" was so loud that everything in their immediate area got blown away! No more pesky Spikes or Volleyballs");
+        }
     }
 
     lastMoveHit = true;
