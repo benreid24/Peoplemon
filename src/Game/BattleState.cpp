@@ -545,6 +545,17 @@ bool BattleState::execute()
                     if (shouldClose())
                         return true;
                 }
+                if (order[i]->state.roarUsed) {
+                    order[i]->state.roarUsed = false;
+                    int oldPeoplemon = order[i]->getCurrentPeoplemon();
+                    order[i]->getSwitchPeoplemon(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()), game);
+                    if (doSwitch(order[i], order[j], oldPeoplemon, &applyAfterTurn[i]))
+                        return false;
+                    game->hud.displayMessage("");
+                    renderStatic();
+                    if (shouldClose())
+                        return true;
+                }
                 noMove:;
             }
             else //run
@@ -1910,6 +1921,10 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         else if (effect==Move::HealNext) {
             atk->state.healNextPeoplemon = true;
             ret.push_back(attacker.name+" threw some weird healing powder into the air. It went so high it looks like it will take exactly one turn to fall back down");
+        }
+        else if (effect==Move::Roar) {
+            atk->state.roarUsed = true;
+            ret.push_back(attacker.name+"'s Roar scared "+defender.name+" so much that they went back in their Peopleball!");
         }
     }
 

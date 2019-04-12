@@ -28,6 +28,7 @@ void BattlerFlags::reset()
     endureThisTurn = false;
     spikesApplied = 0;
     healNextPeoplemon = false;
+    roarUsed = false;
 }
 
 Battler::Battler(vector<PeoplemonRef>* ppl)
