@@ -155,22 +155,33 @@ bool BattleState::execute()
         {
             PeoplemonRef p = getPeoplemon(player,player->getCurrentPeoplemon()), op = getPeoplemon(opponent,opponent->getCurrentPeoplemon());
             Turn pTurn;
-            if (!player->state.isCharging)
-                pTurn = player->getTurn(op,game);
-            else {
+            if (player->state.isCharging) {
                 pTurn.id = player->state.lastMoveUsed;
                 pTurn.type = Turn::Move;
             }
+            else if (player->state.encoreTurnsLeft>0) {
+                pTurn.id = player->state.encoreMoveId;
+                pTurn.type = Turn::Move;
+                player->state.encoreTurnsLeft--;
+            }
+            else
+                pTurn = player->getTurn(op,game);
             if (shouldClose())
                 return true;
 
             Turn oTurn;
-            if (!opponent->state.isCharging)
-                opponent->getTurn(p,game);
-            else {
+            if (opponent->state.isCharging) {
                 oTurn.id = opponent->state.lastMoveUsed;
                 oTurn.type = Turn::Move;
             }
+            else if (opponent->state.encoreTurnsLeft>0) {
+                oTurn.id = opponent->state.encoreMoveId;
+                oTurn.type = Turn::Move;
+                opponent->state.encoreTurnsLeft--;
+            }
+            else
+                oTurn = opponent->getTurn(p,game);
+
             bool pFirst = true;
             if (oTurn.type==Turn::Switch || oTurn.type==Turn::Item)
             {
@@ -252,6 +263,8 @@ bool BattleState::execute()
 
             if (turns[i].type==Turn::Switch)
             {
+                order[i]->state.encoreHit = false;
+                order[i]->state.protectUsedLast = false;
                 if (doSwitch(order[i], order[j], turns[i].id, &applyAfterTurn[i]))
                     return false;
                 if (shouldClose())
@@ -259,6 +272,7 @@ bool BattleState::execute()
             }
             else if (turns[i].type==Turn::Item)
             {
+                order[i]->state.encoreHit = false;
                 order[i]->state.protectUsedLast = false;
                 if (order[i]!=player)
 				{
@@ -560,6 +574,9 @@ bool BattleState::execute()
             }
             else //run
             {
+                order[i]->state.encoreHit = false;
+                order[i]->state.protectUsedLast = false;
+
                 runTries++;
                 int rSpd = getPeoplemon(order[i],order[i]->getCurrentPeoplemon()).stats.spd;
                 if (getPeoplemon(order[i],order[i]->getCurrentPeoplemon()).hasAilment(Peoplemon::Annoyed))
@@ -1178,6 +1195,13 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 
     vector<string> ret;
     PeoplemonRef attacker = getPeoplemon(atk,atk->getCurrentPeoplemon()), defender = getPeoplemon(def,def->getCurrentPeoplemon());
+
+    if (atk->state.encoreHit) {
+        atk->state.encoreHit = false;
+        atk->state.encoreMoveId = id;
+        atk->state.encoreTurnsLeft = 5;
+        ret.push_back(attacker.name+" was convinced to do an Encore of "+game->moveList[id].name+"!");
+    }
 
     if (game->moveList[id].effect==Move::FailOnMove64 && atk->state.move64Hit) {
         lastMoveHit = false;
@@ -1956,6 +1980,10 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             atk->state.spikesApplied = 0;
             atk->state.ballIsUp = atk->state.ballSet = false;
             ret.push_back(attacker.name+" was so loud that everything in their immediate area got blown away! No more pesky Spikes or Volleyballs");
+        }
+        else if (effect==Move::Encore) {
+            def->state.encoreHit = true;
+            ret.push_back(attacker.name+" is trying to make "+defender.name+" do an Encore!");
         }
     }
 

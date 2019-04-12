@@ -28,6 +28,8 @@ struct BattlerFlags
     bool healNextPeoplemon; //flag to heal next peoplemon at turn beginning 50%
     bool roarUsed; //roar. makes enemy switch
     bool move64Hit; //Move::FailOnMove64
+    bool encoreHit; //true if next move can be encore'd
+    int encoreTurnsLeft, encoreMoveId; //encore
 
     /**
      * Initializes all the data to the default values

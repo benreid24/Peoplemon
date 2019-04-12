@@ -30,6 +30,9 @@ void BattlerFlags::reset()
     healNextPeoplemon = false;
     roarUsed = false;
     move64Hit = false;
+    encoreHit = false;
+    encoreMoveId = -1;
+    encoreTurnsLeft = 0;
 }
 
 Battler::Battler(vector<PeoplemonRef>* ppl)
