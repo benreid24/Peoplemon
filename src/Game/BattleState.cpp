@@ -1944,6 +1944,13 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             taker->recalcStats(game);
             ret.push_back(taker->name+"'s Speed rose!");
         }
+        else if (effect==Move::StealStats) {
+            atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).stages = defender.stages;
+            def->getPeoplemon()->at(def->getCurrentPeoplemon()).stages.zero();
+            atk->recalcStats(game, false);
+            def->recalcStats(game, false);
+            ret.push_back(attacker.name+" stole all of "+defender.name+"'s stat changes!");
+        }
     }
 
     lastMoveHit = true;
