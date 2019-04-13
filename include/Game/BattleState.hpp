@@ -175,9 +175,10 @@ class BattleState : public Gamestate
      *
      * \param alive The index of the Battler who is still alive
      * \param dead The index of the other Battler
+     * \param randomGoIn If true; new Peoplemon is chosen randomly instead of prompting Battler
      * \return Whether or not the battle is over. Calling code should still check shouldClose
      */
-    bool doFaint(int alive, int dead);
+    bool doFaint(int alive, int dead, bool randomGoIn = false);
 
     /**
      * Plays the Peopleball animations, including throwing, falling, rocking and breaking out/clicking

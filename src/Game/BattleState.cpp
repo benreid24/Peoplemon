@@ -522,6 +522,14 @@ bool BattleState::execute()
                         return true;
                 }
                 game->hud.displayMessage("");
+                if (order[i]->state.koRevive) { //Death swap
+                    applyAfterTurn[j] = false;
+                    shouldStop = true;
+                    if (doFaint(j, i, true))
+                        return false;
+                    if (shouldClose())
+                        return true;
+                }
                 if (getPeoplemon(order[j],order[j]->getCurrentPeoplemon()).curHp<=0) //they fainted
                 {
                 	applyAfterTurn[j] = false;
@@ -984,7 +992,7 @@ bool BattleState::doSwitch(Battler* switcher, Battler* opp, int oldIndex, bool* 
     return false;
 }
 
-bool BattleState::doFaint(int alive, int dead)
+bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
 {
 	int i = alive;
 	int j = dead;
@@ -1021,7 +1029,16 @@ bool BattleState::doFaint(int alive, int dead)
     if (shouldClose())
         return false;
 
-    int id = o->getSwitchPeoplemon(b->getPeoplemon()->at(b->getCurrentPeoplemon()), game);
+    int id = -1;
+    if (!chooseRandom)
+        id = o->getSwitchPeoplemon(b->getPeoplemon()->at(b->getCurrentPeoplemon()), game);
+    else {
+        id = o->getRandomFaintedPeoplemon(true);
+        o->getPeoplemon()->at(id).curHp = o->state.koReviveHp;
+        o->getPeoplemon()->at(id).recalcStats(game, true);
+        for (int w = 0; w<4; ++w)
+            o->getPeoplemon()->at(id).curAils[w] = Peoplemon::Ailment::None;
+    }
     if (shouldClose())
 		return false;
 
@@ -2009,6 +2026,12 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             atk->state.deathTurnCounter = 0;
             def->state.deathTurnCounter = 0;
             ret.push_back(attacker.name+" and "+defender.name+" have both been Marked for Death! They better get out of here");
+        }
+        else if (effect==Move::DeathSwap) {
+            atk->state.koRevive = true;
+            atk->state.koReviveHp = atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).curHp;
+            atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).curHp = 0;
+            ret.push_back(attacker.name+" has sacrificed itself!");
         }
     }
 

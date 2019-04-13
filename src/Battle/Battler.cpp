@@ -7,6 +7,7 @@
 #include "Battle/AI/RandomBattler.hpp"
 #include "Battle/AI/SmartBattler.hpp"
 #include "Battle/AI/SuicidalBattler.hpp"
+#include "Globals.hpp"
 using namespace std;
 
 BattlerFlags::BattlerFlags()
@@ -34,6 +35,8 @@ void BattlerFlags::reset()
     encoreMoveId = -1;
     encoreTurnsLeft = 0;
     deathTurnCounter = -1;
+    koRevive = false;
+    koReviveHp = 0;
 }
 
 Battler::Battler(vector<PeoplemonRef>* ppl)
@@ -92,6 +95,21 @@ int Battler::getSwitchPeoplemon(PeoplemonRef op, Game* g)
         }
     }
     return -1;
+}
+
+int Battler::getRandomFaintedPeoplemon(bool updateCurrent) {
+    vector<int> validIndices;
+    for (unsigned int i = 0; i<peoplemon->size(); ++i) {
+        if (peoplemon->at(i).curHp==0)
+            validIndices.push_back(i);
+    }
+    if (validIndices.size()==0)
+        return -1;
+
+    int id = validIndices[Random(0, validIndices.size()-1)];
+    if (updateCurrent)
+        curPeoplemon = id;
+    return id;
 }
 
 vector<PeoplemonRef>* Battler::getPeoplemon()

@@ -31,6 +31,8 @@ struct BattlerFlags
     bool encoreHit; //true if next move can be encore'd
     int encoreTurnsLeft, encoreMoveId; //encore
     int deathTurnCounter; //DieIn3Turns
+    bool koRevive; //ko's current and revives a random peoplemon
+    int koReviveHp;
 
     /**
      * Initializes all the data to the default values
@@ -101,6 +103,14 @@ public:
      * \return The index of the new active peoplemon, or -1 if all are dead
      */
     virtual int getSwitchPeoplemon(PeoplemonRef op, Game* g);
+
+    /**
+     * Returns a random fainted Peoplemon or -1 if all are alive
+     *
+     * \param updateCurrent Whether or not to change the current Peoplemon
+     * \return The index of the fainted Peoplemon
+     */
+    int getRandomFaintedPeoplemon(bool updateCurrent);
 
     /**
      * Returns a pointer to the vector of the battler's peoplemon
