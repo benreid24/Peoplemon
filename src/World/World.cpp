@@ -656,7 +656,7 @@ void World::moveOntoTile(Vector2i playerPos, Vector2i lastPos)
 
     if (catchables(playerPos.x,playerPos.y)!=0 && playerPos!=lastPos && game->data.repelStepsLeft<=0)
     {
-        if (Random(0,100)<15*game->player.getRandomMultiplier())
+        if (Random(0,100)<15)
         {
             vector<PeoplemonRef> ppl = getWildPeoplemon();
             if (ppl.size()>0)

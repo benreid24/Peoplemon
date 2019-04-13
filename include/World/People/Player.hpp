@@ -170,14 +170,9 @@ public:
     bool canFly();
 
     /**
-     * Returns whether or not the player has a peoplemon that lowers prices
+     * Returns whether or not the player has a peoplemon that will Impulse Buy this time
      */
-	bool pricesLowered();
-
-	/**
-	 * Returns a probability multiplier for use in wild peoplemon appearances
-	 */
-	double getRandomMultiplier();
+	bool makeImpulseBuy();
 
 	/**
 	 * If any Peoplemon in the players party are Questionable this function will give them items when the player moves. Called by update

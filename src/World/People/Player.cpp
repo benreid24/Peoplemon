@@ -365,38 +365,20 @@ bool Player::canFly()
     return hasItem(105);
 }
 
-bool Player::pricesLowered()
+bool Player::makeImpulseBuy()
 {
-	for (unsigned int i = 0; i<curPeoplemon.size(); ++i)
-	{
-		if (game->peoplemonList[curPeoplemon[i].id].specialAbilityId==Peoplemon::Negotiator)
-			return true;
+	for (unsigned int i = 0; i<curPeoplemon.size(); ++i) {
+        if (game->peoplemonList[curPeoplemon[i].id].specialAbilityId==Peoplemon::ImpulseBuy && Random(0,100)<=5)
+            return true;
 	}
 	return false;
-}
-
-double Player::getRandomMultiplier()
-{
-	int intro = 0, outro = 0;
-	for (unsigned int i = 0; i<curPeoplemon.size(); ++i)
-	{
-		if (game->peoplemonList[curPeoplemon[i].id].specialAbilityId==Peoplemon::Introverted)
-			intro++;
-		else if (game->peoplemonList[curPeoplemon[i].id].specialAbilityId==Peoplemon::Extroverted)
-			outro++;
-	}
-	if (intro>outro)
-		return 0.5;
-	else if (outro>intro)
-		return 1.5;
-	return 1;
 }
 
 void Player::pickupRandom()
 {
 	for (unsigned int i = 0; i<curPeoplemon.size(); ++i)
 	{
-		if (game->peoplemonList[curPeoplemon[i].id].specialAbilityId==Peoplemon::Questionable && curPeoplemon[i].holdItem==0 && Random(0,1000)<4)
+		if (game->peoplemonList[curPeoplemon[i].id].specialAbilityId==Peoplemon::MrExtra && curPeoplemon[i].holdItem==0 && Random(0,1000)<4)
 		{
 			int c = Random(0,1000);
 

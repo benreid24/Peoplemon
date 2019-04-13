@@ -26,12 +26,16 @@ StoreState::StoreState(Game* g, std::string prompt, std::string error, vector<pa
             found:;
         }
     }
-    if (game->player.pricesLowered())
-	{
-		for (unsigned int i = 0; i<items.size(); ++i)
-		{
-			items[i].second = double(items[i].second)*0.9;
+    if (game->player.makeImpulseBuy()) {
+	    int cheapestIndex, cheapestPrice = 99999999;
+		for (unsigned int i = 0; i<items.size(); ++i) {
+			if (items[i].second<cheapestPrice) {
+                cheapestIndex = i;
+                cheapestPrice = items[i].second;
+			}
 		}
+		if (game->player.alterMoney(-cheapestPrice))
+            game->player.giveItem(items[cheapestIndex].first); //TODO - tell them?
 	}
     desc.setProps(Color::Black,22);
     desc.setPosition(Vector2f(30,410));

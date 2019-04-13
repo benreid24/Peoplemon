@@ -118,26 +118,6 @@ bool BattleState::execute()
     toDraw.clear();
     sentIn.push_back(player->getCurrentPeoplemon());
 
-    //handle Bud ability
-    player->getPeoplemon()->at(player->getCurrentPeoplemon()).curAbility = game->peoplemonList[player->getPeoplemon()->at(player->getCurrentPeoplemon()).id].specialAbilityId;
-    opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).curAbility = game->peoplemonList[opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).id].specialAbilityId;
-    if (player->getPeoplemon()->at(player->getCurrentPeoplemon()).curAbility==Peoplemon::Bud)
-	{
-		if (opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).curAbility!=Peoplemon::Bud)
-		{
-			player->getPeoplemon()->at(player->getCurrentPeoplemon()).curAbility = opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).curAbility;
-			displayMessage(player->getPeoplemon()->at(player->getCurrentPeoplemon()).name+" is a Bud and copied "+opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).name+"'s "+Peoplemon::abilityTexts[opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).curAbility].first+"!");
-		}
-	}
-	if (opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).curAbility==Peoplemon::Bud)
-	{
-		if (player->getPeoplemon()->at(player->getCurrentPeoplemon()).curAbility!=Peoplemon::Bud)
-		{
-			opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).curAbility = player->getPeoplemon()->at(player->getCurrentPeoplemon()).curAbility;
-			displayMessage(opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).name+" is a Bud and copied "+player->getPeoplemon()->at(player->getCurrentPeoplemon()).name+"'s "+Peoplemon::abilityTexts[player->getPeoplemon()->at(player->getCurrentPeoplemon()).curAbility].first+"!");
-		}
-	}
-
     int runTries = 0;
     bool applyAfterTurn[2] = {true,true}; //whether or not to apply after turn effects like hold items. Used when peoplemon faint or are switched out
     int ballUpTurns = 0; //for volleyball moves
@@ -460,8 +440,7 @@ bool BattleState::execute()
                     if (attacker.turnsUntilWake>0)
                         attacker.turnsUntilWake--;
 
-                    int turnWait = (attacker.curAbility==Peoplemon::LateRiser)?(1):(0);
-                    if ((attacker.turnsWithAil>turnWait && Random(0,100)<35) || attacker.turnsWithAil>=4 || attacker.turnsUntilWake==0)
+                    if ((attacker.turnsUntilWake<=0 && Random(0,100)<35) || attacker.turnsWithAil>=4 || attacker.turnsUntilWake==0)
                     {
                         displayMessage(attacker.name+" woke up!");
                         if (shouldClose())
@@ -932,25 +911,20 @@ bool BattleState::doSwitch(Battler* switcher, Battler* opp, int oldIndex, bool* 
 {
     switcher->state.protectUsedLast = false;
     switcher->state.deathTurnCounter = -1;
-    if (opp->getPeoplemon()->at(opp->getCurrentPeoplemon()).curAbility==Peoplemon::Engage)
-    {
-        displayMessage(opp->getPeoplemon()->at(opp->getCurrentPeoplemon()).name+"'s Engage prevents switching!");
-        switcher->setCurrentPeoplemon(oldIndex); //reset
-        return false;
-    }
+
     if (switcher->getPeoplemon()->at(oldIndex).hasAilment(Peoplemon::Trapped))
     {
         displayMessage(switcher->getPeoplemon()->at(oldIndex).name+" was Trapped and could not switch out!");
-        switcher->setCurrentPeoplemon(oldIndex);
+        switcher->setCurrentPeoplemon(oldIndex); //reset
         return false;
     }
-    if (switcher->getPeoplemon()->at(oldIndex).curAbility==Peoplemon::Forgiving && switcher->getPeoplemon()->at(oldIndex).hasAtLeastOneAilment())
+    if (switcher->getPeoplemon()->at(oldIndex).curAbility==Peoplemon::AlwaysFriendly && switcher->getPeoplemon()->at(oldIndex).hasAtLeastOneAilment())
     {
         for (int z = 0; z<4; ++z)
         {
             switcher->getPeoplemon()->at(oldIndex).curAils[z] = Peoplemon::None;
         }
-        displayMessage(switcher->getPeoplemon()->at(oldIndex).name+"'s Forgiving ability cured it of all ailments!");
+        displayMessage(switcher->getPeoplemon()->at(oldIndex).name+"'s Always Friendly ability cured it of all ailments!");
         if (shouldClose())
             return false; //unique here b/c retVal is whether all fainted. Calling code still has to check shouldClose()
     }
@@ -969,6 +943,7 @@ bool BattleState::doSwitch(Battler* switcher, Battler* opp, int oldIndex, bool* 
     if (shouldClose())
         return false;
 
+    switcher->getPeoplemon()->at(switcher->getCurrentPeoplemon()).curAbility = game->peoplemonList[switcher->getPeoplemon()->at(switcher->getCurrentPeoplemon()).id].specialAbilityId;
     if (switcher->state.spikesApplied>0) {
         double fraction = 1.0/8.0;
         if (switcher->state.spikesApplied==2)
@@ -1333,17 +1308,12 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         hit = true;
     atk->state.ballSet = false;
 
-    if (critical && defender.curAbility==Peoplemon::Lax)
+    if (critical && defender.curAbility==Peoplemon::Chillaxed)
 	{
 		critical = false;
-		ret.push_back(defender.name+"'s Lax prevents critical hits!");
+		ret.push_back(defender.name+"'s Chillax prevents critical hits!");
 	}
     multiplier *= (critical)?(2):(1);
-    if (attacker.curAbility==Peoplemon::Edumucator && game->moveList[id].type==Intelligent && power>0.1)
-	{
-		multiplier *= 1.1;
-		ret.push_back(attacker.name+" does more damage with Intelligent moves as an Edumucator!");
-	}
 
     bool isSpecial = game->moveList[id].isSpecial;
     double atkS = (isSpecial)?(attacker.stats.spAtk):(attacker.stats.atk);
@@ -1403,12 +1373,12 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 			ret.push_back(defender.name+"'s Backwards Hoodie Confused "+attacker.name+"!");
 			attacker.addPassiveAilment(Peoplemon::Confused);
 		}
-		if (defender.curAbility==Peoplemon::EasyGoing && damage>=defender.curHp && defender.curHp>1)
+		/*if (defender.curAbility==Peoplemon::EasyGoing && damage>=defender.curHp && defender.curHp>1) //TODO - Teach based move ability
 		{
 			ret.push_back(defender.name+"'s Easy Going nature prevented a one hit KO!");
 			def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp = 1;
 		}
-		else
+		else*/
 			def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp -= damage;
 	}
 	else
@@ -1444,21 +1414,21 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
     int intensity = game->moveList[id].intensityOfEffect;
     PeoplemonRef* giver = &atk->getPeoplemon()->at(atk->getCurrentPeoplemon());
 	PeoplemonRef* taker = &def->getPeoplemon()->at(def->getCurrentPeoplemon());
-	bool reciprocateAil = taker->curAbility==Peoplemon::Share && !game->moveList[id].targetIsSelf;
+	bool reciprocateAil = taker->curAbility==Peoplemon::SnackShare && !game->moveList[id].targetIsSelf;
 
-	if (taker->curAbility==Peoplemon::Sassy && game->moveList[id].makesContact && hit)
+	if (taker->curAbility==Peoplemon::Goon && game->moveList[id].makesContact && hit)
 	{
 		int dmg = giver->stats.hp/16;
 		giver->curHp -= dmg;
 		if (giver->curHp<0)
 			giver->curHp = 0;
-		ret.push_back(giver->name+" took damage because "+taker->name+" is Sassy!");
+		ret.push_back(giver->name+" took damage because "+taker->name+" is a Goon!");
 	}
-	if (taker->curAbility==Peoplemon::Opinionated && giver->curAils[0]==Peoplemon::None && Random(0,100)<=20 && game->moveList[id].makesContact && hit)
+	/*if (taker->curAbility==Peoplemon::Opinionated && giver->curAils[0]==Peoplemon::None && Random(0,100)<=20 && game->moveList[id].makesContact && hit)
 	{
 		giver->curAils[0] = Peoplemon::Annoyed;
 		ret.push_back(giver->name+" was Annoyed because "+taker->name+" is Opinionated!");
-	}
+	}*/ //TODO - ailment abilities like Derp Derp
 
     if (Random(0,100)<=game->moveList[id].chanceOfEffect && effect!=Move::None)
     {
@@ -1762,15 +1732,10 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         }
         else if (effect==Move::AccDown)
         {
-        	if (taker->curAbility==Peoplemon::Observant)
-				ret.push_back(taker->name+"'s Observant prevents accuracy loss!");
-			else
-            {
-            	taker->stages.acc -= intensity;
-				taker->stages.acc = (taker->stages.acc<-6)?(-6):(taker->stages.acc);
-				taker->recalcStats(game);
-				ret.push_back(taker->name+"'s Accuracy fell!");
-            }
+            taker->stages.acc -= intensity;
+            taker->stages.acc = (taker->stages.acc<-6)?(-6):(taker->stages.acc);
+            taker->recalcStats(game);
+            ret.push_back(taker->name+"'s Accuracy fell!");
         }
         else if (effect==Move::EvdDown)
         {
@@ -2201,11 +2166,6 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
     toDraw.push_back(&anims[j]->still);
     displayMessage(getSwitchLine(order[i],order[i]->getCurrentPeoplemon()));
 
-    if (b->getPeoplemon()->at(curPpl).curAbility==Peoplemon::Forgiving)
-	{
-		for (int i = 0; i<4; ++i)
-			b->getPeoplemon()->at(curPpl).curAils[i] = Peoplemon::None;
-	}
 	opBox.update(getPeoplemon(opponent,opponent->getCurrentPeoplemon()),false);
 	playerBox.update(getPeoplemon(player,player->getCurrentPeoplemon()),false);
 
@@ -2235,14 +2195,6 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
 		playerAnims.load(game,player->getPeoplemon()->at(player->getCurrentPeoplemon()),opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()),true);
 	}
 	toDraw.push_back(&anims[i]->still);
-
-	if (b->getPeoplemon()->at(b->getCurrentPeoplemon()).curAbility==Peoplemon::Bud)
-	{
-		b->getPeoplemon()->at(b->getCurrentPeoplemon()).curAbility = o->getPeoplemon()->at(o->getCurrentPeoplemon()).curAbility;
-		displayMessage(b->getPeoplemon()->at(b->getCurrentPeoplemon()).name+" is a Bud and copied "+o->getPeoplemon()->at(o->getCurrentPeoplemon()).name+"'s "+Peoplemon::abilityTexts[b->getPeoplemon()->at(b->getCurrentPeoplemon()).curAbility].first+"!");
-	}
-	else
-		b->getPeoplemon()->at(b->getCurrentPeoplemon()).curAbility =  game->peoplemonList[b->getPeoplemon()->at(b->getCurrentPeoplemon()).id].specialAbilityId;
 }
 
 void BattleState::playAttackAnim(Battler* b, int moveId)

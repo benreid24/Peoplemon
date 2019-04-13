@@ -57,23 +57,22 @@ struct Peoplemon  //there will exist one global vector of these
 	enum SpecialAbility
 	{
 		NoAbility = 0,
-		Engage = 1,
-		Lax = 2,
-        LateRiser = 3,
-        Observant = 4,
-        Opinionated = 5,
-        Forgiving = 6,
-        Sassy = 7,
-        Edumucator = 8, //TODO - Is Goon
+		BoardGameMaster = 1,
+		Chillaxed = 2,
+        Classy = 3,
+        Goon = 4,  //Edumucator = 8, //TODO - Is Goon
+        QuickDraw = 5,
+        AlwaysFriendly = 6,
+        ImpulseBuy = 8,
         RunAway = 9,
-        Questionable = 10,
-        Extroverted = 11,
-        Introverted = 12,
-        DontPoke = 13,
-        Bud = 14,
-        Share = 15,
-        Negotiator = 16,
-        EasyGoing = 17, //TODO - klutz
+        MrExtra = 10,
+        BeefedUp = 11,
+        Reserved = 12,
+        DukeOfJokes = 13,
+        Engaging = 14,
+        SnackShare = 15,
+        DerpDerp = 16,
+        Klutz = 17, //TODO - klutz
         GenderBend = 18,
         Garbage = 19,
         BikeMechanic = 20,
@@ -128,7 +127,7 @@ struct Peoplemon  //there will exist one global vector of these
      */
     static double getStatMultiplier(int s, bool isCrit);
 
-    const static std::pair<std::string,std::string> abilityTexts[44]; //name and description of special abilities
+    const static std::pair<std::string,std::string> abilityTexts[43]; //name and description of special abilities
     static double typeMultipliers[8][19];
 };
 

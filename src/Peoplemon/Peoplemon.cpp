@@ -6,13 +6,14 @@
 using namespace std;
 using namespace sf;
 
-const pair<string,string> Peoplemon::abilityTexts[44] = {make_pair("None",""),
+const pair<string,string> Peoplemon::abilityTexts[43] = {make_pair("None",""),
                                                         make_pair("Board Game Master", "The opposing Peoplemon cannot switch out"),
                                                         make_pair("Chillaxed", "Cannot receive critical hits"),
                                                         make_pair("Classy", "Cannot be Frustrated"),
                                                         make_pair("Goon", "Enemy Peoplemon take damage when they attack physically"),
                                                         make_pair("Quick Draw", "Attacks first on the first turn of every battle"),
                                                         make_pair("Always Friendly", "Is cured of all ailments when switched out"),
+                                                        make_pair("Skipped Slot", "Id #7 is missing, it's Chris' fault"),
                                                         make_pair("Impulse Buy", "May purchase items at random in stores"),
                                                         make_pair("Run Away", "Always able to get away from battle"),
                                                         make_pair("Mr. Extra", "Occasionally finds items when exploring and pockets them"),
