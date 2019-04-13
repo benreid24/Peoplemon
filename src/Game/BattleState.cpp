@@ -1471,18 +1471,23 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         {
             if (taker->curAils[0]==Peoplemon::None && canGetAils)
             {
-                taker->curAils[0] = Peoplemon::Frustrated;
-                ret.push_back(taker->name+" was Frustrated!");
-                if (reciprocateAil)
-				{
-                    if (giver->curAils[0]==Peoplemon::None)
-					{
-						giver->curAils[0] = Peoplemon::Frustrated;
-						ret.push_back(taker->name+" Shared its Frustration with "+giver->name+"!");
-					}
-					else
-						ret.push_back(taker->name+" tried to Share its Frustration with "+giver->name+" but it failed!");
-				}
+                if (taker->curAbility!=Peoplemon::Classy)
+                {
+                    taker->curAils[0] = Peoplemon::Frustrated;
+                    ret.push_back(taker->name+" was Frustrated!");
+                    if (reciprocateAil)
+                    {
+                        if (giver->curAils[0]==Peoplemon::None)
+                        {
+                            giver->curAils[0] = Peoplemon::Frustrated;
+                            ret.push_back(taker->name+" Shared its Frustration with "+giver->name+"!");
+                        }
+                        else
+                            ret.push_back(taker->name+" tried to Share its Frustration with "+giver->name+" but it failed!");
+                    }
+                }
+                else
+                    ret.push_back(giver->name+" tried to Frustrate "+giver->name+" but "+giver->name+"is Classy and cannot be Frustrated!");
             }
             else
                 ret.push_back(giver->name+" tried to Frustrate "+taker->name+" but it failed!");
@@ -1911,22 +1916,26 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
                 ret.push_back(taker->name+" was Confused!");
 
                 if (taker->curAils[0]==Peoplemon::None) {
-                    taker->curAils[0] = Peoplemon::Frustrated;
-                    ret.push_back(taker->name+" was also Frustrated!");
-                    if (reciprocateAil)
-                    {
-                        giver->addPassiveAilment(Peoplemon::Confused);
-                        giver->turnsConfused = 1;
-                        ret.push_back(taker->name+" Shared its Confusion with "+giver->name+"!");
-
-                        if (giver->curAils[0]==Peoplemon::None)
+                    if (taker->curAbility!=Peoplemon::Classy) {
+                        taker->curAils[0] = Peoplemon::Frustrated;
+                        ret.push_back(taker->name+" was also Frustrated!");
+                        if (reciprocateAil)
                         {
-                            giver->curAils[0] = Peoplemon::Frustrated;
-                            ret.push_back(taker->name+" Shared its Frustration with "+giver->name+"!");
+                            giver->addPassiveAilment(Peoplemon::Confused);
+                            giver->turnsConfused = 1;
+                            ret.push_back(taker->name+" Shared its Confusion with "+giver->name+"!");
+
+                            if (giver->curAils[0]==Peoplemon::None)
+                            {
+                                giver->curAils[0] = Peoplemon::Frustrated;
+                                ret.push_back(taker->name+" Shared its Frustration with "+giver->name+"!");
+                            }
+                            else
+                                ret.push_back(taker->name+" tried to Share its Frustration with "+giver->name+" but it failed!");
                         }
-                        else
-                            ret.push_back(taker->name+" tried to Share its Frustration with "+giver->name+" but it failed!");
                     }
+                    else
+                        ret.push_back(giver->name+" tried to Frustrate "+giver->name+" but "+giver->name+"is Classy and cannot be Frustrated!");
                 }
 
             }
