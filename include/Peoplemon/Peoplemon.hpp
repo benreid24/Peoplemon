@@ -64,7 +64,7 @@ struct Peoplemon  //there will exist one global vector of these
         Opinionated = 5,
         Forgiving = 6,
         Sassy = 7,
-        Edumucator = 8,
+        Edumucator = 8, //TODO - Is Goon
         RunAway = 9,
         Questionable = 10,
         Extroverted = 11,
@@ -128,7 +128,7 @@ struct Peoplemon  //there will exist one global vector of these
      */
     static double getStatMultiplier(int s, bool isCrit);
 
-    const static std::pair<std::string,std::string> abilityTexts[18]; //name and description of special abilities
+    const static std::pair<std::string,std::string> abilityTexts[44]; //name and description of special abilities
     static double typeMultipliers[8][19];
 };
 

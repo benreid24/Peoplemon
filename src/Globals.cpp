@@ -91,25 +91,7 @@ Keyboard::Key Properties::leftKey = Keyboard::Left;
 Keyboard::Key Properties::runKey = Keyboard::Space;
 Keyboard::Key Properties::interactKey = Keyboard::V;
 Keyboard::Key Properties::pauseKey = Keyboard::Return;
-const pair<string,string> Peoplemon::abilityTexts[18] = {make_pair("None",""),
-                                                        make_pair("Engage", "The opposing Peoplemon cannot switch out"),
-                                                        make_pair("Lax", "Cannot receive critical hits"),
-                                                        make_pair("Late Riser", "Never wakes up on the first turn it is asleep"),
-                                                        make_pair("Observant", "Accuracy cannot be lowered"),
-                                                        make_pair("Opinionated", "20% chance to annoy on physical contact with another Peoplemon"),
-                                                        make_pair("Forgiving", "Is cured of all ailments when switched out"),
-                                                        make_pair("Sassy", "Physical moves cause the attacker to take 1/16th of their health in damage"),
-                                                        make_pair("Edumicator", "Intelligent moves done 10% damage more"),
-                                                        make_pair("Run Away", "Always able to get away from battle"),
-                                                        make_pair("Questionable", "Occasionally finds items when exploring"),
-                                                        make_pair("Extroverted", "Twice as likely to encounter wild Peoplemon"),
-                                                        make_pair("Introverted", "Half as likely to encounter wild peoplemon"),
-                                                        make_pair("Don't Poke", "You shouldn't poke this peoplemon. Also, this ability does nothing"),
-                                                        make_pair("Bud", "Copies the enemies ability"),
-                                                        make_pair("Share", "Gives all received ailments to the attacker as well"),
-                                                        make_pair("Negotiator", "All purchases are 10% cheaper"),
-                                                        make_pair("Easy Going", "Cannot be killed by One Hit KO's")};
-                                                        //TODO - add other abilities here
+
 
 GameClock gameClock;
 PlayerInput user;

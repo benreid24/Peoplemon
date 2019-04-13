@@ -6,6 +6,50 @@
 using namespace std;
 using namespace sf;
 
+const pair<string,string> Peoplemon::abilityTexts[44] = {make_pair("None",""),
+                                                        make_pair("Board Game Master", "The opposing Peoplemon cannot switch out"),
+                                                        make_pair("Chillaxed", "Cannot receive critical hits"),
+                                                        make_pair("Classy", "Cannot be Frustrated"),
+                                                        make_pair("Goon", "Enemy Peoplemon take damage when they attack physically"),
+                                                        make_pair("Quick Draw", "Attacks first on the first turn of every battle"),
+                                                        make_pair("Always Friendly", "Is cured of all ailments when switched out"),
+                                                        make_pair("Impulse Buy", "May purchase items at random in stores"),
+                                                        make_pair("Run Away", "Always able to get away from battle"),
+                                                        make_pair("Mr. Extra", "Occasionally finds items when exploring and pockets them"),
+                                                        make_pair("Beefed Up", "Athletic type moves do more damage when below 25% HP"),
+                                                        make_pair("Reserved", "Quiet type moves do more damage when below 25% HP"),
+                                                        make_pair("Duke of Jokes", "Joke based moves do 50% more damage"),
+                                                        make_pair("Engaging", "Moves that otherwise would not affect enemy Peoplemon become Not Very Effective instead"),
+                                                        make_pair("Snack Share", "Chance to give inflicted ailments to the attacker as well"),
+                                                        make_pair("Derp Derp", "Chance to Confuse opponent when taking damage"),
+                                                        make_pair("Klutz", "Chance to drop hold item before battle, making it unusable for the battle"),
+                                                        make_pair("Gender Bend", "Changes the gender of enemy Peoplemon"),
+                                                        make_pair("Garbage", "This Peoplemon is garbage and has no special skills"),
+                                                        make_pair("Bike Mechanic", "Can fix broken bikes"),
+                                                        make_pair("Sidetrack Teach", "Teach based moves have a chance to Distract opponents"),
+                                                        make_pair("No Joke Teach", "Takes no damage from Joke based moves if a Teach based move was used"),
+                                                        make_pair("Fiery Teach", "Teach based moves have a chance to raise Special Attack"),
+                                                        make_pair("Experienced Teach", "Cannot be K.O'd if a Teach based move was used"),
+                                                        make_pair("New Teach", "Teach based moves used on the first turn of a battle have higher speed"),
+                                                        make_pair("Doze Off", "Teach based moves have a chance to make this Peoplemon fall asleep"),
+                                                        make_pair("Douse Flames", "Has a chance to reduce opponent Attack after taking physical damage"),
+                                                        make_pair("Flirty", "Has a chance to reduce opponent Special Attack after taking special damage"),
+                                                        make_pair("Undying Faith", "Has a chance to survive a lethal attack"),
+                                                        make_pair("Too Cool", "Cannot be Stunned"),
+                                                        make_pair("Fake Study", "If an attack misses the move used is not revealed to the opponent"),
+                                                        make_pair("Alcoholic", "Consumes Alcohol based items at the beginning of each turn"),
+                                                        make_pair("Total Bro", "Increases Bro Power of other Bros in your party"),
+                                                        make_pair("Total Mom", "Restores some PP of the next Peoplemon when K.O'd"),
+                                                        make_pair("Can't Swim", "Has a chance to decrease opponents Attack when hit with a physical move"),
+                                                        make_pair("All Nighter", "Cannot be put to sleep"),
+                                                        make_pair("Ailment Saturated", "Can only ever have one Ailment at a time"),
+                                                        make_pair("Adamant", "Can't be forced to switch out of battle by an opponent"),
+                                                        make_pair("Absolute Pitch", "Super Effective moves do additional damage, but Not Very Effective moves do even less damage"),
+                                                        make_pair("GameMaker Virus", "Eliminates half of the PP of any moves that it gets hit by"),
+                                                        make_pair("Snapshot", "Cannot take Super Effective damage from the same move twice in a row"),
+                                                        make_pair("Get Baked", "Automatically self-destructs if at 20% or less HP")};
+
+
 double Move::damageScore(double atkAdv, double spAtkAdv, Type userType, Type opType)
 {
     double stab = (userType==type)?(1.5):(1.0);
