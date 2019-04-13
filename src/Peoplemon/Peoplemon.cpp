@@ -63,6 +63,7 @@ PeoplemonRef::PeoplemonRef()
 	turnsWithAil = 0;
 	turnsConfused = 0;
 	curAbility = Peoplemon::NoAbility;
+	turnsUntilWake = -1;
 	stages.zero();
 }
 

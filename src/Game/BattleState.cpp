@@ -457,14 +457,18 @@ bool BattleState::execute()
                 }
                 if (attacker.hasAilment(Peoplemon::Sleep))
                 {
+                    if (attacker.turnsUntilWake>0)
+                        attacker.turnsUntilWake--;
+
                     int turnWait = (attacker.curAbility==Peoplemon::LateRiser)?(1):(0);
-                    if ((attacker.turnsWithAil>turnWait && Random(0,100)<35) || attacker.turnsWithAil>=4)
+                    if ((attacker.turnsWithAil>turnWait && Random(0,100)<35) || attacker.turnsWithAil>=4 || attacker.turnsUntilWake==0)
                     {
                         displayMessage(attacker.name+" woke up!");
                         if (shouldClose())
                             return true;
                         order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curAils[0] = Peoplemon::None;
                         order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).turnsWithAil = 0;
+                        order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).turnsUntilWake = -1;
                     }
                     else
                     {
@@ -2032,6 +2036,14 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             atk->state.koReviveHp = atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).curHp;
             atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).curHp = 0;
             ret.push_back(attacker.name+" has sacrificed itself!");
+        }
+        else if (effect==Move::SleepHeal) {
+            for (int w = 0; w<4; ++w)
+                taker->curAils[w] = Peoplemon::Ailment::None;
+            taker->curAils[0] = Peoplemon::Ailment::Sleep;
+            taker->curHp = taker->stats.hp;
+            taker->turnsUntilWake = 3;
+            ret.push_back(taker->name+" put itself to Sleep and got healed!");
         }
     }
 

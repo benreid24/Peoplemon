@@ -149,6 +149,7 @@ struct PeoplemonRef
     Peoplemon::Ailment curAils[4]; //first is the active ailment, each subsequent one is guaranteed to be passive
     int turnsWithAil, turnsConfused; //for tracking
     Peoplemon::SpecialAbility curAbility;
+    int turnsUntilWake; //Rest
 
     /**
      * Default constructor. Simply zeros everything
