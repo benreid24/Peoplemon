@@ -33,6 +33,7 @@ void BattlerFlags::reset()
     encoreHit = false;
     encoreMoveId = -1;
     encoreTurnsLeft = 0;
+    deathTurnCounter = -1;
 }
 
 Battler::Battler(vector<PeoplemonRef>* ppl)

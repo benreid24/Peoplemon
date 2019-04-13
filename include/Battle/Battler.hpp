@@ -30,6 +30,7 @@ struct BattlerFlags
     bool move64Hit; //Move::FailOnMove64
     bool encoreHit; //true if next move can be encore'd
     int encoreTurnsLeft, encoreMoveId; //encore
+    int deathTurnCounter; //DieIn3Turns
 
     /**
      * Initializes all the data to the default values

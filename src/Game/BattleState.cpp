@@ -613,12 +613,34 @@ bool BattleState::execute()
         order[1] = player;
         for (int i = 0; i<2; ++i)
         {
+            int j = (i+1)%2;
+            PeoplemonRef ppl = getPeoplemon(order[i],order[i]->getCurrentPeoplemon());
+
             if (order[i]->state.ballIsUp && (!order[i]->state.ballHandled || ballUpTurns>=3)) {
                 order[i]->state.ballIsUp = false;
                 ballUpTurns = 0;
 
-                int j = (i+1)%2;
                 order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = 0;
+                displayMessage(getPeoplemonName(order[i], order[i]->getCurrentPeoplemon())+" was K.O'd by a Volleyball!");
+                if (shouldClose())
+                    return true;
+                if (doFaint(i,j))
+                    return false;
+                if (shouldClose())
+                    return true;
+                continue;
+            }
+
+            if (order[i]->state.deathTurnCounter>=0)
+                order[i]->state.deathTurnCounter++;
+            if (order[i]->state.deathTurnCounter>=3) {
+                order[i]->state.deathTurnCounter = -1;
+
+                order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curHp = 0;
+                displayMessage(getPeoplemonName(order[i], order[i]->getCurrentPeoplemon())+" was K.O'd by the Mark for Death!");
+
+                if (shouldClose())
+                    return true;
                 if (doFaint(i,j))
                     return false;
                 if (shouldClose())
@@ -628,9 +650,6 @@ bool BattleState::execute()
 
         	if (!applyAfterTurn[i]) //skip if not supposed to do end turn stuff
 				continue;
-
-            int j = (i+1)%2;
-            PeoplemonRef ppl = getPeoplemon(order[i],order[i]->getCurrentPeoplemon());
 
 			if (ppl.holdItem==50) //bag of goldfish
 			{
@@ -900,6 +919,7 @@ string BattleState::getMoveLine(Battler* b, int id)
 bool BattleState::doSwitch(Battler* switcher, Battler* opp, int oldIndex, bool* fxAfterTurnFlag)
 {
     switcher->state.protectUsedLast = false;
+    switcher->state.deathTurnCounter = -1;
     if (opp->getPeoplemon()->at(opp->getCurrentPeoplemon()).curAbility==Peoplemon::Engage)
     {
         displayMessage(opp->getPeoplemon()->at(opp->getCurrentPeoplemon()).name+"'s Engage prevents switching!");
@@ -1984,6 +2004,11 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         else if (effect==Move::Encore) {
             def->state.encoreHit = true;
             ret.push_back(attacker.name+" is trying to make "+defender.name+" do an Encore!");
+        }
+        else if (effect==Move::DieIn3Turns) {
+            atk->state.deathTurnCounter = 0;
+            def->state.deathTurnCounter = 0;
+            ret.push_back(attacker.name+" and "+defender.name+" have both been Marked for Death! They better get out of here");
         }
     }
 
