@@ -1666,18 +1666,22 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         {
             if (taker->curAils[0]==Peoplemon::None && canGetAils)
             {
-                taker->curAils[0] = Peoplemon::Annoyed;
-                ret.push_back(taker->name+" was Annoyed!");
-                if (reciprocateAil)
-				{
-                    if (giver->curAils[0]==Peoplemon::None)
-					{
-						giver->curAils[0] = Peoplemon::Annoyed;
-						ret.push_back(taker->name+" Shared its Annoyance with "+giver->name+"!");
-					}
-					else
-						ret.push_back(taker->name+" tried to Share its Annoyance with "+giver->name+" but it failed!");
-				}
+                if (taker->curAbility!=Peoplemon::TooCool) {
+                    taker->curAils[0] = Peoplemon::Annoyed;
+                    ret.push_back(taker->name+" was Annoyed!");
+                    if (reciprocateAil)
+                    {
+                        if (giver->curAils[0]==Peoplemon::None)
+                        {
+                            giver->curAils[0] = Peoplemon::Annoyed;
+                            ret.push_back(taker->name+" Shared its Annoyance with "+giver->name+"!");
+                        }
+                        else
+                            ret.push_back(taker->name+" tried to Share its Annoyance with "+giver->name+" but it failed!");
+                    }
+                }
+                else
+                    ret.push_back(giver->name+" tried to Annoy "+taker->name+" but they are Too Cool!");
             }
             else
                 ret.push_back(giver->name+" tried to Annoy "+taker->name+" but it failed!");
