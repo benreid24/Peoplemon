@@ -1537,6 +1537,14 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         attacker.recalcStats(game);
         ret.push_back(attacker.name+"'s Fiery Teaching increased Special Attack!");
     }
+    if (defender.curAbility==Peoplemon::DozeOff && game->moveList[id].isTeachBased() && defender.curAils[0]==Peoplemon::Ailment::None && Random(0,100)<=10) {
+        defender.curAils[0] = Peoplemon::Ailment::Sleep;
+        ret.push_back(attacker.name+"'s Teaching made "+defender.name+" Doze Off!");
+        if (defender.curAbility==Peoplemon::SnackShare && attacker.curAils[0]==Peoplemon::Ailment::None) {
+            attacker.curAils[0] = Peoplemon::Ailment::Sleep;
+            ret.push_back(defender.name+" Shared its Sleepiness with "+attacker.name+"!");
+        }
+    }
 
     //move effects
     int intensity = game->moveList[id].intensityOfEffect;
