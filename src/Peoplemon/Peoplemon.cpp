@@ -51,14 +51,6 @@ const pair<string,string> Peoplemon::abilityTexts[43] = {make_pair("None",""),
                                                         make_pair("Get Baked", "Automatically self-destructs if at 20% or less HP")};
 
 
-double Move::damageScore(double atkAdv, double spAtkAdv, Type userType, Type opType)
-{
-    double stab = (userType==type)?(1.5):(1.0);
-    double adv = (isSpecial)?(spAtkAdv):(atkAdv);
-    double typeM = Peoplemon::getSTAB(userType,type)*Peoplemon::getEffectivenessMultiplier(type,opType);
-    return double(dmg)*stab*typeM*adv/140;
-}
-
 double Peoplemon::getSTAB(Type atk, Type mv)
 {
 	if (atk==mv ||

@@ -1286,6 +1286,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 
     Move::Effect effect = game->moveList[id].effect;
 	double power = game->moveList[id].dmg;
+
 	if (effect==Move::Gamble) {
         int roll = Random(1, 20);
         if (roll==1) {
@@ -1305,6 +1306,19 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         power *= atk->getBroPower();
         ret.push_back(attacker.name+"'s Bro Power multiplied its attack!");
     }
+    if (attacker.curAbility==Peoplemon::BeefedUp && attacker.curAbility<=attacker.stats.hp*0.25) {
+        if (game->moveList[id].isAthletic()) {
+            power *= 1.25;
+            ret.push_back(attacker.name+" is Beefed Up and Power is increased!");
+        }
+    }
+    else if (attacker.curAbility==Peoplemon::Reserved && attacker.curHp<=attacker.stats.hp*0.25) {
+        if (game->moveList[id].isQuiet()) {
+            power *= 1.25;
+            ret.push_back(attacker.name+" is Reserved and Power is increased!");
+        }
+    }
+
 	double acc = attacker.stats.acc;
 	if (attacker.holdItem==52 && game->moveList[id].acc!=0 && !game->moveList[id].targetIsSelf)
 	{

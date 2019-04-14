@@ -4,6 +4,8 @@
 #include <string>
 #include "Battle/AI/ReactionPreference.hpp"
 
+class Game;
+
 /**
  * This defines all of the type for moves and peoplemon
  *
@@ -135,6 +137,26 @@ struct Move
     double damageScore(double atkAdv, double spAtkAdv, Type userType, Type opType);
     double effectScore;
     std::string attackerAnim, defenderAnim;
+
+    /**
+     * Returns true if the move is Joke based
+     */
+    bool isJokeBased();
+
+    /**
+     * Returns true if the move is Teach based
+     */
+    bool isTeachBased();
+
+    /**
+     * Returns true if the move is Athletic type
+     */
+    bool isAthletic();
+
+    /**
+     * Returns true if the move is Quiet type
+     */
+    bool isQuiet();
 };
 
 /**
