@@ -1381,7 +1381,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
     bool isBad = effectiveness<1 && power>0.1;
 
     if (attacker.curAbility==Peoplemon::Engaging && effectiveness==0 && power>0.1) {
-        effectiveness = 0.25;
+        effectiveness = 0.5;
         isSuper = isBad = false;
         ret.push_back("Normally "+game->typeList[game->moveList[id].type]+" moves don't affect "+defender.name+" but "+attacker.name+" was so Engaging that it does damage anyways!");
     }
