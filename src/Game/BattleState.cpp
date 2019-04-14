@@ -1610,6 +1610,11 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         attacker.recalcStats(game);
         ret.push_back(defender.name+" was Flirty and lowered "+attacker.name+"'s Special Attack!");
     }
+    if (defender.curAbility==Peoplemon::CantSwim && damage>0.1 && Random(0,100)<=15) {
+        attacker.stats.acc = (attacker.stats.acc>-6)?(attacker.stats.acc-1):(-6);
+        attacker.recalcStats(game);
+        ret.push_back(attacker.name+"'s Attack was lowered because "+defender.name+" Can't Swim!");
+    }
 
     //move effects
     int intensity = game->moveList[id].intensityOfEffect;
