@@ -1654,6 +1654,10 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         }
         attacker.moves[mi].curPp = int(attacker.moves[mi].curPp*0.5+0.5);
         ret.push_back(defender.name+"'s GameMaker Virus cut "+game->moveList[id].name+"'s PP in half!");
+        if (attacker.id>=10 && attacker.id<=12) {
+            attacker.curHp = 0;
+            ret.push_back("GameMaker Virus K.O'd "+attacker.name+"!");
+        }
     }
 
     //move effects
