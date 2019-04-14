@@ -1260,7 +1260,8 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 	cout << "Move " << game->moveList[id].name << " used with power " << game->moveList[id].dmg << endl;
 
     vector<string> ret;
-    PeoplemonRef attacker = getPeoplemon(atk,atk->getCurrentPeoplemon()), defender = getPeoplemon(def,def->getCurrentPeoplemon());
+    PeoplemonRef &attacker = atk->getPeoplemon()->at(atk->getCurrentPeoplemon());
+    PeoplemonRef &defender = def->getPeoplemon()->at(def->getCurrentPeoplemon());
 
     if (atk->state.encoreHit) {
         atk->state.encoreHit = false;
@@ -1320,7 +1321,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 	if (effect==Move::Gamble) {
         int roll = Random(1, 20);
         if (roll==1) {
-            atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).curHp = 1;
+            attacker.curHp = 1;
             ret.push_back(attacker.name+" rolled a 1 and was reduced to 1 HP!");
         }
         else if (roll==20) {
@@ -1413,14 +1414,14 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 	{
 		atkS *= 1.1;
 		ret.push_back(attacker.name+"'s Power Juice boosted it's attack!");
-		atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).holdItem = 0;
+		attacker.holdItem = 0;
 	}
     double defS = (isSpecial)?(defender.stats.spDef):(defender.stats.def);
     if (defender.holdItem==60 && defender.curHp<=defender.stats.hp/4 && power>0.1)
 	{
 		defS *= 1.1;
 		ret.push_back(defender.name+"'s Iced Tea made it more resilient!");
-		def->getPeoplemon()->at(def->getCurrentPeoplemon()).holdItem = 0;
+		defender.holdItem = 0;
 	}
     double damage = (power>0.1)?((((2*double(attacker.level)+10)/250)*(atkS/defS)*power+2)*multiplier):(0);
     if (effect==Move::Peanut) {
@@ -1443,22 +1444,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 	{
 	    if (id==64)
             def->state.move64Hit = true;
-		if (defender.holdItem==51 && Random(0,100)<25 && !attacker.hasAilment(Peoplemon::Confused) && damage>0.1)
-		{
-			ret.push_back(defender.name+"'s Backwards Hoodie Confused "+attacker.name+"!");
-			atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).addPassiveAilment(Peoplemon::Confused);
-		}
-		if (defender.curAbility==Peoplemon::DerpDerp && Random(0, 100)<=10 && !attacker.hasAilment(Peoplemon::Confused) && damage>0.1) {
-            ret.push_back(defender.name+"'s Derpiness Confused "+attacker.name+"!");
-            atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).addPassiveAilment(Peoplemon::Confused);
-		}
-		/*if (defender.curAbility==Peoplemon::EasyGoing && damage>=defender.curHp && defender.curHp>1) //TODO - Teach based move ability
-		{
-			ret.push_back(defender.name+"'s Easy Going nature prevented a one hit KO!");
-			def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp = 1;
-		}
-		else*/
-			def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp -= damage;
+        defender.curHp -= damage;
 	}
 	else
 	{
@@ -1468,10 +1454,10 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         return ret;
 	}
 
-    if (def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp<=0) {
-        def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp = 0;
+    if (defender.curHp<=0) {
+        defender.curHp = 0;
         if (def->state.endureThisTurn && !def->state.enduredLastTurn) {
-            def->getPeoplemon()->at(def->getCurrentPeoplemon()).curHp = 1;
+            defender.curHp = 1;
             ret.push_back(defender.name+" Endured!");
         }
     }
@@ -1490,32 +1476,54 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 			ret.push_back(game->typeList[game->moveList[id].type]+" moves don't affect "+defender.name+"!");
 	}
 
+	//abilities
+	if (defender.curAbility==Peoplemon::Goon && game->moveList[id].makesContact)
+	{
+		int dmg = defender.stats.hp/16;
+		defender.curHp -= dmg;
+		if (defender.curHp<0)
+			defender.curHp = 0;
+		ret.push_back(defender.name+" took damage because "+attacker.name+" is a Goon!");
+	}
+	if (defender.holdItem==51 && Random(0,100)<25 && !attacker.hasAilment(Peoplemon::Confused) && damage>0.1)
+    {
+        ret.push_back(defender.name+"'s Backwards Hoodie Confused "+attacker.name+"!");
+        attacker.addPassiveAilment(Peoplemon::Confused);
+        if (attacker.curAbility==Peoplemon::SnackShare) {
+            defender.addPassiveAilment(Peoplemon::Confused);
+            ret.push_back(attacker.name+" Shared its Confusion with "+defender.name+"!");
+        }
+    }
+    if (defender.curAbility==Peoplemon::DerpDerp && Random(0, 100)<=10 && !attacker.hasAilment(Peoplemon::Confused) && damage>0.1) {
+        ret.push_back(defender.name+"'s Derpiness Confused "+attacker.name+"!");
+        attacker.addPassiveAilment(Peoplemon::Confused);
+        if (attacker.curAbility==Peoplemon::SnackShare) {
+            defender.addPassiveAilment(Peoplemon::Confused);
+            ret.push_back(attacker.name+" Shared its Confusion with "+defender.name+"!");
+        }
+    }
+    if (attacker.curAbility==Peoplemon::SidetrackTeach && game->moveList[id].isTeachBased() && Random(0,100)<=15) {
+        ret.push_back(attacker.name+"'s Side Track Teaching Distracted "+defender.name+"!");
+        defender.addPassiveAilment(Peoplemon::Distracted);
+        if (defender.curAbility==Peoplemon::SnackShare) {
+            attacker.addPassiveAilment(Peoplemon::Distracted);
+            ret.push_back(defender.name+" Shared its Distraction with "+attacker.name+"!");
+        }
+    }
+
+    //move effects
     int intensity = game->moveList[id].intensityOfEffect;
     PeoplemonRef* giver = &atk->getPeoplemon()->at(atk->getCurrentPeoplemon());
 	PeoplemonRef* taker = &def->getPeoplemon()->at(def->getCurrentPeoplemon());
 	bool reciprocateAil = taker->curAbility==Peoplemon::SnackShare && !game->moveList[id].targetIsSelf;
 
-	if (taker->curAbility==Peoplemon::Goon && game->moveList[id].makesContact && hit)
-	{
-		int dmg = giver->stats.hp/16;
-		giver->curHp -= dmg;
-		if (giver->curHp<0)
-			giver->curHp = 0;
-		ret.push_back(giver->name+" took damage because "+taker->name+" is a Goon!");
-	}
-	/*if (taker->curAbility==Peoplemon::Opinionated && giver->curAils[0]==Peoplemon::None && Random(0,100)<=20 && game->moveList[id].makesContact && hit)
-	{
-		giver->curAils[0] = Peoplemon::Annoyed;
-		ret.push_back(giver->name+" was Annoyed because "+taker->name+" is Opinionated!");
-	}*/ //TODO - ailment abilities like Derp Derp
-
     if (Random(0,100)<=game->moveList[id].chanceOfEffect && effect!=Move::None)
     {
-        bool canGetAils = !def->getPeoplemon()->at(def->getCurrentPeoplemon()).hasAilment(Peoplemon::Guarded) && def->state.subHealth==0;
+        bool canGetAils = !defender.hasAilment(Peoplemon::Guarded) && def->state.subHealth==0;
         if (game->moveList[id].targetIsSelf)
         {
             swap(giver,taker);
-            canGetAils = !atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).hasAilment(Peoplemon::Guarded)  && atk->state.subHealth==0;
+            canGetAils = !attacker.hasAilment(Peoplemon::Guarded)  && atk->state.subHealth==0;
         }
 
         if (effect==Move::Heal)
@@ -2036,9 +2044,9 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
                     if (defender.moves[i].id==def->state.lastMoveUsed)
                         break;
                 }
-                def->getPeoplemon()->at(def->getCurrentPeoplemon()).moves[i].curPp -= 5;
-                if (def->getPeoplemon()->at(def->getCurrentPeoplemon()).moves[i].curPp<0)
-                    def->getPeoplemon()->at(def->getCurrentPeoplemon()).moves[i].curPp = 0;
+                defender.moves[i].curPp -= 5;
+                if (defender.moves[i].curPp<0)
+                    defender.moves[i].curPp = 0;
                 ret.push_back(defender.name+" had its PP for "+game->moveList[def->state.lastMoveUsed].name+" lowered!");
             }
             else
@@ -2063,8 +2071,8 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             ret.push_back(taker->name+"'s Speed rose!");
         }
         else if (effect==Move::StealStats) {
-            atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).stages = defender.stages;
-            def->getPeoplemon()->at(def->getCurrentPeoplemon()).stages.zero();
+            attacker.stages = defender.stages;
+            defender.stages.zero();
             atk->recalcStats(game, false);
             def->recalcStats(game, false);
             ret.push_back(attacker.name+" stole all of "+defender.name+"'s stat changes!");
@@ -2086,8 +2094,8 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         }
         else if (effect==Move::DeathSwap) {
             atk->state.koRevive = true;
-            atk->state.koReviveHp = atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).curHp;
-            atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).curHp = 0;
+            atk->state.koReviveHp = attacker.curHp;
+            attacker.curHp = 0;
             ret.push_back(attacker.name+" has sacrificed itself!");
         }
         else if (effect==Move::SleepHeal) {

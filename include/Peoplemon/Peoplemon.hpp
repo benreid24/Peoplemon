@@ -60,7 +60,7 @@ struct Peoplemon  //there will exist one global vector of these
 		BoardGameMaster = 1,
 		Chillaxed = 2,
         Classy = 3,
-        Goon = 4,  //Edumucator = 8, //TODO - Is Goon
+        Goon = 4,
         QuickDraw = 5,
         AlwaysFriendly = 6,
         ImpulseBuy = 8,
@@ -72,7 +72,7 @@ struct Peoplemon  //there will exist one global vector of these
         Engaging = 14,
         SnackShare = 15,
         DerpDerp = 16,
-        Klutz = 17, //TODO - klutz
+        Klutz = 17,
         GenderBend = 18,
         Garbage = 19,
         BikeMechanic = 20,
