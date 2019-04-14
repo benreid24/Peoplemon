@@ -270,13 +270,13 @@ bool PeoplemonState::execute()
 									{
                                         if (peoplemon->at(i).curAils[0]!=Peoplemon::Annoyed)
 										{
-											out = peoplemon->at(i).name+" isn't Annoyed yet, but you can keep trying";
+											out = peoplemon->at(i).name+" isn't Stunned yet, but you can keep trying";
 											used = false;
 										}
 										else
 										{
 											peoplemon->at(i).curAils[0] = Peoplemon::None;
-											out = peoplemon->at(i).name+" is no longer Annoyed!";
+											out = peoplemon->at(i).name+" is no longer Stunned!";
 										}
 									}
 									else if (itemId==40)
