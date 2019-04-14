@@ -150,6 +150,11 @@ public:
     void addStoredPeoplemon(PeoplemonRef ppl);
 
     /**
+     * Convenience function to add a Peoplemon to the party or PC if no room
+     */
+    void givePeoplemon(PeoplemonRef ppl);
+
+    /**
      * Returns true if the player has the requested Peoplemon
      *
      * \param id The id of the Peoplemon to check for

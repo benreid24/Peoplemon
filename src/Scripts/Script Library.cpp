@@ -41,6 +41,7 @@ namespace {
 					"getTimeMinutes",
 					"getSaveEntry",
 					"getSaveEntry",
+					"giveBackPeoplemon",
 					"giveItem",
 					"givePeoplemon",
 					"hasItem",
@@ -304,9 +305,30 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		}
 		else if (name=="takePeoplemon") {
             int id = args.at(0).iValue;
-            int minLevel = (args.size()>1) ? (args.at(1).iValue) : (-1);
-            PeoplemonRef takenPeoplemon = environment->getGame()->player.takePeoplemon(id, minLevel); //TODO - store this?
-            ret.iValue = (int)(takenPeoplemon.id != -1);
+            int saveBox = (args.size()>1) ? (args.at(1).iValue) : (0);
+            int minLevel = (args.size()>2) ? (args.at(2).iValue) : (-1);
+            PeoplemonRef takenPeoplemon = environment->getGame()->player.takePeoplemon(id, minLevel);
+            if (takenPeoplemon.id > 0) {
+                ret.iValue = 1;
+                if (saveBox>14) {
+                    StoredPeoplemon sp(saveBox, Vector2i(), takenPeoplemon);
+                    environment->getGame()->player.getStoredPeoplemon()->push_back(sp);
+                }
+            }
+            else
+                ret.iValue = 0;
+		}
+		else if (name=="giveBackPeoplemon") {
+            int saveBox = args.at(0).iValue;
+            if (saveBox>14) {
+                for (unsigned int i = 0; i<environment->getGame()->player.getStoredPeoplemon()->size(); ++i) {
+                    if (environment->getGame()->player.getStoredPeoplemon()->at(i).boxId=saveBox) {
+                        environment->getGame()->player.givePeoplemon(environment->getGame()->player.getStoredPeoplemon()->at(i).data);
+                        environment->getGame()->player.getStoredPeoplemon()->erase(environment->getGame()->player.getStoredPeoplemon()->begin()+i);
+                        i--;
+                    }
+                }
+            }
 		}
 		else if (name=="healPeoplemon")
             environment->getGame()->player.whiteout();

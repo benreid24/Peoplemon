@@ -509,14 +509,22 @@ void Player::addStoredPeoplemon(PeoplemonRef ppl)
 				for (unsigned int i = 0; i<storedPeoplemon.size(); ++i)
 				{
 					if (storedPeoplemon[i].boxId==b && storedPeoplemon[i].position.x==x && storedPeoplemon[i].position.y==y)
-						goto noAdd;
+						continue;
 				}
 				storedPeoplemon.push_back(StoredPeoplemon(b,Vector2i(x,y),ppl));
                 return;
-                noAdd:;
 			}
 		}
 	}
+}
+
+void Player::givePeoplemon(PeoplemonRef ppl) {
+    ppl.recalcStats(game, true);
+    ppl.curHp = ppl.stats.hp;
+    if (curPeoplemon.size()<6)
+        curPeoplemon.push_back(ppl);
+    else
+        addStoredPeoplemon(ppl);
 }
 
 Vector2f Player::getLastPosition() {
