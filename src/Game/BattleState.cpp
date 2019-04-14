@@ -86,8 +86,8 @@ bool BattleState::execute()
     transitionScreen();
 
     //Calculate all stats to ensure they are current
-    player->recalcStats(game);
-    opponent->recalcStats(game);
+    player->recalcStats(game, true);
+    opponent->recalcStats(game, true);
 
     //introduce opponent peoplemon
     game->hud.setAlwaysShow(true);
@@ -117,6 +117,25 @@ bool BattleState::execute()
         return true;
     toDraw.clear();
     sentIn.push_back(player->getCurrentPeoplemon());
+
+    //klutz abilities
+    if (player->getPeoplemon()->at(player->getCurrentPeoplemon()).curAbility==Peoplemon::Klutz && Random(0,100)<=33) {
+        if (player->getPeoplemon()->at(player->getCurrentPeoplemon()).holdItem!=0) {
+            game->player.giveItem(player->getPeoplemon()->at(player->getCurrentPeoplemon()).holdItem);
+            player->getPeoplemon()->at(player->getCurrentPeoplemon()).holdItem = 0;
+            displayMessage(player->getPeoplemon()->at(player->getCurrentPeoplemon()).name+" is a Klutz and dropped their hold item!");
+            if (shouldClose())
+                return true;
+        }
+    }
+    if (opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).curAbility==Peoplemon::Klutz && Random(0,100)<=33) {
+        if (opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).holdItem!=0) {
+            opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).holdItem = 0;
+            displayMessage(opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).name+" is a Klutz and dropped their hold item!");
+            if (shouldClose())
+                return true;
+        }
+    }
 
     int runTries = 0;
     bool applyAfterTurn[2] = {true,true}; //whether or not to apply after turn effects like hold items. Used when peoplemon faint or are switched out
