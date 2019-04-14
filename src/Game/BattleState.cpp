@@ -1275,6 +1275,8 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
     PeoplemonRef &attacker = atk->getPeoplemon()->at(atk->getCurrentPeoplemon());
     PeoplemonRef &defender = def->getPeoplemon()->at(def->getCurrentPeoplemon());
 
+    ret.push_back(attacker.name+" used "+game->moveList[id].name+"!");
+
     if (atk->state.encoreHit) {
         atk->state.encoreHit = false;
         atk->state.encoreMoveId = id;
@@ -1290,7 +1292,6 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 
     if (game->moveList[id].effect==Move::RandomMove) {
         string moveName = game->moveList[id].name;
-        ret.push_back(attacker.name+" used "+moveName+"!");
 
         while (game->moveList[id].effect==Move::RandomMove) {
             do {
@@ -1476,7 +1477,10 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 	}
 	else
 	{
-		ret.clear();
+	    ret.erase(ret.begin()+1, ret.end());
+	    if (attacker.curAbility==Peoplemon::FakeStudy) {
+            ret[0] = "It is unclear what move "+attacker.name+" was using because they were Fake Studying!";
+	    }
         ret.push_back("But it missed!");
         lastMoveHit = false;
         return ret;
