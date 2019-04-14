@@ -168,7 +168,12 @@ bool BattleState::execute()
 
             //player turn
             Turn pTurn;
-            if (player->state.isCharging) {
+            if (p.curAbility==Peoplemon::GetBaked && p.curHp<=p.stats.hp*0.20) {
+                pTurn.id = 27; //TODO - verify
+                pTurn.type = Turn::Move;
+                player->state.isCharging = false;
+            }
+            else if (player->state.isCharging) {
                 pTurn.id = player->state.lastMoveUsed;
                 pTurn.type = Turn::Move;
             }
@@ -184,7 +189,12 @@ bool BattleState::execute()
 
             //opponent turn
             Turn oTurn;
-            if (opponent->state.isCharging) {
+            if (op.curAbility==Peoplemon::GetBaked && op.curHp<=op.stats.hp*0.20) {
+                oTurn.id = 27; //TODO - verify
+                oTurn.type = Turn::Move;
+                opponent->state.isCharging = false;
+            }
+            else if (opponent->state.isCharging) {
                 oTurn.id = opponent->state.lastMoveUsed;
                 oTurn.type = Turn::Move;
             }
@@ -986,6 +996,7 @@ bool BattleState::doSwitch(Battler* switcher, Battler* opp, int oldIndex, bool* 
 {
     switcher->state.protectUsedLast = false;
     switcher->state.deathTurnCounter = -1;
+    switcher->state.isCharging = false;
 
     if (switcher->getPeoplemon()->at(oldIndex).hasAilment(Peoplemon::Trapped))
     {
@@ -1061,6 +1072,10 @@ bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
     Battler* b = order[i];
     Battler* o = order[j];
     bool isPlayer = b==player;
+
+    order[j]->state.protectUsedLast = false;
+    order[j]->state.deathTurnCounter = -1;
+    order[j]->state.isCharging = false;
 
     anims[j]->faint.play();
     while (!anims[j]->faint.finished())
