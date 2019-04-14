@@ -136,6 +136,17 @@ bool BattleState::execute()
                 return true;
         }
     }
+    //gender bend
+    if (player->getPeoplemon()->at(player->getCurrentPeoplemon()).curAbility==Peoplemon::GenderBend) {
+        displayMessage(player->getPeoplemon()->at(player->getCurrentPeoplemon()).name+" is a Gender Bender and changed "+opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).name+"'s gender!");
+        if (shouldClose())
+            return true;
+    }
+    if (opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).curAbility==Peoplemon::GenderBend) {
+        displayMessage(opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).name+" is a Gender Bender and changed "+player->getPeoplemon()->at(player->getCurrentPeoplemon()).name+"'s gender!");
+        if (shouldClose())
+            return true;
+    }
 
     int runTries = 0;
     bool applyAfterTurn[2] = {true,true}; //whether or not to apply after turn effects like hold items. Used when peoplemon faint or are switched out
