@@ -149,6 +149,7 @@ struct PeoplemonRef
     int turnsWithAil, turnsConfused; //for tracking
     Peoplemon::SpecialAbility curAbility;
     int turnsUntilWake; //Rest
+    int lastSuperId; //Snapshot
 
     /**
      * Default constructor. Simply zeros everything

@@ -1500,6 +1500,17 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 		critical = false;
 		ret.push_back(defender.name+"'s Chillax prevents critical hits!");
 	}
+	if (isSuper) {
+        if (defender.curAbility==Peoplemon::Snapshot) {
+            if (defender.lastSuperId==id) {
+                effectiveness = 1;
+                defender.lastSuperId = 0;
+                ret.push_back(defender.name+"'s Snapshot prevents the same move from being Super Effective twice in a row!");
+            }
+            else
+                defender.lastSuperId = id;
+        }
+	}
     multiplier *= (critical)?(2):(1);
 
     double damage = (power>0.1)?((((2*double(attacker.level)+10)/250)*(atkS/defS)*power+2)*multiplier):(0);

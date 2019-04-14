@@ -101,6 +101,7 @@ PeoplemonRef::PeoplemonRef()
 	turnsConfused = 0;
 	curAbility = Peoplemon::NoAbility;
 	turnsUntilWake = -1;
+	lastSuperId = 0;
 	stages.zero();
 }
 
@@ -218,8 +219,10 @@ void PeoplemonRef::recalcStats(Game* g, bool resetAbility)
     else
         nextLvlXp = 4*pow(level,3)/5;
 
-    if (resetAbility)
+    if (resetAbility) {
         curAbility = g->peoplemonList[id].specialAbilityId;
+        lastSuperId = 0;
+    }
 }
 
 void PeoplemonRef::awardEVs(Game* g, Stats evAward)
@@ -246,7 +249,7 @@ void PeoplemonRef::addPassiveAilment(Peoplemon::Ailment a)
 	}
     for (int i = 1; i<4; ++i)
     {
-        if (curAils[i]==Peoplemon::None || curAils[i]==a)
+        if (curAils[i]==Peoplemon::None)
         {
             curAils[i] = a;
             return;
@@ -281,9 +284,9 @@ bool PeoplemonRef::hasAtLeastOneAilment()
 	for (int i = 0; i<4; ++i)
 	{
 		if (curAils[i]!=Peoplemon::None)
-			return false;
+			return true;
 	}
-	return true;
+	return false;
 }
 
 double PeoplemonRef::getBallBonus(Game* g, int b, int t, int l)
