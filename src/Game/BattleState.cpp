@@ -1458,24 +1458,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 	atk->setLastDamageDealt(damage); //for ai
 	def->setLastDamageTaken(damage);
 
-    if (hit)
-	{
-	    if (id==64)
-            def->state.move64Hit = true;
-
-        //saving abilities
-        if (defender.curAbility==Peoplemon::ExperiencedTeach && defender.curHp>1 && damage>=defender.curHp && game->moveList[oppId].isTeachBased()) {
-            defender.curHp = 1;
-            ret.push_back(defender.name+" is an Experienced Teacher and cannot be taken out while they are Teaching!");
-        }
-        else if (defender.curAbility==Peoplemon::UndyingFaith && defender.curHp<=damage && Random(0,100)<=10) {
-            defender.curHp = 1;
-            ret.push_back(defender.name+"'s Undying Faith saved them!");
-        }
-        else
-            defender.curHp -= damage;
-	}
-	else
+	if (!hit)
 	{
 	    ret.erase(ret.begin()+1, ret.end());
 	    if (attacker.curAbility==Peoplemon::FakeStudy) {
@@ -1485,6 +1468,27 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         lastMoveHit = false;
         return ret;
 	}
+	else if (effectiveness==0 && !game->moveList[id].targetIsSelf) {
+        ret.erase(ret.begin()+1,ret.end());
+        ret.push_back("But it doesn't affect "+defender.name+"!");
+        return ret;
+	}
+
+    if (id==64)
+        def->state.move64Hit = true;
+
+    //saving abilities and damage application
+    if (defender.curAbility==Peoplemon::ExperiencedTeach && defender.curHp>1 && damage>=defender.curHp && game->moveList[oppId].isTeachBased()) {
+        defender.curHp = 1;
+        ret.push_back(defender.name+" is an Experienced Teacher and cannot be taken out while they are Teaching!");
+    }
+    else if (defender.curAbility==Peoplemon::UndyingFaith && defender.curHp<=damage && Random(0,100)<=10) {
+        defender.curHp = 1;
+        ret.push_back(defender.name+"'s Undying Faith saved them!");
+    }
+    else
+        defender.curHp -= damage;
+
 
     if (defender.curHp<=0) {
         defender.curHp = 0;
