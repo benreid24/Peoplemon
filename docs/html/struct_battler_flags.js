@@ -1,0 +1,25 @@
+var struct_battler_flags =
+[
+    [ "BattlerFlags", "struct_battler_flags.html#a141e0bb680feea3460761afbe3b90214", null ],
+    [ "reset", "struct_battler_flags.html#ab082f9a1d86c69eef4b581d72c1f09ac", null ],
+    [ "ballHandled", "struct_battler_flags.html#a9ae0efeafb259bf6a6c601c282557872", null ],
+    [ "ballIsUp", "struct_battler_flags.html#a24fd8b1fcaaa8c0ac136e4cc0ddf9887", null ],
+    [ "ballSet", "struct_battler_flags.html#ad000a95635208ad507c651389e565396", null ],
+    [ "deathTurnCounter", "struct_battler_flags.html#a626b1037db9994555af60bdb9bb13169", null ],
+    [ "encoreHit", "struct_battler_flags.html#aa7dd8e16cdc0e9de4bf29a3bfd763be5", null ],
+    [ "encoreMoveId", "struct_battler_flags.html#a115263c21f4ed8d353d236c8a4c11a3b", null ],
+    [ "encoreTurnsLeft", "struct_battler_flags.html#af7226e0025bc6121efa18253d00bb326", null ],
+    [ "enduredLastTurn", "struct_battler_flags.html#acd8e39e209196436ce49ccbab16a7bd8", null ],
+    [ "endureThisTurn", "struct_battler_flags.html#a2ef1d928c48c6eb39ac14bb56c451b8e", null ],
+    [ "healNextPeoplemon", "struct_battler_flags.html#add6df6c1f6a2f84c2e34d5e58ee24f46", null ],
+    [ "isCharging", "struct_battler_flags.html#aa11aff487cbe437cb2546bc958348415", null ],
+    [ "koRevive", "struct_battler_flags.html#a8d4d7ace2c57d835de5b5e05fd50d928", null ],
+    [ "koReviveHp", "struct_battler_flags.html#ac4347b90972116efbe8dc64ebc55076b", null ],
+    [ "lastMoveUsed", "struct_battler_flags.html#a7b38ccc1a06897200e658a208d33d535", null ],
+    [ "move64Hit", "struct_battler_flags.html#aeb6fd02d4b7a2e834b8c729d7a31eb0a", null ],
+    [ "protectUsedLast", "struct_battler_flags.html#acf7c420b6c36b08c487aa9cd239cc29e", null ],
+    [ "roarUsed", "struct_battler_flags.html#afac85865a325188acb8b7a1bd5e7263d", null ],
+    [ "spikesApplied", "struct_battler_flags.html#a573aebb010ecf55625999500a6e4f5be", null ],
+    [ "subHealth", "struct_battler_flags.html#ae5c11ef0e7d47b92a8cf865c48238188", null ],
+    [ "switchAfterMove", "struct_battler_flags.html#ae8206e500cebc4fe73f5b42f9d50a7e1", null ]
+];

@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['id',['id',['../struct_peoplemon.html#a5f15c5d4752d8c68136710dd92444bbb',1,'Peoplemon::id()'],['../struct_peoplemon_ref.html#ae2e75c6f4de5a0011cde40b579bc9119',1,'PeoplemonRef::id()'],['../struct_wild_peoplemon.html#a605a146d3604279c0f42f9c996e923de',1,'WildPeoplemon::id()'],['../struct_turn.html#a8392a0e0256c16f5183d22b164f2250a',1,'Turn::id()'],['../struct_move.html#a83fb75add6b56aa1ec6864bf1a5c4e7b',1,'Move::id()'],['../struct_move_ref.html#afe0bc5c87b93febc39f3b56a55381009',1,'MoveRef::id()']]],
+  ['image',['image',['../struct_map_object.html#acc660a3026a20ba01c49a39171a53423',1,'MapObject']]],
+  ['imagepool',['imagePool',['../_item_8hpp.html#a62fc190a5b1988388d20fd91d527cdfb',1,'imagePool():&#160;Globals.cpp'],['../_globals_8cpp.html#a75b89cdfca9dc309da1b993c6b2b07fb',1,'imagePool():&#160;Globals.cpp'],['../_globals_8hpp.html#a62fc190a5b1988388d20fd91d527cdfb',1,'imagePool():&#160;Globals.cpp']]],
+  ['info',['info',['../struct_remote_player.html#ae20549c6ce154a2a6af70387484c5d28',1,'RemotePlayer']]],
+  ['infocus',['inFocus',['../class_game.html#a33ba6bb3fd67b636b3b812fd6e7055b6',1,'Game']]],
+  ['intensityofeffect',['intensityOfEffect',['../struct_move.html#aee9457d4fe666e61da03c8569d3553a7',1,'Move']]],
+  ['interactflag',['interactFlag',['../struct_shared_data.html#a1fdf6baf8bafd0ebdf55a64988711b9a',1,'SharedData']]],
+  ['interactkey',['interactKey',['../class_properties.html#a9a38bd8943d19d9679e212e9d1d94b11',1,'Properties']]],
+  ['intsaveentries',['intSaveEntries',['../class_script_environment.html#a2c314ae461353a8b2f1538453840098c',1,'ScriptEnvironment']]],
+  ['ip',['ip',['../struct_host_settings.html#a592949135c49bf5f214f02472813fe32',1,'HostSettings']]],
+  ['isanim',['isAnim',['../struct_tile.html#a1f5c808fd9ee5ef0e7b2f3aa2e2c759e',1,'Tile']]],
+  ['ischarging',['isCharging',['../struct_battler_flags.html#aa11aff487cbe437cb2546bc958348415',1,'BattlerFlags']]],
+  ['islocked',['isLocked',['../class_character.html#a4d04f8c34cb7094f13a900da6d188978',1,'Character']]],
+  ['ismoving',['isMoving',['../class_character.html#a1eb119d5be50ca4360597db3c7631845',1,'Character']]],
+  ['isspecial',['isSpecial',['../struct_move.html#a7ab0c41867eefc61b94522f76acf2cdd',1,'Move']]],
+  ['iswild',['isWild',['../class_battler.html#a34d84a2e77c603e17dc5a9dfe86b0245',1,'Battler']]],
+  ['itemlist',['itemList',['../class_game.html#a72c20c5782b0d90aed2bf26cff76c3d0',1,'Game']]],
+  ['items',['items',['../class_a_i_battler.html#a99970908d0f6a3c4845813636f838f16',1,'AIBattler::items()'],['../struct_packing_1_1_player_info.html#a3311c1dc658050c04005da9562f58bef',1,'Packing::PlayerInfo::items()']]],
+  ['ivalue',['iValue',['../struct_value.html#a15eb487b541db4add7bb43d229a9f9a1',1,'Value']]],
+  ['ivs',['ivs',['../struct_peoplemon_ref.html#a827b648dc45ce8b5e46c9b7479b1241c',1,'PeoplemonRef']]]
+];

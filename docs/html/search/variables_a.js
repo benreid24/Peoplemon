@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['lanternactive',['lanternActive',['../struct_shared_data.html#ac4eae0b8532af7b85f50a42f95d3146e',1,'SharedData']]],
+  ['lastbattlewon',['lastBattleWon',['../struct_shared_data.html#ad02c64472fc6d00acfdd4f14d58c04c4',1,'SharedData']]],
+  ['lastdamagedealt',['lastDamageDealt',['../class_battler.html#a85d724b19ceac3ec43f6ab5df91f0e68',1,'Battler']]],
+  ['lastdamagetaken',['lastDamageTaken',['../class_battler.html#ac7c35a3f47093cd9e9fddce6f52802ad',1,'Battler']]],
+  ['lastmoveused',['lastMoveUsed',['../struct_battler_flags.html#a7b38ccc1a06897200e658a208d33d535',1,'BattlerFlags']]],
+  ['lastpos',['lastPos',['../class_character.html#a941a29d047dc5f2e2a075afd32ec1032',1,'Character']]],
+  ['lastsuperid',['lastSuperId',['../struct_peoplemon_ref.html#ac81e5a14f1e4470bc1349c8b0c18a899',1,'PeoplemonRef']]],
+  ['lasttime',['lastTime',['../class_character.html#a44f367853643f840c58a073d47344c1c',1,'Character::lastTime()'],['../class_base_weather_type.html#a2147aa95bfe1039dc4144224bd1e61b4',1,'BaseWeatherType::lastTime()']]],
+  ['learnset',['learnSet',['../struct_peoplemon.html#ab1ef86d6b92c7c4efcacb4d8137030c1',1,'Peoplemon']]],
+  ['leftkey',['leftKey',['../class_properties.html#ab10cd167affd107a3222f03e17f6706b',1,'Properties']]],
+  ['length',['length',['../struct_animation_frame.html#a2d5db4e2af73446cbd13211c9b32df4c',1,'AnimationFrame']]],
+  ['level',['level',['../struct_peoplemon_ref.html#a6afec5242968a9e0745f3792a922626d',1,'PeoplemonRef::level()'],['../struct_weights.html#aee5cf75b90803ae3a196879a8661a65a',1,'Weights::level()'],['../struct_score.html#a69fdcd14d2dabd259e258909df3e0408',1,'Score::level()']]],
+  ['likelytodie',['likelyToDie',['../struct_state_flags.html#ae5e9a3e667ff1e3afa04aa1ca8ddd8f0',1,'StateFlags']]],
+  ['line',['line',['../struct_convo_line.html#a30132a7755582df082f7138f9d70fcd9',1,'ConvoLine::line()'],['../struct_token.html#a4b96c2a31d7c374fd2bd1986794f80dd',1,'Token::line()']]],
+  ['loadmapflag',['loadMapFlag',['../struct_shared_data.html#a69ba7d21d61dd7389b30a5522a3413a7',1,'SharedData']]],
+  ['locals',['locals',['../struct_frame.html#affd6dd9380cbb08afb9b97e5aa7adcef',1,'Frame']]]
+];

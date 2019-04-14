@@ -1,0 +1,130 @@
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Media/SoundEngine.hpp:12: warning: missing title after \defgroup Media
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Peoplemon/Peoplemon.hpp:13: warning: missing title after \defgroup Peoplemon
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/World/World.hpp:20: warning: missing title after \defgroup World
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Resources/ResourcePool.hpp:11: warning: missing title after \defgroup Resources
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Network/Network.hpp:12: warning: missing title after \defgroup Network
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Battle/AI/AIBattler.hpp:10: warning: missing title after \defgroup AI
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/World/People/Character.hpp:10: warning: missing title after \defgroup Entities
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Battle/Battler.hpp:8: warning: missing title after \defgroup Battle
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Menu/Menu.hpp:10: warning: missing title after \defgroup Menu
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Util/Vector2d.hpp:6: warning: missing title after \defgroup Utilities
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Game/Game.hpp:25: warning: missing title after \defgroup Game
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Globals.hpp:10: warning: missing title after \defgroup Global
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/World/Tileset.cpp:13: warning: no matching class member found for 
+  Tileset::Tileset(string file)
+Possible candidates:
+  Tileset::Tileset()
+  Tileset::Tileset(std::string file)
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/World/People/Conversation.cpp:16: warning: no matching class member found for 
+  Conversation::Conversation(string file)
+Possible candidates:
+  Conversation::Conversation()
+  Conversation::Conversation(std::string file)
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/Menu/ScrollChoiceBox.cpp:91: warning: no matching class member found for 
+  void ScrollChoiceBox::setChoice(string s)
+Possible candidates:
+  void ScrollChoiceBox::setChoice(int i)
+  void ScrollChoiceBox::setChoice(std::string c)
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/World/World.cpp:634: warning: no matching class member found for 
+  void World::moveOntoTile(Vector2i playerPos, Vector2i lastPos)
+Possible candidates:
+  void World::moveOntoTile(sf::Vector2i playerPos, sf::Vector2i lastPos)
+  void World::moveOntoTile(sf::Vector2i pos)
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/World/World.cpp:674: warning: no matching class member found for 
+  void World::moveOntoTile(Vector2i pos)
+Possible candidates:
+  void World::moveOntoTile(sf::Vector2i playerPos, sf::Vector2i lastPos)
+  void World::moveOntoTile(sf::Vector2i pos)
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/World/World.cpp:697: warning: no matching class member found for 
+  bool World::spaceFree(Vector2i pos, Vector2i oldPos)
+Possible candidates:
+  bool World::spaceFree(sf::Vector2i position, sf::Vector2i oldPos)
+  bool World::spaceFree(sf::Vector2i position)
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/World/World.cpp:765: warning: no matching class member found for 
+  bool World::spaceFree(Vector2i pos)
+Possible candidates:
+  bool World::spaceFree(sf::Vector2i position, sf::Vector2i oldPos)
+  bool World::spaceFree(sf::Vector2i position)
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/World/People/PathController.cpp:24: warning: no matching class member found for 
+  PathController::PathController(Character *c, vector< int > p)
+Possible candidates:
+  PathController::PathController(Character *c, File *file)
+  PathController::PathController(Character *c, std::vector< int > p)
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/Menu/MenuText.cpp:12: warning: no matching class member found for 
+  MenuText::MenuText(string t)
+Possible candidates:
+  MenuText::MenuText()
+  MenuText::MenuText(std::string t)
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/Peoplemon/Peoplemon.cpp:189: warning: no uniquely matching class member found for 
+  void PeoplemonRef::load(Game *g, string file)
+Possible candidates:
+  void PeoplemonRef::load(Game *g, File *file)' at line 172 of file X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Peoplemon/Peoplemon.hpp
+  void PeoplemonRef::load(Game *g, std::string file)' at line 180 of file X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Peoplemon/Peoplemon.hpp
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/Scripts/Script Interpreter.cpp:19: warning: no matching class member found for 
+  Script::Script(string scr)
+Possible candidates:
+  Script::Script()
+  Script::Script(std::string scr)
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/Media/Animation.cpp:15: warning: no matching class member found for 
+  AnimationSource::AnimationSource(string file)
+Possible candidates:
+  AnimationSource::AnimationSource()
+  AnimationSource::AnimationSource(std::string file)
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/Scripts/Traverser.cpp:12: warning: no matching class member found for 
+  Traverser::Traverser(string str)
+Possible candidates:
+  Traverser::Traverser()
+  Traverser::Traverser(std::string str)
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/Menu/HUD.cpp:105: warning: no uniquely matching class member found for 
+  std::string HUD::getChoice(string message, vector< string > opts, bool block)
+Possible candidates:
+  std::string HUD::getChoice(std::string message, std::vector< std::string > opts, bool block=true)' at line 109 of file X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Menu/HUD.hpp
+  std::string HUD::getChoice()' at line 116 of file X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Menu/HUD.hpp
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/Menu/MenuImage.cpp:12: warning: no matching class member found for 
+  MenuImage::MenuImage(string file, sf::Vector2f pos)
+Possible candidates:
+  MenuImage::MenuImage()
+  MenuImage::MenuImage(std::string file, sf::Vector2f pos=sf::Vector2f())
+
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Battle/AI/AIBattler.hpp:79: warning: The following parameters of AIBattler::getTurn(PeoplemonRef op, Game *g) are not documented:
+  parameter 'g'
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Battle/Battler.hpp:64: warning: argument 'game' of command @param is not found in the argument list of Battler::Battler(std::vector< PeoplemonRef > *peoplemon)
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Game/MapState.hpp:52: warning: argument 'n' of command @param is not found in the argument list of MapState::MapState(Game *g, bool cF)
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Game/MapState.hpp:58: warning: The following parameters of MapState::MapState(Game *g, bool cF) are not documented:
+  parameter 'cF'
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Scripts/Parser.hpp:20: warning: argument 'The' of command @param is not found in the argument list of Parser::Parser(std::string source)
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Scripts/Parser.hpp:25: warning: The following parameters of Parser::Parser(std::string source) are not documented:
+  parameter 'source'
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/World/People/PathFinder.hpp:30: warning: argument 'The' of command @param is not found in the argument list of PathFinder::PathFinder(Game *g, sf::Vector2i s, sf::Vector2i d, int sD)
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/World/People/PathFinder.hpp:38: warning: The following parameters of PathFinder::PathFinder(Game *g, sf::Vector2i s, sf::Vector2i d, int sD) are not documented:
+  parameter 'sD'
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Game/PeoplemonInfoState.hpp:61: warning: argument 'n' of command @param is not found in the argument list of PeoplemonInfoState::PeoplemonInfoState(Game *g, PeoplemonRef ppl)
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Game/PeoplemonInfoState.hpp:67: warning: The following parameters of PeoplemonInfoState::PeoplemonInfoState(Game *g, PeoplemonRef ppl) are not documented:
+  parameter 'ppl'
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Game/TrainerSpottedPlayerState.hpp:27: warning: argument 'n' of command @param is not found in the argument list of TrainerSpottedPlayerState::TrainerSpottedPlayerState(Game *g, Trainer *t)
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/World/World.hpp:345: warning: argument 'The' of command @param is not found in the argument list of World::checkTalkedTo(std::string name)
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/World/World.hpp:351: warning: The following parameters of World::checkTalkedTo(std::string name) are not documented:
+  parameter 'name'
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Network/Packing.hpp:62: warning: The following parameters of Packing::unpack(DataPacket &dp, PlayerInfo &obj) are not documented:
+  parameter 'dp'
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Network/Packing.hpp:70: warning: The following parameters of Packing::unpack(DataPacket &dp, PeoplemonRef &obj) are not documented:
+  parameter 'dp'
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/include/Network/Packing.hpp:78: warning: The following parameters of Packing::unpack(DataPacket &dp, Turn &obj) are not documented:
+  parameter 'dp'
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/Network/Packing.cpp:88: warning: argument 'v' of command @param is not found in the argument list of Packing::unpackVector(DataPacket &dp, vector< int > &obj)
+X:/Google Drive/22ndCG/Games/Peoplemon 2/Game/src/Network/Packing.cpp:94: warning: The following parameters of Packing::unpackVector(DataPacket &dp, vector< int > &obj) are not documented:
+  parameter 'obj'
