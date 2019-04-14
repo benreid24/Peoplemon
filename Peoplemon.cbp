@@ -348,9 +348,9 @@
 				<Code header_guard="VERSION_H" namespace="AutoVersion" prefix="" />
 			</AutoVersioning>
 			<DoxyBlocks>
-				<comment_style block="0" line="0" />
-				<doxyfile_project />
-				<doxyfile_build />
+				<comment_style block="0" line="2" />
+				<doxyfile_project output_directory="doxygen_output" />
+				<doxyfile_build extract_all="1" />
 				<doxyfile_warnings />
 				<doxyfile_output />
 				<doxyfile_dot class_diagrams="1" />

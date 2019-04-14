@@ -169,7 +169,7 @@ bool BattleState::execute()
             //player turn
             Turn pTurn;
             if (p.curAbility==Peoplemon::GetBaked && p.curHp<=p.stats.hp*0.20) {
-                pTurn.id = 27; //TODO - verify
+                pTurn.id = 27;
                 pTurn.type = Turn::Move;
                 player->state.isCharging = false;
             }
@@ -190,7 +190,7 @@ bool BattleState::execute()
             //opponent turn
             Turn oTurn;
             if (op.curAbility==Peoplemon::GetBaked && op.curHp<=op.stats.hp*0.20) {
-                oTurn.id = 27; //TODO - verify
+                oTurn.id = 27;
                 oTurn.type = Turn::Move;
                 opponent->state.isCharging = false;
             }
