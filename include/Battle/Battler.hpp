@@ -19,8 +19,9 @@ class Game;
  */
 struct BattlerFlags
 {
-    bool isCharging, protectUsedLast;    int subHealth, lastMoveUsed;
+    bool isCharging, protectUsedLast;    int lastMoveUsed;
 
+    int subHealth; //substitute
     bool ballIsUp, ballHandled, ballSet; //volleyball
     bool switchAfterMove; //baton pass
     bool endureThisTurn, enduredLastTurn; //ensure

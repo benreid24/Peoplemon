@@ -1527,8 +1527,19 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         defender.curHp = 1;
         ret.push_back(defender.name+"'s Undying Faith saved them!");
     }
-    else
-        defender.curHp -= damage;
+    else if (damage>0.1) {
+        if (def->state.subHealth>0) {
+            ret.push_back(defender.name+"'s Substitute took some of the damage!");
+            def->state.subHealth -= damage;
+            if (def->state.subHealth<=0) {
+                defender.curHp += def->state.subHealth; //will be negative of the unabsorbed damage amount
+                def->state.subHealth = 0;
+                ret.push_back(defender.name+"'s Substitute died!");
+            }
+        }
+        else
+            defender.curHp -= damage;
+    }
 
 
     if (defender.curHp<=0) {
