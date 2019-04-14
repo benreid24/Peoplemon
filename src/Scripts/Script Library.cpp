@@ -85,6 +85,7 @@ namespace {
 					"saveGame",
 					"setCollisions",
 					"setLightingOverride",
+					"setMapVisited",
 					"setMusic",
 					"setNPCLock",
 					"setPlayerLock",
@@ -628,6 +629,8 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		}
 		else if (name=="mapVisited")
 			ret.iValue = environment->getGame()->world.mapVisited(args.at(0).sValue);
+        else if (name=="setMapVisited")
+            environment->getGame()->world.addVisitedMap(args.at(0).sValue);
 		else if (name=="startBattle")
 		{
 			string nextBattleBgnd = args.at(2).sValue;

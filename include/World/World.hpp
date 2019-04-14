@@ -128,13 +128,6 @@ class World
      */
     void clear();
 
-    /**
-     * Adds the given map to the list of visited maps
-     *
-     * \param m The name of the place visited
-     */
-    void addVisitedMap(std::string m);
-
     std::vector<std::string> visitedMaps;
     std::map<std::string, std::vector<int> > pickedUpItems;
     std::vector<std::string> beatenTrainers;
@@ -200,6 +193,13 @@ public:
      * \return Whether or not the map has been visited
      */
     bool mapVisited(std::string m);
+
+    /**
+     * Adds the given map to the list of visited maps
+     *
+     * \param m The name of the place visited
+     */
+    void addVisitedMap(std::string m);
 
     /**
      * Updates the world and all of the entities within it
