@@ -1515,6 +1515,11 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             ret.push_back(defender.name+" Shared its Distraction with "+attacker.name+"!");
         }
     }
+    if (attacker.curAbility==Peoplemon::FieryTeach && game->moveList[id].isTeachBased() && Random(0,100)<=33) {
+        attacker.stages.acc = (attacker.stages.acc<6)?(attacker.stages.acc+1):(6);
+        attacker.recalcStats(game);
+        ret.push_back(attacker.name+"'s Fiery Teaching increased Special Attack!");
+    }
 
     //move effects
     int intensity = game->moveList[id].intensityOfEffect;
