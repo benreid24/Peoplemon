@@ -1318,6 +1318,10 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             ret.push_back(attacker.name+" is Reserved and Power is increased!");
         }
     }
+    else if (attacker.curAbility==Peoplemon::DukeOfJokes && game->moveList[id].isJokeBased()) {
+        power *= 1.5;
+        ret.push_back("Power is boosted because "+attacker.name+" is the Duke of Jokes!");
+    }
 
 	double acc = attacker.stats.acc;
 	if (attacker.holdItem==52 && game->moveList[id].acc!=0 && !game->moveList[id].targetIsSelf)
@@ -1332,6 +1336,13 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
     double effectiveness = Peoplemon::getEffectivenessMultiplier(game->moveList[id].type,game->peoplemonList[defender.id].type);
     bool isSuper = effectiveness>1 && power>0.1;
     bool isBad = effectiveness<1 && power>0.1;
+
+    if (attacker.curAbility==Peoplemon::Engaging && effectiveness==0 && power>0.1) {
+        effectiveness = 0.25;
+        isSuper = isBad = false;
+        ret.push_back("Normally "+game->typeList[game->moveList[id].type]+" moves don't affect "+defender.name+" but "+attacker.name+" was so Engaging that it does damage anyways!");
+    }
+
     multiplier *= stab*effectiveness;
     multiplier *= double(Random(85,100))/100;
 
