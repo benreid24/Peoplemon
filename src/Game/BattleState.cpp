@@ -225,6 +225,18 @@ bool BattleState::execute()
 					opSpd *= 1.1;
 					opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).holdItem = 0;
 				}
+				if (p.curAbility==Peoplemon::NewTeach && game->moveList[pTurn.id].isTeachBased() && firstTurn) {
+                    pMoveP++;
+                    displayMessage(p.name+" is a New Teacher and is rearing to go!");
+                    if (shouldClose())
+                        return true;
+				}
+				if (op.curAbility==Peoplemon::NewTeach && game->moveList[oTurn.id].isTeachBased() && firstTurn) {
+                    opMoveP++;
+                    displayMessage(op.name+" is a New Teacher and is rearing to go!");
+                    if (shouldClose())
+                        return true;
+				}
 				pFirst = !(opMoveP>pMoveP || (opMoveP==pMoveP && pSpd>=opSpd));
 				if (opMoveP==pMoveP && firstTurn) {
                     if (p.curAbility==Peoplemon::QuickDraw) {
