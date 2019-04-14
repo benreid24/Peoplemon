@@ -1461,9 +1461,15 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 	{
 	    if (id==64)
             def->state.move64Hit = true;
+
+        //saving abilities
         if (defender.curAbility==Peoplemon::ExperiencedTeach && defender.curHp>1 && damage>=defender.curHp && game->moveList[oppId].isTeachBased()) {
             defender.curHp = 1;
             ret.push_back(defender.name+" is an Experienced Teacher and cannot be taken out while they are Teaching!");
+        }
+        else if (defender.curAbility==Peoplemon::UndyingFaith && defender.curHp<=damage && Random(0,100)<=10) {
+            defender.curHp = 1;
+            ret.push_back(defender.name+"'s Undying Faith saved them!");
         }
         else
             defender.curHp -= damage;
