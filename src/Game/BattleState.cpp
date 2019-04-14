@@ -302,6 +302,9 @@ bool BattleState::execute()
                     return true;
             }
             order[i]->state.healNextPeoplemon = false;
+            if (getPeoplemon(order[i], order[i]->getCurrentPeoplemon()).curAbility==Peoplemon::Alcoholic && order[i]==player && game->player.hasItem(62)) {
+                //
+            }
 
             if (turns[i].type==Turn::Switch)
             {
@@ -1373,7 +1376,60 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 		acc *= 1.1;
 		ret.push_back(attacker.name+"'s Glasses increase Accuracy!");
 	}
-    double multiplier = 1;
+
+    bool isSpecial = game->moveList[id].isSpecial;
+    double atkS = (isSpecial)?(attacker.stats.spAtk):(attacker.stats.atk);
+    double defS = (isSpecial)?(defender.stats.spDef):(defender.stats.def);
+
+    if (attacker.hasAilment(Peoplemon::Frustrated) && !isSpecial)
+        atkS /= 2;
+	if (attacker.holdItem==51)
+	{
+		atkS /= 2;
+		ret.push_back(attacker.name+"'s Backwards Hoodie reduces Attack!");
+	}
+	if (attacker.holdItem==53 && isSpecial && !game->moveList[id].targetIsSelf)
+	{
+		atkS *= 1.1;
+		ret.push_back(attacker.name+"'s Spoon increases Special Attack!");
+	}
+	if (attacker.holdItem==54 && !isSpecial && !game->moveList[id].targetIsSelf)
+	{
+		atkS *= 1.1;
+		ret.push_back(attacker.name+"'s Slapping Glove increases Attack!");
+	}
+	if (attacker.holdItem==59 && attacker.curHp<=attacker.stats.hp/4 && power>0.1)
+	{
+		atkS *= 1.1;
+		ret.push_back(attacker.name+"'s Power Juice boosted it's attack!");
+		attacker.holdItem = 0;
+	}
+
+    if (defender.holdItem==60 && defender.curHp<=defender.stats.hp/4 && power>0.1)
+	{
+		defS *= 1.1;
+		ret.push_back(defender.name+"'s Iced Tea made it more resilient!");
+		defender.holdItem = 0;
+	}
+	if (attacker.holdItem==62 || (attacker.curAbility==Peoplemon::Alcoholic && game->player.hasItem(62))) {
+        acc *= 0.8;
+        atkS *= 1.5;
+
+        if (attacker.holdItem==62) {
+            ret.push_back(attacker.name+" drank some alcohol they were hiding!");
+            attacker.holdItem = 0;
+        }
+        else {
+            ret.push_back(attacker.name+" rummaged through your bag and drank some alcohol they found because they're an Alcoholic!");
+            game->player.takeItem(62);
+        }
+        if (attacker.curHp <= attacker.stats.hp*0.5) {
+            attacker.addPassiveAilment(Peoplemon::Confused);
+            ret.push_back(attacker.name+" became disoriented and Confused!");
+        }
+	}
+
+	double multiplier = 1;
     bool hit = (Random(0,100)<game->moveList[id].acc*acc/defender.stats.evade) || game->moveList[id].acc==0;
     bool critical = Random(0,100)<=attacker.stages.getCritChance() && power>0.1;
     double stab = Peoplemon::getSTAB(game->peoplemonList[attacker.id].type,game->moveList[id].type);
@@ -1409,38 +1465,6 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 	}
     multiplier *= (critical)?(2):(1);
 
-    bool isSpecial = game->moveList[id].isSpecial;
-    double atkS = (isSpecial)?(attacker.stats.spAtk):(attacker.stats.atk);
-    if (attacker.hasAilment(Peoplemon::Frustrated) && !isSpecial)
-        atkS /= 2;
-	if (attacker.holdItem==51)
-	{
-		atkS /= 2;
-		ret.push_back(attacker.name+"'s Backwards Hoodie reduces Attack!");
-	}
-	if (attacker.holdItem==53 && isSpecial && !game->moveList[id].targetIsSelf)
-	{
-		atkS *= 1.1;
-		ret.push_back(attacker.name+"'s Spoon increases Special Attack!");
-	}
-	if (attacker.holdItem==54 && !isSpecial && !game->moveList[id].targetIsSelf)
-	{
-		atkS *= 1.1;
-		ret.push_back(attacker.name+"'s Slapping Glove increases Attack!");
-	}
-	if (attacker.holdItem==59 && attacker.curHp<=attacker.stats.hp/4 && power>0.1)
-	{
-		atkS *= 1.1;
-		ret.push_back(attacker.name+"'s Power Juice boosted it's attack!");
-		attacker.holdItem = 0;
-	}
-    double defS = (isSpecial)?(defender.stats.spDef):(defender.stats.def);
-    if (defender.holdItem==60 && defender.curHp<=defender.stats.hp/4 && power>0.1)
-	{
-		defS *= 1.1;
-		ret.push_back(defender.name+"'s Iced Tea made it more resilient!");
-		defender.holdItem = 0;
-	}
     double damage = (power>0.1)?((((2*double(attacker.level)+10)/250)*(atkS/defS)*power+2)*multiplier):(0);
     if (effect==Move::Peanut) {
         if ((defender.id>=58 && defender.id<=60) || (defender.id>=78 && defender.id<=80) || (defender.id>=84 && defender.id<=86) || (defender.id>=126 && defender.id<=127)) {

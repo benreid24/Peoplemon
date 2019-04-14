@@ -113,8 +113,7 @@ bool BagState::execute()
 
             ChoiceBox cBox;
             cBox.setPosition(Vector2f(600,325));
-            //if (!getChoice)
-                cBox.addChoice("Use");
+            cBox.addChoice("Use");
             if (sectionSelector.getCurrentSection()!="Key Items")
 			{
 				cBox.addChoice("Give");
