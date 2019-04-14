@@ -1474,6 +1474,16 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         isSuper = isBad = critical = false;
         ret.push_back(defender.name+" is a No Joke Teacher and Jokes have no effect while they are Teaching!");
     }
+    if (attacker.curAbility==Peoplemon::AbsolutePitch && power>0.1 && multiplier>0.1) {
+        if (isSuper) {
+            multiplier *= 1.15;
+            ret.push_back(attacker.name+"'s Absolute Pitch amplified attack Power!");
+        }
+        else if (isBad) {
+            multiplier *= 0.85;
+            ret.push_back(attacker.name+"'s Absolute Pitch reduced attack Power!");
+        }
+    }
 
     multiplier *= stab*effectiveness;
     multiplier *= double(Random(85,100))/100;
