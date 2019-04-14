@@ -1041,6 +1041,9 @@ bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
 	int i = alive;
 	int j = dead;
     bool done = false;
+    bool totalMom = getPeoplemon(order[j],order[j]->getCurrentPeoplemon()).curAbility==Peoplemon::TotalMom;
+    string deadName = getPeoplemonName(order[j],order[j]->getCurrentPeoplemon());
+
     toDraw.clear();
     toDraw.push_back(&anims[i]->still);
 
@@ -1069,7 +1072,7 @@ bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
         sleep(milliseconds(30));
     }
 
-    displayMessage(getPeoplemonName(order[j],order[j]->getCurrentPeoplemon())+" fainted!");
+    displayMessage(deadName+" fainted!");
     if (shouldClose())
         return false;
 
@@ -1090,6 +1093,20 @@ bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
         done = true;
 	if (!done)
 		temp.load(game,o->getPeoplemon()->at(id),b->getPeoplemon()->at(b->getCurrentPeoplemon()),!isPlayer);
+
+    if (totalMom) {
+        PeoplemonRef& gainer = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon());
+        displayMessage(gainer.name+" gained PP because "+deadName+" was a Total Mom!");
+        if (shouldClose())
+            return false;
+        for (int w = 0; w<4; ++w) {
+            if (gainer.moves[w].id>0) {
+                gainer.moves[w].curPp += 3;
+                if (gainer.moves[w].curPp > game->moveList[gainer.moves[w].id].pp)
+                    gainer.moves[w].curPp = game->moveList[gainer.moves[w].id].pp;
+            }
+        }
+    }
 
     if (isPlayer)
     {
