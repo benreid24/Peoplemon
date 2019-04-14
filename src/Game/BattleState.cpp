@@ -121,6 +121,7 @@ bool BattleState::execute()
     int runTries = 0;
     bool applyAfterTurn[2] = {true,true}; //whether or not to apply after turn effects like hold items. Used when peoplemon faint or are switched out
     int ballUpTurns = 0; //for volleyball moves
+    bool firstTurn = true;
 
     //battle loop
     while (true)
@@ -134,6 +135,8 @@ bool BattleState::execute()
         //get player turn from input, opponent turn and determine order
         {
             PeoplemonRef p = getPeoplemon(player,player->getCurrentPeoplemon()), op = getPeoplemon(opponent,opponent->getCurrentPeoplemon());
+
+            //player turn
             Turn pTurn;
             if (player->state.isCharging) {
                 pTurn.id = player->state.lastMoveUsed;
@@ -149,6 +152,7 @@ bool BattleState::execute()
             if (shouldClose())
                 return true;
 
+            //opponent turn
             Turn oTurn;
             if (opponent->state.isCharging) {
                 oTurn.id = opponent->state.lastMoveUsed;
@@ -162,6 +166,7 @@ bool BattleState::execute()
             else
                 oTurn = opponent->getTurn(p,game);
 
+            //determine turn order
             bool pFirst = true;
             if (oTurn.type==Turn::Switch || oTurn.type==Turn::Item)
             {
@@ -191,7 +196,22 @@ bool BattleState::execute()
 					opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()).holdItem = 0;
 				}
 				pFirst = !(opMoveP>pMoveP || (opMoveP==pMoveP && pSpd>=opSpd));
+				if (opMoveP==pMoveP && firstTurn) {
+                    if (p.curAbility==Peoplemon::QuickDraw) {
+                        pFirst = true;
+                        displayMessage(p.name+"'s Quick Draw allows it to attack first!");
+                        if (shouldClose())
+                            return true;
+                    }
+                    else if (op.curAbility==Peoplemon::QuickDraw) {
+                        pFirst = false;
+                        displayMessage(op.name+"'s Quick Draw allows it to attack first!");
+                        if (shouldClose())
+                            return true;
+                    }
+				}
             }
+            firstTurn = false;
 
             if (pFirst)
             {
