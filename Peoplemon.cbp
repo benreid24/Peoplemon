@@ -313,6 +313,7 @@
 		<Unit filename="src/Network/DataPacket.cpp" />
 		<Unit filename="src/Network/Network.cpp" />
 		<Unit filename="src/Network/Packing.cpp" />
+		<Unit filename="src/Peoplemon/Move.cpp" />
 		<Unit filename="src/Peoplemon/Peoplemon.cpp" />
 		<Unit filename="src/Resources/ResourcePool.cpp" />
 		<Unit filename="src/Scripts/Parser.cpp" />
