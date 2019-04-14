@@ -1545,6 +1545,16 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             ret.push_back(defender.name+" Shared its Sleepiness with "+attacker.name+"!");
         }
     }
+    if (defender.curAbility==Peoplemon::DouseFlames && damage>0.1 && game->moveList[id].makesContact && Random(0,100)<=20) {
+        attacker.stages.atk = (attacker.stages.atk>-6)?(attacker.stages.atk-1):(-6);
+        attacker.recalcStats(game);
+        ret.push_back(defender.name+" Doused the Flames of "+attacker.name+" and lowered their Attack!");
+    }
+    if (defender.curAbility==Peoplemon::Flirty && damage>0.1 && !game->moveList[id].makesContact && Random(0,100)<=20) {
+        attacker.stages.spAtk = (attacker.stages.spAtk>-6)?(attacker.stages.spAtk-1):(-6);
+        attacker.recalcStats(game);
+        ret.push_back(defender.name+" was Flirty and lowered "+attacker.name+"'s Special Attack!");
+    }
 
     //move effects
     int intensity = game->moveList[id].intensityOfEffect;
