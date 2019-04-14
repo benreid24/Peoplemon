@@ -1646,6 +1646,15 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         attacker.recalcStats(game);
         ret.push_back(attacker.name+"'s Attack was lowered because "+defender.name+" Can't Swim!");
     }
+    if (defender.curAbility==Peoplemon::GamemakerVirus && damage>0.1) {
+        int mi = 0;
+        for (; mi<4; ++mi) {
+            if (attacker.moves[mi].id==id)
+                break;
+        }
+        attacker.moves[mi].curPp = int(attacker.moves[mi].curPp*0.5+0.5);
+        ret.push_back(defender.name+"'s GameMaker Virus cut "+game->moveList[id].name+"'s PP in half!");
+    }
 
     //move effects
     int intensity = game->moveList[id].intensityOfEffect;
