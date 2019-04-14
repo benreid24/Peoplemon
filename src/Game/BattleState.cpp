@@ -617,14 +617,24 @@ bool BattleState::execute()
                 }
                 if (order[i]->state.roarUsed) {
                     order[i]->state.roarUsed = false;
-                    int oldPeoplemon = order[i]->getCurrentPeoplemon();
-                    order[i]->getSwitchPeoplemon(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()), game);
-                    if (doSwitch(order[i], order[j], oldPeoplemon, &applyAfterTurn[i]))
-                        return false;
-                    game->hud.displayMessage("");
-                    renderStatic();
-                    if (shouldClose())
-                        return true;
+
+                    if (order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).curAbility!=Peoplemon::Adament) {
+                        int oldPeoplemon = order[i]->getCurrentPeoplemon();
+                        order[i]->getSwitchPeoplemon(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()), game);
+                        if (doSwitch(order[i], order[j], oldPeoplemon, &applyAfterTurn[i]))
+                            return false;
+                        game->hud.displayMessage("");
+                        renderStatic();
+                        if (shouldClose())
+                            return true;
+                    }
+                    else {
+                        displayMessage(getPeoplemonName(order[i],order[i]->getCurrentPeoplemon())+" was Adamant that they stay in battle!");
+                        game->hud.displayMessage("");
+                        renderStatic();
+                        if (shouldClose())
+                            return true;
+                    }
                 }
                 noMove:;
             }
