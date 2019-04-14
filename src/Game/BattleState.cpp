@@ -1641,6 +1641,10 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
             swap(giver,taker);
             canGetAils = !attacker.hasAilment(Peoplemon::Guarded)  && atk->state.subHealth==0;
         }
+        if (taker->curAbility==Peoplemon::AilmentSaturated && taker->hasAtLeastOneAilment()) {
+            canGetAils = false;
+            ret.push_back(taker->name+" is Ailment Saturated and cannot get any more Ailments!");
+        }
 
         if (effect==Move::Heal)
         {
