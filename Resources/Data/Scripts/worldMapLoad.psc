@@ -9,6 +9,7 @@ runScript("WellEntrance.psc",1);
 runScript("NativeEncampmentLoad.psc",1);
 runScript("triliteIslandLoad.psc",1);
 runScript("AuspiciousIslandLoad.psc",1);
+runScript("AlphabetCaveLoad.psc",1);
 
 if(getSaveEntry("MagicRock1")!=1)
  spawnNPC("MagicRock1.npc",119,226,2,0);

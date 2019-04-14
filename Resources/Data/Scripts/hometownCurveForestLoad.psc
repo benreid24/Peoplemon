@@ -185,7 +185,8 @@ spawnTrainer("Hometown/TrainerExplainer.tnr",325,273,3,0);
 
 
  //---------------------Spawn HidingKid------------------------------------------
-/*addSaveEntry("HidingKidSpot",random(1,7));
+int h = random(1,7);
+addSaveEntry("HidingKidSpot",h);
 
 if(getSaveEntry("HidingKidSpot")==1 || getSaveEntry("HidingKidSpot")==2) //--Hiding in Garbage Near PC
 {
@@ -202,10 +203,10 @@ if(getSaveEntry("HidingKidSpot")==5 || getSaveEntry("HidingKidSpot")==6) //--Hid
 spawnNPC("Hometown/HidingKid1.npc",332,282,2,0);
 }
 
-if(getSaveEntry("HidingKidSpot")==5 || getSaveEntry("HidingKidSpot")==6) //--Hiding on beach below Prof. Lab
+if(getSaveEntry("HidingKidSpot")==7) //--Hiding on beach below Prof. Lab
 {
 spawnNPC("Hometown/HidingKid1.npc",369,262,2,0);
-}*/
+}
 
 //----------------------Spawn Gardener---------------------------
 if ((getTimeHours() >=4)  || (getTimeHours() < 2)) 

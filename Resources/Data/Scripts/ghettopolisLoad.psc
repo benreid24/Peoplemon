@@ -6,7 +6,7 @@ if (getSaveEntry("MarsalatoTown")!=1)
 	 spawnNPC("Ghettopolis/FoodLady.npc",414,164,3,0);
 	}
 
-if (getSaveEntry("MarsalatoTown")==1&& getSaveEntry("ThugBossJordanBeat")!=1)
+if (getSaveEntry("MarsalatoTown")==1 && getSaveEntry("ThugBossJordanBeat")!=1)
 	{
 	 spawnNPC("Ghettopolis/Marsala2.npc",420,190,0,0);
 	 if (getSaveEntry("MarsalaFend")!=1)
@@ -23,7 +23,6 @@ if (getSaveEntry("MarsalatoTown")==1&& getSaveEntry("ThugBossJordanBeat")!=1)
 		 spawnNPC("Ghettopolis/ThugJacob2.npc",421,189,2,0);
 		}
 		
-	
 	}
 //-----------------Spawning Boat Guys-------------------
 spawnNPC("Ghettopolis/boatGuy3.npc",413,133,3,0);
@@ -78,7 +77,7 @@ if (getSaveEntry("MarsalatoTown")!=1)
 if (getSaveEntry("MarsalatoTown")==1 && getSaveEntry("ThugBossJordanBeat")!=1)	
 	spawnTrainer("Ghettopolis/ThugJerry2.tnr",401,172,2,0);//Lab Door
 	
-if (getSaveEntry("ThugBossJordanBeat")==1)
+if (getSaveEntry("ThugBossJordanBeat")==1 && getSaveEntry("JustBeatM")!=1 )
 	{
 	 spawnNPC("Ghettopolis/BeatThugMa.npc",403,178,0,0);
 	 spawnNPC("Ghettopolis/BeatThugMa.npc",396,188,2,0);
@@ -92,6 +91,9 @@ if (getSaveEntry("ThugBossJordanBeat")==1)
 	 spawnNPC("Ghettopolis/Officerg.npc",412,169,0,0);
 	 spawnNPC("Ghettopolis/Officerg.npc",402,180,2,0);
 	 spawnNPC("Ghettopolis/Officeri.npc",399,173,1 ,0);
+	 
+	 spawnNPC("Ghettopolis/FoodLady2.npc",412,168,2,0);
+	 spawnNPC("Ghettopolis/RowdyKid2.npc",408,175,1,0);
 	}
 	
 if (getSaveEntry("ThugBossJordanBeat")==1 && getSaveEntry("Jake1Removed")!=1)
@@ -102,3 +104,29 @@ if (getSaveEntry("ThugBossJordanBeat")==1 && getSaveEntry("Jake1Removed")!=1)
 	 setCollisions(420,171,2,1,1);
 	 editTile(421,171,6,0);
 	}
+
+if (getSaveEntry("JustBeatM")==1)
+{
+ spawnNPC("Ghettopolis/GuyBlockingBoathouse.npc",435,180,2,0);
+ spawnNPC("Ghettopolis/Chef.npc",426,173,1,0);
+ spawnNPC("Ghettopolis/IslandInformer.npc",427,186,2,0);
+ spawnNPC("Ghettopolis/RascalMom.npc",395,185,3,0);
+ spawnNPC("Ghettopolis/RascalDad.npc",395,186,3,0);
+ spawnNPC("Ghettopolis/RowdyKid3.npc",389,185,3,0);
+ spawnNPC("Ghettopolis/BenchLady.npc",408,174,0,0);
+ spawnNPC("Ghettopolis/ScienceKid.npc",398,173,1,0);
+ spawnNPC("Ghettopolis/HappyKid.npc",401,189,2,0);
+ spawnNPC("Ghettopolis/DomJuiceGirl.npc",403,177,0,0);
+ spawnNPC("Ghettopolis/SwimmingGirl.npc",403,176,1,0);
+ spawnNPC("Ghettopolis/FanGuy.npc",416,174,2,0);
+ spawnNPC("Ghettopolis/LittleKid.npc",434,182,3,0);
+ 
+ if(getSaveEntry("ShiftMissedTalked")!=1)
+  spawnNPC("Ghettopolis/StorekeeperLate.npc",384,137,0,0);
+  
+ if(getSaveEntry("Banned4Life")==1)
+  spawnNPC("Ghettopolis/StorekeeperLate2b.npc",384,137,0,0);
+  
+ if(getSaveEntry("FireLateEmployee")==1)
+  spawnNPC("Ghettopolis/StorekeeperLate2a.npc",386,140,2,0); 
+}
