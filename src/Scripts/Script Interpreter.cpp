@@ -1,6 +1,7 @@
 #include "Scripts/Script Interpreter.hpp"
 #include "Scripts/Script Environment.hpp"
 #include "Scripts/Parser.hpp"
+#include "Globals.hpp"
 #include "SFML.hpp"
 #include <sstream>
 #include <stdexcept>
@@ -9,22 +10,6 @@
 #include <cmath>
 using namespace std;
 using namespace sf;
-
-namespace {
-    string intToString(double i)
-    {
-        stringstream ss;
-        ss << i;
-        return ss.str();
-    }
-
-    int stringToInt(string s) {
-        stringstream ss(s);
-        int i;
-        ss >> i;
-        return i;
-    }
-}
 
 Script::Script()
 {
@@ -479,7 +464,7 @@ Value Script::runTokens(int pos)
 	for (unsigned int i = pos; i<tokens.size(); ++i)
 	{
 		if (stopping)
-			break;
+			throw runtime_error("Script killed");
 
 		switch (tokens.at(i).type)
 		{
@@ -664,7 +649,7 @@ Value Script::runTokens(int pos)
 			while ((test.type==Value::Integer && int(test.iValue+0.01)!=0) || (test.type==Value::String && test.sValue.size()>0))
 			{
 				if (stopping)
-					break;
+                    throw runtime_error("Script killed");
 
                 stackFrames.push_back(Frame());
 				Value ret = runTokens(i);
@@ -780,11 +765,16 @@ void Script::run(ScriptEnvironment* env)
 void Script::stop()
 {
 	stopping = true;
-	while (!stopped)
+	int stopTime = gameClock.getTimeStamp();
+	while (!stopped && gameClock.getTimeStamp()-stopTime<200)
 		sleep(milliseconds(30));
 }
 
 bool Script::isRunning()
 {
 	return !stopped;
+}
+
+bool Script::isStopping() {
+    return stopping;
 }

@@ -41,6 +41,9 @@ void ScriptEnvironment::runScript(ScriptReference scr, bool concurrent)
 	if (scr->isRunning())
 		return;
 
+    if (stopped || stopping)
+        return;
+
 	if (concurrent)
     {
     	shared_ptr<ScriptData> temp(new ScriptData());
@@ -61,6 +64,9 @@ void ScriptEnvironment::runScriptAtTime(ScriptReference scr, ClockTime rtime)
 	if (scr->isRunning())
 		return;
 
+    if (stopped || stopping)
+        return;
+
     shared_ptr<ScriptData> temp(new ScriptData());
     temp->owner = this;
     temp->script = scr;
@@ -78,7 +84,7 @@ void ScriptEnvironment::stopAll()
     for (auto i = runningScripts.begin(); i!=runningScripts.end(); ++i)
     {
         (*i)->script->stop();
-        (*i)->thread->wait();
+        (*i)->thread->terminate();
     }
     runningScripts.clear();
     stopped = stopping = false;

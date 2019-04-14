@@ -96,8 +96,8 @@ bool MainGameState::handleFlags()
     	return ret;
     }
 
-	if (Keyboard::isKeyPressed(Keyboard::N))
-		return game->runState(new NetworkConnectingState(game),true);
+	//if (Keyboard::isKeyPressed(Keyboard::N))
+	//	return game->runState(new NetworkConnectingState(game),true);
 
     return false;
 }

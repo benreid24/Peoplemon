@@ -365,6 +365,8 @@ void World::load(string file, int spId, bool trans)
 
 void World::clear()
 {
+    game->scriptEnvironment.stopAll();
+
 	for (unsigned int i = 0; i<layers.size(); ++i)
 	{
 		for (int x = 0; x<size.x; ++x)
@@ -391,7 +393,6 @@ void World::clear()
     ySortedObjects.clear();
     ySortedTiles.clear();
     lights.clear();
-    game->scriptEnvironment.stopAll();
     events.clear();
     zones.clear();
 }

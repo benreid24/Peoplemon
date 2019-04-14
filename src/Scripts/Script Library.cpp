@@ -179,8 +179,11 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
             else
                 targetPos.x -= 32;
             if (environment->getGame()->player.move(environment->getGame(), dir, ignoreCols, playAnims, false, true) && moving) {
-                while (targetPos != environment->getGame()->player.getPosition())
+                while (targetPos != environment->getGame()->player.getPosition()) {
                     sleep(milliseconds(5));
+                    if (stopping)
+                        throw runtime_error("Script killed");
+                }
             }
         }
 		else if (name=="playerToLocation")
@@ -203,6 +206,9 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				int stepsTaken = 0;
 				while (stepsTaken<stepsToTake || stepsToTake==-1)
 				{
+				    if (stopping)
+                        throw runtime_error("Script killed");
+
 					if (moves.size()==0) {
 						if (environment->getGame()->player.getMapPos()==Vector2i(args.at(0).iValue,args.at(1).iValue))
 							break;
@@ -362,8 +368,11 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			environment->getGame()->world.addObject(t);
 			if (args.size()==5)
 			{
-				while (environment->getGame()->world.getTrainer(t->getName())==nullptr && args.at(4).iValue==1)
+				while (environment->getGame()->world.getTrainer(t->getName())==nullptr && args.at(4).iValue==1) {
 					sleep(milliseconds(1));
+					if (stopping)
+                        throw runtime_error("Script killed");
+				}
 			}
 		}
 		else if (name=="moveTrainer")
@@ -418,6 +427,9 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 					int stepsTaken = 0;
 					while (stepsTaken<stepsToTake || stepsToTake==-1)
 					{
+					    if (stopping)
+                            throw runtime_error("Script killed");
+
 						if (moves.size()==0) {
 							if (t->getMapPos()==Vector2i(args.at(1).iValue,args.at(2).iValue))
 								break;
@@ -494,8 +506,11 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			environment->getGame()->world.addObject(n);
 			if (args.size()==5)
 			{
-				while (environment->getGame()->world.getNPC(n->getName())==nullptr && args.at(4).iValue==1)
+				while (environment->getGame()->world.getNPC(n->getName())==nullptr && args.at(4).iValue==1) {
 					sleep(milliseconds(1));
+					if (stopping)
+                        throw runtime_error("Script killed");
+				}
 			}
 		}
 		else if (name=="moveNPC")
@@ -550,6 +565,9 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 					int stepsTaken = 0;
 					while (stepsTaken<stepsToTake || stepsToTake==-1)
 					{
+					    if (stopping)
+                            throw runtime_error("Script killed");
+
 						if (moves.size()==0) {
 							if (n->getMapPos()==Vector2i(args.at(1).iValue,args.at(2).iValue))
 								break;
@@ -644,8 +662,11 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			environment->getGame()->data.nextState = new BattleState(environment->getGame(),createBattler(0,&pplmon,vector<int>()),ppl.name,"",0,false,nextBattleMusic,nextBattleBgnd);
 			if (block)
 			{
-				while (environment->getGame()->data.nextState != nullptr)
+				while (environment->getGame()->data.nextState != nullptr) {
 					sleep(milliseconds(200));
+					if (stopping)
+                        throw runtime_error("Script killed");
+				}
 			}
 			ret.iValue = environment->getGame()->data.lastBattleWon;
 		}
@@ -663,8 +684,10 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			environment->getGame()->data.saveGameFlag = true;
 		else if (name=="runScript")
 		{
-			ScriptReference scr = scriptPool.loadResource(args.at(0).sValue);
-			environment->runScript(scr,args.at(1).iValue!=0);
+		    if (!stopping) {
+                ScriptReference scr = scriptPool.loadResource(args.at(0).sValue);
+                environment->runScript(scr,args.at(1).iValue!=0);
+		    }
 		}
 		else if (name=="runScriptAtTime") {
             ScriptReference scr = scriptPool.loadResource(args.at(0).sValue);
@@ -674,6 +697,9 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
             {
                 ClockTime t = gameClock.getClockTime();
                 while (t.hour!=args.at(1).iValue || t.minute!=args.at(2).iValue) {
+                    if (stopping)
+                        throw runtime_error("Script killed");
+
                     sleep(milliseconds(250));
                     t = gameClock.getClockTime();
                 }
@@ -778,7 +804,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			for (int i = 0; i<blocks; ++i) {
 				sleep(milliseconds(50));
 				if (stopping)
-					break;
+					throw runtime_error("Script killed");
 			}
 			sleep(milliseconds(remainder));
 		}
@@ -788,7 +814,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
                 sleep(milliseconds(250));
                 t = gameClock.getClockTime();
                 if (stopping)
-					break;
+					throw runtime_error("Script killed");
             }
 		}
 		else if (name=="getTimeMinutes") {

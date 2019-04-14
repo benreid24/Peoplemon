@@ -58,15 +58,6 @@ MapState::MapState(Game* g, bool cF) : Gamestate(g)
         temp.visited = game->world.mapVisited(temp.referenceName);
         towns.push_back(temp);
     }
-    temp.pos.x = temp.pos.y = 120;
-    temp.displayName = "Hidden Tribe";
-    temp.mapName = "HomeTownDemo";
-    temp.referenceName = "Home Town";
-    temp.description = "A random tribe that makes bagels";
-    temp.image = imagePool.loadResource(Properties::MenuImagePath+"tribe.png");
-    temp.spId = 10;
-    temp.visited = true;
-    towns.push_back(temp);
 }
 
 string MapState::wordWrap(string str)
@@ -97,35 +88,37 @@ bool MapState::execute()
 {
     const int ScreenWidth = 594;
     const int ScreenHeight = 600;
+
+    int snapTime = gameClock.getTimeStamp();
     navPos = Vector2i(ScreenWidth/2, ScreenHeight/2);
 
     while (!finishFrame())
     {
-        if (user.isInputActive(PlayerInput::Up) && navPos.y>2)
-            navPos.y -= 2;
-        if (user.isInputActive(PlayerInput::Right) && navPos.x<ScreenWidth-2)
-            navPos.x += 2;
-        if (user.isInputActive(PlayerInput::Down) && navPos.y<ScreenHeight-2)
-            navPos.y += 2;
-        if (user.isInputActive(PlayerInput::Left) && navPos.x>2)
-            navPos.x -= 2;
+        if (gameClock.getTimeStamp()-snapTime>300) {
+            if (user.isInputActive(PlayerInput::Up) && navPos.y>18)
+                navPos.y -= 4;
+            if (user.isInputActive(PlayerInput::Right) && navPos.x<ScreenWidth-12)
+                navPos.x += 4;
+            if (user.isInputActive(PlayerInput::Down) && navPos.y<ScreenHeight-26)
+                navPos.y += 4;
+            if (user.isInputActive(PlayerInput::Left) && navPos.x>18)
+                navPos.x -= 4;
+        }
 
         if (user.isInputActive(PlayerInput::Interact))
         {
-            if (navPos.x>=ScreenWidth-32 && navPos.y>=ScreenHeight-32)
-            {
-                game->data.pauseGameFlag = false;
+            if (navPos.x>=ScreenWidth-64 && navPos.y>=ScreenHeight-64)
                 return false;
-            }
             for (unsigned int i = 0; i<towns.size(); ++i)
             {
-                //TODO - snap?
-                IntRect townBox(towns[i].pos.x-16, towns[i].pos.y-16, 32, 32);
+                IntRect townBox(towns[i].pos.x-12, towns[i].pos.y-12, 24, 24);
                 if (townBox.contains(navPos))
                 {
                     if (towns[i].visited && canFly)
                     {
-                        game->world.load(towns[i].mapName,towns[i].spId);
+                        game->data.loadMapFlag = true;
+                        game->data.nextMapName = towns[i].mapName;
+                        game->data.nextSpawnId = towns[i].spId;
                         game->data.pauseGameFlag = false;
                         return false;
                     }
@@ -134,17 +127,22 @@ bool MapState::execute()
         }
 
         if (user.isInputActive(PlayerInput::Run))
-		{
-			game->data.pauseGameFlag = false;
 			return false;
-		}
 
-		bool townFound = false;
+		townName.setText("");
+        townImage.setPosition(1000,1000);
+        townDesc.setText("");
 		for (unsigned int i = 0; i<towns.size(); ++i)
 		{
-            if (towns[i].pos.x==navPos.x && towns[i].pos.y==navPos.y)
+		    IntRect townBox(towns[i].pos.x-12, towns[i].pos.y-12, 24, 24);
+            if (townBox.contains(navPos))
 			{
-				townFound = true;
+			    if (gameClock.getTimeStamp()-snapTime>750) {
+                    navPos.x = towns[i].pos.x;
+                    navPos.y = towns[i].pos.y;
+                    snapTime = gameClock.getTimeStamp();
+			    }
+
 				townName.setText(towns[i].displayName);
 				if (towns[i].visited)
 				{
@@ -152,22 +150,10 @@ bool MapState::execute()
 					townImage.setPosition(594+25,157);
 					townDesc.setText(wordWrap(towns[i].description));
 				}
-				else
-				{
-					townName.setText("");
-					townImage.setPosition(1000,1000);
-					townDesc.setText("");
-				}
 			}
 		}
-		if (!townFound)
-		{
-			townName.setText("");
-			townImage.setPosition(1000,1000);
-			townDesc.setText("");
-		}
 
-        crossHair.setPosition(navPos.x+16,navPos.y+16);
+        crossHair.setPosition(navPos.x-crossHair.getGlobalBounds().width/2,navPos.y-crossHair.getGlobalBounds().height/2);
         game->mainWindow.clear();
         game->mainWindow.draw(background);
         game->mainWindow.draw(sideBox);

@@ -90,6 +90,11 @@ public:
 	void stop();
 
 	/**
+	 * Returns whether or not the script is actively stopping
+	 */
+    bool isStopping();
+
+	/**
 	 * Tells whether or not the script is currently running
 	 */
 	bool isRunning();

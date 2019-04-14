@@ -108,6 +108,9 @@ bool PausedState::execute()
         if (choices.getChoice()=="Quit")
             return true;
 
+        if (!game->data.pauseGameFlag)
+            return false;
+
         game->mainWindow.clear();
         game->world.draw(&game->mainWindow);
         choices.draw(&game->mainWindow);
