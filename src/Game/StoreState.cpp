@@ -35,7 +35,7 @@ StoreState::StoreState(Game* g, std::string prompt, std::string error, vector<pa
 			}
 		}
 		if (game->player.alterMoney(-cheapestPrice))
-            game->player.giveItem(items[cheapestIndex].first); //TODO - tell them?
+            game->player.giveItem(items[cheapestIndex].first);
 	}
     desc.setProps(Color::Black,22);
     desc.setPosition(Vector2f(30,410));

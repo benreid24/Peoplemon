@@ -93,31 +93,33 @@ string MapState::wordWrap(string str)
 
 bool MapState::execute()
 {
-    navPos = Vector2i(15,15);
     const int ScreenWidth = 594;
     const int ScreenHeight = 600;
+    navPos = Vector2i(ScreenWidth/2, ScreenHeight/2);
 
     while (!finishFrame())
     {
-        if (user.isInputActive(PlayerInput::Up) && navPos.y>0)
-            navPos.y--;
-        if (user.isInputActive(PlayerInput::Right) && navPos.x<30)
-            navPos.x++;
-        if (user.isInputActive(PlayerInput::Down) && navPos.y<31)
-            navPos.y++;
-        if (user.isInputActive(PlayerInput::Left) && navPos.x>0)
-            navPos.x--;
+        if (user.isInputActive(PlayerInput::Up) && navPos.y>2)
+            navPos.y -= 2;
+        if (user.isInputActive(PlayerInput::Right) && navPos.x<ScreenWidth-2)
+            navPos.x += 2;
+        if (user.isInputActive(PlayerInput::Down) && navPos.y<ScreenHeight-2)
+            navPos.y += 2;
+        if (user.isInputActive(PlayerInput::Left) && navPos.x>2)
+            navPos.x -= 2;
 
         if (user.isInputActive(PlayerInput::Interact))
         {
-            if (navPos.x>=30 && navPos.y==31)
+            if (navPos.x>=ScreenWidth-32 && navPos.y>=ScreenHeight-32)
             {
                 game->data.pauseGameFlag = false;
                 return false;
             }
             for (unsigned int i = 0; i<towns.size(); ++i)
             {
-                if (navPos.x==towns[i].pos.x && navPos.y==towns[i].pos.y)
+                //TODO - snap?
+                IntRect townBox(towns[i].pos.x-16, towns[i].pos.y-16, 32, 32);
+                if (townBox.contains(navPos))
                 {
                     if (towns[i].visited && canFly)
                     {
@@ -163,22 +165,17 @@ bool MapState::execute()
 			townDesc.setText("");
 		}
 
-        crossHair.setPosition(ScreenWidth/32*navPos.x+16,ScreenHeight/32*navPos.y+16);
+        crossHair.setPosition(navPos.x+16,navPos.y+16);
         game->mainWindow.clear();
         game->mainWindow.draw(background);
         game->mainWindow.draw(sideBox);
         townName.draw(&game->mainWindow);
         game->mainWindow.draw(townImage);
         townDesc.draw(&game->mainWindow);
-        for (unsigned int i = 0; i<towns.size(); ++i)
-        {
-            town.setPosition(ScreenWidth/32*towns[i].pos.x+18,ScreenHeight/32*towns[i].pos.y+16);
-            game->mainWindow.draw(town);
-        }
         game->mainWindow.draw(player);
         game->mainWindow.draw(crossHair);
         game->mainWindow.display();
-        sleep(milliseconds(60));
+        sleep(milliseconds(10));
     }
 
     return true;
