@@ -1416,7 +1416,11 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 		if (defender.holdItem==51 && Random(0,100)<25 && !attacker.hasAilment(Peoplemon::Confused) && damage>0.1)
 		{
 			ret.push_back(defender.name+"'s Backwards Hoodie Confused "+attacker.name+"!");
-			attacker.addPassiveAilment(Peoplemon::Confused);
+			atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).addPassiveAilment(Peoplemon::Confused);
+		}
+		if (defender.curAbility==Peoplemon::DerpDerp && Random(0, 100)<=10 && !attacker.hasAilment(Peoplemon::Confused) && damage>0.1) {
+            ret.push_back(defender.name+"'s Derpiness Confused "+attacker.name+"!");
+            atk->getPeoplemon()->at(atk->getCurrentPeoplemon()).addPassiveAilment(Peoplemon::Confused);
 		}
 		/*if (defender.curAbility==Peoplemon::EasyGoing && damage>=defender.curHp && defender.curHp>1) //TODO - Teach based move ability
 		{
