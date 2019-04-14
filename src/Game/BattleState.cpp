@@ -1373,6 +1373,11 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         isSuper = isBad = false;
         ret.push_back("Normally "+game->typeList[game->moveList[id].type]+" moves don't affect "+defender.name+" but "+attacker.name+" was so Engaging that it does damage anyways!");
     }
+    if (defender.curAbility==Peoplemon::NoJokeTeach && game->moveList[id].isJokeBased() && game->moveList[oppId].isTeachBased()) {
+        multiplier = 0;
+        isSuper = isBad = critical = false;
+        ret.push_back(defender.name+" is a No Joke Teacher and Jokes have no effect while they are Teaching!");
+    }
 
     multiplier *= stab*effectiveness;
     multiplier *= double(Random(85,100))/100;
