@@ -52,11 +52,13 @@ MapState::MapState(Game* g, bool cF) : Gamestate(g)
         temp.displayName = file.getString();
         temp.referenceName = file.getString();
         temp.mapName = file.getString();
+        temp.description = file.getString();
+        temp.image = imagePool.loadResource(Properties::MenuImagePath+file.getString());
         temp.spId = file.get<uint16_t>();
         temp.visited = game->world.mapVisited(temp.referenceName);
         towns.push_back(temp);
     }
-    temp.pos.x = temp.pos.y = 12;
+    temp.pos.x = temp.pos.y = 120;
     temp.displayName = "Hidden Tribe";
     temp.mapName = "HomeTownDemo";
     temp.referenceName = "Home Town";
