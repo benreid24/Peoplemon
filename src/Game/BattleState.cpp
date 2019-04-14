@@ -1449,7 +1449,12 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 	{
 	    if (id==64)
             def->state.move64Hit = true;
-        defender.curHp -= damage;
+        if (defender.curAbility==Peoplemon::ExperiencedTeach && defender.curHp>1 && damage>=defender.curHp && game->moveList[oppId].isTeachBased()) {
+            defender.curHp = 1;
+            ret.push_back(defender.name+" is an Experienced Teacher and cannot be taken out while they are Teaching!");
+        }
+        else
+            defender.curHp -= damage;
 	}
 	else
 	{
