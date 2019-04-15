@@ -378,16 +378,18 @@ bool BattleState::execute()
 					{
 						cout << "Peopleball with id: " << turns[i].id << " used\n";
 						bool skip = false;
+						PeoplemonRef& wildPpl = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon());
+
 						if (turns[i].id==13)
 						{
-							order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp -= order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).stats.hp/16;
+							wildPpl.curHp -= wildPpl.stats.hp/16;
 							renderStatic();
-							displayMessage("The Questionable Abuse Ball verbally abused "+order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).name+" and caused damage!");
+							displayMessage("The Questionable Abuse Ball verbally abused "+wildPpl.name+" and caused damage!");
 							if (shouldClose())
 								return true;
-							if (order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp<=0)
+							if (wildPpl.curHp<=0)
 							{
-								order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp = 0;
+								wildPpl.curHp = 0;
 								if (doFaint(i,j))
                                     return false;
 								if (shouldClose())
@@ -397,11 +399,11 @@ bool BattleState::execute()
 						}
 						if (!skip)
 						{
-							double curHp = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).curHp;
-							double maxHp = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).stats.hp;
+							double curHp = wildPpl.curHp;
+							double maxHp = wildPpl.stats.hp;
 							double rate = 48;
-							double status = (order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).hasAtLeastOneAilment())?(2):(1); //verify
-							double ball = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()).getBallBonus(game,turns[i].id,turnsElapsed,order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).level);
+							double status = (wildPpl.hasAtLeastOneAilment())?(2):(1); //verify
+							double ball = wildPpl.getBallBonus(game,turns[i].id,turnsElapsed,order[i]->getPeoplemon()->at(order[i]->getCurrentPeoplemon()).level);
 							double a = ((3*maxHp-2*curHp)*rate*ball*status)/(maxHp*3);
 							double b = 1048560 / sqrt(sqrt(16711680/a));
 							cout << "b: " << b << endl;
@@ -421,29 +423,28 @@ bool BattleState::execute()
 
 							if (shakes==4)
 							{
-								PeoplemonRef ppl = order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon());
-								displayMessage("Gotcha! "+ppl.name+" was caught!");
+								displayMessage("Gotcha! "+wildPpl.name+" was caught!");
 								if (shouldClose())
 									return true;
-								if (game->peoplemonList[ppl.id].numCaught==0)
+								if (game->peoplemonList[wildPpl.id].numCaught==0)
 								{
-									displayMessage(ppl.name+"'s data was added to the Peopledex");
+									displayMessage(wildPpl.name+"'s data was added to the Peopledex");
 									if (shouldClose())
 										return true;
 								}
-								game->peoplemonList[ppl.id].numCaught++;
-								game->peoplemonList[ppl.id].numSeen++;
+								game->peoplemonList[wildPpl.id].numCaught++;
+								game->peoplemonList[wildPpl.id].numSeen++;
 
-								NicknameState* state = new NicknameState(game, &ppl);
+								NicknameState* state = new NicknameState(game, &wildPpl);
                                 if (game->runState(state,true))
 									return true;
 
 								if (game->player.getCurrentPeoplemon()->size()<6)
-									game->player.getCurrentPeoplemon()->push_back(ppl);
+									game->player.getCurrentPeoplemon()->push_back(wildPpl);
 								else
 								{
-									game->player.addStoredPeoplemon(ppl);
-									displayMessage(ppl.name+" was sent to the PC!");
+									game->player.addStoredPeoplemon(wildPpl);
+									displayMessage(wildPpl.name+" was sent to the PC!");
 									if (shouldClose())
 										return true;
 								}
@@ -451,7 +452,6 @@ bool BattleState::execute()
 							}
 							else
 							{
-								//TODO - play breakout animation
 								displayMessage("Crap! I thought I killed it that time!");
 								if (shouldClose())
 									return true;
@@ -2566,7 +2566,7 @@ void BattleState::playPeopleballAnimations(int r, int p)
 		Falling,
 		Shaking,
 		Finishing,
-		Done
+		Done //TODO - play breakout animation if shakes<4
 	}state = Throwing;
 
 	ballThrow.play();
