@@ -1140,3 +1140,7 @@ void World::stopAnimations()
 Weather& World::getWeather() {
     return weather;
 }
+
+int World::getLightOverride() {
+    return ambientLightOverride;
+}

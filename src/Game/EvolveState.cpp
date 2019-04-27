@@ -211,6 +211,11 @@ int EvolveState::getEvolveId(Game* game, PeoplemonRef ppl) {
             return 42;
         return -1;
 
+    case 11:
+        if (ppl.level>=28 && game->world.getLightOverride()>=100)
+            return 12;
+        return -1;
+
     default:
         if (ppl.level >= game->peoplemonList[ppl.id].evolveLevel)
             return game->peoplemonList[ppl.id].evolveNewId;

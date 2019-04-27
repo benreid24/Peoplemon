@@ -434,6 +434,11 @@ public:
      * Returns a reference to the Weather object
      */
     Weather& getWeather();
+
+    /**
+     * Returns the current light override
+     */
+    int getLightOverride();
 };
 
 #endif // WORLD_HPP
