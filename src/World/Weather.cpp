@@ -815,3 +815,27 @@ int Weather::getLightModifier()
 {
     return curLight;
 }
+
+bool Weather::isFoggy() {
+    return (type == ThickFog || type==ThinFog);
+}
+
+bool Weather::isRaining() {
+    return (type>=LightRain && type<=HardRainThunder);
+}
+
+bool Weather::isSandstorm() {
+    return type==SandStorm;
+}
+
+bool Weather::isSnowy() {
+    return (type>=LightSnow && type<=HardSnowThunder);
+}
+
+bool Weather::isSunny() {
+    return type==Sunny;
+}
+
+bool Weather::isThunder() {
+    return (type==LightRainThunder || type==HardRainThunder || type==LightSnowThunder || type==HardSnowThunder);
+}

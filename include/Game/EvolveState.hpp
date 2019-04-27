@@ -42,6 +42,17 @@ public:
      * Returns whether or not the player allowed the evolution to occur
      */
     bool evolutionSuccessful();
+
+    /**
+     * Helper function to determine if a Peoplemon evolves on level up
+     * Considers the default level requirement as well as special conditions
+     * for certain Peoplemon
+     *
+     * \param ppl The Peoplemon to check
+     * \param game A pointer to the main Game object
+     * \return The id to evolve into, or -1 if no evolution
+     */
+    static int getEvolveId(Game* game, PeoplemonRef ppl);
 };
 
 #endif // EVOLVESTATE_HPP

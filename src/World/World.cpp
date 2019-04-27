@@ -1136,3 +1136,7 @@ void World::stopAnimations()
 			c->forceStop();
 	}
 }
+
+Weather& World::getWeather() {
+    return weather;
+}

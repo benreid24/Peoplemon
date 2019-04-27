@@ -114,3 +114,17 @@ bool EvolveState::evolutionSuccessful()
 {
     return evolved;
 }
+
+int EvolveState::getEvolveId(Game* game, PeoplemonRef ppl) {
+    switch (ppl.id) {
+    case 11:
+        if (ppl.level>=25 && game->world.getWeather().isThunder())
+            return 12;
+        return -1;
+
+    default:
+        if (ppl.level >= game->peoplemonList[ppl.id].evolveLevel)
+            return game->peoplemonList[ppl.id].evolveNewId;
+        return -1;
+    }
+}

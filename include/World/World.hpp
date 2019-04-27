@@ -429,6 +429,11 @@ public:
      * This loads the map and spawn of the last visited PC center
      */
     void whiteout();
+
+    /**
+     * Returns a reference to the Weather object
+     */
+    Weather& getWeather();
 };
 
 #endif // WORLD_HPP

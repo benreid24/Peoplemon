@@ -538,6 +538,36 @@ public:
     void draw(sf::RenderWindow* window);
 
     /**
+     * Returns whether or not it is raining
+     */
+    bool isRaining();
+
+    /**
+     * Returns whether or not it is Sunny
+     */
+    bool isSunny();
+
+    /**
+     * Returns whether or not it is foggy
+     */
+    bool isFoggy();
+
+    /**
+     * Returns whether or not there is thunder
+     */
+    bool isThunder();
+
+    /**
+     * Returns whether or not there is a sandstorm
+     */
+    bool isSandstorm();
+
+    /**
+     * Returns whether or not there is snow
+     */
+    bool isSnowy();
+
+    /**
      * Returns the current ambient light modifier of the weather
      */
     int getLightModifier();
