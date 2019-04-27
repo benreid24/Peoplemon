@@ -117,28 +117,72 @@ bool EvolveState::evolutionSuccessful()
 
 int EvolveState::getEvolveId(Game* game, PeoplemonRef ppl) {
     switch (ppl.id) {
-    case 11:
+    case 82:
         if (ppl.level>=25 && game->world.getWeather().isThunder())
-            return 12;
+            return 83;
         return -1;
 
-    case 27:
+    case 43:
         if (ppl.level>=30) {
             if (gameClock.getClockTime().hour>=14 && gameClock.getClockTime().hour<16)
-                return 28;
+                return 44;
             else if (gameClock.getClockTime().hour>=3 && gameClock.getClockTime().hour<14)
-                return 29;
+                return 46;
+            else
+                return 45;
         }
         return -1;
 
     case 30:
         if (ppl.level>=30) {
             if (gameClock.getClockTime().hour>=20 || gameClock.getClockTime().hour<8)
-                return 32;
-            //
-            if (game->world.getWeather().isRaining())
-                return 33;
+                return 47;
+            else
+                return 107;
         }
+        return -1;
+
+    case 104:
+        if (ppl.level>=30 && game->world.getWeather().isRain())
+            return 106;
+        return -1;
+
+    case 70:
+        if (ppl.level>=30 && game->world.getWeather().isSandstorm())
+            return 71;
+        return -1;
+
+    case 48:
+        if (ppl.level>=32 && game->world.getWeather().isFoggy())
+            return 49;
+        return -1;
+
+    case 27:
+        if (ppl.level>=32) {
+            if (game->world.getWeather().isSunny())
+                return 29;
+            return 28;
+        }
+        return -1;
+
+    case 67:
+        if (ppl.level>=32 && game->world.getWeather().isSnowy())
+            return 68;
+        return -1;
+
+    case 99:
+        if (ppl.level>=35) {
+            if (game->player.hasItem(62)>=3) {
+                game->player.takeItem(62, 3);
+                return 100;
+            }
+        }
+        return -1;
+
+    case 88:
+        if (ppl.level>=35 && game->world.getWeather().isSunny())
+            return 89;
+        return -1
 
     default:
         if (ppl.level >= game->peoplemonList[ppl.id].evolveLevel)
