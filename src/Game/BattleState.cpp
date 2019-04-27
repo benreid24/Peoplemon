@@ -1208,9 +1208,10 @@ bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
                     }
                 }
 
-                if (level==game->peoplemonList[order[i]->getPeoplemon()->at(sentIn[k]).id].evolveLevel)
+                int evolveId = EvolveState::getEvolveId(game, order[i]->getPeoplemon()->at(sentIn[k]));
+                if (evolveId!=-1)
                 {
-                    EvolveState* s = new EvolveState(game,&order[i]->getPeoplemon()->at(sentIn[k]));
+                    EvolveState* s = new EvolveState(game,&order[i]->getPeoplemon()->at(sentIn[k]), evolveId);
                     if (game->runState(s,false))
                         return false;
                     if (s->evolutionSuccessful() && order[i]->getCurrentPeoplemon()==sentIn[k])
