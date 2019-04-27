@@ -116,6 +116,23 @@ bool EvolveState::evolutionSuccessful()
 }
 
 int EvolveState::getEvolveId(Game* game, PeoplemonRef ppl) {
+    map<int,int> evolveMap = {
+        {19,20},
+        {38,39},
+        {54,55},
+        {56,57},
+        {107,108},
+        {112,113},
+        {64,65},
+        {81,82},
+        {84,85},
+        {87,88}
+    };
+    if (evolveMap.find(ppl.id)!=evolveMap.end()) {
+        if (ppl.level>=5 && game->player.hasItem(140)>=1)
+            return evolveMap[ppl.id];
+    }
+
     switch (ppl.id) {
     case 82:
         if (ppl.level>=25 && game->world.getWeather().isThunder())
@@ -143,7 +160,7 @@ int EvolveState::getEvolveId(Game* game, PeoplemonRef ppl) {
         return -1;
 
     case 104:
-        if (ppl.level>=30 && game->world.getWeather().isRain())
+        if (ppl.level>=30 && game->world.getWeather().isRaining())
             return 106;
         return -1;
 
@@ -182,7 +199,17 @@ int EvolveState::getEvolveId(Game* game, PeoplemonRef ppl) {
     case 88:
         if (ppl.level>=35 && game->world.getWeather().isSunny())
             return 89;
-        return -1
+        return -1;
+
+    case 85:
+        if (ppl.level>=35 && game->world.getWeather().isThunder())
+            return 86;
+        return -1;
+
+    case 41:
+        if (ppl.level>=35 && ppl.holdItem==63)
+            return 42;
+        return -1;
 
     default:
         if (ppl.level >= game->peoplemonList[ppl.id].evolveLevel)
