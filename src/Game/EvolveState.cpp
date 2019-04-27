@@ -122,6 +122,24 @@ int EvolveState::getEvolveId(Game* game, PeoplemonRef ppl) {
             return 12;
         return -1;
 
+    case 27:
+        if (ppl.level>=30) {
+            if (gameClock.getClockTime().hour>=14 && gameClock.getClockTime().hour<16)
+                return 28;
+            else if (gameClock.getClockTime().hour>=3 && gameClock.getClockTime().hour<14)
+                return 29;
+        }
+        return -1;
+
+    case 30:
+        if (ppl.level>=30) {
+            if (gameClock.getClockTime().hour>=20 || gameClock.getClockTime().hour<8)
+                return 32;
+            //
+            if (game->world.getWeather().isRaining())
+                return 33;
+        }
+
     default:
         if (ppl.level >= game->peoplemonList[ppl.id].evolveLevel)
             return game->peoplemonList[ppl.id].evolveNewId;
