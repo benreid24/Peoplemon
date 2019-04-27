@@ -5,10 +5,13 @@
 using namespace sf;
 using namespace std;
 
-EvolveState::EvolveState(Game* g, PeoplemonRef* p) : Gamestate(g,nullptr)
+EvolveState::EvolveState(Game* g, PeoplemonRef* p, int nextId) : Gamestate(g,nullptr)
 {
     ppl = p;
     evolved = false;
+    nextPeoplemonId = nextId;
+    if (nextId==-1)
+        nextPeoplemonId = game->peoplemonList[ppl->id].evolveNewId;
 
     evolveText.setPosition(Vector2f(90,500));
     evolveText.setText("What the poop? "+p->name+" is evolving!!!\nPress the pause button to cancel");
@@ -86,7 +89,7 @@ bool EvolveState::execute()
     }
 
     evolved = true;
-    ppl->id = game->peoplemonList[ppl->id].evolveNewId;
+    ppl->id = nextPeoplemonId;
     evolveText.setText(ppl->name+" evolved!");
     no:
 

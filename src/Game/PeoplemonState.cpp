@@ -247,21 +247,22 @@ bool PeoplemonState::execute()
 									else if (itemId>=28 && itemId<=32)
 									{
 										int pplId = peoplemon->at(i).id;
-										map<int,vector<int> > lookUp;
-										lookUp[28] = {0}; //TODO - put peoplemon id's in here based on items
-										lookUp[29] = {0};
-										lookUp[30] = {0};
-										lookUp[31] = {0};
-										lookUp[32] = {0};
+										map<int,map<int,int> > lookUp;
+										lookUp[28] = {{112,113}, {113,114}, {115,116}, {64,65}};
+										lookUp[29] = {{65,66}, {67,68}, {70,71}, {73,74}};
+										lookUp[30] = {{76,77}, {81,82}, {82,83}, {84,85}};
+										lookUp[31] = {{85,86}, {87,88}, {88,89}, {91,92}, {94,95}};
+										lookUp[32] = {{96,97}, {99,100}};
 
-										if (find(lookUp[itemId].begin(),lookUp[itemId].end(),pplId)==lookUp[itemId].end())
+										map<int,int>::iterator j = lookUp[itemId].find(pplId);
+										if (j==lookUp[itemId].end())
 										{
 											out = "It had no effect";
 											used = false;
 										}
 										else
 										{
-                                            EvolveState* state = new EvolveState(game,&peoplemon->at(i));
+                                            EvolveState* state = new EvolveState(game,&peoplemon->at(i), j->second);
                                             if (game->runState(state,true))
 												return true;
 										}

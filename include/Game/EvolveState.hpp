@@ -15,6 +15,7 @@
 class EvolveState : public Gamestate
 {
     PeoplemonRef* ppl;
+    int nextPeoplemonId;
     bool evolved;
 
     TextureReference bgndTxtr, oldTxtr, newTxtr;
@@ -33,8 +34,9 @@ public:
      *
      * \param g A pointer to the main Game object
      * \param p A pointer to the peoplemon that is evolving
+     * \param nextId The id of what to Evolve into. -1 to take from Peoplemon DB or use special logic
      */
-    EvolveState(Game* g, PeoplemonRef* p);
+    EvolveState(Game* g, PeoplemonRef* p, int nextId = -1);
 
     /**
      * Returns whether or not the player allowed the evolution to occur
