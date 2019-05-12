@@ -14,8 +14,7 @@ if (getSaveEntry("ThugSuit")==1 && getSaveEntry("AuspiciousDelivery")!=1) {
 }
 
 //-----------Jake Blocker Anim---------------------
-if (getSaveEntry("JakeUnblocked")!=1)
-	{
+if (getSaveEntry("JakeUnblocked")!=1) {
 	 setCollisions(315,275,1,1,0);
 	}
 
@@ -23,6 +22,7 @@ spawnNPC("JakeBlocker.npc",316,275,0,0);
 
 if (getSaveEntry("JakeUnblocked")==1)
 	 editTile(316,275,5,0);
+
 //----------Spawning Curvelinear Forest Blocker-------------- 
 
 if (getSaveEntry("professorDead")!=1)
@@ -39,27 +39,23 @@ if (getSaveEntry("Blocker4Talked")==1)
 	
 //-----------------Spawning Officer (Hometown) -----------------------------------
 
-if (getSaveEntry("boatGuy1")==1 && getSaveEntry("MarsalatoTown")!=1 && getSaveEntry("TalkedBoatGuy")!=1) //Officer next to Thug
-	{
+if (getSaveEntry("boatGuy1")==1 && getSaveEntry("MarsalatoTown")!=1 && getSaveEntry("TalkedBoatGuy")!=1) {
 	 spawnNPC("CurveForest/Officer3.npc",317,195,3,0);
 	}
-
-	elif (getSaveEntry("professorDead") == 1 && getSaveEntry("boatGuy1") != 1)
-		{
+else {
+	if (getSaveEntry("professorDead") == 1 && getSaveEntry("boatGuy1") != 1) {
 		 spawnNPC("Hometown/officer2.npc",338,234,0);
 		}
-	
-	elif (getSaveEntry("ReturntoProf")==1 && getSaveEntry("professorDead")!=1 )
-		{
-		 spawnNPC("Hometown/officerHometown.npc",343,281,1);
-		 if (getSaveEntry("Delivered")==1)
-		}
-
-	elif (getSaveEntry("boatGuy1")!=1 )
-		{
-		 spawnNPC("Hometown/officer1.npc",344,261,0);
-		 setCollisions(343,261,3,1,1);
-		}
+	else {
+		if (getSaveEntry("ReturntoProf")==1 && getSaveEntry("professorDead")!=1 ) {
+			spawnNPC("Hometown/officerHometown.npc",343,281,1);
+			}
+		else {
+			if (getSaveEntry("boatGuy1")!=1 ){
+			 spawnNPC("Hometown/officer1.npc",344,261,0);
+			 setCollisions(343,261,3,1,1);
+			}
+}}}
 	
 //--------------Spawning Sketchy Character (Hometown) ---------------------------
 
@@ -68,11 +64,12 @@ if (getSaveEntry("professorDead")==1 && getSaveEntry("boatGuy1") != 1)
 	 spawnNPC("Hometown/sketchyCharacter2.npc",338,233,0);
 	}
 	
-	elif (getSaveEntry("boatGuy1") != 1)
+	else {
+		if (getSaveEntry("boatGuy1") != 1)
 		{
 		 spawnNPC("Hometown/sketchyCharacter1.npc",338,229,2);
 		}
-	
+}	
 //-----------Spawning Hometown Thugs & Curve Forest thugs-------------------
 if (getSaveEntry("professorDead")==1 && getSaveEntry("thugsRunAway")!=1) 
 	 spawnNPC("Hometown/hometownThug1.npc",369,246,2,0);

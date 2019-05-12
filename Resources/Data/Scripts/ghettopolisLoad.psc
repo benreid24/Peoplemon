@@ -117,8 +117,8 @@ if (getSaveEntry("JustBeatM")==1)
  spawnNPC("Ghettopolis/ScienceKid.npc",398,173,1,0);
  spawnNPC("Ghettopolis/HappyKid.npc",401,189,2,0);
  spawnNPC("Ghettopolis/DomJuiceGirl.npc",403,177,0,0);
- spawnNPC("Ghettopolis/SwimmingGirl.npc",403,176,1,0);
- spawnNPC("Ghettopolis/FanGuy.npc",416,174,2,0);
+ spawnNPC("Ghettopolis/SwimmingGirl.npc",416,176,3,0);
+ spawnNPC("Ghettopolis/FanGuy.npc",409,176,1,0);
  spawnNPC("Ghettopolis/LittleKid.npc",434,182,3,0);
  
  if(getSaveEntry("ShiftMissedTalked")!=1)
