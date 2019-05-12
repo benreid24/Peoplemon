@@ -182,7 +182,7 @@ void PeoplemonRef::load(Game* g, File* file)
         name = g->peoplemonList[id].name;
 
     recalcStats(g);
-    if (curHp==0)
+    if (curHp==999)
 		curHp = stats.hp;
 }
 
