@@ -10,6 +10,12 @@
 	 editTile(1,6,3,326);
 
 //----------------------Spawning the Professor---------------------------
+if (getSaveEntry("Delivered")!=1)
+	 spawnNPC("Hometown/professor1.npc",8,4,2);
+	
+if (getSaveEntry("Delivered")==1 && getSaveEntry("aster1Done")!=1)
+	 spawnNPC("Hometown/professor2.npc",8,4,2);
+
 if (getSaveEntry("aster1Done")==1 && getSaveEntry("professorDead")!=1)
 	{
 	 spawnNPC("Hometown/professor3.npc",9,12,0);
@@ -19,12 +25,6 @@ if (getSaveEntry("aster1Done")==1 && getSaveEntry("professorDead")!=1)
 	 runScript("Hometown/professorsLabProfessorDies.psc",1);
 	}
 	
-elif (getSaveEntry("Delivered")==1 && getSaveEntry("professorDead")!=1)
-	 spawnNPC("Hometown/professor2.npc",8,4,2);
-
-elif (getSaveEntry("professorDead")!=1)
-	 spawnNPC("Hometown/professor1.npc",8,4,2);
-	 
 //-------------------------Spawning the Fridge----------------------------
 if (getSaveEntry("professorDead")==1)
 	{
