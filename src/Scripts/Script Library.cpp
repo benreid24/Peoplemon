@@ -685,12 +685,12 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 		else if (name=="runScript")
 		{
 		    if (!stopping) {
-                ScriptReference scr = scriptPool.loadResource(args.at(0).sValue);
+                Script* scr = new Script(args.at(0).sValue);
                 environment->runScript(scr,args.at(1).iValue!=0);
 		    }
 		}
 		else if (name=="runScriptAtTime") {
-            ScriptReference scr = scriptPool.loadResource(args.at(0).sValue);
+            Script* scr = new Script(args.at(0).sValue);
             bool blocking = (args.size()>3)?(args.at(3).iValue!=0):(true);
 
 			if (blocking)

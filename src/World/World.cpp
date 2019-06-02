@@ -69,8 +69,10 @@ void World::load(string file, int spId, bool trans)
 		}
 	}
 
-	if (name.size()>0 && unloadScript)
-		unloadScript->run(&game->scriptEnvironment);
+	if (name.size()>0 && unloadScript.size()>0) {
+        Script script(unloadScript);
+		script.run(&game->scriptEnvironment);
+	}
     clear();
     if (file=="LastMap")
 		file = lastMap;
@@ -104,11 +106,9 @@ void World::load(string file, int spId, bool trans)
     }
 
     loadScript = input.getString();
-    file = input.getString();
+    unloadScript = input.getString();
 	if (File::getExtension(file)=="psc")
-		unloadScript.reset(new Script(Properties::ScriptPath+file));
-	else
-		unloadScript.reset(new Script(file));
+		unloadScript = Properties::ScriptPath+unloadScript;
 
     size.x = input.get<uint32_t>();
     size.y = input.get<uint32_t>();
@@ -312,7 +312,7 @@ void World::load(string file, int spId, bool trans)
     for (int i = 0; i<tInt; ++i)
     {
         MapEvent evt;
-        file = input.getString();
+        evt.script = input.getString();
         evt.position.x = input.get<uint32_t>();
         evt.position.y = input.get<uint32_t>();
         evt.size.x = input.get<uint16_t>();
@@ -320,14 +320,11 @@ void World::load(string file, int spId, bool trans)
         evt.maxRuns = input.get<uint8_t>();
         evt.trigger = input.get<uint8_t>();
         evt.runs = 0;
-        evt.script.reset(new Script());
         if (File::getExtension(file)=="psc")
-            evt.script->load(Properties::ScriptPath+file);
-        else
-            evt.script->load(file);
+            evt.script = Properties::ScriptPath + evt.script;
 
         if (evt.trigger==0)
-            game->scriptEnvironment.runScript(evt.script);
+            game->scriptEnvironment.runScript(new Script(evt.script));
 
         events.push_back(evt);
     }
@@ -346,7 +343,7 @@ void World::load(string file, int spId, bool trans)
 	game->player.forceStop();
 	if (File::getExtension(loadScript)=="psc")
 		loadScript = Properties::ScriptPath+loadScript;
-    game->scriptEnvironment.runScript(scriptPool.loadResource(loadScript),false);
+    game->scriptEnvironment.runScript(new Script(loadScript),false);
     update();
 	while (a>1)
 	{
@@ -650,7 +647,7 @@ void World::moveOntoTile(Vector2i playerPos, Vector2i lastPos)
         if ((events[i].trigger==1 && inNow && !wasIn) || (events[i].trigger==2 && !inNow && wasIn) || (events[i].trigger==3 && inNow!=wasIn) || (events[i].trigger==4 && inNow))
         {
             if (events[i].runs<events[i].maxRuns || events[i].maxRuns==0)
-                game->scriptEnvironment.runScript(events[i].script); //Figure out why multiple events on one tile prevents execution
+                game->scriptEnvironment.runScript(new Script(events[i].script)); //Figure out why multiple events on one tile prevents execution
             events[i].runs++;
         }
     }

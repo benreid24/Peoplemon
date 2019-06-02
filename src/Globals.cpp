@@ -98,7 +98,6 @@ PlayerInput user;
 ResourcePool<sf::Texture> imagePool;
 ResourcePool<sf::SoundBuffer> audioPool;
 ResourcePool<AnimationSource> animPool;
-ResourcePool<Script> scriptPool;
 
 int Random(int min, int max)
 {

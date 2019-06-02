@@ -36,7 +36,7 @@ ScriptEnvironment::~ScriptEnvironment()
     stop();
 }
 
-void ScriptEnvironment::runScript(ScriptReference scr, bool concurrent)
+void ScriptEnvironment::runScript(Script* scr, bool concurrent)
 {
 	if (scr->isRunning())
 		return;
@@ -59,7 +59,7 @@ void ScriptEnvironment::runScript(ScriptReference scr, bool concurrent)
 		scr->run(this);
 }
 
-void ScriptEnvironment::runScriptAtTime(ScriptReference scr, ClockTime rtime)
+void ScriptEnvironment::runScriptAtTime(Script* scr, ClockTime rtime)
 {
 	if (scr->isRunning())
 		return;

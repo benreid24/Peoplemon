@@ -17,7 +17,6 @@ extern class PlayerInput user;
 extern class ResourcePool<sf::Texture> imagePool;
 extern class ResourcePool<sf::SoundBuffer> audioPool;
 extern class ResourcePool<AnimationSource> animPool;
-extern class ResourcePool<Script> scriptPool;
 extern class std::vector<std::pair<sf::Keyboard::Key,std::string> > keymap;
 
 /**

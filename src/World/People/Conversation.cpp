@@ -177,7 +177,7 @@ vector<string> Conversation::update(Game* game, Player* player, Character* perso
 				cLine++;
 		}
 		else if (lines[cLine].code=='z') {
-			env->runScript(scriptPool.loadResource(lines[cLine].line));
+			env->runScript(new Script(lines[cLine].line));
 			cLine++;
 		}
     }

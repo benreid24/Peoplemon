@@ -23,7 +23,6 @@ Script::Script(string scr) : Script()
 
 Script::~Script()
 {
-	//dtor
 }
 
 void Script::reset()

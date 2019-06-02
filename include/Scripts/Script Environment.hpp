@@ -22,8 +22,10 @@ struct ScriptData
 {
     ScriptEnvironment* owner;
     std::shared_ptr<sf::Thread> thread;
-    ScriptReference script;
+    Script* script;
     bool finished;
+
+    ~ScriptData() { delete script; }
 };
 
 /**
@@ -69,7 +71,7 @@ public:
      * \param scr A pointer to the Script to run
      * \param concurrent Whether or not the run the script concurrently. Default is false
      */
-    void runScript(ScriptReference scr, bool concurrent = false);
+    void runScript(Script* scr, bool concurrent = false);
 
     /**
      * Schedules a script to run at a certain in game time. Returns immediately
@@ -77,7 +79,7 @@ public:
      * \param scr A pointer to the Script to run
      * \param runtime A ClockTime to run the script at
      */
-    void runScriptAtTime(ScriptReference scr, ClockTime runtime);
+    void runScriptAtTime(Script* scr, ClockTime runtime);
 
     /**
      * Stops all of the currently running threads
