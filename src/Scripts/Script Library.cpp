@@ -182,7 +182,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
                 while (targetPos != environment->getGame()->player.getPosition()) {
                     sleep(milliseconds(5));
                     if (stopping)
-                        throw runtime_error("Script killed");
+                        throw EarlyTermination();
                 }
             }
         }
@@ -207,7 +207,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				while (stepsTaken<stepsToTake || stepsToTake==-1)
 				{
 				    if (stopping)
-                        throw runtime_error("Script killed");
+                        throw EarlyTermination();
 
 					if (moves.size()==0) {
 						if (environment->getGame()->player.getMapPos()==Vector2i(args.at(0).iValue,args.at(1).iValue))
@@ -371,7 +371,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				while (environment->getGame()->world.getTrainer(t->getName())==nullptr && args.at(4).iValue==1) {
 					sleep(milliseconds(1));
 					if (stopping)
-                        throw runtime_error("Script killed");
+                        throw EarlyTermination();
 				}
 			}
 		}
@@ -428,7 +428,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 					while (stepsTaken<stepsToTake || stepsToTake==-1)
 					{
 					    if (stopping)
-                            throw runtime_error("Script killed");
+                            throw EarlyTermination();
 
 						if (moves.size()==0) {
 							if (t->getMapPos()==Vector2i(args.at(1).iValue,args.at(2).iValue))
@@ -509,7 +509,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				while (environment->getGame()->world.getNPC(n->getName())==nullptr && args.at(4).iValue==1) {
 					sleep(milliseconds(1));
 					if (stopping)
-                        throw runtime_error("Script killed");
+                        throw EarlyTermination();
 				}
 			}
 		}
@@ -566,7 +566,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 					while (stepsTaken<stepsToTake || stepsToTake==-1)
 					{
 					    if (stopping)
-                            throw runtime_error("Script killed");
+                            throw EarlyTermination();
 
 						if (moves.size()==0) {
 							if (n->getMapPos()==Vector2i(args.at(1).iValue,args.at(2).iValue))
@@ -665,7 +665,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 				while (environment->getGame()->data.nextState != nullptr) {
 					sleep(milliseconds(200));
 					if (stopping)
-                        throw runtime_error("Script killed");
+                        throw EarlyTermination();
 				}
 			}
 			ret.iValue = environment->getGame()->data.lastBattleWon;
@@ -698,7 +698,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
                 ClockTime t = gameClock.getClockTime();
                 while (t.hour!=args.at(1).iValue || t.minute!=args.at(2).iValue) {
                     if (stopping)
-                        throw runtime_error("Script killed");
+                        throw EarlyTermination();
 
                     sleep(milliseconds(250));
                     t = gameClock.getClockTime();
@@ -804,7 +804,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
 			for (int i = 0; i<blocks; ++i) {
 				sleep(milliseconds(50));
 				if (stopping)
-					throw runtime_error("Script killed");
+					throw EarlyTermination();
 			}
 			sleep(milliseconds(remainder));
 		}
@@ -814,7 +814,7 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
                 sleep(milliseconds(250));
                 t = gameClock.getClockTime();
                 if (stopping)
-					throw runtime_error("Script killed");
+					throw EarlyTermination();
             }
 		}
 		else if (name=="getTimeMinutes") {

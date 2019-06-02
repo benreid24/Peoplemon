@@ -463,7 +463,7 @@ Value Script::runTokens(int pos)
 	for (unsigned int i = pos; i<tokens.size(); ++i)
 	{
 		if (stopping)
-			throw runtime_error("Script killed");
+			throw EarlyTermination();
 
 		switch (tokens.at(i).type)
 		{
@@ -648,7 +648,7 @@ Value Script::runTokens(int pos)
 			while ((test.type==Value::Integer && int(test.iValue+0.01)!=0) || (test.type==Value::String && test.sValue.size()>0))
 			{
 				if (stopping)
-                    throw runtime_error("Script killed");
+                    throw EarlyTermination();
 
                 stackFrames.push_back(Frame());
 				Value ret = runTokens(i);
@@ -753,10 +753,13 @@ void Script::run(ScriptEnvironment* env)
 	{
 		cout << "Parenthesis or bracket mismatch somewhere in file "+tokens.at(0).file << endl;
 	}
+	catch (const EarlyTermination& e) {
+        cout << "Script terminated early\n";
+	}
 	catch (const runtime_error& e)
 	{
-		cout << e.what() << endl;
-		cout << original << endl;
+        cout << e.what() << endl;
+        cout << original << endl;
 	}
 	stopped = true;
 }

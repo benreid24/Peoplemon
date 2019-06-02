@@ -204,7 +204,7 @@ public:
     /**
      * Updates the world and all of the entities within it
      */
-    void update();
+    void update(bool updateObjects = true);
 
     /**
      * Calculates the new ambient light level, taking time of day, overrides and weather into account

@@ -57,6 +57,7 @@ void World::load(string file, int spId, bool trans)
 		int lTime = gameClock.getTimeStamp();
 		while (a<255)
 		{
+		    update(false);
 			a += double(gameClock.getTimeStamp()-lTime)*0.181818;
 			lTime = gameClock.getTimeStamp();
             if (a>255)
@@ -347,6 +348,7 @@ void World::load(string file, int spId, bool trans)
     update();
 	while (a>1)
 	{
+	    update(false);
 		calculateLighting();
 		a -= double(gameClock.getTimeStamp()-lTime)*0.181818;
 		lTime = gameClock.getTimeStamp();
@@ -404,32 +406,34 @@ void World::addVisitedMap(string m)
     visitedMaps.push_back(m);
 }
 
-void World::update()
+void World::update(bool updateObjects)
 {
-	FloatRect bounds(game->player.getPosition()-Vector2f(2400, 1800), Vector2f(4800, 3600));
-	objLock.lock();
-	game->player.update(game);
-	for (unsigned int j = 0; j<objects.size(); ++j)
-	{
-		if (bounds.contains(objects[j]->getPosition()) && objects[j]!=&game->player) {
-			objects[j]->update(game);
-		}
+    if (updateObjects) {
+        FloatRect bounds(game->player.getPosition()-Vector2f(2400, 1800), Vector2f(4800, 3600));
+        objLock.lock();
+        game->player.update(game);
+        for (unsigned int j = 0; j<objects.size(); ++j)
+        {
+            if (bounds.contains(objects[j]->getPosition()) && objects[j]!=&game->player) {
+                objects[j]->update(game);
+            }
 
-		for (unsigned int t = 0; t<objDelQueue.size(); ++t)
-		{
-			if (objects[j]==objDelQueue[t])
-			{
-				Character* c = dynamic_cast<Character*>(objects[j]);
-				if (c)
-					c->resetCollisions(game);
+            for (unsigned int t = 0; t<objDelQueue.size(); ++t)
+            {
+                if (objects[j]==objDelQueue[t])
+                {
+                    Character* c = dynamic_cast<Character*>(objects[j]);
+                    if (c)
+                        c->resetCollisions(game);
 
-				delete objects[j];
-				objects.erase(objects.begin()+j);
-				j--;
-				break;
-			}
-		}
-	}
+                    delete objects[j];
+                    objects.erase(objects.begin()+j);
+                    j--;
+                    break;
+                }
+            }
+        }
+    }
     weather.update();
 
     for (unsigned int i = 0; i<objDelQueue.size(); ++i)

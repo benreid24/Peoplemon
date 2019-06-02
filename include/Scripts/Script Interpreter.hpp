@@ -11,6 +11,16 @@
 class ScriptEnvironment;
 
 /**
+ * Helper exception to terminate script early but not indicate an error
+ *
+ * \ingroup Scripting
+ */
+struct EarlyTermination : public std::runtime_error {
+    EarlyTermination() : std::runtime_error("") {}
+    virtual ~EarlyTermination() = default;
+};
+
+/**
  * This class loads and runs scripts
  *
  * \ingroup Scripting
