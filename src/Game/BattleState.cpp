@@ -1321,8 +1321,6 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
     PeoplemonRef &attacker = atk->getPeoplemon()->at(atk->getCurrentPeoplemon());
     PeoplemonRef &defender = def->getPeoplemon()->at(def->getCurrentPeoplemon());
 
-    ret.push_back(attacker.name+" used "+game->moveList[id].name+"!");
-
     if (atk->state.encoreHit) {
         atk->state.encoreHit = false;
         atk->state.encoreMoveId = id;
