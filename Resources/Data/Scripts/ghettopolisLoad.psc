@@ -34,9 +34,17 @@ if (getSaveEntry("boatGuy1") == 1)
 
 
 //--------------------------Spawning Thugs---------------------	
-if (getSaveEntry("ThugBossJordanBeat")!=1)	 
+if (getSaveEntry("ThugBossJordanBeat")!=1)
+	{
 	 spawnNPC("Ghettopolis/ThugJimmy.npc",435,180,2,0);//Boathouse Door
-
+	 spawnTrainer("Ghettopolis/IT1.tnr",395,127,0,0);
+	 spawnTrainer("Ghettopolis/IT2.tnr",398,128,3,0);
+	 spawnTrainer("Ghettopolis/IT3.tnr",404,126,3,0);
+	 spawnTrainer("Ghettopolis/IT4.tnr",404,123,1,0);
+	 spawnTrainer("Ghettopolis/IT5.tnr",399,124,1,0);
+	 spawnTrainer("Ghettopolis/IT6.tnr",401,122,0,0);
+	}
+	
 if (getSaveEntry("DockTrigger")!=1)
 	{
 	 spawnNPC("Ghettopolis/ThugJacky.npc",435,181,0,0);//Near Boat Guy Island 1 (Leader)
@@ -66,6 +74,9 @@ if (getSaveEntry("MarsalatoTown")!=1)
 	 spawnNPC("Ghettopolis/ThugJoJo.npc",416,169,1,0);//JuiceConvo
 	 spawnNPC("Ghettopolis/ThugJil.npc",417,169,3,0);//JuiceConvo
 	 spawnNPC("Ghettopolis/ThugJaq.npc",421,173,0,0);//JakeCommentary
+	 spawnTrainer("Ghettopolis/ThugJudas.tnr",424,189,2,0);
+	 spawnTrainer("Ghettopolis/ThugJeb.tnr",428,170,2,0);
+	 spawnTrainer("Ghettopolis/ThugJustina.tnr",407,179,3,0);
 	 if(getSaveEntry("DockThugsLeave")==1)
 		{
 		 spawnNPC("Ghettopolis/ThugJacky3.npc",397,185,2,0);

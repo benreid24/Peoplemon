@@ -31,9 +31,9 @@ bool PausedState::execute()
     choices.setPosition(Vector2f(680,90));
     choices.addChoice("Resume");
     choices.addChoice("Peopledex");
-    choices.addChoice("Peoplemon");
-    choices.addChoice("Bag");
     if (game->data.canSaveWhilePaused) {
+        choices.addChoice("Peoplemon");
+        choices.addChoice("Bag");
         choices.addChoice("Map");
 		choices.addChoice("Save");
     }

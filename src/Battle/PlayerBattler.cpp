@@ -97,6 +97,7 @@ Turn PlayerBattler::getTurn(PeoplemonRef op, Game* g)
             {
                 for (int i = 0; i<4; ++i)
                 {
+                    //TODO - enforce PP
                     if (g->moveList[peoplemon->at(curPeoplemon).moves[i].id].name==moveChoice.getChoice())
                     {
                         Turn t;

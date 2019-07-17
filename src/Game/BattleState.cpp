@@ -313,7 +313,7 @@ bool BattleState::execute()
             }
             order[i]->state.healNextPeoplemon = false;
             if (getPeoplemon(order[i], order[i]->getCurrentPeoplemon()).curAbility==Peoplemon::Alcoholic && order[i]==player && game->player.hasItem(62)) {
-                //
+                //TODO - alcoholic?
             }
 
             if (turns[i].type==Turn::Switch)
@@ -452,7 +452,13 @@ bool BattleState::execute()
 							}
 							else
 							{
-								displayMessage("Crap! I thought I killed it that time!");
+							    const char* messages[] = {
+                                    "The ball evaporated, I don't know where it went!",
+                                    "Was it because I was bad?",
+                                    "Two shakes! One more and you're playing with yourself",
+                                    "Crap! I thought I killed it that time!"
+							    };
+								displayMessage(messages[shakes]);
 								if (shouldClose())
 									return true;
 							}
