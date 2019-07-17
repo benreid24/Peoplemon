@@ -528,7 +528,7 @@ void Player::givePeoplemon(PeoplemonRef ppl) {
 }
 
 Vector2f Player::getLastPosition() {
-	Vector2f pos = Vector2f(mapPos);
+	Vector2f pos = Vector2f(prevPos);
 
 	pos.x *= 32;
 	pos.y *= 32;

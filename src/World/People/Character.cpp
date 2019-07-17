@@ -124,6 +124,7 @@ bool Character::move(Game* game, int d, bool ignoreCols, bool playAnims, bool qu
     {
     	if (dir==d && gameClock.getTimeStamp() >= controlWaitTime)
         {
+            prevPos = mapPos;
         	if (dir==0 && (game->world.spaceFree(mapPos+Vector2i(0,-1),mapPos) || ignoreCols))
 			{
 				lastPos = mapPos;
