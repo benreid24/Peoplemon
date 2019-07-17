@@ -72,11 +72,6 @@ bool MainGameState::handleFlags()
         game->data.loadMapFlag = false;
         game->world.load(game->data.nextMapName, game->data.nextSpawnId);
     }
-    if (game->data.whiteoutFlag)
-    {
-        game->data.whiteoutFlag = false;
-        game->world.whiteout();
-    }
     if (game->data.nextWeather!=-1)
     {
         game->world.setWeather(game->data.nextWeather);
@@ -94,6 +89,11 @@ bool MainGameState::handleFlags()
     	game->data.nextState = nullptr;
     	sleep(milliseconds(250));
     	return ret;
+    }
+    if (game->data.whiteoutFlag)
+    {
+        game->data.whiteoutFlag = false;
+        game->world.whiteout();
     }
 
 	//if (Keyboard::isKeyPressed(Keyboard::N))

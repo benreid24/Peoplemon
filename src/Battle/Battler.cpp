@@ -197,3 +197,12 @@ double Battler::getBroPower() {
 
     return power;
 }
+
+int Battler::getAliveCount() {
+    int alive = 0;
+    for (unsigned int i = 0; i<peoplemon->size(); ++i) {
+        if (peoplemon->at(i).curHp > 0)
+            alive += 1;
+    }
+    return alive;
+}

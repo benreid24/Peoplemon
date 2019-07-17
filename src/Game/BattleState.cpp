@@ -1282,7 +1282,7 @@ bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
     game->hud.displayMessage("");
     if (done)
     {
-        if (order[j]==player)
+        if (order[j]==player || player->getAliveCount() == 0)
         {
             playerWinned = false;
             displayMessage(game->player.getName()+" is all out of usable Peoplemon!");

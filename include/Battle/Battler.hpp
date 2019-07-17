@@ -175,6 +175,11 @@ public:
 	 */
     double getBroPower();
 
+    /**
+     * Returns the number of non fainted Peoplemon in the party
+     */
+    int getAliveCount();
+
     BattlerFlags state;
 };
 
