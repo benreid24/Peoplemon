@@ -50,8 +50,10 @@ public:
      * \param first The first id to include from the vector
      * \param last The last id to include. Included ids are in the range [first,last]
      * \param g A pointer to the main Game object
+     * \param firstExclude First item id to exclude
+     * \param lastExclude Last item id to exclude. Excluded range is [firstExclude, lastExclude]
      */
-    void setItems(std::vector<int>* items, int first, int last, Game* g);
+    void setItems(std::vector<int>* items, int first, int last, Game* g, int firstExclude = 99999, int lastExclude = -1);
 
     /**
      * Returns the id of the currently selected item

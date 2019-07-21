@@ -15,7 +15,7 @@ class BagSectionSelector
 {
     MenuText curSection;
     int index;
-    std::string sections[3];
+    std::string sections[4];
 
 public:
     /**

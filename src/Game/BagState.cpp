@@ -74,6 +74,7 @@ bool BagState::execute()
     MenuImage background("bagBgnd.png");
     BagSectionSelector sectionSelector;
     BagItemList itemList(game->player.getItems(), 1, 100, game);
+    itemList.setItems(game->player.getItems(), 1, 100, game, 5, 17);
     MenuText itemDescription;
     itemDescription.setProps(Color::Black, 22);
     itemDescription.setPosition(Vector2f(95,480));
@@ -87,7 +88,7 @@ bool BagState::execute()
         if (sectionSelector.getCurrentSection()=="Items" && lastSec!="Items")
         {
             lastSec = "Items";
-            itemList.setItems(game->player.getItems(), 1, 100, game);
+            itemList.setItems(game->player.getItems(), 1, 100, game, 5, 17);
         }
         if (sectionSelector.getCurrentSection()=="Key Items" && lastSec!="Key Items")
         {
@@ -98,6 +99,11 @@ bool BagState::execute()
         {
             lastSec = "TM's";
             itemList.setItems(game->player.getItems(), 201, 1000, game);
+        }
+        if (sectionSelector.getCurrentSection()=="Peopleballs" && lastSec!="Peopleballs")
+        {
+            lastSec = "Peopleballs";
+            itemList.setItems(game->player.getItems(), 5, 17, game);
         }
 
         if (itemList.getCurrentItem()!=0 && itemList.getCurrentItem()!=-1)

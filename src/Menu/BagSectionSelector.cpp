@@ -10,6 +10,7 @@ BagSectionSelector::BagSectionSelector()
     sections[0] = "Items";
     sections[1] = "Key Items";
     sections[2] = "TM's";
+    sections[3] = "Peopleballs";
     index = 0;
     curSection.setProps(Color::Red, 28);
     curSection.setText("Items");
@@ -27,7 +28,7 @@ void BagSectionSelector::update()
     if (user.isInputActive(PlayerInput::Right))
     {
         index++;
-        if (index>2)
+        if (index>3)
             index = 0;
     }
     curSection.setText(sections[index]);

@@ -17,12 +17,12 @@ BagItemList::BagItemList(vector<int>* items, int first, int last, Game* g)
     setItems(items, first, last, g);
 }
 
-void BagItemList::setItems(vector<int>* items, int first, int last, Game* g)
+void BagItemList::setItems(vector<int>* items, int first, int last, Game* g, int fe, int le)
 {
     itemList.clear();
     for (unsigned int i = 0; i<items->size(); ++i)
     {
-        if (items->at(i)>=first && items->at(i)<=last)
+        if (items->at(i)>=first && items->at(i)<=last && (items->at(i)<fe || items->at(i)>le))
         {
             string name = g->itemList[items->at(i)].name;
             itemList.push_back(make_pair(items->at(i), name));
