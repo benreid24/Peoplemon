@@ -1616,13 +1616,13 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 	}
 
 	//abilities
-	if (defender.curAbility==Peoplemon::Goon && game->moveList[id].makesContact)
+	if (defender.curAbility==Peoplemon::Goon && game->moveList[id].makesContact && damage > 0.1)
 	{
-		int dmg = defender.stats.hp/16;
-		defender.curHp -= dmg;
-		if (defender.curHp<0)
-			defender.curHp = 0;
-		ret.push_back(defender.name+" took damage because "+attacker.name+" is a Goon!");
+		int dmg = attacker.stats.hp/16;
+		attacker.curHp -= dmg;
+		if (attacker.curHp<0)
+			attacker.curHp = 0;
+		ret.push_back(attacker.name+" took damage because "+defender.name+" demands Snack Share!");
 	}
 	if (defender.holdItem==51 && Random(0,100)<25 && !attacker.hasAilment(Peoplemon::Confused) && damage>0.1)
     {
