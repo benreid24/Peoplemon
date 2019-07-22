@@ -23,7 +23,7 @@ void BagSectionSelector::update()
     {
         index--;
         if (index<0)
-            index = 2;
+            index = 3;
     }
     if (user.isInputActive(PlayerInput::Right))
     {

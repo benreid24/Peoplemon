@@ -15,6 +15,7 @@ void PeoplemonAnimations::load(Game* g, PeoplemonRef ppl, PeoplemonRef op, bool 
     st = animPool.loadResource(Properties::PeoplemonAnimationPath+intToString(ppl.id)+"/"+p1+"/Still.anim");
     bko = animPool.loadResource(Properties::PeoplemonAnimationPath+intToString(ppl.id)+"/"+p1+"/Breakout.anim");
     ski = animPool.loadResource(Properties::PeoplemonAnimationPath+intToString(ppl.id)+"/"+p1+"/Capture.anim");
+
     for (int i = 0; i<4; ++i)
     {
         if (ppl.moves[i].id!=0)

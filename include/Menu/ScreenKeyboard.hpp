@@ -16,7 +16,7 @@ class ScreenKeyboard
     MenuImage background;
     MenuText text;
     ChoiceBox keys;
-    bool finished;
+    bool finished, allowEmpty;
     int lastTime, charLim;
     std::string lastInput;
 
@@ -26,7 +26,7 @@ public:
      *
      * \param init The string to put in the input box
      */
-    ScreenKeyboard(std::string init = "");
+    ScreenKeyboard(std::string init = "", bool allowEmpty = false);
 
     /**
      * Sets a character limit on what can be inputted

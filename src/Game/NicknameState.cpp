@@ -5,7 +5,7 @@
 using namespace sf;
 using namespace std;
 
-NicknameState::NicknameState(Game* g, PeoplemonRef* ppl, Gamestate* n) : Gamestate(g,n)
+NicknameState::NicknameState(Game* g, PeoplemonRef* ppl, Gamestate* n) : Gamestate(g,n), keyboard("",true)
 {
 	peoplemon = ppl;
 	background.setImage("nicknameBgnd.png");
@@ -17,7 +17,7 @@ NicknameState::NicknameState(Game* g, PeoplemonRef* ppl, Gamestate* n) : Gamesta
 	oldWrapWidth = game->hud.getWrapWidth();
 	wasAS = game->hud.isAlwaysShowing();
 	game->hud.setAlwaysShow(true);
-	game->hud.displayMessage("Give "+ppl->name+" a nickname!");
+	game->hud.displayMessage("Give "+ppl->name+" a nickname?");
 }
 
 NicknameState::~NicknameState()
@@ -37,7 +37,14 @@ bool NicknameState::execute()
 
 		if (keyboard.isFinished())
 		{
-			game->hud.displayMessage("The "+peoplemon->name+" was named "+keyboard.getText()+"!");
+		    string name = keyboard.getText();
+		    string message = "The "+peoplemon->name+" was named "+name+"!";
+		    if (name.size()==0)
+            {
+                name = peoplemon->name;
+                message = name+" kept its name";
+            }
+			game->hud.displayMessage(message);
 			while (!game->hud.messageFinished())
 			{
 				game->hud.update();
@@ -53,7 +60,7 @@ bool NicknameState::execute()
 
 				sleep(milliseconds(30));
 			}
-			peoplemon->name = keyboard.getText();
+			peoplemon->name = name;
 			return false;
 		}
 

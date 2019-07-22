@@ -5,9 +5,10 @@
 using namespace sf;
 using namespace std;
 
-ScreenKeyboard::ScreenKeyboard(string i)
+ScreenKeyboard::ScreenKeyboard(string i, bool ae)
 {
     finished = false;
+    allowEmpty = ae;
     background.setImage("keyboard.png");
     background.setPosition(Vector2f(0,300));
     text.setPosition(Vector2f(10,305));
@@ -55,7 +56,7 @@ void ScreenKeyboard::update()
 			}
 			else if (t=="~")
 			{
-				if (typedText.size()>0)
+				if (typedText.size()>0 || allowEmpty)
 					finished = true;
 			}
 			else if (typedText.size()+1<=unsigned(charLim))

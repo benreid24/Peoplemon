@@ -32,11 +32,11 @@ BattleState::BattleState(Game* g, Battler* op, string opName, string ll, int pm,
     playerAnims.load(game, player->getPeoplemon()->at(player->getCurrentPeoplemon()),opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()),true);
     opponentAnims.load(game, opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()), player->getPeoplemon()->at(player->getCurrentPeoplemon()),false);
 	game->hud.rePosition(Vector2f(15,480),480);
-    ballT = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Throw.anim"); //TODO - different balls?
-    ballB = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Break.anim");
-    ballR = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Rock.anim");
-    ballF = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Fall.anim");
-    ballC = animPool.loadResource(Properties::MiscAnimationPath+"Ball5/Click.anim");
+    ballT = animPool.loadResource(Properties::MiscAnimationPath+"Ball/Throw.anim");
+    ballB = animPool.loadResource(Properties::MiscAnimationPath+"Ball/Break.anim");
+    ballR = animPool.loadResource(Properties::MiscAnimationPath+"Ball/Rock.anim");
+    ballF = animPool.loadResource(Properties::MiscAnimationPath+"Ball/Fall.anim");
+    ballC = animPool.loadResource(Properties::MiscAnimationPath+"Ball/Click.anim");
     ballThrow.setSource(ballT);
     ballBreak.setSource(ballB);
     ballRock.setSource(ballR);
@@ -423,6 +423,9 @@ bool BattleState::execute()
 
 							if (shakes==4)
 							{
+							    toDraw.clear();
+							    toDraw.push_back(&playerAnims.still);
+
 								displayMessage("Gotcha! "+wildPpl.name+" was caught!");
 								if (shouldClose())
 									return true;
@@ -435,9 +438,11 @@ bool BattleState::execute()
 								game->peoplemonList[wildPpl.id].numCaught++;
 								game->peoplemonList[wildPpl.id].numSeen++;
 
+								game->hud.rePosition();
 								NicknameState* state = new NicknameState(game, &wildPpl);
                                 if (game->runState(state,true))
 									return true;
+                                game->hud.rePosition(Vector2f(15,480),480);
 
 								if (game->player.getCurrentPeoplemon()->size()<6)
 									game->player.getCurrentPeoplemon()->push_back(wildPpl);
@@ -2563,7 +2568,7 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
 
 void BattleState::playPeopleballAnimations(int r, int p)
 {
-	Animation* playing[2] = {&ballThrow,nullptr};
+	Animation* playing[2] = {&opponentAnims.still, &ballThrow};
 	int rocks = 0;
 	enum
 	{
@@ -2571,7 +2576,7 @@ void BattleState::playPeopleballAnimations(int r, int p)
 		Falling,
 		Shaking,
 		Finishing,
-		Done //TODO - play breakout animation if shakes<4
+		Done
 	}state = Throwing;
 
 	ballThrow.play();
@@ -2592,7 +2597,7 @@ void BattleState::playPeopleballAnimations(int r, int p)
 		switch (state)
 		{
 		case Throwing:
-			if (playing[0]->finished())
+			if (playing[1]->finished())
 			{
 				state = Falling;
 				ballFall.play();
@@ -2659,6 +2664,7 @@ void BattleState::playPeopleballAnimations(int r, int p)
 		game->mainWindow.draw(background);
 		playerBox.draw(&game->mainWindow);
 		opBox.draw(&game->mainWindow);
+		playerAnims.still.draw(&game->mainWindow);
 		for (int i = 0; i<2; ++i)
 		{
 			if (playing[i]!=nullptr)

@@ -11,11 +11,11 @@ void MoveAnimations::load(string pplmon, string op, Move m, bool isPlayer)
     if (m.attackerAnim.size()>0)
         atk = animPool.loadResource(Properties::PeoplemonAnimationPath+pplmon+"/"+p1+"/"+m.attackerAnim);
     else
-        atk = animPool.loadResource(Properties::PeoplemonAnimationPath+pplmon+"/"+p1+"/still.anim");
+        atk = animPool.loadResource(Properties::PeoplemonAnimationPath+pplmon+"/"+p1+"/Still.anim");
     if (m.defenderAnim.size()>0)
         def = animPool.loadResource(Properties::PeoplemonAnimationPath+op+"/"+p2+"/"+m.defenderAnim);
     else
-        def = animPool.loadResource(Properties::PeoplemonAnimationPath+op+"/"+p2+"/still.anim");
+        def = animPool.loadResource(Properties::PeoplemonAnimationPath+op+"/"+p2+"/Still.anim");
     bgnd = animPool.loadResource(Properties::MoveAnimationPath+m.name+"/"+p1+"/Background.anim");
     fgnd = animPool.loadResource(Properties::MoveAnimationPath+m.name+"/"+p1+"/Foreground.anim");
 
