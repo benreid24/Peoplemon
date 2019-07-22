@@ -1105,7 +1105,7 @@ bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
         game->hud.draw(&game->mainWindow);
         game->mainWindow.display();
 
-        sleep(milliseconds(30));
+        sleep(milliseconds(5));
     }
 
     displayMessage(deadName+" fainted!");
@@ -1267,7 +1267,7 @@ bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
 			game->hud.draw(&game->mainWindow);
 			game->mainWindow.display();
 
-			sleep(milliseconds(30));
+			sleep(milliseconds(5));
 		}
 
 		if (!isPlayer)
@@ -2419,7 +2419,7 @@ void BattleState::playIntroAnim(Battler* b)
         game->hud.draw(&game->mainWindow);
         game->mainWindow.display();
 
-        sleep(milliseconds(30));
+        sleep(milliseconds(5));
     }
 }
 
@@ -2452,7 +2452,7 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
         game->hud.draw(&game->mainWindow);
         game->mainWindow.display();
 
-        sleep(milliseconds(30));
+        sleep(milliseconds(5));
     }
     sleep(milliseconds(750)); //for natural pause
     toDraw.clear();
@@ -2474,7 +2474,7 @@ void BattleState::playSwitchAnim(Battler* b, Battler* o, int curPpl, int newPpl)
         game->hud.draw(&game->mainWindow);
         game->mainWindow.display();
 
-        sleep(milliseconds(30));
+        sleep(milliseconds(5));
     }
 
     if (isPlayer)
@@ -2531,7 +2531,7 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
         game->hud.draw(&game->mainWindow);
         game->mainWindow.display();
 
-        sleep(milliseconds(30));
+        sleep(milliseconds(5));
     }
 
     opBox.update(opponent->getPeoplemon()->at(opponent->getCurrentPeoplemon()));
@@ -2561,7 +2561,7 @@ void BattleState::playAttackAnim(Battler* b, int moveId)
         game->hud.draw(&game->mainWindow);
         game->mainWindow.display();
 
-        sleep(milliseconds(30));
+        sleep(milliseconds(5));
 	}
     renderStatic();
 }
@@ -2602,8 +2602,10 @@ void BattleState::playPeopleballAnimations(int r, int p)
 				state = Falling;
 				ballFall.play();
 				opponentAnims.suckIn.play();
+				opponentAnims.comeIn.play();
 				playing[0] = &ballFall;
                 playing[1] = &opponentAnims.suckIn;
+                playing[1] = &opponentAnims.comeIn;
 			}
 			break;
 
@@ -2672,7 +2674,7 @@ void BattleState::playPeopleballAnimations(int r, int p)
 		}
 		game->hud.draw(&game->mainWindow);
 		game->mainWindow.display();
-		sleep(milliseconds(30));
+		sleep(milliseconds(5));
 	}
 }
 
