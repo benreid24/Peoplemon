@@ -2602,10 +2602,8 @@ void BattleState::playPeopleballAnimations(int r, int p)
 				state = Falling;
 				ballFall.play();
 				opponentAnims.suckIn.play();
-				opponentAnims.comeIn.play();
-				playing[0] = &ballFall;
-                playing[1] = &opponentAnims.suckIn;
-                playing[1] = &opponentAnims.comeIn;
+                playing[0] = &opponentAnims.suckIn;
+                playing[1] = &ballFall;
 			}
 			break;
 

@@ -5,6 +5,8 @@
 #include <string>
 #include <memory>
 
+class AnimationSource;
+typedef std::shared_ptr<AnimationSource> AnimationReference;
 typedef std::shared_ptr<sf::Texture> TextureReference;
 
 /**
@@ -31,6 +33,19 @@ class AnimationSource
     std::vector<std::vector<AnimationFrame> > frames;
     bool loop;
     std::vector<sf::Sprite> sprites;
+
+    /**
+     * Helper function to interpolate between two frames, generating the in-between frames
+     *
+     * \param first The first frame
+     * \param last The last frame
+     * \param startOrigin Origin of the first frame
+     * \param endOrigin Origin of the last frame
+     * \param length Length of time to interpolate over, in milliseconds
+     * \param frameLen The length of each generated frame, in milliseconds
+     * \return A vector of AnimationFrame objects
+     */
+    static std::vector<AnimationFrame> interpolateFrames(AnimationFrame first, AnimationFrame last, sf::Vector2f startOrigin, sf::Vector2f endOrigin, int length, int frameLen);
 
 public:
     /**
@@ -89,9 +104,23 @@ public:
      * \return The total number of frames in the animation
      */
     int numFrames();
-};
 
-typedef std::shared_ptr<AnimationSource> AnimationReference;
+    /**
+     * Helper function to generate the Peoplemon animation for getting sucked into a Peopleball
+     *
+     * \param still The Still animation of the Peoplemon
+     * \return An AnimationReference for the capture animation
+     */
+    static AnimationReference generateCaptureAnimation(AnimationSource& still);
+
+    /**
+     * Helper function to generate the Peoplemon animation for breaking out of a Peopleball
+     *
+     * \param still The Still animation of the Peoplemon
+     * \return An AnimationReference for the breakout animation
+     */
+    static AnimationReference generateBreakoutAnimation(AnimationSource& still);
+};
 
 class Animation
 {

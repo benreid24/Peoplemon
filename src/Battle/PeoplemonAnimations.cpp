@@ -13,8 +13,11 @@ void PeoplemonAnimations::load(Game* g, PeoplemonRef ppl, PeoplemonRef op, bool 
     sO = animPool.loadResource(Properties::PeoplemonAnimationPath+intToString(ppl.id)+"/"+p1+"/SendOut.anim");
     fnt = animPool.loadResource(Properties::PeoplemonAnimationPath+intToString(ppl.id)+"/"+p1+"/Faint.anim");
     st = animPool.loadResource(Properties::PeoplemonAnimationPath+intToString(ppl.id)+"/"+p1+"/Still.anim");
-    bko = animPool.loadResource(Properties::PeoplemonAnimationPath+intToString(ppl.id)+"/"+p1+"/Breakout.anim");
-    ski = animPool.loadResource(Properties::PeoplemonAnimationPath+intToString(ppl.id)+"/"+p1+"/Capture.anim");
+    if (!isPlayer)
+    {
+        bko = AnimationSource::generateBreakoutAnimation(*st);
+        ski = AnimationSource::generateCaptureAnimation(*st);
+    }
 
     for (int i = 0; i<4; ++i)
     {

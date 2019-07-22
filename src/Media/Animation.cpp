@@ -210,3 +210,110 @@ void Animation::draw(sf::RenderWindow* window)
     for (unsigned int i = 0; i<t.size(); ++i)
 		window->draw(t[i]);
 }
+
+AnimationReference AnimationSource::generateCaptureAnimation(AnimationSource& still)
+{
+    AnimationReference capture(new AnimationSource());
+    capture->sheet = still.sheet;
+    capture->loop = false;
+
+    if (still.frames.size() < 1)
+    {
+        cout << "Warning: Attempted to generate Capture animation from a Still containing " << still.frames.size() << " frames!\n";
+        return capture;
+    }
+    if (still.frames[0].size() != 1)
+    {
+        cout << "Warning: Attempted to generate Capture animation from a Still frame containing " << still.frames[0].size() << " pieces!\n";
+        return capture;
+    }
+
+    AnimationFrame firstFrame = still.frames[0][0];
+    firstFrame.length = 310;
+
+    AnimationFrame lastFrame = firstFrame;
+    lastFrame.alpha = 0;
+    lastFrame.scaleX = lastFrame.scaleY = 0;
+    lastFrame.renderOffset = Vector2f(621, 103);
+
+    Vector2f origin, endOrigin = lastFrame.renderOffset;
+    origin.x = firstFrame.renderOffset.x + firstFrame.size.x/2;
+    origin.y = firstFrame.renderOffset.y + firstFrame.size.y/2;
+
+    vector<AnimationFrame> frames = AnimationSource::interpolateFrames(firstFrame, lastFrame, origin, endOrigin, 340, 10);
+    for (unsigned int i = 0; i<frames.size(); ++i) {
+        capture->frames.push_back({frames[i]});
+    }
+
+    return capture;
+}
+
+AnimationReference AnimationSource::generateBreakoutAnimation(AnimationSource& still)
+{
+    AnimationReference capture(new AnimationSource());
+    capture->sheet = still.sheet;
+    capture->loop = false;
+
+    if (still.frames.size() < 1)
+    {
+        cout << "Warning: Attempted to generate Breakout animation from a Still containing " << still.frames.size() << " frames!\n";
+        return capture;
+    }
+    if (still.frames[0].size() != 1)
+    {
+        cout << "Warning: Attempted to generate Breakout animation from a Still frame containing " << still.frames[0].size() << " pieces!\n";
+        return capture;
+    }
+
+    AnimationFrame lastFrame = still.frames[0][0];
+
+    AnimationFrame firstFrame = lastFrame;
+    firstFrame.length = 310;
+    firstFrame.alpha = 0;
+    firstFrame.scaleX = firstFrame.scaleY = 0;
+    firstFrame.renderOffset = Vector2f(623, 188);
+
+    Vector2f origin = firstFrame.renderOffset, endOrigin;
+    endOrigin.x = lastFrame.renderOffset.x + lastFrame.size.x/2;
+    endOrigin.y = lastFrame.renderOffset.y + lastFrame.size.y/2;
+
+    vector<AnimationFrame> frames = AnimationSource::interpolateFrames(firstFrame, lastFrame, origin, endOrigin, 250, 10);
+    for (unsigned int i = 0; i<frames.size(); ++i) {
+        capture->frames.push_back({frames[i]});
+    }
+
+    return capture;
+}
+
+vector<AnimationFrame> AnimationSource::interpolateFrames(AnimationFrame first, AnimationFrame last, Vector2f origin, Vector2f endOrigin, int totalLength, int frameLen)
+{
+    vector<AnimationFrame> frames = {first};
+
+    AnimationFrame frame = first;
+    frame.length = frameLen;
+    int frameCount = totalLength/frameLen;
+
+    Vector2f originDiff = endOrigin - origin;
+    originDiff.x /= frameCount;
+    originDiff.y /= frameCount;
+
+    double alphaDiff = (last.alpha-frame.alpha)/frameCount;
+    double xScaleDiff = (last.scaleX-frame.scaleX)/frameCount;
+    double yScaleDiff = (last.scaleY-frame.scaleY)/frameCount;
+
+    for (int i = 0; i<frameCount; ++i)
+    {
+        frame.scaleX += xScaleDiff;
+        frame.scaleY += yScaleDiff;
+        frame.alpha += alphaDiff;
+        origin += originDiff;
+
+        frame.renderOffset.x = origin.x - frame.size.x/2;
+        frame.renderOffset.y = origin.y - frame.size.y/2;
+
+        frames.push_back(frame);
+    }
+
+    frames.push_back(last);
+    return frames;
+}
