@@ -30,11 +30,12 @@ void AnimationSource::load(string file)
     string tempStr = File::getPath(file);
 
     file = input.getString();
-    if (FileExists(Properties::SpriteSheetPath+file))
-		tempStr = Properties::SpriteSheetPath+file;
-	else
+    if (FileExists(tempStr+file))
 		tempStr += file;
+	else
+		tempStr = Properties::SpriteSheetPath+file;
     sheet = imagePool.loadResource(tempStr);
+
     loop = bool(input.get<uint8_t>());
     int numFrames = input.get<uint16_t>();
     frames.resize(numFrames);
