@@ -30,3 +30,47 @@ bool Move::isQuiet() {
            type==Type::Quiet ||
            type==Type::QuietAthletic;
 }
+
+string moveTypeToString(Type type) {
+    switch (type) {
+        case Normal:
+            return "Normal";
+        case Intelligent:
+            return "Intelligent";
+        case Funny:
+            return "Funny";
+        case Athletic:
+            return "Athletic";
+        case Quiet:
+            return "Quiet";
+        case Awkward:
+            return "Awkward";
+        case PartyAnimal:
+            return "PartyAnimal";
+        case FunnyPartyAnimal:
+            return "Funny/PartyAnimal";
+        case IntelligentAthletic:
+            return "Intelligent/Athletic";
+        case IntelligentNormal:
+            return "Intelligent/Normal";
+        case NormalQuiet:
+            return "Normal/Quiet";
+        case AwkwardFunny:
+            return "Awkward/Funny";
+        case IntelligentFunny:
+            return "Intelligent/Funny";
+        case AthleticNormal:
+            return "Athletic/Normal";
+        case FunnyNormal:
+            return "Funny/Normal";
+        case NormalAwkward:
+            return "Normal/Awkward";
+        case QuietAthletic:
+            return "Quiet/Athletic";
+        case IntelligentAwkward:
+            return "Intelligent/Awkward";
+        case None:
+        default:
+            return "ERROR: Invalid type";
+    }
+}

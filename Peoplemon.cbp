@@ -202,6 +202,7 @@
 		<Unit filename="include/Menu/MenuText.hpp" />
 		<Unit filename="include/Menu/PeopledexList.hpp" />
 		<Unit filename="include/Menu/PeoplemonSelector.hpp" />
+		<Unit filename="include/Menu/PpShower.hpp" />
 		<Unit filename="include/Menu/ScreenKeyboard.hpp" />
 		<Unit filename="include/Menu/ScrollChoiceBox.hpp" />
 		<Unit filename="include/Network/DataPacket.hpp" />
@@ -308,6 +309,7 @@
 		<Unit filename="src/Menu/MenuText.cpp" />
 		<Unit filename="src/Menu/PeopledexList.cpp" />
 		<Unit filename="src/Menu/PeoplemonSelector.cpp" />
+		<Unit filename="src/Menu/PpShower.cpp" />
 		<Unit filename="src/Menu/ScreenKeyboard.cpp" />
 		<Unit filename="src/Menu/ScrollChoiceBox.cpp" />
 		<Unit filename="src/Network/DataPacket.cpp" />

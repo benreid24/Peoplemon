@@ -160,6 +160,11 @@ struct Move
 };
 
 /**
+ * Converts a Type to a string
+ */
+std::string moveTypeToString(Type type);
+
+/**
  * Structure for storing data related to a move "owned" by a peoplemon
  *
  * \ingroup Peoplemon

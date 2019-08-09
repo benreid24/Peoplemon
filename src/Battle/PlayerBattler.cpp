@@ -3,6 +3,7 @@
 #include "Game/PeoplemonState.hpp"
 #include "Game/Game.hpp"
 #include "Game/BattleState.hpp"
+#include "Menu/PpShower.hpp"
 using namespace std;
 using namespace sf;
 
@@ -49,7 +50,6 @@ Turn PlayerBattler::getTurn(PeoplemonRef op, Game* g)
 
     while (true)
     {
-        //forgive me for breaking standard and not using the finishFrame method, but I didn't want to have to do any major refactoring
         Event evt;
         while (g->mainWindow.pollEvent(evt))
         {
@@ -65,13 +65,14 @@ Turn PlayerBattler::getTurn(PeoplemonRef op, Game* g)
 
         if (typeChoice.getChoice()=="Move")
         {
+            PpShower ppshower(g, peoplemon->at(curPeoplemon).moves);
+
             typeChoice.reset();
             moveChoice.reset();
             sleep(milliseconds(225));
 
             while (moveChoice.getChoice().size()==0)
             {
-                //forgive me for breaking standard and not using the finishFrame method, but I didn't want to have to do any major refactoring
                 Event evt;
                 while (g->mainWindow.pollEvent(evt))
                 {
@@ -83,10 +84,12 @@ Turn PlayerBattler::getTurn(PeoplemonRef op, Game* g)
                     }
                 }
                 moveChoice.update();
+                ppshower.updateText(moveChoice.getCurrentChoice());
 
                 battle->renderBase();
                 typeChoice.draw(&g->mainWindow);
                 moveChoice.draw(&g->mainWindow);
+                ppshower.draw(&g->mainWindow);
                 g->mainWindow.display();
                 sleep(milliseconds(30));
             }
@@ -97,8 +100,7 @@ Turn PlayerBattler::getTurn(PeoplemonRef op, Game* g)
             {
                 for (int i = 0; i<4; ++i)
                 {
-                    //TODO - enforce PP
-                    if (g->moveList[peoplemon->at(curPeoplemon).moves[i].id].name==moveChoice.getChoice())
+                    if (g->moveList[peoplemon->at(curPeoplemon).moves[i].id].name==moveChoice.getChoice() && peoplemon->at(curPeoplemon).moves[i].curPp > 0)
                     {
                         Turn t;
                         t.type = Turn::Move;
