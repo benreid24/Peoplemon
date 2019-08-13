@@ -295,15 +295,10 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
             PeoplemonRef ppl;
             ppl.load(environment->getGame(),Properties::OwnedPeoplemonPath+args.at(0).sValue);
             if (environment->getGame()->player.getCurrentPeoplemon()->size()>=6)
-			{
 				environment->getGame()->hud.displayMessage(ppl.name+" was transferred to the PC");
-				environment->getGame()->player.addStoredPeoplemon(ppl);
-			}
 			else
-			{
 				environment->getGame()->hud.displayMessage("Received the "+ppl.name+"!");
-				environment->getGame()->player.getCurrentPeoplemon()->push_back(ppl);
-			}
+			environment->getGame()->player.givePeoplemon(ppl);
 		}
 		else if (name=="hasPeoplemon") {
             int id = args.at(0).iValue;
@@ -329,8 +324,8 @@ Value Script::executeLibraryFunction(string name, vector<Value> args)
             int saveBox = args.at(0).iValue;
             if (saveBox>14) {
                 for (unsigned int i = 0; i<environment->getGame()->player.getStoredPeoplemon()->size(); ++i) {
-                    if (environment->getGame()->player.getStoredPeoplemon()->at(i).boxId=saveBox) {
-                        environment->getGame()->player.givePeoplemon(environment->getGame()->player.getStoredPeoplemon()->at(i).data);
+                    if (environment->getGame()->player.getStoredPeoplemon()->at(i).boxId == saveBox) {
+                        environment->getGame()->player.givePeoplemon(environment->getGame()->player.getStoredPeoplemon()->at(i).data, true, false);
                         environment->getGame()->player.getStoredPeoplemon()->erase(environment->getGame()->player.getStoredPeoplemon()->begin()+i);
                         i--;
                     }

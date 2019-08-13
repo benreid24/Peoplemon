@@ -498,8 +498,14 @@ void Player::forceStop()
 		walking[i].setFrame(0);
 }
 
-void Player::addStoredPeoplemon(PeoplemonRef ppl)
+void Player::addStoredPeoplemon(PeoplemonRef ppl, bool rc)
 {
+    ppl.recalcStats(game, true);
+    ppl.curHp = ppl.stats.hp;
+
+    if (rc)
+        game->peoplemonList[ppl.id].numCaught++;
+
 	for (int b = 0; b<14; ++b)
 	{
 		for (int x = 0; x<8; ++x)
@@ -516,15 +522,21 @@ void Player::addStoredPeoplemon(PeoplemonRef ppl)
 			}
 		}
 	}
+	cout << "Error: Storage system is full\n";
 }
 
-void Player::givePeoplemon(PeoplemonRef ppl) {
+void Player::givePeoplemon(PeoplemonRef ppl, bool resetHp, bool firstTime) {
     ppl.recalcStats(game, true);
-    ppl.curHp = ppl.stats.hp;
+    if (resetHp)
+        ppl.curHp = ppl.stats.hp;
+
+    if (firstTime)
+        game->peoplemonList[ppl.id].numCaught++;
+
     if (curPeoplemon.size()<6)
         curPeoplemon.push_back(ppl);
     else
-        addStoredPeoplemon(ppl);
+        addStoredPeoplemon(ppl, false);
 }
 
 Vector2f Player::getLastPosition() {

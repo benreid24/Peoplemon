@@ -147,12 +147,12 @@ public:
      *
      * \param ppl The Peoplemon to add
      */
-    void addStoredPeoplemon(PeoplemonRef ppl);
+    void addStoredPeoplemon(PeoplemonRef ppl, bool registerCaught);
 
     /**
      * Convenience function to add a Peoplemon to the party or PC if no room
      */
-    void givePeoplemon(PeoplemonRef ppl);
+    void givePeoplemon(PeoplemonRef ppl, bool resetHealth = true, bool firstTime = true);
 
     /**
      * Returns true if the player has the requested Peoplemon

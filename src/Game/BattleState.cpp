@@ -156,6 +156,8 @@ bool BattleState::execute()
     //battle loop
     while (true)
     {
+        playerSawOponent();
+
         //render everything first
         renderStatic();
         player->recalcStats(game);
@@ -362,7 +364,7 @@ bool BattleState::execute()
 					{
 						if (turns[i].id==15)
 						{
-							game->player.addStoredPeoplemon(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()));
+							game->player.addStoredPeoplemon(order[j]->getPeoplemon()->at(order[j]->getCurrentPeoplemon()), true);
 							displayMessage(getPeoplemon(order[j],order[j]->getCurrentPeoplemon()).name+" was Cloned into the PC!");
 							if (shouldClose())
 								return true;
@@ -435,8 +437,6 @@ bool BattleState::execute()
 									if (shouldClose())
 										return true;
 								}
-								game->peoplemonList[wildPpl.id].numCaught++;
-								game->peoplemonList[wildPpl.id].numSeen++;
 
 								game->hud.rePosition();
 								NicknameState* state = new NicknameState(game, &wildPpl);
@@ -444,15 +444,14 @@ bool BattleState::execute()
 									return true;
                                 game->hud.rePosition(Vector2f(15,480),480);
 
-								if (game->player.getCurrentPeoplemon()->size()<6)
-									game->player.getCurrentPeoplemon()->push_back(wildPpl);
-								else
+                                if (game->player.getCurrentPeoplemon()->size()==6)
 								{
-									game->player.addStoredPeoplemon(wildPpl);
 									displayMessage(wildPpl.name+" was sent to the PC!");
 									if (shouldClose())
 										return true;
 								}
+                                game->player.givePeoplemon(wildPpl, false);
+
 								return false;
 							}
 							else
@@ -1282,10 +1281,9 @@ bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
 		}
 		toDraw.push_back(&anims[i]->still);
 		toDraw.push_back(&anims[j]->still);
+		game->hud.displayMessage("");
     }
-
-    game->hud.displayMessage("");
-    if (done)
+    else
     {
         if (order[j]==player || player->getAliveCount() == 0)
         {
@@ -1293,7 +1291,7 @@ bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
             displayMessage(game->player.getName()+" is all out of usable Peoplemon!");
             if (shouldClose())
                 return false;
-            displayMessage(game->player.getName()+" oranged out!");
+            displayMessage(game->player.getName()+" Oranged out!");
             if (shouldClose())
                 return false;
             game->data.whiteoutFlag = true;
@@ -1315,8 +1313,6 @@ bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
                 if (shouldClose())
                     return false;
             }
-            for (unsigned int i = 0; i<opponent->getPeoplemon()->size(); ++i)
-				game->peoplemonList[opponent->getPeoplemon()->at(i).id].numSeen++;
             return true;
         }
     }
@@ -2679,4 +2675,12 @@ void BattleState::playPeopleballAnimations(int r, int p)
 bool BattleState::playerWon()
 {
     return playerWinned;
+}
+
+void BattleState::playerSawOponent()
+{
+    if (find(playerSaw.begin(), playerSaw.end(), opponent->getCurrentPeoplemon()) == playerSaw.end()) {
+        game->peoplemonList[getPeoplemon(opponent,opponent->getCurrentPeoplemon()).id].numSeen++;
+        playerSaw.push_back(opponent->getCurrentPeoplemon());
+    }
 }

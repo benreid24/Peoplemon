@@ -27,6 +27,7 @@ class BattleState : public Gamestate
     Turn turns[2]; //this is so the player can have their input taken first so they're able to input while a network player is doing their turn
     PeoplemonAnimations* anims[2];
     std::vector<int> sentIn; //indexes of player peoplemon used
+    std::vector<int> playerSaw; //indexes of opponent people player has seen
 
     TextureReference backgroundTxtr;
     sf::Sprite background;
@@ -187,6 +188,11 @@ class BattleState : public Gamestate
      * \param p The id of the Peopleball that was thrown
      */
 	void playPeopleballAnimations(int r, int p);
+
+	/**
+	 * Helper function to mark introduced Peoplemon as seen
+	 */
+    void playerSawOponent();
 
 public:
     /**
