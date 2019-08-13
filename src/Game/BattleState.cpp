@@ -116,7 +116,6 @@ bool BattleState::execute()
     if (shouldClose())
         return true;
     toDraw.clear();
-    sentIn.push_back(player->getCurrentPeoplemon());
 
     //klutz abilities
     if (player->getPeoplemon()->at(player->getCurrentPeoplemon()).curAbility==Peoplemon::Klutz && Random(0,100)<=33) {
@@ -157,6 +156,8 @@ bool BattleState::execute()
     while (true)
     {
         playerSawOponent();
+        if (find(sentIn.begin(), sentIn.end(), player->getCurrentPeoplemon()) == sentIn.end())
+            sentIn.push_back(player->getCurrentPeoplemon());
 
         //render everything first
         renderStatic();
@@ -1028,8 +1029,6 @@ bool BattleState::doSwitch(Battler* switcher, Battler* opp, int oldIndex, bool* 
     *fxAfterTurnFlag = false;
     if (switcher==player)
     {
-        if (find(sentIn.begin(),sentIn.end(),oldIndex)==sentIn.end())
-            sentIn.push_back(oldIndex);
         displayMessage("That's enough, "+switcher->getPeoplemon()->at(oldIndex).name+"!");
         if (shouldClose())
             return false;
@@ -1145,6 +1144,8 @@ bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
 
     if (isPlayer)
     {
+        if (find(sentIn.begin(), sentIn.end(), player->getCurrentPeoplemon()) == sentIn.end())
+            sentIn.push_back(player->getCurrentPeoplemon());
     	for (unsigned int k = 0; k<sentIn.size(); ++k)
 		{
 			if (order[i]->getPeoplemon()->at(sentIn[k]).curHp==0)
@@ -1231,7 +1232,6 @@ bool BattleState::doFaint(int alive, int dead, bool chooseRandom)
             }
         }
         sentIn.clear();
-        sentIn.push_back(player->getCurrentPeoplemon());
     }
 
     if (!done)
