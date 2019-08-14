@@ -25,6 +25,11 @@ public:
     Npc(std::string file, bool talked); //init sprite and data and stuff
 
     /**
+     * vtable
+     */
+    virtual ~Npc() = default;
+
+    /**
      * Updates the NPC, making them walk around and perform their behavior
      *
      * \param game A pointer to the main Game object

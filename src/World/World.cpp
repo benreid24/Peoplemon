@@ -838,7 +838,8 @@ Trainer* World::getTrainer(string nm)
 {
     for (unsigned int i = 0; i<objects.size(); ++i)
     {
-        if (Trainer* t = dynamic_cast<Trainer*>(objects[i]))
+        Trainer* t = dynamic_cast<Trainer*>(objects[i]);
+        if (nullptr != t)
         {
             if (t->getName()==nm)
                 return t;
@@ -851,7 +852,8 @@ Npc* World::getNPC(string nm)
 {
     for (unsigned int i = 0; i<objects.size(); ++i)
     {
-        if (Npc* t = dynamic_cast<Npc*>(objects[i]))
+        Npc* t = dynamic_cast<Npc*>(objects[i]);
+        if (nullptr != t)
         {
             if (t->getName()==nm)
                 return t;

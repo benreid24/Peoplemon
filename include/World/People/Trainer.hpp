@@ -45,6 +45,11 @@ public:
     Trainer(Game* g, std::string file, bool lost);
 
     /**
+     * vtable
+     */
+    virtual ~Trainer() = default;
+
+    /**
      * Enacts the trainer's behavior and, if they haven't yet been beaten, checks to see if they should battle the player
      *
      * \param game A pointer to the main Game object

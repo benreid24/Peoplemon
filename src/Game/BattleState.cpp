@@ -1553,7 +1553,8 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 
 	if (!hit)
 	{
-	    ret.erase(ret.begin()+1, ret.end());
+	    if (ret.size() > 1)
+            ret.erase(ret.begin()+1, ret.end());
 	    if (attacker.curAbility==Peoplemon::FakeStudy) {
             ret[0] = "It is unclear what move "+attacker.name+" was using because they were Fake Studying!";
 	    }
@@ -1562,7 +1563,8 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
         return ret;
 	}
 	else if (effectiveness==0 && !game->moveList[id].targetIsSelf) {
-        ret.erase(ret.begin()+1,ret.end());
+        if (ret.size() > 1)
+            ret.erase(ret.begin()+1,ret.end());
         ret.push_back("But it doesn't affect "+defender.name+"!");
         return ret;
 	}

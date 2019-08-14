@@ -41,6 +41,11 @@ public:
     }
 
     /**
+     * vtable
+     */
+    virtual ~Item() = default;
+
+    /**
      * Does nothing
      */
     void update(Game* game){}

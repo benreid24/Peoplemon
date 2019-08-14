@@ -32,9 +32,9 @@ public:
     Player(Game* g);
 
     /**
-     * I'm not sure why I made this
+     * vtable
      */
-    ~Player();
+    virtual ~Player();
 
     /**
      * Initializes all the internal data appropriately based on the parameters given
