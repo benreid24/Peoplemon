@@ -1324,6 +1324,8 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
 {
 	cout << "Move " << game->moveList[id].name << " used with power " << game->moveList[id].dmg << endl;
 
+	atk->deductPP(id);
+
     vector<string> ret;
     PeoplemonRef &attacker = atk->getPeoplemon()->at(atk->getCurrentPeoplemon());
     PeoplemonRef &defender = def->getPeoplemon()->at(def->getCurrentPeoplemon());
@@ -1901,7 +1903,7 @@ vector<string> BattleState::applyMove(Battler* atk, Battler* def, int id, int op
                 atk->state.protectUsedLast = false;
                 ret.push_back("But it failed!");
             }
-            else;
+            else
             {
                 atk->state.lastMoveUsed = id;
                 atk->state.protectUsedLast = true;

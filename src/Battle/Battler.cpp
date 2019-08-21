@@ -206,3 +206,14 @@ int Battler::getAliveCount() {
     }
     return alive;
 }
+
+void Battler::deductPP(int moveId)
+{
+    PeoplemonRef& ppl = peoplemon->at(curPeoplemon);
+    for (int i = 0; i<4; ++i) {
+        if (ppl.moves[i].id == moveId) {
+            ppl.moves[i].curPp -= 1;
+            break;
+        }
+    }
+}

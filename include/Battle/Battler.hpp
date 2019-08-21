@@ -180,6 +180,11 @@ public:
      */
     int getAliveCount();
 
+    /**
+     * Deducts PP from the move used
+     */
+    void deductPP(int moveId);
+
     BattlerFlags state;
 };
 
